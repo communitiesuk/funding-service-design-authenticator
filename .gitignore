@@ -127,3 +127,17 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Flask
+flask_session
+
+# IntelliJ
+.idea
+
+# VS Code
+.vscode/settings.json
+
+# Mac files
+.bash_profile
+.DS_Store
+app/.DS_Store

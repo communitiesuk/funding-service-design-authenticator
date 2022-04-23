@@ -1,0 +1,11 @@
+Flask>=1,<2
+werkzeug>=1,<2
+flask-session~=0.3.2
+requests>=2,<3
+msal>=1.7,<2
+markupsafe==2.0.1
+connexion[swagger-ui]>=2.13
+python-dotenv==0.19.2
+pytest==7.0.1
+pytest-mock==3.7.0
+deepdiff==5.7.0
