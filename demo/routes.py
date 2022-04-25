@@ -2,6 +2,7 @@ import requests
 from flask import render_template, session, request, redirect, url_for, Blueprint
 import msal
 import config
+import warnings
 
 demo_bp = Blueprint(
     "demo_bp",
@@ -38,7 +39,7 @@ def authorized():
         session["user"] = result.get("id_token_claims")
         _save_cache(cache)
     except ValueError:  # Usually caused by CSRF
-        pass  # Simply ignore them
+        warnings.warn('Value Error on authorized route: ' + str(e))
     return redirect(url_for("demo_bp.index"))
 
 

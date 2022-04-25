@@ -32,7 +32,7 @@ def get_token():
         _save_cache(cache)
         return session["user"], 200
     except ValueError as e:  # Usually caused by CSRF
-        warnings.warn('Get Token Value Error: ' + str(e))
+        warnings.warn('Value Error on get_token route: ' + str(e))
     return {"message": "No valid token"}, 404
 
 
