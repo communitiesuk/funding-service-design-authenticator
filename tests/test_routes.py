@@ -1,6 +1,3 @@
-import flask
-
-
 def test_msal_login_redirects_to_ms(flask_test_client):
     """
     GIVEN We have a functioning Authenticator API
@@ -22,7 +19,9 @@ def test_msal_logout_redirects_to_ms(flask_test_client):
     THEN we should be redirected to Microsoft Logout
     """
     endpoint = "/auth/msal/logout"
-    expected_redirect = "https://login.microsoftonline.com/consumers/oauth2/v2.0/logout"
+    expected_redirect = (
+        "https://login.microsoftonline.com/consumers/oauth2/v2.0/logout"
+    )
     response = flask_test_client.get(endpoint)
 
     assert response.status_code == 302
@@ -53,6 +52,3 @@ def test_msal_graphcall_returns_404(flask_test_client):
 
     assert response.status_code == 404
     assert response.get_json()["message"] == "No valid token"
-
-
-

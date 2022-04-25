@@ -8,7 +8,7 @@ def expected_data_within_get_response(
     endpoint: str,
     expected_data,
     exclude_paths=None,
-    exclude_regex_paths=None
+    exclude_regex_paths=None,
 ):
     """
     Given a endpoint and expected content,
@@ -19,7 +19,8 @@ def expected_data_within_get_response(
         endpoint (str): The GET request endpoint
         expected_data: The content we expect to find
         exclude_paths: DeepDiff dict paths to exclude from diff errors
-        exclude_regex_paths: DeepDiff dict regex paths to exclude from diff errors
+        exclude_regex_paths: DeepDiff dict regex paths
+            to exclude from diff errors
 
     """
     response = test_client.get(endpoint, follow_redirects=True)
@@ -29,7 +30,8 @@ def expected_data_within_get_response(
         expected_data,
         response_data,
         exclude_paths=exclude_paths,
-        exclude_regex_paths=exclude_regex_paths)
+        exclude_regex_paths=exclude_regex_paths,
+    )
 
     error_message = "Expected data does not match response: " + str(diff)
     assert diff == {}, error_message
