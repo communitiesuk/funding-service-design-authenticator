@@ -19,9 +19,8 @@ else:
     if not CLIENT_SECRET:
         raise ValueError("Need to define CLIENT_SECRET environment variable")
 
-AUTHORITY = "https://login.microsoftonline.com/consumers"  # For multi-tenant app
-# AUTHORITY = "https://login.microsoftonline.com/organizations"  # To allow organization users to auth
-# AUTHORITY = "https://login.microsoftonline.com/Enter_the_Tenant_Name_Here"
+AUTHORITY = "https://login.microsoftonline.com/consumers"  # consumers|organisations
+# AUTHORITY signifies the Active Directory tenant endpoint
 
 REDIRECT_PATH = "/auth/msal/get-token"  # Used for forming an absolute URL to your redirect URI.
 # The absolute URL must match the redirect URI you set
