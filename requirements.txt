@@ -1,5 +1,6 @@
 bandit==1.7.1
 safety==1.10.3
+werkzeug==2.0.3
 Flask==2.0.2
 flask-session~=0.3.2
 requests>=2,<3
