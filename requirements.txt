@@ -9,3 +9,4 @@ python-dotenv==0.19.2
 pytest==7.0.1
 pytest-mock==3.7.0
 deepdiff==5.7.0
+bandit==1.7.1
