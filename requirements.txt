@@ -1,0 +1,15 @@
+bandit==1.7.1
+safety==1.10.3
+werkzeug==2.0.3
+Flask==2.0.2
+flask-session~=0.3.2
+requests>=2,<3
+msal>=1.7,<2
+markupsafe==2.0.1
+connexion[swagger-ui]>=2.13
+python-dotenv==0.19.2
+pytest==7.0.1
+pytest-mock==3.7.0
+deepdiff==5.7.0
+pre-commit==2.16.0
+black==21.12b0

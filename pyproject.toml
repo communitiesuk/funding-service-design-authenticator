@@ -1,0 +1,10 @@
+[package]
+name = "funding-service-design-authenticator"
+version = "0.1.1"
+description = "The funding service design authenticator for the DLUHC."
+authors = ["Version One"]
+license = "MIT License"
+
+[tool.black]
+line-length = 79
+experimental-string-processing = 1

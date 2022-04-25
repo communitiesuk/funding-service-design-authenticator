@@ -1,0 +1,94 @@
+swagger: "2.0"
+info:
+  description: Authentication API for DLUHC Funding Service Design
+  version: "1.0.0"
+  title: Funding Service Design - Authenticator
+paths:
+  /auth/msal/login:
+    get:
+      tags:
+        - msal auth
+      summary: Microsoft Authentication Library Login redirect
+      description: Redirect to Microsoft Authentication Login Flow
+      operationId: auth.msal.login
+      responses:
+        302:
+          description: Redirect to Microsoft Authentication Login Flow
+  /auth/msal/logout:
+    get:
+      tags:
+        - msal auth
+      summary: Microsoft Authentication Library Logout redirect
+      description: Redirect to Microsoft Authentication Logout Flow
+      operationId: auth.msal.logout
+      responses:
+        302:
+          description: Redirect to Microsoft Authentication Logout Flow
+  /auth/msal/graphcall:
+    get:
+      tags:
+        - msal auth
+      summary: Microsoft Authentication Library graph call
+      description: Return current user session graph object
+      operationId: auth.msal.graphcall
+      responses:
+        200:
+          description: Valid user graph object
+  /auth/msal/get-token:
+    get:
+      tags:
+        - msal auth
+      summary: Microsoft Authentication Library get token
+      description: Return current user session authentication token
+      operationId: auth.msal.get_token
+      responses:
+        200:
+          description: Valid user token
+  /login:
+    get:
+      tags:
+        - demo
+      summary: Microsoft Authentication Library Demo Login
+      description: Demo login page
+      operationId: demo.routes.login
+      produces:
+        - text/html
+      responses:
+        200:
+          description: Demo login page
+  /logout:
+    get:
+      tags:
+        - demo
+      summary: Microsoft Authentication Library Logout redirect
+      description: Demo login page
+      operationId: demo.routes.logout
+      produces:
+        - text/html
+      responses:
+        200:
+          description: Demo logout page
+  /graphcall:
+    get:
+      tags:
+        - demo
+      summary: Microsoft Authentication Library Demo Graph Call
+      description: Demo graph call
+      operationId: demo.routes.graphcall
+      produces:
+        - text/html
+      responses:
+        200:
+          description: Demo graph call
+  /getAToken:
+      get:
+        tags:
+          - demo
+        summary: Microsoft Authentication Library Get a Token
+        description: Demo get a token page
+        operationId: demo.routes.authorized
+        produces:
+          - text/html
+        responses:
+          200:
+            description: Demo get a token page
