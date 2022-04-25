@@ -39,7 +39,6 @@ def authorized():
         _save_cache(cache)
     except ValueError:  # Usually caused by CSRF
         pass  # Simply ignore them
-    print("authorized")
     return redirect(url_for("demo_bp.index"))
 
 
