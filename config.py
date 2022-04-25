@@ -23,9 +23,12 @@ AUTHORITY = "https://login.microsoftonline.com/consumers"  # For multi-tenant ap
 # AUTHORITY = "https://login.microsoftonline.com/organizations"  # To allow organization users to auth
 # AUTHORITY = "https://login.microsoftonline.com/Enter_the_Tenant_Name_Here"
 
-REDIRECT_PATH = "/getAToken"  # Used for forming an absolute URL to your redirect URI.
+REDIRECT_PATH = "/auth/msal/get-token"  # Used for forming an absolute URL to your redirect URI.
 # The absolute URL must match the redirect URI you set
 # in the app's registration in the Azure portal.
+
+AUTHENTICATOR_HOST = environ.get("AUTHENTICATOR_HOST") or "http://localhost:5000"
+REDIRECT_URI = AUTHENTICATOR_HOST + REDIRECT_PATH
 
 # You can find more Microsoft Graph API endpoints from Graph Explorer
 # https://developer.microsoft.com/en-us/graph/graph-explorer

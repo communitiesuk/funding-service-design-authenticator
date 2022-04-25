@@ -26,7 +26,7 @@ def login():
     return render_template("login.html", auth_url=session["flow"]["auth_uri"], version=msal.__version__)
 
 
-@demo_bp.route(config.REDIRECT_PATH, methods=["GET"])
+@demo_bp.route(config.REDIRECT_PATH.replace("/auth/msal", ""), methods=["GET"])
 # The absolute URL that points here must match your app's redirect_uri set in AAD
 def authorized():
     try:
