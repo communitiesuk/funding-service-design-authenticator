@@ -1,8 +1,5 @@
-import glob
 import os
 import shutil
-import urllib.request
-import zipfile
 from swagger_ui_bundle import swagger_ui_3_52_0_path
 
 
@@ -11,17 +8,6 @@ def build_swagger():
     DIST_ROOT = "./swagger/dist/"
     SWAGGER_MODS_DIR = "./swagger/custom/3_52_0/"
     SWAGGER_BUNDLE_DIR = swagger_ui_3_52_0_path + "/"
-
-    # # Checks if swagger has already built
-    # if os.path.exists(DIST_ROOT):
-    #     print(
-    #         "Swagger already built."
-    #         "If you require a rebuild manually run build.build_swagger"
-    #     )
-    #     return True
-
-    # Attempts to delete the old files, states if
-    # one doesn't exist.
 
     print("Deleting old " + DIST_ROOT)
     try:
