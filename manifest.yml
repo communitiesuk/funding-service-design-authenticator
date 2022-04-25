@@ -6,7 +6,7 @@ applications:
   - https://github.com/cloudfoundry/python-buildpack.git
   command: flask run --host 0.0.0.0 --port 8080
   env:
-    AUTHENTICATOR_HOST: ${{AUTHENTICATOR_HOST}}
+    AUTHENTICATOR_HOST: ((AUTHENTICATOR_HOST))
 
 - name: funding-service-design-authenticator-test
   memory: 64M
@@ -14,4 +14,4 @@ applications:
   - https://github.com/cloudfoundry/python-buildpack.git
   command: flask run --host 0.0.0.0 --port 8080
   env:
-    AUTHENTICATOR_HOST: ${{AUTHENTICATOR_HOST}}
+    AUTHENTICATOR_HOST: ((AUTHENTICATOR_HOST))
