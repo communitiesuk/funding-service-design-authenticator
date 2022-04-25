@@ -2,6 +2,7 @@ import requests
 from flask import session, request, redirect, url_for
 import msal
 import config
+import warnings
 
 
 def login():
@@ -30,8 +31,8 @@ def get_token():
         session["user"] = result.get("id_token_claims")
         _save_cache(cache)
         return session["user"], 200
-    except ValueError:  # Usually caused by CSRF
-        pass  # Simply ignore them
+    except ValueError as e:  # Usually caused by CSRF
+        warnings.warn('Get Token Value Error: ' + str(e))
     return {"message": "No valid token"}, 404
 
 
