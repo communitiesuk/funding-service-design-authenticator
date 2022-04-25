@@ -1,5 +1,6 @@
 import os
 import shutil
+
 from swagger_ui_bundle import swagger_ui_3_52_0_path
 
 
@@ -29,7 +30,10 @@ def build_swagger():
     print("Copying files from " + SWAGGER_MODS_DIR + " to " + DIST_ROOT)
     for file_to_copy in os.listdir(SWAGGER_MODS_DIR):
         print("Copying " + file_to_copy)
-        shutil.copy("".join([SWAGGER_MODS_DIR, file_to_copy]), "".join([DIST_ROOT, file_to_copy]))
+        shutil.copy(
+            "".join([SWAGGER_MODS_DIR, file_to_copy]),
+            "".join([DIST_ROOT, file_to_copy]),
+        )
 
 
 if __name__ == "__main__":

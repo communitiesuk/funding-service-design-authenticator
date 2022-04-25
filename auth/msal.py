@@ -1,8 +1,11 @@
-import requests
-from flask import session, request, redirect, url_for
-import msal
-import config
 import warnings
+
+import config
+import msal
+import requests
+from flask import redirect
+from flask import request
+from flask import session
 
 
 def login():
@@ -16,23 +19,28 @@ def logout():
     post_logout_redirect_uri = request.args.get("post_logout_redirect_uri", "")
     session.clear()  # Wipe out user and its token cache from session
     return redirect(  # Also logout from your tenant's web session
-        config.AUTHORITY + "/oauth2/v2.0/logout" +
-        "?post_logout_redirect_uri=" + post_logout_redirect_uri)
+        config.AUTHORITY
+        + "/oauth2/v2.0/logout"
+        + "?post_logout_redirect_uri="
+        + post_logout_redirect_uri
+    )
 
 
-# The absolute URL that points here must match your app's redirect_uri set in AAD
+# The absolute URL that points here must match
+# your app's redirect_uri set in AAD
 def get_token():
     try:
         cache = _load_cache()
         result = _build_msal_app(cache=cache).acquire_token_by_auth_code_flow(
-            session.get("flow", {}), request.args)
+            session.get("flow", {}), request.args
+        )
         if "error" in result:
             return result, 500
         session["user"] = result.get("id_token_claims")
         _save_cache(cache)
         return session["user"], 200
     except ValueError as e:  # Usually caused by CSRF
-        warnings.warn('Value Error on get_token route: ' + str(e))
+        warnings.warn("Value Error on get_token route: " + str(e))
     return {"message": "No valid token"}, 404
 
 
@@ -42,8 +50,8 @@ def graphcall():
         return {"message": "No valid token"}, 404
     graph_data = requests.get(  # Use token to call downstream service
         config.ENDPOINT,
-        headers={'Authorization': 'Bearer ' + token['access_token']},
-        ).json()
+        headers={"Authorization": "Bearer " + token["access_token"]},
+    ).json()
     return graph_data, 200
 
 
@@ -61,14 +69,17 @@ def _save_cache(cache):
 
 def _build_msal_app(cache=None, authority=None):
     return msal.ConfidentialClientApplication(
-        config.CLIENT_ID, authority=authority or config.AUTHORITY,
-        client_credential=config.CLIENT_SECRET, token_cache=cache)
+        config.CLIENT_ID,
+        authority=authority or config.AUTHORITY,
+        client_credential=config.CLIENT_SECRET,
+        token_cache=cache,
+    )
 
 
 def build_auth_code_flow(authority=None, scopes=None):
     return _build_msal_app(authority=authority).initiate_auth_code_flow(
-        scopes or [],
-        redirect_uri=config.REDIRECT_URI)
+        scopes or [], redirect_uri=config.REDIRECT_URI
+    )
 
 
 def _get_token_from_cache(scope=None):
