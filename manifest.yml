@@ -7,6 +7,7 @@ applications:
   command: flask run --host 0.0.0.0 --port 8080
   env:
     AUTHENTICATOR_HOST: ((AUTHENTICATOR_HOST))
+    NOTIFICATION_SERVICE: http://funding-service-design-notification-dev.apps.internal:8080
 
 - name: funding-service-design-authenticator-test
   memory: 64M
@@ -15,4 +16,4 @@ applications:
   command: flask run --host 0.0.0.0 --port 8080
   env:
     AUTHENTICATOR_HOST: ((AUTHENTICATOR_HOST))
-    NOTIFICATION_SERVICE: http://funding-service-design-notification-dev.apps.internal:808
+    NOTIFICATION_SERVICE: http://funding-service-design-notification-test.apps.internal:8080
