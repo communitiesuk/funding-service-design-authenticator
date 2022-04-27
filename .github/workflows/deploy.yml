@@ -70,6 +70,17 @@ jobs:
           cf_username: ${{secrets.CF_USER}}
           cf_password: ${{secrets.CF_PASSWORD}}
           command: push funding-service-design-authenticator-dev --var AUTHENTICATOR_HOST=https://funding-service-design-authenticator-dev.london.cloudapps.digital
+      - name: Apply network policy for notification service
+        uses: citizen-of-planet-earth/cf-cli-action@v2
+        with:
+          cf_api:      ${{secrets.CF_API}}
+          cf_org:      ${{secrets.CF_ORG}}
+          cf_space:    ${{secrets.CF_SPACE }}
+          cf_username: ${{secrets.CF_USER}}
+          cf_password: ${{secrets.CF_PASSWORD}}
+          command: add-network-policy funding-service-design-authenticator-dev --destination-app funding-service-design-notification-dev --protocol tcp --port 8080
+
+
 
   security:
     needs: deploy_dev
