@@ -3,44 +3,104 @@ info:
   description: Authentication API for DLUHC Funding Service Design
   version: "1.0.0"
   title: Funding Service Design - Authenticator
+tags:
+  - name: sso
+    description: Single sign-on operations
+  - name: magic links
+    description: Magic link operations
+  - name: demo
+    description: Demonstration routes
 paths:
-  /auth/msal/login:
+  /magic-links:
     get:
       tags:
-        - msal auth
+        - magic links
+      summary: Search magic link
+      description: List all magic links
+      operationId: api.MagicLinksView.search
+      responses:
+        200:
+          description: List of magic links
+      parameters:
+        - name: link_id
+          in: query
+          required: false
+          type: string
+          format: query
+  '/magic-links/{link_id}':
+    get:
+      tags:
+        - magic links
+      summary: Use a magic link
+      description: Check if link is valid and redirect to url
+      operationId: api.MagicLinksView.use
+      responses:
+        302:
+          description: Redirect valid magic link
+        404:
+          description: Magic link invalid
+      parameters:
+        - name: link_id
+          in: path
+          required: true
+          type: string
+          format: path
+  '/magic-links/{email}':
+    post:
+      tags:
+        - magic links
+      summary: Create a magic link
+      description: Get a fresh magic link for an account holder
+      operationId: api.MagicLinksView.create
+      parameters:
+        - name: email
+          in: path
+          required: true
+          type: string
+          format: path
+      responses:
+        200:
+          description: Active magic link returned
+        401:
+          description: Account holder does not exist
+
+  /sso/login:
+    get:
+      tags:
+        - sso
       summary: Microsoft Authentication Library Login redirect
       description: Redirect to Microsoft Authentication Login Flow
-      operationId: auth.msal.login
+      operationId: api.sso.routes.SsoView.login
       responses:
         302:
           description: Redirect to Microsoft Authentication Login Flow
-  /auth/msal/logout:
+  /sso/logout:
     get:
       tags:
-        - msal auth
+        - sso
       summary: Microsoft Authentication Library Logout redirect
       description: Redirect to Microsoft Authentication Logout Flow
-      operationId: auth.msal.logout
+      operationId: api.sso.routes.SsoView.logout
       responses:
         302:
           description: Redirect to Microsoft Authentication Logout Flow
-  /auth/msal/graphcall:
+  /sso/graphcall:
     get:
       tags:
-        - msal auth
+        - sso
       summary: Microsoft Authentication Library graph call
       description: Return current user session graph object
-      operationId: auth.msal.graphcall
+      operationId: api.sso.routes.SsoView.graphcall
       responses:
         200:
           description: Valid user graph object
-  /auth/msal/get-token:
+  /sso/get-token:
     get:
       tags:
-        - msal auth
+        - sso
       summary: Microsoft Authentication Library get token
       description: Return current user session authentication token
-      operationId: auth.msal.get_token
+      operationId: api.sso.routes.SsoView.get_token
       responses:
         200:
           description: Valid user token
@@ -50,7 +110,7 @@ paths:
         - demo
       summary: Microsoft Authentication Library Demo Login
       description: Demo login page
-      operationId: demo.routes.login
+      operationId: api.demo.routes.login
       produces:
         - text/html
       responses:
@@ -62,7 +122,7 @@ paths:
         - demo
       summary: Microsoft Authentication Library Logout redirect
       description: Demo login page
-      operationId: demo.routes.logout
+      operationId: api.demo.routes.logout
       produces:
         - text/html
       responses:
@@ -74,7 +134,7 @@ paths:
         - demo
       summary: Microsoft Authentication Library Demo Graph Call
       description: Demo graph call
-      operationId: demo.routes.graphcall
+      operationId: api.demo.routes.graphcall
       produces:
         - text/html
       responses:
@@ -86,7 +146,7 @@ paths:
           - demo
         summary: Microsoft Authentication Library Get a Token
         description: Demo get a token page
-        operationId: demo.routes.authorized
+        operationId: api.demo.routes.authorized
         produces:
           - text/html
         responses:
