@@ -1,15 +1,15 @@
-"""Flask Development Environment Configuration."""
+"""Flask Test Environment Configuration."""
 from os import path
 
 from config.default import Config
 
 
-class DevelopmentConfig(Config):
+class TestConfig(Config):
     #  Application Config
     SECRET_KEY = "dev"
     SESSION_COOKIE_NAME = "session_cookie"
     FLASK_ROOT = path.dirname(path.dirname(path.realpath(__file__)))
-    FLASK_ENV = "development"
+    FLASK_ENV = "test"
 
     CLIENT_SECRET = "nmq8Q~acUEOPWmjfvbOEQLPZy2M38yLe1PEh_cS2"
 

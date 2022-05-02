@@ -9,11 +9,14 @@ from flask_session import Session
 redis_client = FlaskRedis()
 
 
-def create_app() -> Flask:
+def create_app(testing=False) -> Flask:
     connexion_app = connexion.FlaskApp(__name__, specification_dir="")
 
     flask_app = connexion_app.app
-    flask_app.config.from_object("config.Config")
+    if testing:
+        flask_app.config.from_object("config.test.TestConfig")
+    else:
+        flask_app.config.from_object("config.Config")
 
     options = {
         "swagger_path": flask_app.config.get("FLASK_ROOT") + "/swagger/dist",

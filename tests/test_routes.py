@@ -1,10 +1,10 @@
-def test_msal_login_redirects_to_ms(flask_test_client):
+def test_sso_login_redirects_to_ms(flask_test_client):
     """
     GIVEN We have a functioning Authenticator API
-    WHEN a GET request for /auth/msal/login
+    WHEN a GET request for /sso/login
     THEN we should be redirected to Microsoft Login
     """
-    endpoint = "/auth/msal/login"
+    endpoint = "/sso/login"
     expected_redirect = "https://login.microsoftonline.com/"
     response = flask_test_client.get(endpoint)
 
@@ -12,13 +12,13 @@ def test_msal_login_redirects_to_ms(flask_test_client):
     assert response.location.startswith(expected_redirect) is True
 
 
-def test_msal_logout_redirects_to_ms(flask_test_client):
+def test_sso_logout_redirects_to_ms(flask_test_client):
     """
     GIVEN We have a functioning Authenticator API
-    WHEN a GET request for /auth/msal/logout
+    WHEN a GET request for /sso/logout
     THEN we should be redirected to Microsoft Logout
     """
-    endpoint = "/auth/msal/logout"
+    endpoint = "/sso/logout"
     expected_redirect = (
         "https://login.microsoftonline.com/consumers/oauth2/v2.0/logout"
     )
@@ -28,26 +28,26 @@ def test_msal_logout_redirects_to_ms(flask_test_client):
     assert response.location.startswith(expected_redirect) is True
 
 
-def test_msal_get_token_returns_404(flask_test_client):
+def test_sso_get_token_returns_404(flask_test_client):
     """
     GIVEN We have a functioning Authenticator API
-    WHEN a GET request for /auth/msal/get-token
+    WHEN a GET request for /sso/get-token
     THEN we should receive a 404 "No valid token" message
     """
-    endpoint = "/auth/msal/get-token"
+    endpoint = "/sso/get-token"
     response = flask_test_client.get(endpoint)
 
     assert response.status_code == 404
     assert response.get_json()["message"] == "No valid token"
 
 
-def test_msal_graphcall_returns_404(flask_test_client):
+def test_sso_graphcall_returns_404(flask_test_client):
     """
     GIVEN We have a functioning Authenticator API
-    WHEN a GET request for /auth/msal/graphcall
+    WHEN a GET request for /sso/graphcall
     THEN we should be redirected to Microsoft Login
     """
-    endpoint = "/auth/msal/graphcall"
+    endpoint = "/sso/graphcall"
     response = flask_test_client.get(endpoint)
 
     assert response.status_code == 404
