@@ -8,8 +8,38 @@ tags:
     description: Single sign-on operations
   - name: magic links
     description: Magic link operations
+  - name: sessions
+    description: Session operations
   - name: demo
     description: Demonstration routes
+definitions:
+  GeneralError:
+    type: object
+    properties:
+      status:
+        type: string
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+  MagicLink:
+    type: object
+    properties:
+      accountId:
+        type: string
+      exp:
+        type: integer
+        format: int64
+      iat:
+        type: integer
+        format: int64
+      key:
+        type: string
+      redirectUrl:
+        type: string
+      token:
+        type: string
 paths:
   /magic-links:
     get:
@@ -20,7 +50,12 @@ paths:
       operationId: api.MagicLinksView.search
       responses:
         200:
-          description: List of magic links
+          description: SUCCESS - A list of magic link keys
+          schema:
+            type: array
+            items:
+              type: string
+#              $ref: '#/definitions/MagicLink'
       parameters:
         - name: link_id
           in: query
@@ -36,9 +71,11 @@ paths:
       operationId: api.MagicLinksView.use
       responses:
         302:
-          description: Redirect valid magic link
+          description: SUCCESS - Redirect valid magic link to requested redirectUrl
         404:
-          description: Magic link invalid
+          description: ERROR - Magic link expired or invalid
+          schema:
+            $ref: '#/definitions/GeneralError'
       parameters:
         - name: link_id
           in: path
@@ -59,10 +96,14 @@ paths:
           type: string
           format: path
       responses:
-        200:
-          description: Active magic link returned
+        201:
+          description: SUCCESS - Active magic link created
+          schema:
+            $ref: '#/definitions/MagicLink'
         401:
-          description: Account holder does not exist
+          description: ERROR - Could not create magic link
+          schema:
+            $ref: '#/definitions/GeneralError'
 
   /sso/login:
     get:
@@ -73,7 +114,7 @@ paths:
       operationId: api.sso.routes.SsoView.login
       responses:
         302:
-          description: Redirect to Microsoft Authentication Login Flow
+          description: SUCCESS - Redirect to Microsoft Authentication Login Flow
   /sso/logout:
     get:
       tags:
@@ -83,7 +124,7 @@ paths:
       operationId: api.sso.routes.SsoView.logout
       responses:
         302:
-          description: Redirect to Microsoft Authentication Logout Flow
+          description: SUCCESS - Redirect to Microsoft Authentication Logout Flow
   /sso/graphcall:
     get:
       tags:
@@ -93,7 +134,7 @@ paths:
       operationId: api.sso.routes.SsoView.graphcall
       responses:
         200:
-          description: Valid user graph object
+          description: SUCCESS - Valid user graph object
   /sso/get-token:
     get:
       tags:
@@ -103,7 +144,20 @@ paths:
       operationId: api.sso.routes.SsoView.get_token
       responses:
         200:
-          description: Valid user token
+          description: SUCCESS - Valid user token
+
+  /sessions/user:
+    get:
+      tags:
+        - sessions
+      summary: Get a users session details
+      description: Get a users session details
+      operationId: api.AuthSessionView.user
+      responses:
+        200:
+          description: SUCCESS - Active user session details returned
+        404:
+          description: ERROR - User session could not be found
   /login:
     get:
       tags:
@@ -115,7 +169,7 @@ paths:
         - text/html
       responses:
         200:
-          description: Demo login page
+          description: SUCCESS - Demo login page
   /logout:
     get:
       tags:
@@ -127,7 +181,7 @@ paths:
         - text/html
       responses:
         200:
-          description: Demo logout page
+          description: SUCCESS - Demo logout page
   /graphcall:
     get:
       tags:
@@ -139,7 +193,7 @@ paths:
         - text/html
       responses:
         200:
-          description: Demo graph call
+          description: SUCCESS - Demo graph call
   /getAToken:
       get:
         tags:
@@ -151,4 +205,4 @@ paths:
           - text/html
         responses:
           200:
-            description: Demo get a token page
+            description: SUCCESS - Demo get a token page
