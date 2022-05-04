@@ -1,0 +1,2 @@
+class SessionCreateError(Exception):
+    pass
