@@ -1,0 +1,12 @@
+{
+  "account_store/accounts/": {
+    "h@a.com": {"id": "h"},
+    "a@a.com": {"id": "a"}
+  },
+  "account_store/accounts/h@a.com": {
+    "id": "h"
+  },
+  "account_store/accounts/a@a.com": {
+    "id": "a"
+  }
+}
