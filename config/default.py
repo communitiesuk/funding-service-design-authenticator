@@ -2,6 +2,8 @@
 from os import environ
 from os import path
 
+import redis
+
 
 class Config(object):
     #  Application Config
@@ -44,12 +46,62 @@ class Config(object):
     SESSION_TYPE = (
         # Specifies how the token cache should be stored
         # in server-side session
-        "filesystem"
+        # "filesystem"
+        "redis"
     )
+    SESSION_PERMANENT = False
+    SESSION_USE_SIGNER = True
 
     # RSA 256 KEYS
     RSA256_PRIVATE_KEY = environ.get("RSA256_PRIVATE_KEY")
     RSA256_PUBLIC_KEY = environ.get("RSA256_PUBLIC_KEY")
 
     # Redis
-    REDIS_URL = "redis://:password@localhost:6379/0"
+    REDIS_MLINKS_URL = "redis://:password@localhost:6379/0"
+    REDIS_SESSIONS_URL = "redis://:password@localhost:6379/1"
+    SESSION_REDIS = redis.from_url(REDIS_SESSIONS_URL)
+
+    # Funding Service Design
+    FSD_USER_TOKEN_COOKIE_NAME = "fsd_user_token"
+    FSD_SESSION_TIMEOUT_SECS = 3600  # 1 hour
+    MAGIC_LINK_EXPIRY_DAYS = 0
+    MAGIC_LINK_EXPIRY_MINUTES = 1
+    MAGIC_LINK_EXPIRY_SECONDS = (86400 * MAGIC_LINK_EXPIRY_DAYS) + (
+        60 * MAGIC_LINK_EXPIRY_MINUTES
+    )
+
+    # APIs
+    ACCOUNT_STORE_API_HOST = environ.get("ACCOUNT_STORE_API_HOST")
+
+    # Security Settings (for Talisman Config)
+    FORCE_HTTPS = True
+
+    # Content Security Policy (for Talisman Config)
+    SECURE_CSP = {
+        "default-src": "'self'",
+        "script-src": [
+            "'self'",
+            "'sha256-+6WnXIl4mbFTCARd8N3COQmT3bJJmo32N8q8ZSQAIcU='",
+            "'sha256-l1eTVSK8DTnK8+yloud7wZUqFrI0atVo6VlC6PJvYaQ='",
+        ],
+        "img-src": ["data:", "'self'"],
+    }
+
+    # Allow inline scripts for swagger docs (for Talisman Config)
+    SWAGGER_CSP = {
+        "script-src": ["'self'", "'unsafe-inline'"],
+        "style-src": ["'self'", "'unsafe-inline'"],
+    }
+
+    # HTTP Strict-Transport-Security (for Talisman Config)
+    HSTS_HEADERS = {
+        "Strict-Transport-Security": (
+            "max-age=31536000; includeSubDomains; preload"
+        ),
+        "X-Content-Type-Options": "nosniff",
+        "X-Frame-Options": "SAMEORIGIN",
+        "X-XSS-Protection": "1; mode=block",
+        "Feature_Policy": (
+            "microphone 'none'; camera 'none'; geolocation 'none'"
+        ),
+    }

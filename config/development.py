@@ -1,6 +1,7 @@
 """Flask Development Environment Configuration."""
 from os import path
 
+import redis
 from config.default import Config
 
 
@@ -30,8 +31,11 @@ class DevelopmentConfig(Config):
     SESSION_TYPE = (
         # Specifies how the token cache should be stored
         # in server-side session
-        "filesystem"
+        # "filesystem"
+        "redis"
     )
+    SESSION_PERMANENT = False
+    SESSION_USE_SIGNER = True
 
     # RSA 256 KEYS
     _test_private_key_path = FLASK_ROOT + "/tests/keys/rsa256/private.pem"
@@ -42,4 +46,12 @@ class DevelopmentConfig(Config):
         RSA256_PUBLIC_KEY = public_key_file.read()
 
     # Redis
-    REDIS_URL = "redis://localhost:6379/0"
+    REDIS_MLINKS_URL = "redis://localhost:6379/0"
+    REDIS_SESSIONS_URL = "redis://localhost:6379/1"
+    SESSION_REDIS = redis.from_url(REDIS_SESSIONS_URL)
+
+    # APIs
+    ACCOUNT_STORE_API_HOST = "account_store"
+
+    # Security
+    FORCE_HTTPS = False
