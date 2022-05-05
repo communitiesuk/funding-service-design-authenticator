@@ -7,8 +7,7 @@ from config.env import env
 
 
 # Account Store Endpoints
-ACCOUNTS_ENDPOINT = "/accounts/"
-ACCOUNT_ENDPOINT = "/accounts/{email}"
+ACCOUNT_ENDPOINT = "/accounts?email_address={email}"
 
 
 def get_data(endpoint: str):

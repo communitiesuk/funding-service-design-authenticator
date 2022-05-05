@@ -1,12 +1,12 @@
 {
-  "account_store/accounts/": {
-    "h@a.com": {"id": "h"},
-    "a@a.com": {"id": "a"}
+  "account_store/accounts?email_address=h@a.com": {
+    "id": "h",
+    "emailAddress": "h@a.com",
+    "applications": []
   },
-  "account_store/accounts/h@a.com": {
-    "id": "h"
-  },
-  "account_store/accounts/a@a.com": {
-    "id": "a"
+  "account_store/accounts?email_address=a@a.com": {
+    "id": "a",
+    "emailAddress": "a@a.com",
+    "applications": []
   }
 }
