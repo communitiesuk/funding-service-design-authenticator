@@ -20,6 +20,11 @@ class RedisMLinks(object):
             return 1
 
     @staticmethod
+    def setex(name, time, value):
+        ml_data[name] = value
+        return 1
+
+    @staticmethod
     def get(key):
         return ml_data[key]
 
@@ -29,3 +34,4 @@ def mock_redis_magic_links(mocker):
     mocker.patch("app.redis_mlinks.setnx", RedisMLinks.setnx)
     mocker.patch("app.redis_mlinks.get", RedisMLinks.get)
     mocker.patch("app.redis_mlinks.set", RedisMLinks.set)
+    mocker.patch("app.redis_mlinks.setex", RedisMLinks.setex)
