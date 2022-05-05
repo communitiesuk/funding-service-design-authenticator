@@ -2,11 +2,13 @@ from os import environ
 
 FLASK_ENV = environ.get("FLASK_ENV")
 
-if FLASK_ENV == "development":
-    from config.development import DevelopmentConfig as Config
+if FLASK_ENV == "local":
+    from config.environments.local import LocalConfig as Config
+elif FLASK_ENV == "dev":
+    from config.environments.dev import DevConfig as Config
 elif FLASK_ENV == "test":
-    from config.test import TestConfig as Config
+    from config.environments.test import TestConfig as Config
 elif FLASK_ENV == "production":
-    from config.production import ProductionConfig as Config
+    from config.environments.production import ProductionConfig as Config
 else:
-    from config.default import Config  # noqa
+    from config.environments.default import Config  # noqa

@@ -7,6 +7,9 @@ applications:
   command: flask run --host 0.0.0.0 --port 8080
   env:
     AUTHENTICATOR_HOST: ((AUTHENTICATOR_HOST))
+    FLASK_ENV: dev
+  services:
+    - funding-service-magic-links-dev
 
 - name: funding-service-design-authenticator-test
   memory: 64M
@@ -15,3 +18,6 @@ applications:
   command: flask run --host 0.0.0.0 --port 8080
   env:
     AUTHENTICATOR_HOST: ((AUTHENTICATOR_HOST))
+    FLASK_ENV: test
+  services:
+    - funding-service-magic-links-test

@@ -1,16 +1,18 @@
-"""Flask Development Environment Configuration."""
+"""Flask Local Development Environment Configuration."""
 from os import path
 
 import redis
-from config.default import Config
+from config.environments.default import Config
 
 
-class DevelopmentConfig(Config):
+class LocalConfig(Config):
     #  Application Config
     SECRET_KEY = "dev"
     SESSION_COOKIE_NAME = "session_cookie"
-    FLASK_ROOT = path.dirname(path.dirname(path.realpath(__file__)))
-    FLASK_ENV = "development"
+    FLASK_ROOT = path.dirname(
+        path.dirname(path.dirname(path.realpath(__file__)))
+    )
+    FLASK_ENV = "local"
 
     CLIENT_SECRET = "nmq8Q~acUEOPWmjfvbOEQLPZy2M38yLe1PEh_cS2"
 

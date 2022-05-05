@@ -1,3 +1,9 @@
+"""
+A wrapper class to enable the current app instance's environment config
+to be imported in any module without requiring request context
+"""
+
+
 class EnvConfig:
     config = None
 

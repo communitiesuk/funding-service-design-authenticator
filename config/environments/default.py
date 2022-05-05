@@ -2,14 +2,14 @@
 from os import environ
 from os import path
 
-import redis
-
 
 class Config(object):
     #  Application Config
     SECRET_KEY = environ.get("SECRET_KEY")
     SESSION_COOKIE_NAME = environ.get("SESSION_COOKIE_NAME")
-    FLASK_ROOT = path.dirname(path.dirname(path.realpath(__file__)))
+    FLASK_ROOT = path.dirname(
+        path.dirname(path.dirname(path.realpath(__file__)))
+    )
     FLASK_ENV = environ.get("FLASK_ENV")
 
     #  Azure Active Directory Config
@@ -55,11 +55,6 @@ class Config(object):
     # RSA 256 KEYS
     RSA256_PRIVATE_KEY = environ.get("RSA256_PRIVATE_KEY")
     RSA256_PUBLIC_KEY = environ.get("RSA256_PUBLIC_KEY")
-
-    # Redis
-    REDIS_MLINKS_URL = "redis://:password@localhost:6379/0"
-    REDIS_SESSIONS_URL = "redis://:password@localhost:6379/1"
-    SESSION_REDIS = redis.from_url(REDIS_SESSIONS_URL)
 
     # Funding Service Design
     FSD_USER_TOKEN_COOKIE_NAME = "fsd_user_token"
