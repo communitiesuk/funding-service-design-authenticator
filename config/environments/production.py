@@ -7,6 +7,7 @@ from config.utils import VcapServices
 
 
 class ProductionConfig(Config):
+
     # GovCloud
     VCAP_SERVICES = VcapServices.from_env_json(environ.get("VCAP_SERVICES"))
 
