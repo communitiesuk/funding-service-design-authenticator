@@ -10,9 +10,6 @@ from flask.views import MethodView
 
 
 class SsoView(MethodView):
-
-    permissions_scope = env.config.get("MS_GRAPH_PERMISSIONS_SCOPE")
-
     def login(self):
         """
         GET /sso/login endpoint
@@ -20,7 +17,7 @@ class SsoView(MethodView):
         :return: 302 redirect to Microsoft Login
         """
         session["flow"] = self.build_auth_code_flow(
-            scopes=self.permissions_scope
+            scopes=env.config.get("MS_GRAPH_PERMISSIONS_SCOPE")
         )
         return redirect(session["flow"]["auth_uri"]), 302
 
@@ -77,7 +74,9 @@ class SsoView(MethodView):
         Requires a valid token in the session
         :return: 200 json of user graph data or 404 not found
         """
-        token = self._get_token_from_cache(self.permissions_scope)
+        token = self._get_token_from_cache(
+            env.config.get("MS_GRAPH_PERMISSIONS_SCOPE")
+        )
         if not token:
             return {"message": "No valid token"}, 404
         graph_data = requests.get(  # Use token to call downstream service
