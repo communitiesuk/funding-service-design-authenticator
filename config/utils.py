@@ -8,7 +8,7 @@ class VcapServices(object):
     services: dict
 
     @staticmethod
-    def from_environ(json_string: str):
+    def from_env_json(json_string: str):
         json_dict = dict(json.loads(json_string))
         vcap_services = VcapServices(services=json_dict)
         return vcap_services
@@ -22,6 +22,8 @@ class VcapServices(object):
             raise Exception("Service name '" + name + "' not found")
         raise Exception("Service group '" + group_key + "' not found")
 
-    def get_service_credentials_by_name(self, group_key: str, name: str):
+    def get_service_credentials_value(
+        self, group_key: str, name: str, key: str
+    ):
         service = self.get_service_by_name(group_key, name)
-        return service.get("credentials")
+        return service.get("credentials").get(key)
