@@ -26,7 +26,7 @@ def create_app(testing=False) -> Flask:
         "swagger_ui_template_arguments": {},
     }
     connexion_app.add_api(
-        "api.yaml", options=options, resolver=MethodViewResolver("api")
+        "api.yml", options=options, resolver=MethodViewResolver("api")
     )
 
     session = Session()
