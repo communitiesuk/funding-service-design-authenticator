@@ -24,7 +24,7 @@ class SsoView(MethodView):
         )
         session.clear()  # Wipe out user and its token cache from session
         return redirect(  # Also logout from your tenant's web session
-            env.config.get("AUTHORITY")
+            env.config.get("AZURE_AD_AUTHORITY")
             + "/oauth2/v2.0/logout"
             + "?post_logout_redirect_uri="
             + post_logout_redirect_uri
@@ -74,9 +74,9 @@ class SsoView(MethodView):
     @staticmethod
     def _build_msal_app(cache=None, authority=None):
         return msal.ConfidentialClientApplication(
-            env.config.get("CLIENT_ID"),
-            authority=authority or env.config.get("AUTHORITY"),
-            client_credential=env.config.get("CLIENT_SECRET"),
+            env.config.get("AZURE_AD_CLIENT_ID"),
+            authority=authority or env.config.get("AZURE_AD_AUTHORITY"),
+            client_credential=env.config.get("AZURE_AD_CLIENT_SECRET"),
             token_cache=cache,
         )
 
@@ -84,7 +84,7 @@ class SsoView(MethodView):
         return self._build_msal_app(
             authority=authority
         ).initiate_auth_code_flow(
-            scopes or [], redirect_uri=env.config.get("REDIRECT_URI")
+            scopes or [], redirect_uri=env.config.get("AZURE_AD_REDIRECT_URI")
         )
 
     def _get_token_from_cache(self, scope=None):

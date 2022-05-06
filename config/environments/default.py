@@ -12,30 +12,30 @@ class Config(object):
     )
     FLASK_ENV = environ.get("FLASK_ENV")
 
-    #  Azure Active Directory Config
-    CLIENT_ID = (  # Application (client) ID of app registration on Azure AD
+    # Hostname for this service
+    AUTHENTICATOR_HOST = environ.get("AUTHENTICATOR_HOST", "")
+
+    # Azure Active Directory Config
+    AZURE_AD_CLIENT_ID = (
+        # Application (client) ID of app registration on Azure AD
         "d8be82a8-541c-4768-9296-84bd779a24d9"
     )
-
-    CLIENT_SECRET = environ.get("CLIENT_SECRET")
-
-    AUTHORITY = (  # consumers|organisations
+    AZURE_AD_CLIENT_SECRET = environ.get("AZURE_AD_CLIENT_SECRET")
+    AZURE_AD_AUTHORITY = (
+        # consumers|organisations - signifies the Azure AD tenant endpoint
         "https://login.microsoftonline.com/consumers"
     )
-    # AUTHORITY signifies the Active Directory tenant endpoint
-
-    REDIRECT_PATH = (  # Used for forming an absolute URL to your redirect URI.
+    AZURE_AD_REDIRECT_PATH = (
+        # Used for forming an absolute URL to your redirect URI.
         "/sso/get-token"
     )
     # The absolute URL must match the redirect URI you set
     # in the app's registration in the Azure portal.
-
-    AUTHENTICATOR_HOST = environ.get("AUTHENTICATOR_HOST", "")
-    REDIRECT_URI = AUTHENTICATOR_HOST + REDIRECT_PATH
+    AZURE_AD_REDIRECT_URI = AUTHENTICATOR_HOST + AZURE_AD_REDIRECT_PATH
 
     # You can find more Microsoft Graph API endpoints from Graph Explorer
     # https://developer.microsoft.com/en-us/graph/graph-explorer
-    ENDPOINT = (  # This resource requires no admin consent
+    MS_GRAPH_ENDPOINT = (  # This resource requires no admin consent
         "https://graph.microsoft.com/v1.0/users"
     )
 

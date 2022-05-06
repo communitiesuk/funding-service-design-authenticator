@@ -61,7 +61,7 @@ def authorized():
 def logout():
     session.clear()  # Wipe out user and its token cache from session
     return redirect(  # Also logout from your tenant's web session
-        env.config.get("AUTHORITY")
+        env.config.get("AZURE_AD_AUTHORITY")
         + "/oauth2/v2.0/logout"
         + "?post_logout_redirect_uri="
         + url_for("demo_bp.index", _external=True)
@@ -74,7 +74,7 @@ def graphcall():
     if not token:
         return redirect(url_for("demo_bp.login"))
     graph_data = requests.get(  # Use token to call downstream service
-        env.config.get("ENDPOINT"),
+        env.config.get("MS_GRAPH_ENDPOINT"),
         headers={"Authorization": "Bearer " + token["access_token"]},
     ).json()
     return render_template("display.html", result=graph_data)
@@ -94,9 +94,9 @@ def _save_cache(cache):
 
 def _build_msal_app(cache=None, authority=None):
     return msal.ConfidentialClientApplication(
-        env.config.get("CLIENT_ID"),
-        authority=authority or env.config.get("AUTHORITY"),
-        client_credential=env.config.get("CLIENT_SECRET"),
+        env.config.get("AZURE_AD_CLIENT_ID"),
+        authority=authority or env.config.get("AZURE_AD_AUTHORITY"),
+        client_credential=env.config.get("AZURE_AD_CLIENT_SECRET"),
         token_cache=cache,
     )
 
