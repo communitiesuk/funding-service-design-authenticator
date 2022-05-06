@@ -31,7 +31,9 @@ def index():
 def login():
     # Technically we could use empty list [] as scopes to do just sign in,
     # here we choose to also collect end user consent upfront
-    session["flow"] = build_auth_code_flow(scopes=env.config.get("SCOPE"))
+    session["flow"] = build_auth_code_flow(
+        scopes=env.config.get("MS_GRAPH_PERMISSIONS_SCOPE")
+    )
     return render_template(
         "login.html",
         auth_url=session["flow"]["auth_uri"],
@@ -70,7 +72,7 @@ def logout():
 
 @demo_bp.route("/graphcall", methods=["GET"])
 def graphcall():
-    token = _get_token_from_cache(env.config.get("SCOPE"))
+    token = _get_token_from_cache(env.config.get("MS_GRAPH_PERMISSIONS_SCOPE"))
     if not token:
         return redirect(url_for("demo_bp.login"))
     graph_data = requests.get(  # Use token to call downstream service

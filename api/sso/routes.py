@@ -10,20 +10,32 @@ from flask.views import MethodView
 
 
 class SsoView(MethodView):
+
+    permissions_scope = env.config.get("MS_GRAPH_PERMISSIONS_SCOPE")
+
     def login(self):
-        # Technically we could use empty list [] as scopes to do just sign in,
-        # here we choose to also collect end user consent upfront
+        """
+        GET /sso/login endpoint
+        Redirects to the Azure AD auth uri
+        :return: 302 redirect to Microsoft Login
+        """
         session["flow"] = self.build_auth_code_flow(
-            scopes=env.config.get("SCOPE")
+            scopes=self.permissions_scope
         )
         return redirect(session["flow"]["auth_uri"]), 302
 
     def logout(self):
+        """
+        GET /sso/logout endpoint
+        Clears the user session then redirects to
+        Azure AD logout endpoint to logout from our tenants web session too
+        :return:
+        """
         post_logout_redirect_uri = request.args.get(
             "post_logout_redirect_uri", ""
         )
-        session.clear()  # Wipe out user and its token cache from session
-        return redirect(  # Also logout from your tenant's web session
+        session.clear()
+        return redirect(
             env.config.get("AZURE_AD_AUTHORITY")
             + "/oauth2/v2.0/logout"
             + "?post_logout_redirect_uri="
@@ -31,8 +43,16 @@ class SsoView(MethodView):
         )
 
     def get_token(self):
-        # The absolute URL that points here must match
-        # your app's redirect_uri set in AAD
+        """
+        GET /sso/get-token
+        The endpoint that Azure AD redirects back to
+        after successful authentication.
+        Validates args from return request and if claims validated,
+        then creates a user property on the session with token claims
+        # NOTE: The absolute URL that points here must match
+        # this app's redirect_uri set in Azure AD
+        :return: 200 json of valid user token claims or 404 on error
+        """
         try:
             cache = self._load_cache()
             result = self._build_msal_app(
@@ -44,17 +64,24 @@ class SsoView(MethodView):
                 return result, 500
             session["user"] = result.get("id_token_claims")
             self._save_cache(cache)
+            # TODO: Set an fsd-user-token for the user here
             return session["user"], 200
         except ValueError as e:  # Usually caused by CSRF
             warnings.warn("Value Error on get_token route: " + str(e))
         return {"message": "No valid token"}, 404
 
     def graphcall(self):
-        token = self._get_token_from_cache(env.config.get("SCOPE"))
+        """
+        GET /sso/graphcall endpoint
+        Shows the graph object for the current authenticated user
+        Requires a valid token in the session
+        :return: 200 json of user graph data or 404 not found
+        """
+        token = self._get_token_from_cache(self.permissions_scope)
         if not token:
             return {"message": "No valid token"}, 404
         graph_data = requests.get(  # Use token to call downstream service
-            env.config.get("ENDPOINT"),
+            env.config.get("MS_GRAPH_ENDPOINT"),
             headers={"Authorization": "Bearer " + token["access_token"]},
         ).json()
         return graph_data, 200

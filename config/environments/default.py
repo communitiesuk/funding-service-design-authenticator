@@ -41,7 +41,7 @@ class Config(object):
 
     # You can find the proper permission names from this document
     # https://docs.microsoft.com/en-us/graph/permissions-reference
-    SCOPE = ["User.ReadBasic.All"]
+    MS_GRAPH_PERMISSIONS_SCOPE = ["User.ReadBasic.All"]
 
     SESSION_TYPE = (
         # Specifies how the token cache should be stored
