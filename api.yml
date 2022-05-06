@@ -34,6 +34,8 @@ definitions:
       iat:
         type: integer
         format: int64
+      link:
+        type: string
       key:
         type: string
       redirectUrl:

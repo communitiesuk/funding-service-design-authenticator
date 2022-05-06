@@ -90,7 +90,14 @@ class MagicLinksView(MethodView):
                     break
                 tries += 1
             if link_key:
-                new_link_json.update({"key": link_key})
+                new_link_json.update(
+                    {
+                        "key": link_key,
+                        "link": env.config.get("AUTHENTICATOR_HOST")
+                        + "/magic-links/"
+                        + link_key,
+                    }
+                )
                 return magic_link_201_response(new_link_json)
             return error_response(500, "Could not create a unique link")
         return error_response(401, "Account does not exist")
