@@ -7,7 +7,6 @@ applications:
   command: flask run --host 0.0.0.0 --port 8080
   env:
     AUTHENTICATOR_HOST: ((AUTHENTICATOR_HOST))
-    VCAP_SERVICES: ((VCAP_SERVICES))
     FLASK_ENV: dev
   services:
     - funding-service-magic-links-dev
@@ -19,7 +18,6 @@ applications:
   command: flask run --host 0.0.0.0 --port 8080
   env:
     AUTHENTICATOR_HOST: ((AUTHENTICATOR_HOST))
-    VCAP_SERVICES: ((VCAP_SERVICES))
     FLASK_ENV: test
   services:
     - funding-service-magic-links-test
