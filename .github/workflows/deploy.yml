@@ -69,7 +69,7 @@ jobs:
           cf_space:    ${{secrets.CF_SPACE }}
           cf_username: ${{secrets.CF_USER}}
           cf_password: ${{secrets.CF_PASSWORD}}
-          command: push funding-service-design-authenticator-dev --var VCAP_SERVICES=${{VCAP_SERVICES}} --var AUTHENTICATOR_HOST=https://funding-service-design-authenticator-dev.london.cloudapps.digital
+          command: push funding-service-design-authenticator-dev --var AUTHENTICATOR_HOST=https://funding-service-design-authenticator-dev.london.cloudapps.digital
 
   security:
     needs: deploy_dev
@@ -119,7 +119,7 @@ jobs:
           cf_space:    ${{secrets.CF_SPACE }}
           cf_username: ${{secrets.CF_USER}}
           cf_password: ${{secrets.CF_PASSWORD}}
-          command: push funding-service-design-authenticator-test --var VCAP_SERVICES=${{VCAP_SERVICES}} --var AUTHENTICATOR_HOST=https://funding-service-design-authenticator-dev.london.cloudapps.digital
+          command: push funding-service-design-authenticator-test --var AUTHENTICATOR_HOST=https://funding-service-design-authenticator-dev.london.cloudapps.digital
 
   run_performance_tests:
     needs: deploy_test
