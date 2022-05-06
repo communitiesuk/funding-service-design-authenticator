@@ -6,7 +6,8 @@ applications:
   - https://github.com/cloudfoundry/python-buildpack.git
   command: flask run --host 0.0.0.0 --port 8080
   env:
-    AUTHENTICATOR_HOST: ((AUTHENTICATOR_HOST))
+    AUTHENTICATOR_HOST: https://funding-service-design-authenticator-dev.london.cloudapps.digital
+    ACCOUNT_STORE_API_HOST: https://funding-service-design-account-store-dev.london.cloudapps.digital
     FLASK_ENV: dev
   services:
     - funding-service-magic-links-dev
@@ -17,7 +18,8 @@ applications:
   - https://github.com/cloudfoundry/python-buildpack.git
   command: flask run --host 0.0.0.0 --port 8080
   env:
-    AUTHENTICATOR_HOST: ((AUTHENTICATOR_HOST))
+    AUTHENTICATOR_HOST: https://funding-service-design-authenticator-test.london.cloudapps.digital
+    ACCOUNT_STORE_API_HOST: https://funding-service-design-account-store-test.london.cloudapps.digital
     FLASK_ENV: test
   services:
     - funding-service-magic-links-test
