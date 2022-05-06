@@ -1,5 +1,4 @@
 """Flask Production Environment Configuration."""
-import json
 from os import environ
 
 import redis
@@ -9,9 +8,7 @@ from config.utils import VcapServices
 
 class ProductionConfig(Config):
     # GovCloud
-    VCAP_SERVICES = VcapServices.from_json(
-        json.loads(environ.get("VCAP_SERVICES"))
-    )
+    VCAP_SERVICES = VcapServices.from_environ(environ.get("VCAP_SERVICES"))
 
     # Redis
     REDIS_INSTANCE_URI = VCAP_SERVICES.get_service_credentials_by_name(

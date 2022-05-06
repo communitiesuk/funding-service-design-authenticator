@@ -1,3 +1,4 @@
+import json
 from dataclasses import dataclass
 
 
@@ -7,7 +8,8 @@ class VcapServices(object):
     services: dict
 
     @staticmethod
-    def from_json(json_dict: dict):
+    def from_environ(json_string: str):
+        json_dict = dict(json.loads(json_string))
         vcap_services = VcapServices(services=json_dict)
         return vcap_services
 
