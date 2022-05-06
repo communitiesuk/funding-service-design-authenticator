@@ -9,6 +9,7 @@ applications:
     AUTHENTICATOR_HOST: https://funding-service-design-authenticator-dev.london.cloudapps.digital
     ACCOUNT_STORE_API_HOST: https://funding-service-design-account-store-dev.london.cloudapps.digital
     FLASK_ENV: dev
+    FLASK_DEBUG: 1
   services:
     - funding-service-magic-links-dev
 
