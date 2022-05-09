@@ -64,7 +64,7 @@ class SsoView(MethodView):
             # TODO: Set an fsd-user-token for the user here
             return session["user"], 200
         except ValueError as e:  # Usually caused by CSRF
-            warnings.warn("Value Error on get_token route: " + str(e))
+            warnings.warn(f"Value Error on get_token route: {str(e)}")
         return {"message": "No valid token"}, 404
 
     def graphcall(self):

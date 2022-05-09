@@ -33,7 +33,7 @@ def expected_data_within_get_response(
         exclude_regex_paths=exclude_regex_paths,
     )
 
-    error_message = "Expected data does not match response: " + str(diff)
+    error_message = f"Expected data does not match response: {str(diff)}"
     assert diff == {}, error_message
 
 

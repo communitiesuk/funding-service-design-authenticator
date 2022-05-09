@@ -19,8 +19,8 @@ class VcapServices(object):
             for service in service_group:
                 if service.get("name") == name:
                     return service
-            raise Exception("Service name '" + name + "' not found")
-        raise Exception("Service group '" + group_key + "' not found")
+            raise Exception(f"Service name '{name}' not found")
+        raise Exception(f"Service group '{group_key}' not found")
 
     def get_service_credentials_value(
         self, group_key: str, name: str, key: str
