@@ -16,6 +16,7 @@ def magic_link_201_response(magic_link_dict: dict):
                 "iat": magic_link_dict.get("iat"),
                 "exp": magic_link_dict.get("exp"),
                 "token": magic_link_dict.get("token"),
+                "link": magic_link_dict.get("link"),
                 "redirectUrl": magic_link_dict.get("redirectUrl"),
                 "key": magic_link_dict.get("key"),
             }
