@@ -12,8 +12,9 @@ class TestConfig(Config):
     VCAP_SERVICES = VcapServices.from_env_json(environ.get("VCAP_SERVICES"))
 
     # Redis
+    REDIS_INSTANCE_NAME = "funding-service-magic-links-test"
     REDIS_INSTANCE_URI = VCAP_SERVICES.get_service_credentials_value(
-        "redis", "funding-service-magic-links-test", "uri"
+        "redis", REDIS_INSTANCE_NAME, "uri"
     )
     REDIS_MLINKS_URL = REDIS_INSTANCE_URI + "/0"
     REDIS_SESSIONS_URL = REDIS_INSTANCE_URI + "/1"
