@@ -8,6 +8,8 @@ from config.utils import VcapServices
 
 class TestConfig(Config):
 
+    SECRET_KEY = environ.get("SECRET_KEY", "test")
+
     # GOV.UK PaaS
     VCAP_SERVICES = VcapServices.from_env_json(environ.get("VCAP_SERVICES"))
 
