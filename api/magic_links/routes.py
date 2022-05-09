@@ -146,12 +146,15 @@ class MagicLinksView(MethodView):
 
             # If link key successfully saved then return
             if link_key:
+                magic_link = (
+                    env.config.get("AUTHENTICATOR_HOST")
+                    + "/magic-links/"
+                    + link_key
+                )
                 new_link_json.update(
                     {
                         "key": link_key,
-                        "link": env.config.get("AUTHENTICATOR_HOST")
-                        + "/magic-links/"
-                        + link_key,
+                        "link": magic_link,
                     }
                 )
                 return magic_link_201_response(new_link_json)
