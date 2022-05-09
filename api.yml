@@ -10,8 +10,6 @@ tags:
     description: Magic link operations
   - name: sessions
     description: Session operations
-  - name: demo
-    description: Demonstration routes
 components:
   schemas:
     GeneralError:
@@ -172,43 +170,3 @@ paths:
           description: SUCCESS - Active user session details returned
         404:
           description: ERROR - User session could not be found
-  /login:
-    get:
-      tags:
-        - demo
-      summary: Microsoft Authentication Library Demo Login
-      description: Demo login page
-      operationId: api.demo.routes.login
-      responses:
-        200:
-          description: SUCCESS - Demo login page
-  /logout:
-    get:
-      tags:
-        - demo
-      summary: Microsoft Authentication Library Logout redirect
-      description: Demo login page
-      operationId: api.demo.routes.logout
-      responses:
-        200:
-          description: SUCCESS - Demo logout page
-  /graphcall:
-    get:
-      tags:
-        - demo
-      summary: Microsoft Authentication Library Demo Graph Call
-      description: Demo graph call
-      operationId: api.demo.routes.graphcall
-      responses:
-        200:
-          description: SUCCESS - Demo graph call
-  /getAToken:
-      get:
-        tags:
-          - demo
-        summary: Microsoft Authentication Library Get a Token
-        description: Demo get a token page
-        operationId: api.demo.routes.authorized
-        responses:
-          200:
-            description: SUCCESS - Demo get a token page
