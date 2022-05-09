@@ -67,6 +67,8 @@ class Config(object):
 
     # APIs
     ACCOUNT_STORE_API_HOST = environ.get("ACCOUNT_STORE_API_HOST")
+    # Account Store Endpoints
+    ACCOUNT_STORE_ACCOUNT_ENDPOINT = "/accounts?email_address={email}"
 
     # Security Settings (for Talisman Config)
     FORCE_HTTPS = True
