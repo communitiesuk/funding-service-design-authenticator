@@ -16,7 +16,9 @@ def create_app(testing=False) -> Flask:
 
     flask_app = connexion_app.app
     if testing:
-        flask_app.config.from_object("config.environments.local.LocalConfig")
+        flask_app.config.from_object(
+            "config.environments.development.DevelopmentConfig"
+        )
     else:
         flask_app.config.from_object("config.Config")
 
