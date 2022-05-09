@@ -18,6 +18,7 @@ class LocalConfig(Config):
     AUTHENTICATOR_HOST = "http://localhost:5000"
 
     # Azure Active Directory Config
+    # This secret is only used for local testing purposes
     AZURE_AD_CLIENT_SECRET = "nmq8Q~acUEOPWmjfvbOEQLPZy2M38yLe1PEh_cS2"
     AZURE_AD_AUTHORITY = (
         # consumers|organisations - signifies the Azure AD tenant endpoint

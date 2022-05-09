@@ -39,12 +39,13 @@ class DevConfig(Config):
     with open(_test_public_key_path, mode="rb") as public_key_file:
         RSA256_PUBLIC_KEY = public_key_file.read()
 
-    # GovCloud
+    # GOV.UK PaaS
     VCAP_SERVICES = VcapServices.from_env_json(environ.get("VCAP_SERVICES"))
 
     # Redis
+    REDIS_INSTANCE_NAME = "funding-service-magic-links-dev"
     REDIS_INSTANCE_URI = VCAP_SERVICES.get_service_credentials_value(
-        "redis", "funding-service-magic-links-dev", "uri"
+        "redis", REDIS_INSTANCE_NAME, "uri"
     )
     REDIS_MLINKS_URL = REDIS_INSTANCE_URI + "/0"
     REDIS_SESSIONS_URL = REDIS_INSTANCE_URI + "/1"

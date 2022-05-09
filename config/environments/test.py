@@ -8,7 +8,7 @@ from config.utils import VcapServices
 
 class TestConfig(Config):
 
-    # GovCloud
+    # GOV.UK PaaS
     VCAP_SERVICES = VcapServices.from_env_json(environ.get("VCAP_SERVICES"))
 
     # Redis
