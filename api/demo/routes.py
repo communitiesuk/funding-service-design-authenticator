@@ -38,8 +38,6 @@ def login():
         "login.html",
         auth_url=session["flow"]["auth_uri"],
         version=msal.__version__,
-        vcap_services=env.config.get("VCAP_SERVICES"),
-        secret=env.config.get("SECRET_KEY"),
     )
 
 
