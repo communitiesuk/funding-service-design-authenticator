@@ -10,12 +10,14 @@ Built with Flask.
 
 ## Prerequisites
 - python ^= 3.10
+- redis ^= 7.0.0
 
 # Getting started
 
 ## Installation
 
-Clone the repository
+- Clone the repository
+- Ensure you have [Redis](https://redis.io/docs/getting-started/) installed and running, with a clean instance available at *redis://localhost:6379*
 
 ### Create a Virtual environment
 
