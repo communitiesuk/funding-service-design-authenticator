@@ -3,7 +3,7 @@ from os import environ
 FLASK_ENV = environ.get("FLASK_ENV")
 
 if FLASK_ENV == "local":
-    from config.environments.local import LocalConfig as Config
+    from config.environments.development import DevelopmentConfig as Config
 elif FLASK_ENV == "dev":
     from config.environments.dev import DevConfig as Config
 elif FLASK_ENV == "test":

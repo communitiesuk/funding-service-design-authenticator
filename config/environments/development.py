@@ -5,14 +5,14 @@ import redis
 from config.environments.default import Config
 
 
-class LocalConfig(Config):
+class DevelopmentConfig(Config):
     #  Application Config
     SECRET_KEY = "dev"
     SESSION_COOKIE_NAME = "session_cookie"
     FLASK_ROOT = path.dirname(
         path.dirname(path.dirname(path.realpath(__file__)))
     )
-    FLASK_ENV = "local"
+    FLASK_ENV = "development"
 
     # Hostname for this service
     AUTHENTICATOR_HOST = "http://localhost:5000"
