@@ -86,8 +86,7 @@ class MagicLinksView(MethodView):
         :param max_tries: An integer of the maximum tries
         :return: The unique short key for the link hash (or None)
         """
-        tries = 0
-        while tries < max_tries:
+        for _ in range(max_tries):
             prefixed_key, unique_key = self._make_short_key(prefix)
             created = self.redis_mlinks.setex(
                 prefixed_key,
@@ -96,7 +95,6 @@ class MagicLinksView(MethodView):
             )
             if created:
                 return prefixed_key, unique_key
-            tries += 1
 
     def _create_user_record(self, account: Account, link_redis_key: str):
         """
