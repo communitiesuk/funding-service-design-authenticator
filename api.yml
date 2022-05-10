@@ -58,7 +58,6 @@ paths:
                 type: array
                 items:
                   type: string
-#                  $ref: '#/components/schemas/MagicLink'
       parameters:
         - name: link_id
           in: query
