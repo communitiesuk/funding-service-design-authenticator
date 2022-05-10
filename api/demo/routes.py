@@ -70,7 +70,7 @@ def logout():
     )
 
 
-@demo_bp.route("/graphcall", methods=["GET"])
+@demo_bp.route("/graph-call", methods=["GET"])
 def graphcall():
     token = _get_token_from_cache(env.config.get("MS_GRAPH_PERMISSIONS_SCOPE"))
     if not token:
