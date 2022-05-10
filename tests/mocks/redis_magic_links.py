@@ -3,7 +3,6 @@ Mock redis magic links db
 """
 import pytest
 
-
 ml_data = {}
 
 
@@ -41,11 +40,11 @@ class RedisMLinks(object):
         return names, ml_data
 
 
-@pytest.fixture(scope="session", autouse=True)
-def mock_redis_magic_links(session_mocker):
-    session_mocker.patch("app.redis_mlinks.setnx", RedisMLinks.setnx)
-    session_mocker.patch("app.redis_mlinks.get", RedisMLinks.get)
-    session_mocker.patch("app.redis_mlinks.set", RedisMLinks.set)
-    session_mocker.patch("app.redis_mlinks.setex", RedisMLinks.setex)
-    session_mocker.patch("app.redis_mlinks.delete", RedisMLinks.delete)
-    session_mocker.patch("app.redis_mlinks.keys", RedisMLinks.keys)
+@pytest.fixture()
+def mock_redis_magic_links(mocker):
+    mocker.patch("app.redis_mlinks.setnx", RedisMLinks.setnx)
+    mocker.patch("app.redis_mlinks.get", RedisMLinks.get)
+    mocker.patch("app.redis_mlinks.set", RedisMLinks.set)
+    mocker.patch("app.redis_mlinks.setex", RedisMLinks.setex)
+    mocker.patch("app.redis_mlinks.delete", RedisMLinks.delete)
+    mocker.patch("app.redis_mlinks.keys", RedisMLinks.keys)
