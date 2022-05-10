@@ -19,7 +19,6 @@ def get_data(endpoint: str):
 
 
 def get_local_data(endpoint: str):
-    print(endpoint)
     api_data_json = os.path.join(
         env.config.get("FLASK_ROOT"), "tests", "api_data", "endpoint_data.json"
     )
