@@ -11,8 +11,9 @@ class RedisSessions(object):
     def set(key, val):
         session_data[key] = val
 
-    def setex(self, name=None, value=None, time=None):
+    def setex(self, name=None, time=None, value=None):
         session_data[name] = value
+        return 1
 
     @staticmethod
     def setnx(key, val):
@@ -24,7 +25,7 @@ class RedisSessions(object):
 
     @staticmethod
     def get(key):
-        return session_data[key]
+        return session_data.get(key)
 
     def delete(self, *names):
         for name in names:
