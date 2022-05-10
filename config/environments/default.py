@@ -64,6 +64,9 @@ class Config(object):
     MAGIC_LINK_EXPIRY_SECONDS = (86400 * MAGIC_LINK_EXPIRY_DAYS) + (
         60 * MAGIC_LINK_EXPIRY_MINUTES
     )
+    MAGIC_LINK_REDIRECT_URL = "https://example.com"
+    MAGIC_LINK_RECORD_PREFIX = "link"
+    MAGIC_LINK_USER_PREFIX = "account"
 
     # APIs
     ACCOUNT_STORE_API_HOST = environ.get("ACCOUNT_STORE_API_HOST")
