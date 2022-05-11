@@ -12,13 +12,13 @@ def magic_link_201_response(magic_link_dict: dict):
     return (
         make_response(
             {
-                "accountId": magic_link_dict.get("accountId"),
-                "iat": magic_link_dict.get("iat"),
-                "exp": magic_link_dict.get("exp"),
-                "token": magic_link_dict.get("token"),
-                "link": magic_link_dict.get("link"),
-                "redirectUrl": magic_link_dict.get("redirectUrl"),
-                "key": magic_link_dict.get("key"),
+                "accountId": magic_link_dict["accountId"],
+                "iat": magic_link_dict["iat"],
+                "exp": magic_link_dict["exp"],
+                "token": magic_link_dict["token"],
+                "link": magic_link_dict["link"],
+                "redirectUrl": magic_link_dict["redirectUrl"],
+                "key": magic_link_dict["key"],
             }
         ),
         201,
