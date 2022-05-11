@@ -1,9 +1,9 @@
 from datetime import datetime
 
 import jwt
+from api.responses import error_response
 from api.session.exceptions import SessionCreateError
 from config.env import env
-from flask import abort
 from flask import make_response
 from flask import redirect
 from flask import request
@@ -34,8 +34,8 @@ class AuthSessionView(MethodView):
                 valid_token = validate_token(token)
                 return make_response(valid_token), 200
             except jwt.PyJWTError:
-                abort(404, "Session token expired or invalid")
-        abort(404, "No session token found")
+                error_response(404, "Session token expired or invalid")
+        error_response(404, "No session token found")
 
     @classmethod
     def create_session_and_redirect(cls, account_id: str, redirect_url: str):
@@ -55,7 +55,7 @@ class AuthSessionView(MethodView):
             )
             return response
         except SessionCreateError as e:
-            abort(404, str(e))
+            error_response(404, str(e))
 
     @classmethod
     def create_session_details_with_token(cls, account_id: str):
