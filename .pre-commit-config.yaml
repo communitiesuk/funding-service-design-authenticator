@@ -7,6 +7,7 @@ repos:
       args:
         - --line-length=79
         - --experimental-string-processing
+        - --target-version=py310
 -   repo: https://gitlab.com/pycqa/flake8
     rev: 3.9.2
     hooks:

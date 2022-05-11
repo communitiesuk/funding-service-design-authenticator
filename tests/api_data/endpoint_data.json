@@ -1,0 +1,12 @@
+{
+  "account_store/accounts?email_address=a@example.com": {
+    "id": "userA",
+    "emailAddress": "a@example.com",
+    "applications": []
+  },
+  "account_store/accounts?email_address=b@example.com": {
+    "id": "userB",
+    "emailAddress": "b@example.com",
+    "applications": []
+  }
+}

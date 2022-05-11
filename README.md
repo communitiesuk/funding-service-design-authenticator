@@ -1,7 +1,7 @@
 # Funding Service Design - Authenticator
 
 [![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/)
-![Funding Service Design Authenticator Deploy](https://github.com/communitiesuk/funding-service-design-authenticator/actions/workflows/govcloud.yml/badge.svg)
+![Funding Service Design Authenticator Deploy](https://github.com/communitiesuk/funding-service-design-authenticator/actions/workflows/deploy.yml/badge.svg)
 [![CodeQL](https://github.com/communitiesuk/funding-service-design-authenticator/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/communitiesuk/funding-service-design-autheticator/actions/workflows/codeql-analysis.yml)
 
 Repo for the DLUCH Funding Service Design Authenticator.
@@ -10,12 +10,14 @@ Built with Flask.
 
 ## Prerequisites
 - python ^= 3.10
+- redis ^= 7.0.0
 
 # Getting started
 
 ## Installation
 
-Clone the repository
+- Clone the repository
+- Ensure you have [Redis](https://redis.io/docs/getting-started/) installed and running, with a clean instance available at *redis://localhost:6379*
 
 ### Create a Virtual environment
 

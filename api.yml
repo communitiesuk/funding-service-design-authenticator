@@ -1,0 +1,171 @@
+openapi: "3.0.0"
+info:
+  description: Authentication API for DLUHC Funding Service Design
+  version: "1.0.0"
+  title: Funding Service Design - Authenticator
+tags:
+  - name: sso
+    description: Single sign-on operations
+  - name: magic links
+    description: Magic link operations
+  - name: sessions
+    description: Session operations
+components:
+  schemas:
+    GeneralError:
+      type: object
+      properties:
+        status:
+          type: string
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+    MagicLink:
+      type: object
+      properties:
+        accountId:
+          type: string
+        exp:
+          type: integer
+          format: int64
+        iat:
+          type: integer
+          format: int64
+        link:
+          type: string
+        key:
+          type: string
+        redirectUrl:
+          type: string
+        token:
+          type: string
+paths:
+  /magic-links:
+    get:
+      tags:
+        - magic links
+      summary: Search magic link
+      description: List all magic links
+      operationId: api.MagicLinksView.search
+      responses:
+        200:
+          description: SUCCESS - A list of magic link keys
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+      parameters:
+        - name: link_id
+          in: query
+          required: false
+          schema:
+            type: string
+            format: query
+  '/magic-links/{link_id}':
+    get:
+      tags:
+        - magic links
+      summary: Use a magic link
+      description: Check if link is valid and redirect to url
+      operationId: api.MagicLinksView.use
+      responses:
+        302:
+          description: SUCCESS - Redirect valid magic link to requested redirectUrl
+        404:
+          description: ERROR - Magic link expired or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+      parameters:
+        - name: link_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: path
+  '/magic-links/{email}':
+    post:
+      tags:
+        - magic links
+      summary: Create a magic link
+      description: Get a fresh magic link for an account holder
+      operationId: api.MagicLinksView.create
+      parameters:
+        - name: email
+          in: path
+          required: true
+          schema:
+            type: string
+            format: path
+      responses:
+        201:
+          description: SUCCESS - Active magic link created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MagicLink'
+        401:
+          description: ERROR - Could not create magic link
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+
+  /sso/login:
+    get:
+      tags:
+        - sso
+      summary: Microsoft Authentication Library Login redirect
+      description: Redirect to Microsoft Authentication Login Flow
+      operationId: api.sso.routes.SsoView.login
+      responses:
+        302:
+          description: SUCCESS - Redirect to Microsoft Authentication Login Flow
+  /sso/logout:
+    get:
+      tags:
+        - sso
+      summary: Microsoft Authentication Library Logout redirect
+      description: Redirect to Microsoft Authentication Logout Flow
+      operationId: api.sso.routes.SsoView.logout
+      responses:
+        302:
+          description: SUCCESS - Redirect to Microsoft Authentication Logout Flow
+  /sso/graph-call:
+    get:
+      tags:
+        - sso
+      summary: Microsoft Authentication Library graph call
+      description: Return current user session graph object
+      operationId: api.sso.routes.SsoView.graph_call
+      responses:
+        200:
+          description: SUCCESS - Valid user graph object
+  /sso/get-token:
+    get:
+      tags:
+        - sso
+      summary: Microsoft Authentication Library get token
+      description: Return current user session authentication token
+      operationId: api.sso.routes.SsoView.get_token
+      responses:
+        200:
+          description: SUCCESS - Valid user token
+
+  /sessions/user:
+    get:
+      tags:
+        - sessions
+      summary: Get a users session details
+      description: Get a users session details
+      operationId: api.AuthSessionView.user
+      responses:
+        200:
+          description: SUCCESS - Active user session details returned
+        404:
+          description: ERROR - User session could not be found
