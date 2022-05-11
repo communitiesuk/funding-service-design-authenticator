@@ -67,7 +67,7 @@ def test_sso_graphcall_returns_404(flask_test_client, mock_redis_sessions):
     WHEN a GET request for /sso/graphcall
     THEN we should be redirected to Microsoft Login
     """
-    endpoint = "/sso/graphcall"
+    endpoint = "/sso/graph-call"
     response = flask_test_client.get(endpoint)
 
     assert response.status_code == 404

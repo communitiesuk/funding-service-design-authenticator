@@ -67,9 +67,9 @@ class SsoView(MethodView):
             warnings.warn(f"Value Error on get_token route: {str(e)}")
         return {"message": "No valid token"}, 404
 
-    def graphcall(self):
+    def graph_call(self):
         """
-        GET /sso/graphcall endpoint
+        GET /sso/graph-call endpoint
         Shows the graph object for the current authenticated user
         Requires a valid token in the session
         :return: 200 json of user graph data or 404 not found

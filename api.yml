@@ -136,13 +136,13 @@ paths:
       responses:
         302:
           description: SUCCESS - Redirect to Microsoft Authentication Logout Flow
-  /sso/graphcall:
+  /sso/graph-call:
     get:
       tags:
         - sso
       summary: Microsoft Authentication Library graph call
       description: Return current user session graph object
-      operationId: api.sso.routes.SsoView.graphcall
+      operationId: api.sso.routes.SsoView.graph_call
       responses:
         200:
           description: SUCCESS - Valid user graph object
