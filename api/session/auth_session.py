@@ -33,9 +33,8 @@ class AuthSessionView(MethodView):
             try:
                 valid_token = validate_token(token)
                 return make_response(valid_token), 200
-            except jwt.PyJWTError as e:
-                # abort(404, "Session token expired or invalid")
-                abort(404, str(e))
+            except jwt.PyJWTError:
+                abort(404, "Session token expired or invalid")
         abort(404, "No session token found")
 
     @classmethod
