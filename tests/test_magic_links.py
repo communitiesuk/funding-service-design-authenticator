@@ -21,8 +21,12 @@ class TestMagicLinks:
         :param flask_test_client:
         """
         expected_link_attributes = {"accountId": "userA"}
-        endpoint = "/magic-links/a@example.com"
-        response = flask_test_client.post(endpoint)
+        payload = {
+            "email": "a@example.com",
+            "redirectUrl": "https://example.com/redirect-url",
+        }
+        endpoint = "/magic-links"
+        response = flask_test_client.post(endpoint, json=payload)
         magic_link = response.get_json()
         self.created_link_keys.append(magic_link.get("key"))
 
