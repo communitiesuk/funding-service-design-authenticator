@@ -1,0 +1,7 @@
+{% from "govuk_frontend_jinja/components/header/macro.html" import govukHeader -%}
+
+{{ govukHeader({
+  'homepageUrl': url_for('default_bp.index'),
+  'serviceName': service_title,
+  'serviceUrl': url_for('default_bp.index')
+}) }}

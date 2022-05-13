@@ -17,3 +17,10 @@ flask-redis==0.4.0
 pytest-mock==3.7.0
 flask-talisman==0.8.1
 gunicorn==20.1.0
+govuk-frontend-jinja==2.0.0
+Flask-Assets==2.0
+cssmin==0.2.0
+jsmin==3.0.1
+pyScss==1.4.0
+Flask-Compress==1.10.1
+Flask-WTF==1.0.0

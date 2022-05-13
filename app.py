@@ -1,12 +1,19 @@
+from os import environ
+
 import connexion
 from api.demo.routes import build_auth_code_flow
 from config.env import env
 from connexion.resolver import MethodViewResolver
 from flask import Flask
 from flask import request
+from flask_assets import Environment
 from flask_redis import FlaskRedis
 from flask_session import Session
 from flask_talisman import Talisman
+from frontend.assets import compile_static_assets
+from jinja2 import ChoiceLoader
+from jinja2 import PackageLoader
+from jinja2 import PrefixLoader
 
 redis_mlinks = FlaskRedis(config_prefix="REDIS_MLINKS")
 
@@ -15,6 +22,19 @@ def create_app(testing=False) -> Flask:
     connexion_app = connexion.FlaskApp(__name__, specification_dir="")
 
     flask_app = connexion_app.app
+    flask_app.static_folder = "frontend/static/dist/"
+    flask_app.jinja_loader = ChoiceLoader(
+        [
+            PackageLoader("frontend"),
+            PrefixLoader(
+                {"govuk_frontend_jinja": PackageLoader("govuk_frontend_jinja")}
+            ),
+        ]
+    )
+
+    flask_app.jinja_env.trim_blocks = True
+    flask_app.jinja_env.lstrip_blocks = True
+
     if testing:
         flask_app.config.from_object(
             "config.environments.development.DevelopmentConfig"
@@ -68,12 +88,42 @@ def create_app(testing=False) -> Flask:
         else:
             talisman.content_security_policy = env.config.get("STRICT_CSP")
 
+    # This is silently used by flask in the background.
+    @flask_app.context_processor
+    def inject_global_constants():
+        return dict(
+            stage="beta",
+            service_title="Funding Service Design - Authenticator",
+            service_meta_description=(
+                "Funding Service Design Iteration - Authenticator"
+            ),
+            service_meta_keywords="Funding Service Design - Authenticator",
+            service_meta_author="DLUHC",
+        )
+
     with flask_app.app_context():
+        from frontend.default.routes import (
+            default_bp,
+            not_found,
+            internal_server_error,
+        )
+        from frontend.magic_links.routes import magic_links_bp
         from api.demo.routes import demo_bp
 
+        flask_app.register_error_handler(404, not_found)
+        flask_app.register_error_handler(500, internal_server_error)
+        flask_app.register_blueprint(default_bp)
+        flask_app.register_blueprint(magic_links_bp)
         flask_app.register_blueprint(demo_bp)
 
-    return flask_app
+        # Bundle and compile assets
+        assets = Environment()
+        assets.init_app(flask_app)
+        compile_static_assets(
+            assets, build=(environ.get("FLASK_ENV") == "development")
+        )
+
+        return flask_app
 
 
 app = create_app()

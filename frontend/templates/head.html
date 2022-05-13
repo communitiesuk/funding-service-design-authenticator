@@ -1,0 +1,7 @@
+<meta name="description" content="{{ service_meta_description }}">
+<meta name="keywords" content="{{ service_meta_keywords }}">
+<meta name="author" content="{{ service_meta_author }}">
+<!--[if gt IE 8]><!--><link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='govuk-frontend/govuk-frontend-4.0.0.min.css') }}" /><!--<![endif]-->
+<!--[if IE 8]><link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='govuk-frontend/govuk-frontend-ie8-4.0.0.min.css') }}" /><![endif]-->
+<!--[if gt IE 8]><!--><link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.min.css') }}" /><!--<![endif]-->
+<script nonce="{{ csp_nonce() }}" src="{{ url_for('static', filename='js/main.min.js') }}" async></script>

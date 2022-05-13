@@ -41,9 +41,10 @@ From the top-level directory enter the command to install pip and the dependenci
 ## How to use
 Enter the virtual environment as described above, then:
 
-### Build Swagger
+### Build Swagger & GovUK Assets
 
-Customised swagger files which slightly clean the layout provided by the vanilla SwaggerUI 3.52.0 (which is included in dependency swagger-ui-bundle==0.0.9) are located at /swagger/custom/3_52_0.
+This build step imports assets required for the GovUK template and styling components.
+It also builds customised swagger files which slightly clean the layout provided by the vanilla SwaggerUI 3.52.0 (which is included in dependency swagger-ui-bundle==0.0.9) are located at /swagger/custom/3_52_0.
 
 Before first usage, the vanilla bundle needs to be imported and overwritten with the modified files. To do this run:
 

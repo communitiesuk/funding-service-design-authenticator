@@ -12,6 +12,12 @@ class Config(object):
     )
     FLASK_ENV = environ.get("FLASK_ENV")
 
+    # Frontend
+    STATIC_FOLDER = "static"
+    TEMPLATES_FOLDER = "templates"
+    ASSETS_DEBUG = False
+    ASSETS_AUTO_BUILD = True
+
     # Hostname for this service
     AUTHENTICATOR_HOST = environ.get("AUTHENTICATOR_HOST", "")
 
@@ -67,6 +73,7 @@ class Config(object):
     MAGIC_LINK_REDIRECT_URL = "https://example.com"
     MAGIC_LINK_RECORD_PREFIX = "link"
     MAGIC_LINK_USER_PREFIX = "account"
+    NEW_MAGIC_LINK_URL = "/service/magic-links"
 
     # APIs
     ACCOUNT_STORE_API_HOST = environ.get("ACCOUNT_STORE_API_HOST")
