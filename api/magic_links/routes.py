@@ -13,6 +13,7 @@ from config.env import env
 from flask import redirect
 from flask import request
 from flask import Response
+from flask import url_for
 from flask.views import MethodView
 from flask_redis import FlaskRedis
 from security.utils import create_token
@@ -180,11 +181,10 @@ class MagicLinksView(MethodView):
                     redirect_url=link.get("redirectUrl"),
                 )
             return redirect(
-                env.config.get("INVALID_MAGIC_LINK_URL") + "?e=Link+expired"
+                url_for("magic_links_bp.invalid", error="Link expired")
             )
         return redirect(
-            env.config.get("INVALID_MAGIC_LINK_URL")
-            + "?e=Link+expired+or+invalid"
+            url_for("magic_links_bp.invalid", error="Link expired or invalid")
         )
 
     def create(self):

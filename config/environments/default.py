@@ -74,7 +74,6 @@ class Config(object):
     MAGIC_LINK_RECORD_PREFIX = "link"
     MAGIC_LINK_USER_PREFIX = "account"
     NEW_MAGIC_LINK_URL = "/service/magic-links"
-    INVALID_MAGIC_LINK_URL = "/service/magic-links/invalid"
 
     # APIs
     ACCOUNT_STORE_API_HOST = environ.get("ACCOUNT_STORE_API_HOST")
