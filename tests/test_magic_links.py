@@ -21,8 +21,12 @@ class TestMagicLinks:
         :param flask_test_client:
         """
         expected_link_attributes = {"accountId": "userA"}
-        endpoint = "/magic-links/a@example.com"
-        response = flask_test_client.post(endpoint)
+        payload = {
+            "email": "a@example.com",
+            "redirectUrl": "https://example.com/redirect-url",
+        }
+        endpoint = "/magic-links"
+        response = flask_test_client.post(endpoint, json=payload)
         magic_link = response.get_json()
         self.created_link_keys.append(magic_link.get("key"))
 
@@ -54,17 +58,12 @@ class TestMagicLinks:
         THEN we receive a 403 Forbidden response
         :param flask_test_client:
         """
-        expected_error = {
-            "status": "error",
-            "code": 403,
-            "message": "Link expired or invalid",
-        }
         used_link_key = self.used_link_keys.pop(0)
         reuse_endpoint = f"/magic-links/{used_link_key}"
-        response = flask_test_client.get(reuse_endpoint)
+        response = flask_test_client.get(reuse_endpoint, follow_redirects=True)
 
         assert response.status_code == 403
-        assert response.get_json() == expected_error
+        assert b"Invalid Link" in response.data
 
     def test_invalid_magic_link_returns_forbidden(self, flask_test_client):
         """
@@ -74,13 +73,8 @@ class TestMagicLinks:
         THEN we receive a 403 Forbidden response
         :param flask_test_client:
         """
-        expected_error = {
-            "status": "error",
-            "code": 403,
-            "message": "Link expired or invalid",
-        }
         use_endpoint = "/magic-links/invalidlink"
-        response = flask_test_client.get(use_endpoint)
+        response = flask_test_client.get(use_endpoint, follow_redirects=True)
 
         assert response.status_code == 403
-        assert response.get_json() == expected_error
+        assert b"Invalid Link" in response.data

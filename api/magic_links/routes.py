@@ -10,7 +10,10 @@ from api.session.auth_session import AuthSessionView
 from api.session.data import get_account
 from api.session.models.account import Account
 from config.env import env
+from flask import redirect
+from flask import request
 from flask import Response
+from flask import url_for
 from flask.views import MethodView
 from flask_redis import FlaskRedis
 from security.utils import create_token
@@ -177,16 +180,24 @@ class MagicLinksView(MethodView):
                     account_id=link.get("accountId"),
                     redirect_url=link.get("redirectUrl"),
                 )
-            return error_response(403, "Link expired")
-        return error_response(403, "Link expired or invalid")
+            return redirect(
+                url_for("magic_links_bp.invalid", error="Link expired")
+            )
+        return redirect(
+            url_for("magic_links_bp.invalid", error="Link expired or invalid")
+        )
 
-    def create(self, email: str, redirect_url: str = None):
+    def create(self):
         """
         Creates a magic link for an existing account holder
         :param email: the account holders email address
         :param redirect_url: the url the link should redirect to
         :return: a json of the magic link created (or an error of failure)
         """
+        email = request.get_json().get("email")
+        redirect_url = request.get_json().get("redirectUrl")
+        if not email:
+            return error_response(400, "Email is required")
         if not redirect_url:
             redirect_url = env.config.get("MAGIC_LINK_REDIRECT_URL")
         account = get_account(email)
@@ -214,7 +225,6 @@ class MagicLinksView(MethodView):
                         "link": magic_link_url,
                     }
                 )
-                print(redis_key)
                 return magic_link_201_response(new_link_json)
             return error_response(500, "Could not create a unique link")
         return error_response(401, "Account does not exist")

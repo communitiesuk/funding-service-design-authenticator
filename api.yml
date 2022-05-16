@@ -22,6 +22,13 @@ components:
           format: int32
         message:
           type: string
+    MagicLinkCreate:
+      type: object
+      properties:
+        email:
+          type: string
+        redirectUrl:
+          type: string
     MagicLink:
       type: object
       properties:
@@ -65,6 +72,35 @@ paths:
           schema:
             type: string
             format: query
+    post:
+      tags:
+        - magic links
+      summary: Create a magic link
+      description: Get a fresh magic link for an account holder
+      operationId: api.MagicLinksView.create
+      requestBody:
+        description: Magic link creation parameters
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MagicLinkCreate'
+            example:
+              email: 'a@example.com'
+              redirectUrl: 'https://example.com/redirect-url'
+      responses:
+        201:
+          description: SUCCESS - Active magic link created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MagicLink'
+        401:
+          description: ERROR - Could not create magic link
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
   '/magic-links/{link_id}':
     get:
       tags:
@@ -88,33 +124,6 @@ paths:
           schema:
             type: string
             format: path
-  '/magic-links/{email}':
-    post:
-      tags:
-        - magic links
-      summary: Create a magic link
-      description: Get a fresh magic link for an account holder
-      operationId: api.MagicLinksView.create
-      parameters:
-        - name: email
-          in: path
-          required: true
-          schema:
-            type: string
-            format: path
-      responses:
-        201:
-          description: SUCCESS - Active magic link created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/MagicLink'
-        401:
-          description: ERROR - Could not create magic link
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GeneralError'
 
   /sso/login:
     get:

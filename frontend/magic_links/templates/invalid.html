@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{%- from "govuk_frontend_jinja/components/inset-text/macro.html" import govukInsetText -%}
+{%- from "govuk_frontend_jinja/components/button/macro.html" import govukButton -%}
+
+{% block content %}
+  <div>
+      <h1 class="govuk-heading-xl">Invalid Link</h1>
+  </div>
+<div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" data-module="govuk-error-summary">
+  <h2 class="govuk-error-summary__title" id="error-summary-title">
+    This link has expired
+  </h2>
+  <div class="govuk-error-summary__body">
+      <ul class="govuk-list govuk-error-summary__list">
+      <li>
+        <p class="fsd-error-message">Your magic link has expired, if you'd like to work on your application you'll need a new one.</p>
+      </li>
+    </ul>
+  </div>
+</div>
+{{ govukButton({
+    "isStartButton": True,
+    "href" : new_magic_link_url,
+  "text": "Get a new magic link"
+}) }}
+{% endblock %}
