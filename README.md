@@ -61,9 +61,9 @@ Run:
 
 A local dev server will be created on
 
-    http://localhost:5028/
+    http://localhost:5000
 
-Flask environment variables are configurable in .flaskenv
+Flask environment variables are configurable in `.flaskenv`
 
 # Configuration
 
