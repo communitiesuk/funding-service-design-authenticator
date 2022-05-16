@@ -14,6 +14,7 @@ magic_links_bp = Blueprint(
 def invalid():
     new_magic_link_url = env.config.get("NEW_MAGIC_LINK_URL")
 
-    return render_template(
-        "invalid.html", new_magic_link_url=new_magic_link_url
+    return (
+        render_template("invalid.html", new_magic_link_url=new_magic_link_url),
+        403,
     )

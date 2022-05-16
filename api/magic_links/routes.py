@@ -10,6 +10,7 @@ from api.session.auth_session import AuthSessionView
 from api.session.data import get_account
 from api.session.models.account import Account
 from config.env import env
+from flask import redirect
 from flask import request
 from flask import Response
 from flask.views import MethodView
@@ -178,8 +179,13 @@ class MagicLinksView(MethodView):
                     account_id=link.get("accountId"),
                     redirect_url=link.get("redirectUrl"),
                 )
-            return error_response(403, "Link expired")
-        return error_response(403, "Link expired or invalid")
+            return redirect(
+                env.config.get("INVALID_MAGIC_LINK_URL") + "?e=Link+expired"
+            )
+        return redirect(
+            env.config.get("INVALID_MAGIC_LINK_URL")
+            + "?e=Link+expired+or+invalid"
+        )
 
     def create(self):
         """
