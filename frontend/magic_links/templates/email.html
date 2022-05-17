@@ -1,0 +1,67 @@
+{%- from "govuk_frontend_jinja/components/error-summary/macro.html" import govukErrorSummary -%}
+{%- from "govuk_frontend_jinja/components/input/macro.html" import govukInput -%}
+{%- from "govuk_frontend_jinja/components/button/macro.html" import govukButton -%}
+
+{% extends "base.html" %}
+
+
+{% block content %}
+<h1 class="govuk-heading-l">Get a magic link</h1>
+{% if form.errors %}
+  {{ govukErrorSummary({
+    "titleText": "Fix the following errors",
+    "errorList": form.error_list
+  }) }}
+{% endif %}
+
+<form method="POST">
+
+{{ form.csrf_token }}
+
+  {% if form.email.errors %}
+            {{ govukInput({
+                'label': {
+                    'text': form.email.label,
+                    'classes': "govuk-label--s"
+                },
+                'hint': {
+                    'text': form.email.description
+                },
+                'id': form.email.id,
+                'name': form.email.name,
+                'value': form.email.value,
+                "type": "email",
+                "autocomplete": "email",
+                "spellcheck": false,
+                'classes': form.email.classes,
+                'errorMessage': {
+                    'text': form.email.errors.0
+                }
+            }) }}
+        {% else %}
+            {{ govukInput({
+                'label': {
+                    'text': form.email.label,
+                    'classes': "govuk-label--s"
+                },
+                'hint': {
+                    'text': form.email.description
+                },
+                'id': form.email.id,
+                'name': form.email.name,
+                'value': form.email.data,
+                "type": "email",
+                "autocomplete": "email",
+                "spellcheck": false,
+                'classes': form.email.classes,
+            }) }}
+        {% endif %}
+
+{{ govukButton({
+  "text": "Continue",
+  "preventDoubleClick": true,
+}) }}
+
+</form>
+
+{% endblock %}

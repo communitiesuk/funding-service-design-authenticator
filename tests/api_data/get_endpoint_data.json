@@ -1,0 +1,50 @@
+{
+  "account_store/accounts?email_address=a%40example.com": {
+    "id": "usera",
+    "emailAddress": "a@example.com",
+    "applications": []
+  },
+  "account_store/accounts?email_address=b%40example.com": {
+    "id": "userb",
+    "emailAddress": "b@example.com",
+    "applications": []
+  },
+  "application_store/applications?account_id=usera$fund_id=funding-service-design&round_id=summer": {
+    "account_id": "usera",
+    "application_id": "usera-fsd-sum-1",
+    "fund_id": "funding-service-design",
+    "round_id": "summer",
+    "sections" : [
+      {
+        "section_name": "about-your-org",
+        "status": "NOT_STARTED",
+        "payload": {}
+      },
+      {
+        "section_name": "about-your-org",
+        "status": "NOT_STARTED",
+        "payload": {}
+      },
+      {
+        "section_name": "about-your-project",
+        "status": "NOT_STARTED",
+        "payload": {}
+      },
+      {
+        "section_name": "plan-your-project",
+        "status": "NOT_STARTED",
+        "payload": {}
+      },
+      {
+        "section_name": "deliver-your-project",
+        "status": "NOT_STARTED",
+        "payload": {}
+      },
+      {
+        "section_name": "declaration",
+        "status": "NOT_STARTED",
+        "payload": {}
+      }
+    ]
+  }
+}

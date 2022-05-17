@@ -1,0 +1,14 @@
+{%- from "govuk_frontend_jinja/components/input/macro.html" import govukInput -%}
+{%- from "govuk_frontend_jinja/components/button/macro.html" import govukButton -%}
+{%- from "govuk_frontend_jinja/components/panel/macro.html" import govukPanel -%}
+
+{% extends "base.html" %}
+
+{% block content %}
+
+{{ govukPanel({
+  "titleText": "We've emailed you a link to sign in",
+  "html": "Check your email and follow the link to continue your application"
+}) }}
+
+{% endblock %}
