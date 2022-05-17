@@ -56,6 +56,9 @@ class DevelopmentConfig(Config):
 
     # APIs
     ACCOUNT_STORE_API_HOST = "account_store"
+    FUND_STORE_API_HOST = "fund_store"
+    ROUND_STORE_API_HOST = "round_store"
+    NOTIFICATION_SERVICE_HOST = "notification_service"
 
     # Security
     FORCE_HTTPS = False

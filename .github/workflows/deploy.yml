@@ -70,6 +70,15 @@ jobs:
           cf_username: ${{secrets.CF_USER}}
           cf_password: ${{secrets.CF_PASSWORD}}
           command: push funding-service-design-authenticator-dev --var RSA256_PRIVATE_KEY="${{secrets.RSA256_PRIVATE_KEY}}" --var RSA256_PUBLIC_KEY="${{secrets.RSA256_PUBLIC_KEY}}" --var AZURE_AD_CLIENT_SECRET="${{secrets.AZURE_AD_CLIENT_SECRET}}" --var SECRET_KEY="${{secrets.SECRET_KEY}}" --var SESSION_COOKIE_NAME="${{secrets.SESSION_COOKIE_NAME}}"
+      - name: Apply network policy for notification service
+        uses: citizen-of-planet-earth/cf-cli-action@v2
+        with:
+          cf_api:      ${{secrets.CF_API}}
+          cf_org:      ${{secrets.CF_ORG}}
+          cf_space:    ${{secrets.CF_SPACE }}
+          cf_username: ${{secrets.CF_USER}}
+          cf_password: ${{secrets.CF_PASSWORD}}
+          command: add-network-policy funding-service-design-authenticator-dev funding-service-design-notification-dev --protocol tcp --port 8080
 
   security:
     needs: deploy_dev
@@ -120,6 +129,15 @@ jobs:
           cf_username: ${{secrets.CF_USER}}
           cf_password: ${{secrets.CF_PASSWORD}}
           command: push funding-service-design-authenticator-test --var RSA256_PRIVATE_KEY="${{secrets.RSA256_PRIVATE_KEY}}" --var RSA256_PUBLIC_KEY="${{secrets.RSA256_PUBLIC_KEY}}" --var AZURE_AD_CLIENT_SECRET="${{secrets.AZURE_AD_CLIENT_SECRET}}" --var SECRET_KEY="${{secrets.SECRET_KEY}}" --var SESSION_COOKIE_NAME="${{secrets.SESSION_COOKIE_NAME}}"
+      - name: Apply network policy for notification service
+        uses: citizen-of-planet-earth/cf-cli-action@v2
+        with:
+          cf_api:      ${{secrets.CF_API}}
+          cf_org:      ${{secrets.CF_ORG}}
+          cf_space:    ${{secrets.CF_SPACE }}
+          cf_username: ${{secrets.CF_USER}}
+          cf_password: ${{secrets.CF_PASSWORD}}
+          command: add-network-policy funding-service-design-authenticator-test funding-service-design-notification-test --protocol tcp --port 8080
 
   run_performance_tests:
     needs: deploy_test
