@@ -105,7 +105,7 @@ class Config(object):
     # Notification Service
     NOTIFICATION_SERVICE_HOST = environ.get("NOTIFICATION_SERVICE_HOST")
     SEND_ENDPOINT = "/send"
-    NOTIFY_TEMPLATE_MAGIC_LINK = "TEST_MAGIC_LINK"
+    NOTIFY_TEMPLATE_MAGIC_LINK = "MAGIC_LINK"
 
     """
     Security
