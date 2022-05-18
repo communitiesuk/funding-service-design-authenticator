@@ -54,9 +54,20 @@ def local_api_call(endpoint: str, params: dict = None, method: str = "get"):
     fp = open(api_data_json)
     api_data = json.load(fp)
     fp.close()
+    query_params = "_"
     if params:
         query_params = urllib.parse.urlencode(params)
+    if method.lower() == "post":
+        print(endpoint)
+        if endpoint in api_data:
+            post_dict = api_data.get(endpoint)
+            print(query_params)
+            if query_params in post_dict:
+                return post_dict.get(query_params)
+            else:
+                return post_dict.get("_default")
+    else:
         endpoint = f"{endpoint}?{query_params}"
-    print(endpoint)
-    if endpoint in api_data:
-        return api_data.get(endpoint)
+        print(endpoint)
+        if endpoint in api_data:
+            return api_data.get(endpoint)

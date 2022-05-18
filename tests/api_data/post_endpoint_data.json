@@ -1,57 +1,64 @@
 {
-  "account_store/accounts?email_address=a%40example.com": {
-    "id": "userA",
-    "emailAddress": "a@example.com",
-    "applications": []
+  "account_store/accounts": {
+    "email_address=a%40example.com": {
+      "account_id": "usera",
+      "emailAddress": "a@example.com",
+      "applications": []
+    },
+    "email_address=b%40example.com": {
+      "account_id": "userb",
+      "emailAddress": "b@example.com",
+      "applications": []
+    }
   },
-  "account_store/accounts?email_address=b%40example.com": {
-    "id": "userB",
-    "emailAddress": "b@example.com",
-    "applications": []
+  "notification_service/send":{
+    "_default": {
+      "status": "ok"
+    }
   },
-  "application_store/applications?account_id=usera$fund_id=funding-service-design&round_id=summer": {
-    "message": "Application already exists",
-    "code": 401,
-    "status": "error"
-  },
-  "notification_service/send?type=TEST_MAGIC_LINK&to=a@example.com&content=": {
-  },
-  "application_store/applications?account_id=userb$fund_id=funding-service-design&round_id=summer": {
-    "account_id": "userb",
-    "application_id": "userb-fsd-sum-1",
-    "fund_id": "funding-service-design",
-    "round_id": "summer",
-    "sections" : [
-      {
-        "section_name": "about-your-org",
-        "status": "NOT_STARTED",
-        "payload": {}
-      },
-      {
-        "section_name": "about-your-org",
-        "status": "NOT_STARTED",
-        "payload": {}
-      },
-      {
-        "section_name": "about-your-project",
-        "status": "NOT_STARTED",
-        "payload": {}
-      },
-      {
-        "section_name": "plan-your-project",
-        "status": "NOT_STARTED",
-        "payload": {}
-      },
-      {
-        "section_name": "deliver-your-project",
-        "status": "NOT_STARTED",
-        "payload": {}
-      },
-      {
-        "section_name": "declaration",
-        "status": "NOT_STARTED",
-        "payload": {}
-      }
-    ]
+  "application_store/applications":{
+    "account_id=usera&fund_id=funding-service-design&round_id=summer": {
+      "message": "Application already exists",
+      "code": 401,
+      "status": "error"
+    },
+    "account_id=userb$fund_id=funding-service-design&round_id=summer": {
+      "account_id": "userb",
+      "application_id": "userb-fsd-sum-1",
+      "fund_id": "funding-service-design",
+      "round_id": "summer",
+      "sections" : [
+        {
+          "section_name": "about-your-org",
+          "status": "NOT_STARTED",
+          "payload": {}
+        },
+        {
+          "section_name": "about-your-org",
+          "status": "NOT_STARTED",
+          "payload": {}
+        },
+        {
+          "section_name": "about-your-project",
+          "status": "NOT_STARTED",
+          "payload": {}
+        },
+        {
+          "section_name": "plan-your-project",
+          "status": "NOT_STARTED",
+          "payload": {}
+        },
+        {
+          "section_name": "deliver-your-project",
+          "status": "NOT_STARTED",
+          "payload": {}
+        },
+        {
+          "section_name": "declaration",
+          "status": "NOT_STARTED",
+          "payload": {}
+        }
+      ]
+    }
   }
 }
