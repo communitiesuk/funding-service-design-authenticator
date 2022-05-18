@@ -1,5 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import EmailField
+from wtforms import HiddenField
 from wtforms.validators import DataRequired
 from wtforms.validators import Email
 
@@ -14,6 +15,8 @@ class EmailForm(FlaskForm):
         description="eg. a@example.com",
         validators=[DataRequired(), Email()],
     )
+    fund_id = HiddenField()
+    round_id = HiddenField()
 
     @property
     def error_list(self):

@@ -34,10 +34,14 @@ def new():
     Returns a page containing a single question requesting the
     users email address.
     """
-    form = EmailForm(data=request.data)
-
     fund_id = request.args.get("fund_id")
     round_id = request.args.get("round_id")
+
+    form_data = request.data
+    if request.method == "GET":
+        form_data = request.args
+
+    form = EmailForm(data=form_data)
 
     if form.validate_on_submit():
         try:

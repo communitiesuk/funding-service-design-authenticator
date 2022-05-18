@@ -55,6 +55,7 @@ class DevelopmentConfig(Config):
     SESSION_REDIS = redis.from_url(REDIS_SESSIONS_URL)
 
     # APIs
+    APPLICATION_STORE_API_HOST = "application_store"
     ACCOUNT_STORE_API_HOST = "account_store"
     FUND_STORE_API_HOST = "fund_store"
     ROUND_STORE_API_HOST = "round_store"
