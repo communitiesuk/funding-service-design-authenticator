@@ -20,7 +20,7 @@ class Account(object):
     def from_json(data: dict):
         return Account(
             id=data.get("account_id"),
-            email=data.get("emailAddress"),
+            email=data.get("email_address"),
             applications=data.get("applications"),
         )
 

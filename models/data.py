@@ -8,13 +8,13 @@ from config.env import env
 
 def api_call(endpoint: str, method: str = "GET", params: dict = None):
     cleaned_params = {k: v for k, v in params.items() if v is not None}
-    if endpoint[:8] == "https://":
-        req = requests.PreparedRequest()
-        req.prepare_url(endpoint, cleaned_params)
+    if endpoint[:4] == "http":
         if method:
             if method == "POST":
-                return requests.post(req.url)
+                return requests.post(endpoint, json=cleaned_params)
             elif method == "GET":
+                req = requests.PreparedRequest()
+                req.prepare_url(endpoint, cleaned_params)
                 return requests.get(req.url)
     else:
         return local_api_call(endpoint, cleaned_params, method)
@@ -22,7 +22,7 @@ def api_call(endpoint: str, method: str = "GET", params: dict = None):
 
 def get_data(endpoint: str, params: dict = None):
     cleaned_params = {k: v for k, v in params.items() if v is not None}
-    if endpoint[:8] == "https://":
+    if endpoint[:4] == "http":
         req = requests.PreparedRequest()
         req.prepare_url(endpoint, cleaned_params)
         response = requests.get(req.url)
@@ -34,10 +34,10 @@ def get_data(endpoint: str, params: dict = None):
 
 def post_data(endpoint: str, params: dict = None):
     cleaned_params = {k: v for k, v in params.items() if v is not None}
-    if endpoint[:8] == "https://":
-        req = requests.PreparedRequest()
-        req.prepare_url(endpoint, cleaned_params)
-        response = requests.post(req.url)
+    if endpoint[:4] == "http":
+        response = requests.post(endpoint, json=cleaned_params)
+        print(endpoint)
+        print(cleaned_params)
         if response.status_code in [200, 201]:
             return response.json()
     else:
