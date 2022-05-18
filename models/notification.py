@@ -4,7 +4,7 @@ from models.data import post_data
 
 class Notification(object):
     @classmethod
-    def send(cls, template_type: str, to_email: str, content: str):
+    def send(cls, template_type: str, to_email: str, content: dict):
 
         url = env.config.get("NOTIFICATION_SERVICE_HOST") + env.config.get(
             "SEND_ENDPOINT"

@@ -8,13 +8,31 @@ from models.data import post_data
 
 @dataclass
 class Application(object):
-    id: str
+    application_id: str
+    fund_name: str
+    fund_id: str
+    round_id: str
 
     @staticmethod
     def from_json(data: dict):
         return Application(
-            id=data.get("id"),
+            application_id=data.get("application_id"),
+            fund_name=data.get("fund_name"),
+            fund_id=data.get("fund_id"),
+            round_id=data.get("round_id"),
         )
+
+
+class ApplicationError(Exception):
+    """Exception raised for errors in Application management
+
+    Attributes:
+        message -- explanation of the error
+    """
+
+    def __init__(self, message="Sorry, there was a problem, please try later"):
+        self.message = message
+        super().__init__(self.message)
 
 
 class ApplicationMethods(Application):
@@ -36,7 +54,7 @@ class ApplicationMethods(Application):
         params = {"application_id": application_id}
         response = get_data(url, params)
 
-        if response and "id" in response:
+        if response and "application_id" in response:
             return Application.from_json(response)
 
     @staticmethod
@@ -89,5 +107,5 @@ class ApplicationMethods(Application):
         }
         response = post_data(url, params)
 
-        if response and "id" in response:
+        if response and "application_id" in response:
             return Application.from_json(response)

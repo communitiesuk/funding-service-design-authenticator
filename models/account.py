@@ -19,7 +19,7 @@ class Account(object):
     @staticmethod
     def from_json(data: dict):
         return Account(
-            id=data.get("id"),
+            id=data.get("account_id"),
             email=data.get("emailAddress"),
             applications=data.get("applications"),
         )
@@ -67,7 +67,7 @@ class AccountMethods(Account):
         params = {"email_address": email, "account_id": account_id}
         response = get_data(url, params)
 
-        if response and "id" in response:
+        if response and "account_id" in response:
             return Account.from_json(response)
 
     @staticmethod
@@ -89,7 +89,7 @@ class AccountMethods(Account):
         params = {"email_address": email}
         response = post_data(url, params)
 
-        if response and "id" in response:
+        if response and "account_id" in response:
             return Account.from_json(response)
 
     @classmethod
@@ -109,15 +109,28 @@ class AccountMethods(Account):
         if not account:
             account = cls.create_account(email)
         if account:
+            notification_content = {}
             if fund_id and round_id:
-                ApplicationMethods.create_application(
+                # Create an application if none exists
+                new_application = ApplicationMethods.create_application(
                     account.id, fund_id, round_id
                 )
+                if new_application:
+                    notification_content.update(
+                        {"fund_name": new_application.fund_name}
+                    )
+
+            # Create a fresh link
             new_link_json = MagicLinkMethods().create_magic_link(account)
+            notification_content.update(
+                {"magic_link_url": new_link_json.get("link")}
+            )
+
+            # Send notification
             Notification.send(
                 env.config.get("NOTIFY_TEMPLATE_MAGIC_LINK"),
                 account.email,
-                new_link_json.get("link"),
+                notification_content,
             )
             return True
         raise AccountError(
