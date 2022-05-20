@@ -69,18 +69,6 @@ class Config(object):
     FSD_SESSION_TIMEOUT_SECS = 3600  # 1 hour
 
     """
-    Magic Links
-    """
-    MAGIC_LINK_EXPIRY_DAYS = 0
-    MAGIC_LINK_EXPIRY_MINUTES = 1
-    MAGIC_LINK_EXPIRY_SECONDS = (86400 * MAGIC_LINK_EXPIRY_DAYS) + (
-        60 * MAGIC_LINK_EXPIRY_MINUTES
-    )
-    MAGIC_LINK_REDIRECT_URL = "https://example.com/account/{account_id}"
-    MAGIC_LINK_RECORD_PREFIX = "link"
-    MAGIC_LINK_USER_PREFIX = "account"
-
-    """
     APIs Config: contains api hosts (set in manifest.yml)
     """
     # Account Store
@@ -106,6 +94,27 @@ class Config(object):
     NOTIFICATION_SERVICE_HOST = environ.get("NOTIFICATION_SERVICE_HOST")
     SEND_ENDPOINT = "/send"
     NOTIFY_TEMPLATE_MAGIC_LINK = "MAGIC_LINK"
+
+    # Applicant Frontend
+    APPLICANT_FRONTEND_HOST = environ.get("APPLICANT_FRONTEND_HOST")
+
+    """
+    Magic Links
+    """
+    MAGIC_LINK_EXPIRY_DAYS = 0
+    MAGIC_LINK_EXPIRY_MINUTES = 1
+    MAGIC_LINK_EXPIRY_SECONDS = (86400 * MAGIC_LINK_EXPIRY_DAYS) + (
+        60 * MAGIC_LINK_EXPIRY_MINUTES
+    )
+    MAGIC_LINK_REDIRECT_HOST = APPLICANT_FRONTEND_HOST
+    if MAGIC_LINK_REDIRECT_HOST:
+        MAGIC_LINK_REDIRECT_URL = (
+            MAGIC_LINK_REDIRECT_HOST + "/account/{account_id}"
+        )
+    else:
+        MAGIC_LINK_REDIRECT_URL = "https://www.gov.uk/error"
+    MAGIC_LINK_RECORD_PREFIX = "link"
+    MAGIC_LINK_USER_PREFIX = "account"
 
     """
     Security
