@@ -13,7 +13,7 @@ applications:
     MAGIC_LINK_REDIRECT_URL: https://funding-service-design-frontend-dev.london.cloudapps.digital/account/{account_id}
     FLASK_ENV: dev
     FLASK_DEBUG: 1
-  services:
+  services: # eg. Redis
     - funding-service-magic-links-dev
 
 - name: funding-service-design-authenticator-test
@@ -28,5 +28,5 @@ applications:
     NOTIFICATION_SERVICE_HOST: http://funding-service-design-notification-test.apps.internal:8080
     MAGIC_LINK_REDIRECT_URL: https://funding-service-design-frontend-test.london.cloudapps.digital/account/{account_id}
     FLASK_ENV: test
-  services:
+  services: # eg. Redis
     - funding-service-magic-links-test
