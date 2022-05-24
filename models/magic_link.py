@@ -51,16 +51,6 @@ class MagicLinkMethods(object):
 
         return redis_mlinks
 
-    # @classmethod
-    # def redis_mlinks(cls) -> FlaskRedis:
-    #     """
-    #     A FlaskRedis client connection to the magic links redis instance
-    #     :return: FlaskRedis instance
-    #     """
-    #     from app import redis_mlinks
-    #
-    #     return redis_mlinks
-
     @property
     def links(self) -> List:
         """

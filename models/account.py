@@ -105,12 +105,13 @@ class AccountMethods(Account):
         :param round_id: The user's account email address
         :return: True if successfully created
         """
+        new_account = False
         account = cls.get_account(email)
         if not account:
-            account = cls.create_account(email)
+            account = new_account = cls.create_account(email)
         if account:
             notification_content = {}
-            if fund_id and round_id:
+            if fund_id and round_id and new_account:
                 # Create an application if none exists
                 new_application = ApplicationMethods.create_application(
                     account.id, fund_id, round_id

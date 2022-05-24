@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import List
 
-from external_data.models.round import Round
+from models.round import Round
 
 
 @dataclass
