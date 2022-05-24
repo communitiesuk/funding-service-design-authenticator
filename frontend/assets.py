@@ -19,8 +19,13 @@ def compile_static_assets(assets, build=True):
 
     # Requires:
     # - jsmin==3.0.1
+    # namespaces.js must be at top of bundle to ensure initialisation
+    # of global variables in scope
     default_js_bundle = Bundle(
-        "../src/js/*.js",
+        "../src/js/namespaces.js",
+        "../src/js/helpers.js",
+        "../src/js/all.js",
+        "../src/js/components/*/*.js",
         filters="jsmin",
         output="js/main.min.js",
     )

@@ -5,19 +5,27 @@
 {% extends "base.html" %}
 
 
+{% block beforeContent %}{% if fund_round %}
+<a href="{{request.referrer}}" class="govuk-back-link">Back to <span class="govuk-!-font-weight-bold">applications</span></a>
+{% endif %}{% endblock %}
+
 {% block content %}
-<h1 class="govuk-heading-l">Get a magic link</h1>
-{% if form.errors %}
-  {{ govukErrorSummary({
-    "titleText": "Fix the following errors",
-    "errorList": form.error_list
-  }) }}
-{% endif %}
-
-<form method="POST">
-  {{form.hidden_tag()}}
-
-  {% if form.email.errors %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+    {% if form.errors %}
+      {{ govukErrorSummary({
+        "titleText": "Fix the following errors",
+        "errorList": form.error_list
+      }) }}
+    {% endif %}
+    <form action="" class="form" method="post">
+      <div class="govuk-form-group">
+        <h1 class="govuk-label-wrapper"><label class="govuk-label govuk-label--l" for="email">
+          Email address
+        </label>
+        </h1>
+        {{form.hidden_tag()}}
+          {% if form.email.errors %}
             {{ govukInput({
                 'label': {
                     'text': form.email.label,
@@ -55,11 +63,23 @@
                 'classes': form.email.classes,
             }) }}
         {% endif %}
+        </div>
+            {{ govukButton({
+              "text": "Continue",
+              "preventDoubleClick": true,
+            }) }}
+        </form></div>
 
-{{ govukButton({
-  "text": "Continue",
-  "preventDoubleClick": true,
-}) }}
+
+    </div>
+
+
+<form method="POST">
+  {{form.hidden_tag()}}
+
+
+
+
 
 </form>
 

@@ -11,8 +11,11 @@ class EmailForm(FlaskForm):
     """
 
     email = EmailField(
-        "Please enter your email address",
-        description="eg. a@example.com",
+        "",
+        description=(
+            "We’ll use this to confirm your email address and show your"
+            " applications."
+        ),
         validators=[DataRequired(), Email()],
     )
     fund_id = HiddenField()

@@ -36,6 +36,10 @@ def new():
     """
     fund_id = request.args.get("fund_id")
     round_id = request.args.get("round_id")
+    fund_round = False
+
+    if fund_id and round_id:
+        fund_round = True
 
     form_data = request.data
     if request.method == "GET":
@@ -50,7 +54,11 @@ def new():
                 fund_id=fund_id,
                 round_id=round_id,
             )
-            return redirect(url_for("magic_links_bp.check_email"))
+            return redirect(
+                url_for(
+                    "magic_links_bp.check_email", email=form.data.get("email")
+                )
+            )
         except MagicLinkError as e:
             form.email.errors.append(str(e.message))
         except NotificationError as e:
@@ -58,7 +66,7 @@ def new():
         except AccountError as e:
             form.email.errors.append(str(e.message))
 
-    return render_template("email.html", form=form)
+    return render_template("email.html", form=form, fund_round=fund_round)
 
 
 @magic_links_bp.route("/check-email", methods=["GET"])
@@ -68,4 +76,4 @@ def check_email():
     inbox for an email with a magic link
     """
 
-    return render_template("check_email.html")
+    return render_template("check_email.html", email=request.args.get("email"))

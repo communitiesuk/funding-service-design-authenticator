@@ -64,6 +64,7 @@ def create_app(testing=False) -> Flask:
         flask_app,
         strict_transport_security=env.config.get("HSTS_HEADERS"),
         force_https=env.config.get("FORCE_HTTPS"),
+        content_security_policy_nonce_in=["script-src"],
     )
 
     # This section is needed for url_for("foo", _external=True) to
