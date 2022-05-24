@@ -1,5 +1,3 @@
-from os import environ
-
 import connexion
 from api.demo.routes import build_auth_code_flow
 from config.env import env
@@ -120,9 +118,7 @@ def create_app(testing=False) -> Flask:
         # Bundle and compile assets
         assets = Environment()
         assets.init_app(flask_app)
-        compile_static_assets(
-            assets, build=(environ.get("FLASK_ENV") == "development")
-        )
+        compile_static_assets(assets)
 
         return flask_app
 
