@@ -21,6 +21,9 @@ class Config(object):
     # Hostname for this service
     AUTHENTICATOR_HOST = environ.get("AUTHENTICATOR_HOST", "")
 
+    """
+    Azure Configuration
+    """
     # Azure Active Directory Config
     AZURE_AD_CLIENT_ID = (
         # Application (client) ID of app registration on Azure AD
@@ -49,6 +52,9 @@ class Config(object):
     # https://docs.microsoft.com/en-us/graph/permissions-reference
     MS_GRAPH_PERMISSIONS_SCOPE = ["User.ReadBasic.All"]
 
+    """
+    Session
+    """
     SESSION_TYPE = (
         # Specifies how the token cache should be stored
         # in server-side session
@@ -58,27 +64,66 @@ class Config(object):
     SESSION_PERMANENT = False
     SESSION_USE_SIGNER = True
 
-    # RSA 256 KEYS
-    RSA256_PRIVATE_KEY = environ.get("RSA256_PRIVATE_KEY")
-    RSA256_PUBLIC_KEY = environ.get("RSA256_PUBLIC_KEY")
-
     # Funding Service Design
     FSD_USER_TOKEN_COOKIE_NAME = "fsd_user_token"
     FSD_SESSION_TIMEOUT_SECS = 3600  # 1 hour
+
+    """
+    APIs Config: contains api hosts (set in manifest.yml)
+    """
+    # Account Store
+    ACCOUNT_STORE_API_HOST = environ.get("ACCOUNT_STORE_API_HOST")
+    ACCOUNTS_ENDPOINT = "/accounts"
+    ACCOUNT_ENDPOINT = "/accounts/{account_id}"
+
+    # Application Store
+    APPLICATION_STORE_API_HOST = environ.get("APPLICATION_STORE_API_HOST")
+    APPLICATIONS_ENDPOINT = "/applications"
+    APPLICATION_ENDPOINT = "/applications/{account_id}"
+
+    # Fund Store
+    FUND_STORE_API_HOST = environ.get("FUND_STORE_API_HOST")
+    FUNDS_ENDPOINT = "/funds"
+    FUND_ENDPOINT = "/funds/{account_id}"
+
+    # Round Store
+    ROUND_STORE_API_HOST = environ.get("ROUND_STORE_API_HOST")
+    ROUNDS_ENDPOINT = "/funds/{fund_id}/rounds"
+
+    # Notification Service
+    NOTIFICATION_SERVICE_HOST = environ.get("NOTIFICATION_SERVICE_HOST")
+    SEND_ENDPOINT = "/send"
+    NOTIFY_TEMPLATE_MAGIC_LINK = "MAGIC_LINK"
+
+    # Applicant Frontend
+    APPLICANT_FRONTEND_HOST = environ.get("APPLICANT_FRONTEND_HOST")
+
+    """
+    Magic Links
+    """
     MAGIC_LINK_EXPIRY_DAYS = 0
     MAGIC_LINK_EXPIRY_MINUTES = 1
     MAGIC_LINK_EXPIRY_SECONDS = (86400 * MAGIC_LINK_EXPIRY_DAYS) + (
         60 * MAGIC_LINK_EXPIRY_MINUTES
     )
-    MAGIC_LINK_REDIRECT_URL = "https://example.com"
+    MAGIC_LINK_REDIRECT_HOST = APPLICANT_FRONTEND_HOST
+    MAGIC_LINK_REDIRECT_URL = environ.get("MAGIC_LINK_REDIRECT_URL")
+    if not MAGIC_LINK_REDIRECT_URL:
+        if MAGIC_LINK_REDIRECT_HOST:
+            MAGIC_LINK_REDIRECT_URL = (
+                MAGIC_LINK_REDIRECT_HOST + "/account/{account_id}"
+            )
+        else:
+            MAGIC_LINK_REDIRECT_URL = "https://www.gov.uk/error"
     MAGIC_LINK_RECORD_PREFIX = "link"
     MAGIC_LINK_USER_PREFIX = "account"
-    NEW_MAGIC_LINK_URL = "/service/magic-links"
 
-    # APIs
-    ACCOUNT_STORE_API_HOST = environ.get("ACCOUNT_STORE_API_HOST")
-    # Account Store Endpoints
-    ACCOUNT_STORE_ACCOUNT_ENDPOINT = "/accounts?email_address={email}"
+    """
+    Security
+    """
+    # RSA 256 KEYS
+    RSA256_PRIVATE_KEY = environ.get("RSA256_PRIVATE_KEY")
+    RSA256_PUBLIC_KEY = environ.get("RSA256_PUBLIC_KEY")
 
     # Security Settings (for Talisman Config)
     FORCE_HTTPS = True

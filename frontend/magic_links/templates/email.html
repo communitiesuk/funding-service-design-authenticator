@@ -1,0 +1,86 @@
+{%- from "govuk_frontend_jinja/components/error-summary/macro.html" import govukErrorSummary -%}
+{%- from "govuk_frontend_jinja/components/input/macro.html" import govukInput -%}
+{%- from "govuk_frontend_jinja/components/button/macro.html" import govukButton -%}
+
+{% extends "base.html" %}
+
+
+{% block beforeContent %}{% if fund_round %}
+<a href="{{request.referrer}}" class="govuk-back-link">Back to <span class="govuk-!-font-weight-bold">applications</span></a>
+{% endif %}{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+    {% if form.errors %}
+      {{ govukErrorSummary({
+        "titleText": "Fix the following errors",
+        "errorList": form.error_list
+      }) }}
+    {% endif %}
+    <form action="" class="form" method="post">
+      <div class="govuk-form-group">
+        <h1 class="govuk-label-wrapper"><label class="govuk-label govuk-label--l" for="email">
+          Email address
+        </label>
+        </h1>
+        {{form.hidden_tag()}}
+          {% if form.email.errors %}
+            {{ govukInput({
+                'label': {
+                    'text': form.email.label,
+                    'classes': "govuk-label--s"
+                },
+                'hint': {
+                    'text': form.email.description
+                },
+                'id': form.email.id,
+                'name': form.email.name,
+                'value': form.email.value,
+                "type": "email",
+                "autocomplete": "email",
+                "spellcheck": false,
+                'classes': form.email.classes,
+                'errorMessage': {
+                    'text': form.email.errors.0
+                }
+            }) }}
+        {% else %}
+            {{ govukInput({
+                'label': {
+                    'text': form.email.label,
+                    'classes': "govuk-label--s"
+                },
+                'hint': {
+                    'text': form.email.description
+                },
+                'id': form.email.id,
+                'name': form.email.name,
+                'value': form.email.data,
+                "type": "email",
+                "autocomplete": "email",
+                "spellcheck": false,
+                'classes': form.email.classes,
+            }) }}
+        {% endif %}
+        </div>
+            {{ govukButton({
+              "text": "Continue",
+              "preventDoubleClick": true,
+            }) }}
+        </form></div>
+
+
+    </div>
+
+
+<form method="POST">
+  {{form.hidden_tag()}}
+
+
+
+
+
+</form>
+
+{% endblock %}

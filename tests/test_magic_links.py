@@ -20,7 +20,7 @@ class TestMagicLinks:
         THEN a magic link is created and returned
         :param flask_test_client:
         """
-        expected_link_attributes = {"accountId": "userA"}
+        expected_link_attributes = {"accountId": "usera"}
         payload = {
             "email": "a@example.com",
             "redirectUrl": "https://example.com/redirect-url",

@@ -24,3 +24,4 @@ jsmin==3.0.1
 pyScss==1.4.0
 Flask-Compress==1.10.1
 Flask-WTF==1.0.0
+email-validator==1.2.1
