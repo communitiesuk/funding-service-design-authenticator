@@ -5,7 +5,7 @@
 {% extends "base.html" %}
 
 
-{% block beforeContent %}{% if fund_round %}
+{% block beforeContent %}{% if fund_round and request.referrer %}
 <a href="{{request.referrer}}" class="govuk-back-link">Back to <span class="govuk-!-font-weight-bold">applications</span></a>
 {% endif %}{% endblock %}
 
