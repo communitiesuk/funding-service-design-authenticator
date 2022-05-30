@@ -196,7 +196,7 @@ class MagicLinkMethods(object):
 
             magic_link_url = (
                 env.config.get("AUTHENTICATOR_HOST")
-                + "/magic-links/"
+                + env.config.get("MAGIC_LINK_LANDING_PAGE")
                 + link_key
             )
             new_link_json.update(
