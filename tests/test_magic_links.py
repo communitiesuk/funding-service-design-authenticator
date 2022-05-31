@@ -35,12 +35,28 @@ class TestMagicLinks:
             "accountId"
         )
 
+    def test_magic_link_redirects_to_landing(self, flask_test_client):
+        """
+        GIVEN a running Flask client, redis instance and
+        an existing magic link
+        WHEN we GET /magic-links/landing/{link_key} to the API
+        THEN we are redirected to the frontend landing page (without using the single use magic token)
+        :param flask_test_client:
+        """
+        link_key = self.created_link_keys.pop(0)
+        self.created_link_keys.append(link_key)
+        use_endpoint = f"/magic-links/landing/{link_key}"
+        response = flask_test_client.get(use_endpoint)
+        self.used_link_keys.append(link_key)
+
+        assert response.status_code == 302
+
     def test_magic_link_redirects(self, flask_test_client):
         """
         GIVEN a running Flask client, redis instance and
         an existing magic link
         WHEN we GET /magic-links/{link_key}
-        THEN we are redirected to another url
+        THEN we are redirected to another url (the application service)
         :param flask_test_client:
         """
         link_key = self.created_link_keys.pop(0)
