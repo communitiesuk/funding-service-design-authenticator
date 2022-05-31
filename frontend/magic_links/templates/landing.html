@@ -5,12 +5,12 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <h1 class="govuk-heading-l">Single use Magic Link</h1>
-    <p class="govuk-body">
-      You can access your applications using the link below.
-    </p>
-    <p class="govuk-body">
-      <a href="{{ url_for("api_MagicLinksView_use", link_id=link_id) }}" class="govuk-body">Use Magic Link</a>    
-    </p>
+
+    <a href="{{ url_for("api_MagicLinksView_use", link_id=link_id) }}" role="button" draggable="false">
+      <button class="govuk-button" data-module="govuk-button">
+        Continue to application 
+      </button>
+    </a>
   </div>
 </div>
 
