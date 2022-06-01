@@ -63,7 +63,7 @@ class TestMagicLinks:
         response = flask_test_client.get(reuse_endpoint, follow_redirects=True)
 
         assert response.status_code == 403
-        assert b"Invalid Link" in response.data
+        assert b"Link Expired" in response.data
 
     def test_invalid_magic_link_returns_forbidden(self, flask_test_client):
         """
@@ -77,4 +77,4 @@ class TestMagicLinks:
         response = flask_test_client.get(use_endpoint, follow_redirects=True)
 
         assert response.status_code == 403
-        assert b"Invalid Link" in response.data
+        assert b"Link Expired" in response.data
