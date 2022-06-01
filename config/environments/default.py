@@ -6,7 +6,7 @@ from os import path
 class Config(object):
     #  Application Config
     SECRET_KEY = environ.get("SECRET_KEY")
-    SESSION_COOKIE_NAME = environ.get("SESSION_COOKIE_NAME")
+    SESSION_COOKIE_NAME = environ.get("SESSION_COOKIE_NAME", "session_cookie")
     FLASK_ROOT = path.dirname(
         path.dirname(path.dirname(path.realpath(__file__)))
     )
