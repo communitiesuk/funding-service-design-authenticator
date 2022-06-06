@@ -4,7 +4,7 @@
 
 {% block content %}
   <div>
-      <h1 class="govuk-heading-xl">Invalid Link</h1>
+      <h1 class="govuk-heading-xl">Link Expired</h1>
   </div>
 <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" data-module="govuk-error-summary">
   <h2 class="govuk-error-summary__title" id="error-summary-title">
@@ -13,7 +13,7 @@
   <div class="govuk-error-summary__body">
       <ul class="govuk-list govuk-error-summary__list">
       <li>
-        <p class="fsd-error-message">Your magic link has expired, if you'd like to work on your application you'll need a new one.</p>
+        <p class="fsd-error-message">To access your application, you need to request a new link. The link will work for 24 hours.</p>
       </li>
     </ul>
   </div>
@@ -21,6 +21,6 @@
 {{ govukButton({
     "isStartButton": True,
     "href" : new_magic_link_url,
-  "text": "Get a new magic link"
+  "text": "Request a new link"
 }) }}
 {% endblock %}
