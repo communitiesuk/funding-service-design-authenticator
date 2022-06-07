@@ -6,7 +6,6 @@ import pytest
 
 @pytest.mark.usefixtures("flask_test_client")
 @pytest.mark.usefixtures("mock_redis_magic_links")
-@pytest.mark.usefixtures("mock_redis_sessions")
 class TestMagicLinks:
 
     created_link_keys = []
