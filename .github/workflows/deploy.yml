@@ -69,7 +69,7 @@ jobs:
           cf_space:    ${{secrets.CF_SPACE }}
           cf_username: ${{secrets.CF_USER}}
           cf_password: ${{secrets.CF_PASSWORD}}
-          command: push funding-service-design-authenticator-dev --var RSA256_PRIVATE_KEY="${{secrets.RSA256_PRIVATE_KEY}}" --var RSA256_PUBLIC_KEY="${{secrets.RSA256_PUBLIC_KEY}}" --var AZURE_AD_CLIENT_SECRET="${{secrets.AZURE_AD_CLIENT_SECRET}}" --var SECRET_KEY="${{secrets.SECRET_KEY}}" --var SESSION_COOKIE_NAME="${{secrets.SESSION_COOKIE_NAME}}"
+          command: push funding-service-design-authenticator-dev -f manifest-dev.yml
       - name: Apply network policy for notification service
         uses: citizen-of-planet-earth/cf-cli-action@v2
         with:
@@ -128,7 +128,7 @@ jobs:
           cf_space:    ${{secrets.CF_SPACE }}
           cf_username: ${{secrets.CF_USER}}
           cf_password: ${{secrets.CF_PASSWORD}}
-          command: push funding-service-design-authenticator-test --var RSA256_PRIVATE_KEY="${{secrets.RSA256_PRIVATE_KEY}}" --var RSA256_PUBLIC_KEY="${{secrets.RSA256_PUBLIC_KEY}}" --var AZURE_AD_CLIENT_SECRET="${{secrets.AZURE_AD_CLIENT_SECRET}}" --var SECRET_KEY="${{secrets.SECRET_KEY}}" --var SESSION_COOKIE_NAME="${{secrets.SESSION_COOKIE_NAME}}"
+          command: push funding-service-design-authenticator-test -f manifest-test.yml --var RSA256_PRIVATE_KEY_BASE64="${{secrets.RSA256_PRIVATE_KEY_BASE64}}" --var RSA256_PUBLIC_KEY_BASE64="${{secrets.RSA256_PUBLIC_KEY_BASE64}}"  --var RSA256_PUBLIC_KEY="${{secrets.RSA256_PUBLIC_KEY}}" --var RSA256_PRIVATE_KEY="${{secrets.RSA256_PRIVATE_KEY}}" --var RSA256_PUBLIC_KEY="${{secrets.RSA256_PUBLIC_KEY}}" --var AZURE_AD_CLIENT_SECRET="${{secrets.AZURE_AD_CLIENT_SECRET}}" --var SECRET_KEY="${{secrets.SECRET_KEY}}" --var SESSION_COOKIE_NAME="${{secrets.SESSION_COOKIE_NAME}}"
       - name: Apply network policy for notification service
         uses: citizen-of-planet-earth/cf-cli-action@v2
         with:
