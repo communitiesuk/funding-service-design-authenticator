@@ -2,7 +2,7 @@ from flask import session
 from tests.mocks.msal import id_token_claims
 
 
-def test_sso_login_redirects_to_ms(flask_test_client, mock_redis_sessions):
+def test_sso_login_redirects_to_ms(flask_test_client):
     """
     GIVEN We have a functioning Authenticator API
     WHEN a GET request for /sso/login
@@ -16,7 +16,7 @@ def test_sso_login_redirects_to_ms(flask_test_client, mock_redis_sessions):
     assert response.location.startswith(expected_redirect) is True
 
 
-def test_sso_logout_redirects_to_ms(flask_test_client, mock_redis_sessions):
+def test_sso_logout_redirects_to_ms(flask_test_client):
     """
     GIVEN We have a functioning Authenticator API
     WHEN a GET request for /sso/logout
@@ -32,7 +32,7 @@ def test_sso_logout_redirects_to_ms(flask_test_client, mock_redis_sessions):
     assert response.location.startswith(expected_redirect) is True
 
 
-def test_sso_get_token_returns_404(flask_test_client, mock_redis_sessions):
+def test_sso_get_token_returns_404(flask_test_client):
     """
     GIVEN We have a functioning Authenticator API
     WHEN a GET request for /sso/get-token
@@ -46,7 +46,7 @@ def test_sso_get_token_returns_404(flask_test_client, mock_redis_sessions):
 
 
 def test_sso_get_token_returns_user_claims(
-    flask_test_client, mock_redis_sessions, mock_msal_client_application
+    flask_test_client, mock_msal_client_application
 ):
     """
     GIVEN We have a functioning Authenticator API

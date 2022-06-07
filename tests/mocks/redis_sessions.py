@@ -23,8 +23,7 @@ class RedisSessions(object):
             session_data[key] = val
             return 1
 
-    @staticmethod
-    def get(key):
+    def get(self, key):
         return session_data.get(key)
 
     def delete(self, *names):
@@ -34,8 +33,8 @@ class RedisSessions(object):
 
 
 @pytest.fixture()
-def mock_redis_sessions(mocker):
-    mocker.patch("redis.Redis.get", RedisSessions.get)
-    mocker.patch("redis.Redis.set", RedisSessions.set)
-    mocker.patch("redis.Redis.delete", RedisSessions.delete)
-    mocker.patch("redis.Redis.setex", RedisSessions.setex)
+def mock_redis_sessions(session_mocker):
+    session_mocker.patch("redis.Redis.get", RedisSessions.get)
+    session_mocker.patch("redis.Redis.set", RedisSessions.set)
+    session_mocker.patch("redis.Redis.delete", RedisSessions.delete)
+    session_mocker.patch("redis.Redis.setex", RedisSessions.setex)
