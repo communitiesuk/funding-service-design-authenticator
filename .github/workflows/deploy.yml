@@ -104,6 +104,7 @@ jobs:
           allow_issue_writing: False
 
   deploy_test:
+    if: github.ref == 'refs/heads/main'
     needs: security
     runs-on: ubuntu-latest
     environment: test
