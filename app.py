@@ -12,12 +12,13 @@ from frontend.assets import compile_static_assets
 from jinja2 import ChoiceLoader
 from jinja2 import PackageLoader
 from jinja2 import PrefixLoader
+from utils import logging
 
 redis_mlinks = FlaskRedis(config_prefix="REDIS_MLINKS")
 
 
 def create_app(testing=False) -> Flask:
-    connexion_app = connexion.FlaskApp(__name__, specification_dir="")
+    connexion_app = connexion.FlaskApp("Authenticator", specification_dir="")
 
     flask_app = connexion_app.app
     flask_app.static_folder = "frontend/static/dist/"
@@ -40,6 +41,10 @@ def create_app(testing=False) -> Flask:
     else:
         flask_app.config.from_object("config.Config")
 
+    # Initialise logging
+    logging.init_app(flask_app)
+
+    # Configure Swagger
     options = {
         "swagger_path": flask_app.config.get("FLASK_ROOT") + "/swagger/dist",
         "swagger_url": "/docs",
