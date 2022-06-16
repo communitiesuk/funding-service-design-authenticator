@@ -3,8 +3,10 @@ from os import path
 
 import redis
 from config.environments.default import Config
+from fsd_tech import configclass
 
 
+@configclass
 class DevelopmentConfig(Config):
     #  Application Config
     SECRET_KEY = "dev"

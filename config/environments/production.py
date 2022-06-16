@@ -4,8 +4,10 @@ from os import environ
 import redis
 from config.environments.default import Config
 from config.utils import VcapServices
+from fsd_tech import configclass
 
 
+@configclass
 class ProductionConfig(Config):
 
     # GOV.UK PaaS

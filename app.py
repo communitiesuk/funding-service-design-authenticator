@@ -1,5 +1,5 @@
 import connexion
-import fsd_tech
+import os
 import prance
 from pathlib import Path
 from typing import Any
@@ -31,8 +31,6 @@ def get_bundled_specs(main_file: Path) -> Dict[str, Any]:
 
 
 def create_app(testing=False) -> Flask:
-    
-    fsd_tech.load_config("config_files/.env.default")
 
     options = {
         "swagger_path": project_root_path + "/swagger/dist",
@@ -58,10 +56,11 @@ def create_app(testing=False) -> Flask:
     flask_app.jinja_env.trim_blocks = True
     flask_app.jinja_env.lstrip_blocks = True
 
-    if testing:
-        flask_app.config.from_object(
-            "config.environments.development.DevelopmentConfig"
+    if (os.environ.get("FLASK_ENV") == "development") | testing:
+        flask_app.config.from_object("config.environments.development.DevelopmentConfig"
         )
+        from config.environments.development import DevelopmentConfig
+        DevelopmentConfig.pretty_print()
     else:
         flask_app.config.from_object("config.Config")
 

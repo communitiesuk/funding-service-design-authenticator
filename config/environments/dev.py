@@ -5,8 +5,10 @@ from os import path
 import redis
 from config.environments.default import Config
 from config.utils import VcapServices
+from fsd_tech import configclass
 
 
+@configclass
 class DevConfig(Config):
 
     SECRET_KEY = "dev"
