@@ -60,7 +60,7 @@ def create_app(testing=False) -> Flask:
         flask_app.config.from_object("config.environments.development.DevelopmentConfig"
         )
         from config.environments.development import DevelopmentConfig
-        # DevelopmentConfig.pretty_print()
+        if os.environ.get("PRETTY_PRINT"): DevelopmentConfig.pretty_print()
     else:
         flask_app.config.from_object("config.Config")
 
