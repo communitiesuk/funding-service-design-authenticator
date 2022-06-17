@@ -1,9 +1,10 @@
-import connexion
 import os
-import prance
 from pathlib import Path
 from typing import Any
 from typing import Dict
+
+import connexion
+import prance
 from api.demo.routes import build_auth_code_flow
 from config.env import env
 from connexion.resolver import MethodViewResolver
@@ -38,8 +39,10 @@ def create_app(testing=False) -> Flask:
         "swagger_ui_template_arguments": {},
     }
 
-    connexion_app = connexion.FlaskApp(__name__, specification_dir="/openapi/",
-                    options=options,
+    connexion_app = connexion.FlaskApp(
+        __name__,
+        specification_dir="/openapi/",
+        options=options,
     )
 
     flask_app = connexion_app.app
@@ -57,17 +60,19 @@ def create_app(testing=False) -> Flask:
     flask_app.jinja_env.lstrip_blocks = True
 
     if (os.environ.get("FLASK_ENV") == "development") | testing:
-        flask_app.config.from_object("config.environments.development.DevelopmentConfig"
+        flask_app.config.from_object(
+            "config.environments.development.DevelopmentConfig"
         )
         from config.environments.development import DevelopmentConfig
-        if os.environ.get("PRETTY_PRINT"): DevelopmentConfig.pretty_print()
+
+        DevelopmentConfig.pretty_print()
     else:
         flask_app.config.from_object("config.Config")
 
     connexion_app.add_api(
         get_bundled_specs(project_root_path + "/openapi/api.yml"),
         validate_responses=True,
-        resolver=MethodViewResolver("api")
+        resolver=MethodViewResolver("api"),
     )
 
     session = Session()
