@@ -17,7 +17,7 @@ from pythonjsonlogger.jsonlogger import JsonFormatter as BaseJSONFormatter
 # Log formats can use any attributes available in
 # https://docs.python.org/3/library/logging.html#logrecord-attributes
 LOG_FORMAT = (
-    "%(asctime)s %(name)s %(levelname)s "
+    "%(name)s %(levelname)s "
     "- %(message)s - from %(funcName)s in %(pathname)s:%(lineno)d"
 )
 
