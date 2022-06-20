@@ -31,3 +31,4 @@ axe-selenium-python==2.1.6
 chromedriver-py==102.0.5005.61
 pytest-flask==1.2.0
 python-json-logger==2.0.2
+pytz==2022.1

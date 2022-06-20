@@ -1,5 +1,6 @@
 from __future__ import absolute_import
 
+import datetime
 import logging
 import os.path
 import re
@@ -17,7 +18,7 @@ from pythonjsonlogger.jsonlogger import JsonFormatter as BaseJSONFormatter
 # https://docs.python.org/3/library/logging.html#logrecord-attributes
 LOG_FORMAT = (
     "%(asctime)s %(name)s %(levelname)s "
-    "- %(message)s - from %(funcName)s() in %(pathname)s:%(lineno)d"
+    "- %(message)s - from %(funcName)s in %(pathname)s:%(lineno)d"
 )
 
 DEV_DEBUG_LOG_FORMAT = (
@@ -30,10 +31,7 @@ DEV_DEBUG_LOG_FORMAT = (
 # will always be included in json log output even if
 # no such field was supplied in the log record,
 # substituting a None value if necessary.
-LOG_FORMAT_EXTRA_JSON_KEYS = (
-    "is_sampled",
-    "debug_flag",
-)
+LOG_FORMAT_EXTRA_JSON_KEYS = ()
 
 
 logger = logging.getLogger(__name__)
@@ -60,7 +58,6 @@ def _common_request_extra_log_context():
 
 def init_app(app):
     app.config.setdefault("FSD_LOG_LEVEL", "INFO")
-    app.config.setdefault("FSD_APP_NAME", "none")
 
     @app.before_request
     def before_request():
@@ -102,21 +99,21 @@ def init_app(app):
     logging.getLogger().addHandler(logging.NullHandler())
     # Werkzeug logging
     werkzeug_logger = logging.getLogger("werkzeug")
+    # Disable default werkzeug logging
     werkzeug_logger.disabled = True
+    # Set default handler to log to stdout
     handlers = [logging.StreamHandler(sys.stdout)]
 
+    # Clear any preset logger handlers
     del app.logger.handlers[:]
 
+    # Switch between text or json log formats
     if app.config.get("FLASK_ENV") == "development":
         formatter = CustomLogFormatter(DEV_DEBUG_LOG_FORMAT)
-    elif app.config.get("FSD_PLAIN_TEXT_LOGS"):
-        formatter = CustomLogFormatter(LOG_FORMAT)
     else:
         formatter = JSONFormatter(get_json_log_format())
 
-    if app.config.get("FSD_LOG_PATH"):
-        handlers.append(logging.FileHandler(app.config["FSD_LOG_PATH"]))
-
+    # Configure handlers
     for handler in handlers:
         configure_handler(handler, app, formatter)
 
@@ -133,9 +130,7 @@ def init_app(app):
 def configure_handler(handler, app, formatter):
     handler.setLevel(logging.getLevelName(app.config["FSD_LOG_LEVEL"]))
     handler.setFormatter(formatter)
-    handler.addFilter(AppNameFilter(app.config["FSD_APP_NAME"]))
     handler.addFilter(RequestExtraContextFilter())
-    handler.addFilter(AppStackLocationFilter("app_", app.root_path))
     if os.environ.get("CF_INSTANCE_INDEX"):
         handler.addFilter(AppInstanceFilter())
 
@@ -146,16 +141,6 @@ def get_json_log_format():
     return LOG_FORMAT + "".join(
         f" %({key})s" for key in LOG_FORMAT_EXTRA_JSON_KEYS
     )
-
-
-class AppNameFilter(logging.Filter):
-    def __init__(self, app_name):
-        self.app_name = app_name
-
-    def filter(self, record):
-        record.app_name = self.app_name
-
-        return record
 
 
 class AppInstanceFilter(logging.Filter):
@@ -225,41 +210,6 @@ class BaseExtraStackLocationFilter(logging.Filter):
         return record
 
 
-class AppStackLocationFilter(BaseExtraStackLocationFilter):
-    """
-    Filter which includes extra information on the first stack frame
-    that is from a module *within* the "app", based on the code location's
-    filename and a provided base file_path_prefix for the "app"
-    """
-
-    def __init__(self, param_prefix, file_path_prefix):
-        self._file_path_prefix = os.path.normcase(file_path_prefix)
-        super().__init__(param_prefix)
-
-    def is_interesting_frame(self, frame):
-        filename = os.path.normcase(frame.f_code.co_filename)
-        return (
-            os.path.commonpath(
-                # regarding abspath here: there is a possibility due
-                # to https://bugs.python.org/issue20443 that
-                # absolutizing these file paths won't work correctly
-                # if our python process has done a chdir. I don't
-                # think we generally do that but a better solution
-                # might be to outlaw relative imports.
-                (
-                    os.path.abspath(self._file_path_prefix),
-                    os.path.abspath(filename),
-                )
-            )
-            == self._file_path_prefix
-        )
-
-    def enabled_for_record(self, record):
-        return record.levelno >= logging.WARNING or (
-            has_request_context() and getattr(request, "is_sampled", False)
-        )
-
-
 class RequestExtraContextFilter(logging.Filter):
     """
     Filter which will pull extra context from
@@ -281,12 +231,13 @@ class CustomLogFormatter(logging.Formatter):
     """
     Accepts a format string for the message
     and formats it with the extra fields
+    with console colouring option
     """
 
     FORMAT_STRING_FIELDS_PATTERN = re.compile(r"\((.+?)\)")
     GREY = "\x1b[38;20m"
     YELLOW = "\x1b[33;20m"
-    RED = "\x1b[31;20m"
+    RED = "\x1b[31;20m😠"
     BOLD_RED = "\x1b[31;1m"
     RESET = "\x1b[0m"
 
@@ -353,6 +304,20 @@ class JSONFormatter(BaseJSONFormatter):
         super().__init__(*args, **kwargs)
         self._max_missing_key_attempts = max_missing_key_attempts
 
+    def formatTime(self, record, datefmt: str | None = ...) -> str:
+        ct = self.converter(record.created)
+        if datefmt:
+            s = time.strftime(datefmt, ct)
+        else:
+            s = (
+                datetime.datetime.fromtimestamp(
+                    record.created, datetime.timezone.utc
+                )
+                .astimezone()
+                .isoformat(sep=" ", timespec="milliseconds")
+            )
+        return s
+
     def process_log_record(self, log_record):
         for key, newkey in (
             (
@@ -362,26 +327,6 @@ class JSONFormatter(BaseJSONFormatter):
             (
                 "trace_id",
                 "requestId",
-            ),
-            (
-                "span_id",
-                "spanId",
-            ),
-            (
-                "parent_span_id",
-                "parentSpanId",
-            ),
-            (
-                "app_name",
-                "application",
-            ),
-            (
-                "is_sampled",
-                "isSampled",
-            ),
-            (
-                "debug_flag",
-                "debugFlag",
             ),
         ):
             try:

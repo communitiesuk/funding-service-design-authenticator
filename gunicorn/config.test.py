@@ -1,3 +1,8 @@
+import datetime
+
+import pytz
+from gunicorn.glogging import Logger
+
 # Gunicorn configuration file.
 #
 # Server socket
@@ -143,11 +148,20 @@ tmp_upload_dir = None
 #       A string of "debug", "info", "warning", "error", "critical"
 #
 
+
+class CustomLogger(Logger):
+    def now(self):
+        return datetime.datetime.now(
+            tz=pytz.timezone("Europe/London")
+        ).strftime("%d-%b-%y %H:%M:%S")
+
+
+logger_class = CustomLogger
+
 errorlog = "-"
 loglevel = "info"
 accesslog = "-"
-# access_log_format = '%(h)s %(l)s %(u)s %(t)s "%(r)s" %(s)s %(b)s "%(f)s" "%(a)s"' # noqa
-access_log_format = "{'remote_ip':'%(h)s','request_id':'%({X-Request-Id}i)s','response_code':'%(s)s','request_method':'%(m)s','request_path':'%(U)s','request_querystring':'%(q)s','request_timetaken':'%(D)s','response_length':'%(B)s'}"  # noqa
+access_log_format = '{"logType": "gunicorn-access", "time": "%(t)s", "remote_ip":"%(h)s","request_id":"%({X-Request-Id}i)s","response_code":"%(s)s","request_method":"%(m)s","request_path":"%(U)s","request_querystring":"%(q)s","request_timetaken":"%(D)s","response_length":"%(B)s"}'  # noqa
 
 #
 # Process naming
