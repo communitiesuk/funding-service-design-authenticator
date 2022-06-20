@@ -16,3 +16,4 @@ applications:
 
   services: # eg. Redis
     - funding-service-magic-links-dev
+    - logit-ssl-drain 

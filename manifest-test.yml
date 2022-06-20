@@ -19,3 +19,4 @@ applications:
     SESSION_COOKIE_NAME: ((SESSION_COOKIE_NAME))
   services: # eg. Redis
     - funding-service-magic-links-test
+    - logit-ssl-drain
