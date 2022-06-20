@@ -4,7 +4,7 @@ applications:
   memory: 64M
   buildpacks:
   - https://github.com/cloudfoundry/python-buildpack.git
-  command: gunicorn wsgi:app -c "gunicorn/config.test.py"
+  command: gunicorn wsgi:app -c run/gunicorn/config.test.py
   env:
     AUTHENTICATOR_HOST: https://funding-service-design-authenticator-test.london.cloudapps.digital
     ACCOUNT_STORE_API_HOST: https://funding-service-design-account-store-test.london.cloudapps.digital
