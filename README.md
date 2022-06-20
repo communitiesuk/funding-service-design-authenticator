@@ -66,6 +66,18 @@ A local dev server will be created on
 
 Flask environment variables are configurable in `.flaskenv`
 
+# Run with Gunicorn
+
+In deployed environments the service is run with gunicorn. You can run the service locally with gunicorn to test
+
+First set the FLASK_ENV environment you wish to test eg:
+
+    export FLASK_ENV=dev
+
+Then run gunicorn using the following command:
+
+    gunicorn wsgi:app -c gunicorn.config.local.py
+
 # Configuration
 
 # Pipelines

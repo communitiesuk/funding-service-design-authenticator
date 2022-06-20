@@ -1,4 +1,5 @@
 """Flask configuration."""
+import logging
 from os import environ
 from os import path
 
@@ -11,6 +12,9 @@ class Config(object):
         path.dirname(path.dirname(path.realpath(__file__)))
     )
     FLASK_ENV = environ.get("FLASK_ENV")
+
+    # Logging
+    FSD_LOG_LEVEL = logging.WARNING
 
     # Frontend
     STATIC_FOLDER = "static"
