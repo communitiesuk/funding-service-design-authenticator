@@ -1,4 +1,10 @@
+import os
+from pathlib import Path
+from typing import Any
+from typing import Dict
+
 import connexion
+import prance
 from api.demo.routes import build_auth_code_flow
 from config.env import env
 from connexion.resolver import MethodViewResolver
@@ -12,13 +18,33 @@ from frontend.assets import compile_static_assets
 from jinja2 import ChoiceLoader
 from jinja2 import PackageLoader
 from jinja2 import PrefixLoader
+from utils.definitions import get_project_root
 from utils import logging
 
 redis_mlinks = FlaskRedis(config_prefix="REDIS_MLINKS")
 
+project_root_path = str(get_project_root())
+
+
+def get_bundled_specs(main_file: Path) -> Dict[str, Any]:
+    parser = prance.ResolvingParser(main_file, strict=False)
+    parser.parse()
+    return parser.specification
+
 
 def create_app(testing=False) -> Flask:
-    connexion_app = connexion.FlaskApp("Authenticator", specification_dir="")
+
+    options = {
+        "swagger_path": project_root_path + "/swagger/dist",
+        "swagger_url": "/docs",
+        "swagger_ui_template_arguments": {},
+    }
+
+    connexion_app = connexion.FlaskApp(
+        __name__,
+        specification_dir="/openapi/",
+        options=options,
+    )
 
     flask_app = connexion_app.app
     flask_app.static_folder = "frontend/static/dist/"
@@ -34,10 +60,13 @@ def create_app(testing=False) -> Flask:
     flask_app.jinja_env.trim_blocks = True
     flask_app.jinja_env.lstrip_blocks = True
 
-    if testing:
+    if (os.environ.get("FLASK_ENV") == "development") | testing:
         flask_app.config.from_object(
             "config.environments.development.DevelopmentConfig"
         )
+        from config.environments.development import DevelopmentConfig
+
+        DevelopmentConfig.pretty_print()
     else:
         flask_app.config.from_object("config.Config")
 
@@ -50,8 +79,11 @@ def create_app(testing=False) -> Flask:
         "swagger_url": "/docs",
         "swagger_ui_template_arguments": {},
     }
+
     connexion_app.add_api(
-        "api.yml", options=options, resolver=MethodViewResolver("api")
+        get_bundled_specs(project_root_path + "/openapi/api.yml"),
+        validate_responses=True,
+        resolver=MethodViewResolver("api"),
     )
 
     session = Session()

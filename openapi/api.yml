@@ -10,44 +10,6 @@ tags:
     description: Magic link operations
   - name: sessions
     description: Session operations
-components:
-  schemas:
-    GeneralError:
-      type: object
-      properties:
-        status:
-          type: string
-        code:
-          type: integer
-          format: int32
-        message:
-          type: string
-    MagicLinkCreate:
-      type: object
-      properties:
-        email:
-          type: string
-        redirectUrl:
-          type: string
-    MagicLink:
-      type: object
-      properties:
-        accountId:
-          type: string
-        exp:
-          type: integer
-          format: int64
-        iat:
-          type: integer
-          format: int64
-        link:
-          type: string
-        key:
-          type: string
-        redirectUrl:
-          type: string
-        token:
-          type: string
 paths:
   /magic-links:
     get:
@@ -84,7 +46,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/MagicLinkCreate'
+              $ref: 'components.yml#/components/schemas/MagicLinkCreate'
             example:
               email: 'a@example.com'
               redirectUrl: 'https://example.com/redirect-url'
@@ -94,13 +56,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/MagicLink'
+                $ref: 'components.yml#/components/schemas/MagicLink'
         401:
           description: ERROR - Could not create magic link
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GeneralError'
+                $ref: 'components.yml#/components/schemas/GeneralError'
 
   '/magic-links/landing/{link_id}':
     get:
@@ -117,7 +79,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GeneralError'
+                $ref: 'components.yml#/components/schemas/GeneralError'
       parameters:
         - name: link_id
           in: path
@@ -141,7 +103,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GeneralError'
+                $ref: 'components.yml#/components/schemas/GeneralError'
       parameters:
         - name: link_id
           in: path

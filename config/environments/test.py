@@ -5,8 +5,10 @@ import redis
 from config.environments.default import Config
 from config.utils import VcapServices
 import base64
+from fsd_tech import configclass
 
 
+@configclass
 class TestConfig(Config):
 
     SECRET_KEY = environ.get("SECRET_KEY", "test")

@@ -2,8 +2,10 @@
 import logging
 from os import environ
 from os import path
+from fsd_tech import configclass
 
 
+@configclass
 class Config(object):
     #  Application Config
     SECRET_KEY = environ.get("SECRET_KEY")
