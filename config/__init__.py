@@ -12,3 +12,5 @@ elif FLASK_ENV == "production":
     from config.environments.production import ProductionConfig as Config
 else:
     from config.environments.default import Config  # noqa
+
+__all__ = [Config]
