@@ -19,6 +19,7 @@ from jinja2 import ChoiceLoader
 from jinja2 import PackageLoader
 from jinja2 import PrefixLoader
 from utils.definitions import get_project_root
+from utils import logging
 
 redis_mlinks = FlaskRedis(config_prefix="REDIS_MLINKS")
 
@@ -68,6 +69,16 @@ def create_app(testing=False) -> Flask:
         DevelopmentConfig.pretty_print()
     else:
         flask_app.config.from_object("config.Config")
+
+    # Initialise logging
+    logging.init_app(flask_app)
+
+    # Configure Swagger
+    options = {
+        "swagger_path": flask_app.config.get("FLASK_ROOT") + "/swagger/dist",
+        "swagger_url": "/docs",
+        "swagger_ui_template_arguments": {},
+    }
 
     connexion_app.add_api(
         get_bundled_specs(project_root_path + "/openapi/api.yml"),

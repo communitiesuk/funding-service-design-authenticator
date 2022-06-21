@@ -1,4 +1,5 @@
 """Flask Local Development Environment Configuration."""
+import logging
 from os import path
 
 import redis
@@ -15,6 +16,9 @@ class DevelopmentConfig(Config):
         path.dirname(path.dirname(path.realpath(__file__)))
     )
     FLASK_ENV = "development"
+
+    # Logging
+    FSD_LOG_LEVEL = logging.DEBUG
 
     # Hostname for this service
     AUTHENTICATOR_HOST = "http://localhost:5000"
