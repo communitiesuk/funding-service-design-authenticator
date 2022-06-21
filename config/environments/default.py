@@ -2,17 +2,15 @@
 import logging
 from os import environ
 from os import path
+from pathlib import Path
 from fsd_tech import configclass
-
 
 @configclass
 class Config(object):
     #  Application Config
     SECRET_KEY = environ.get("SECRET_KEY")
     SESSION_COOKIE_NAME = environ.get("SESSION_COOKIE_NAME", "session_cookie")
-    FLASK_ROOT = path.dirname(
-        path.dirname(path.dirname(path.realpath(__file__)))
-    )
+    FLASK_ROOT =  Path(__file__).parent.parent.parent
     FLASK_ENV = environ.get("FLASK_ENV")
 
     # Logging
