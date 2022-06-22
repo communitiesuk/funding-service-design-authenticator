@@ -9,6 +9,8 @@ match FLASK_ENV:  # noqa
         pass
     case "test":
         from config.test import TestConfig as Config  # noqa
+    case "unit_test":
+        from config.unit_test import UnitTestConfig as Config  # noqa
     case "production":
         pass
     case _:
