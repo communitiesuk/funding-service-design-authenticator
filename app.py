@@ -6,7 +6,6 @@ from typing import Dict
 import connexion
 import prance
 from api.demo.routes import build_auth_code_flow
-from config.env import env
 from connexion.resolver import MethodViewResolver
 from flask import Flask
 from flask import request
@@ -18,13 +17,10 @@ from frontend.assets import compile_static_assets
 from jinja2 import ChoiceLoader
 from jinja2 import PackageLoader
 from jinja2 import PrefixLoader
-from utils.definitions import get_project_root
 from utils import logging
+from config import Config
 
 redis_mlinks = FlaskRedis(config_prefix="REDIS_MLINKS")
-
-project_root_path = str(get_project_root())
-
 
 def get_bundled_specs(main_file: Path) -> Dict[str, Any]:
     parser = prance.ResolvingParser(main_file, strict=False)
@@ -32,10 +28,10 @@ def get_bundled_specs(main_file: Path) -> Dict[str, Any]:
     return parser.specification
 
 
-def create_app(testing=False) -> Flask:
+def create_app() -> Flask:
 
     options = {
-        "swagger_path": project_root_path + "/swagger/dist",
+        "swagger_path": Config.FLASK_ROOT + "/swagger/dist",
         "swagger_url": "/docs",
         "swagger_ui_template_arguments": {},
     }
@@ -45,8 +41,10 @@ def create_app(testing=False) -> Flask:
         specification_dir="/openapi/",
         options=options,
     )
-
+    
     flask_app = connexion_app.app
+    flask_app.config.from_object("config.Config")
+
     flask_app.static_folder = "frontend/static/dist/"
     flask_app.jinja_loader = ChoiceLoader(
         [
@@ -60,28 +58,18 @@ def create_app(testing=False) -> Flask:
     flask_app.jinja_env.trim_blocks = True
     flask_app.jinja_env.lstrip_blocks = True
 
-    if (os.environ.get("FLASK_ENV") == "development") | testing:
-        flask_app.config.from_object(
-            "config.environments.development.DevelopmentConfig"
-        )
-        from config.environments.development import DevelopmentConfig
-
-        DevelopmentConfig.pretty_print()
-    else:
-        flask_app.config.from_object("config.Config")
-
     # Initialise logging
     logging.init_app(flask_app)
 
     # Configure Swagger
     options = {
-        "swagger_path": flask_app.config.get("FLASK_ROOT") + "/swagger/dist",
+        "swagger_path": Config.FLASK_ROOT + "/swagger/dist",
         "swagger_url": "/docs",
         "swagger_ui_template_arguments": {},
     }
 
     connexion_app.add_api(
-        get_bundled_specs(project_root_path + "/openapi/api.yml"),
+        get_bundled_specs(Config.FLASK_ROOT + "/openapi/api.yml"),
         validate_responses=True,
         resolver=MethodViewResolver("api"),
     )
@@ -91,14 +79,10 @@ def create_app(testing=False) -> Flask:
 
     redis_mlinks.init_app(flask_app)
 
-    # This is needed to access the running app's environment config
-    # outside the request context using env.config.get("VARIABLE_NAME")
-    env.init_app(flask_app)
-
     talisman = Talisman(
         flask_app,
-        strict_transport_security=env.config.get("HSTS_HEADERS"),
-        force_https=env.config.get("FORCE_HTTPS"),
+        strict_transport_security=Config.HSTS_HEADERS,
+        force_https=Config.FORCE_HTTPS,
         content_security_policy_nonce_in=["script-src"],
     )
 
@@ -120,9 +104,9 @@ def create_app(testing=False) -> Flask:
     @flask_app.before_request
     def before_request_modifier():
         if request.path.startswith("/docs"):
-            talisman.content_security_policy = env.config.get("SWAGGER_CSP")
+            talisman.content_security_policy = Config.SWAGGER_CSP
         else:
-            talisman.content_security_policy = env.config.get("STRICT_CSP")
+            talisman.content_security_policy = Config.STRICT_CSP
 
     # This is silently used by flask in the background.
     @flask_app.context_processor

@@ -5,7 +5,7 @@
 # funding-service-design-authenticator/api/responses.py: 1
 # funding-service-design-authenticator/api/session/auth_session.py: 7,8,9,10,11
 # funding-service-design-authenticator/api/sso/routes.py: 6,7,8,9
-# funding-service-design-authenticator/app.py: 11,12
+# funding-service-design-authenticator/app.py: 10,11
 # funding-service-design-authenticator/frontend/default/routes.py: 1,2
 # funding-service-design-authenticator/frontend/magic_links/routes.py: 1,2,3,4,5
 # funding-service-design-authenticator/tests/test_accessibility.py: 9
@@ -14,61 +14,57 @@
 # funding-service-design-authenticator/utils/logging.py: 12,13,14
 Flask == 2.1.2
 
-# funding-service-design-authenticator/app.py: 18,19,20
+# funding-service-design-authenticator/app.py: 12
+# funding-service-design-authenticator/frontend/assets.py: 2
+Flask_Assets == 2.0
+
+# funding-service-design-authenticator/app.py: 14
+Flask_QSSession == 0.3.0
+
+# funding-service-design-authenticator/app.py: 13
+# funding-service-design-authenticator/models/magic_link.py: 13
+Flask_Redis_Helper == 1.0.0
+
+# funding-service-design-authenticator/frontend/magic_links/forms.py: 1
+Flask_WTF == 1.0.1
+
+# funding-service-design-authenticator/app.py: 17,18,19
 Jinja2 == 3.1.2
 
-# funding-service-design-authenticator/app.py: 111
+# funding-service-design-authenticator/api/session/auth_session.py: 3
+# funding-service-design-authenticator/security/utils.py: 1
+PyJWT == 2.4.0
+
+# funding-service-design-authenticator/frontend/magic_links/forms.py: 2,3,4,5
+WTForms == 3.0.1
+
+# funding-service-design-authenticator/app.py: 95
 Werkzeug == 2.1.2
 
 # funding-service-design-authenticator/tests/test_accessibility.py: 8
-axe-selenium-python == 2.1.6
+axe_selenium_python == 2.1.6
 
 # funding-service-design-authenticator/tests/mocks/selenium_chrome_driver.py: 4
-chromedriver-py == 103.0.5060.24
+chromedriver_py == 103.0.5060.24
 
-# funding-service-design-authenticator/app.py: 6,10
+# funding-service-design-authenticator/app.py: 6,9
 connexion == 2.13.1
 
 # funding-service-design-authenticator/tests/helpers.py: 3
 deepdiff == 5.8.1
 
-# funding-service-design-authenticator/app.py: 14
-# funding-service-design-authenticator/models/magic_link.py: 13
-flask-and-redis == 1.0.0
-
-# funding-service-design-authenticator/app.py: 13
-# funding-service-design-authenticator/frontend/assets.py: 2
-flask-assets == 2.0
-
 # funding-service-design-authenticator/app.py: 15
-flask-qssession == 0.3.0
+flask_talisman_rdil == 0.9.8
 
-# funding-service-design-authenticator/app.py: 14
-# funding-service-design-authenticator/models/magic_link.py: 13
-flask-redis == 0.4.0
-
-# funding-service-design-authenticator/app.py: 14
-# funding-service-design-authenticator/models/magic_link.py: 13
-flask-redis-helper == 1.0.0
-
-# funding-service-design-authenticator/app.py: 15
-flask-session == 0.4.0
-
-# funding-service-design-authenticator/app.py: 16
-flask-talisman == 1.0.0
-
-# funding-service-design-authenticator/app.py: 16
-flask-talisman-rdil == 0.9.8
-
-# funding-service-design-authenticator/frontend/magic_links/forms.py: 1
-flask-wtf == 1.0.1
+# funding-service-design-authenticator/config/default.py: 6
+# funding-service-design-authenticator/config/dev.py: 9
+# funding-service-design-authenticator/config/development.py: 7
+# funding-service-design-authenticator/config/production.py: 7
+# funding-service-design-authenticator/config/test.py: 8
+fsd_tech == 0.2.0
 
 # funding-service-design-authenticator/tests/test_accessibility.py: 10
 json2html == 1.3.0
-
-# funding-service-design-authenticator/api/session/auth_session.py: 3
-# funding-service-design-authenticator/security/utils.py: 1
-jwt == 1.3.1
 
 # funding-service-design-authenticator/api/demo/routes.py: 3
 # funding-service-design-authenticator/api/sso/routes.py: 3
@@ -88,14 +84,17 @@ prance == 0.21.8.0
 # funding-service-design-authenticator/tests/test_magic_links.py: 4
 pytest == 7.1.2
 
+# funding-service-design-authenticator/utils/logging.py: 15
+python_json_logger == 2.0.2
+
 # funding-service-design-authenticator/run/gunicorn/config.devtest.py: 3
 # funding-service-design-authenticator/run/gunicorn/config.local.py: 3
 pytz == 2022.1
 
-# funding-service-design-authenticator/config/environments/dev.py: 6
-# funding-service-design-authenticator/config/environments/development.py: 5
-# funding-service-design-authenticator/config/environments/production.py: 4
-# funding-service-design-authenticator/config/environments/test.py: 4
+# funding-service-design-authenticator/config/dev.py: 6
+# funding-service-design-authenticator/config/development.py: 5
+# funding-service-design-authenticator/config/production.py: 4
+# funding-service-design-authenticator/config/test.py: 4
 redis == 4.3.3
 
 # funding-service-design-authenticator/api/demo/routes.py: 4
@@ -110,8 +109,3 @@ selenium == 4.2.0
 
 # funding-service-design-authenticator/build.py: 8
 swagger_ui_bundle == 0.0.9
-
-# funding-service-design-authenticator/frontend/magic_links/forms.py: 2,3,4,5
-wtforms == 3.0.1
-
-fsd_tech @ https://github.com/communitiesuk/funding-service-design-utils/archive/refs/tags/0.0.3.tar.gz

@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import List
 
-from config.env import env
+from config import Config
 from models.data import get_data
 from models.data import post_data
 
@@ -48,9 +48,7 @@ class ApplicationMethods(Application):
             List of Applications
         """
 
-        url = env.config.get("APPLICATION_STORE_API_HOST") + env.config.get(
-            "APPLICATION_STORE_APPLICATION_ENDPOINT"
-        )
+        url = Config.APPLICATION_STORE_API_HOST + Config.APPLICATION_STORE_APPLICATION_ENDPOINT
         params = {"application_id": application_id}
         response = get_data(url, params)
 
@@ -73,9 +71,7 @@ class ApplicationMethods(Application):
         if account_id is None:
             raise TypeError("Requires an account_id")
 
-        url = env.config.get("APPLICATION_STORE_API_HOST") + env.config.get(
-            "APPLICATION_STORE_APPLICATIONS_ENDPOINT"
-        )
+        url = Config.APPLICATION_STORE_API_HOST + Config.APPLICATION_STORE_APPLICATIONS_ENDPOINT
         response = get_data(url, kwargs)
 
         if response:
@@ -97,9 +93,7 @@ class ApplicationMethods(Application):
         Returns:
             Application object or None
         """
-        url = env.config.get("APPLICATION_STORE_API_HOST") + env.config.get(
-            "APPLICATIONS_ENDPOINT"
-        )
+        url = Config.APPLICATION_STORE_API_HOST + Config.APPLICATIONS_ENDPOINT
         params = {
             "account_id": account_id,
             "fund_id": fund_id,

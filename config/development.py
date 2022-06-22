@@ -3,7 +3,7 @@ import logging
 from os import path
 
 import redis
-from config.environments.default import Config
+from config.default import DefaultConfig as Config
 from fsd_tech import configclass
 
 
@@ -13,8 +13,8 @@ class DevelopmentConfig(Config):
     SECRET_KEY = "dev"
     SESSION_COOKIE_NAME = "session_cookie"
     FLASK_ROOT = path.dirname(
-        path.dirname(path.dirname(path.realpath(__file__)))
-    )
+        path.dirname(path.realpath(__file__)
+    ))
     FLASK_ENV = "development"
 
     # Logging

@@ -9,7 +9,7 @@ from datetime import timedelta
 from typing import List
 from typing import TYPE_CHECKING
 
-from config.env import env
+from config import Config
 from flask_redis import FlaskRedis
 from security.utils import create_token
 
@@ -89,7 +89,7 @@ class MagicLinkMethods(object):
                 (
                     datetime.now()
                     + timedelta(
-                        days=env.config.get("MAGIC_LINK_EXPIRY_DAYS", 0),
+                        days=Config.MAGIC_LINK_EXPIRY_DAYS,
                         minutes=1,
                     )
                 ).timestamp()
@@ -114,7 +114,7 @@ class MagicLinkMethods(object):
             prefixed_key, unique_key = self._make_short_key(prefix)
             created = self.redis_mlinks.setex(
                 prefixed_key,
-                env.config.get("MAGIC_LINK_EXPIRY_SECONDS", 0),
+                Config.MAGIC_LINK_EXPIRY_SECONDS,
                 value,
             )
             if created:
@@ -133,13 +133,13 @@ class MagicLinkMethods(object):
         """
         prefixed_user_key = ":".join(
             [
-                env.config.get("MAGIC_LINK_USER_PREFIX"),
+                Config.MAGIC_LINK_USER_PREFIX,
                 account.id,
             ]
         )
         created = self.redis_mlinks.setex(
             prefixed_user_key,
-            env.config.get("MAGIC_LINK_EXPIRY_SECONDS", 0),
+            Config.MAGIC_LINK_EXPIRY_SECONDS,
             link_redis_key,
         )
         return created
@@ -152,7 +152,7 @@ class MagicLinkMethods(object):
         :return: True if existing link is cleared
         """
         user_record_key = ":".join(
-            [env.config.get("MAGIC_LINK_USER_PREFIX"), account.id]
+            [Config.MAGIC_LINK_USER_PREFIX, account.id]
         )
         existing_link_key = self.redis_mlinks.get(user_record_key)
         if existing_link_key:
@@ -166,7 +166,7 @@ class MagicLinkMethods(object):
         :param account: Account instance of the user
         :return: Url (str)
         """
-        return env.config.get("MAGIC_LINK_REDIRECT_URL").format(
+        return Config.MAGIC_LINK_REDIRECT_URL.format(
             account_id=account.id
         )
 
@@ -187,7 +187,7 @@ class MagicLinkMethods(object):
 
         redis_key, link_key = self._set_unique_keyed_record(
             json.dumps(new_link_json),
-            env.config.get("MAGIC_LINK_RECORD_PREFIX"),
+            Config.MAGIC_LINK_RECORD_PREFIX,
         )
 
         # If link key successfully saved, create user record then return
@@ -195,8 +195,8 @@ class MagicLinkMethods(object):
             self._create_user_record(account, redis_key)
 
             magic_link_url = (
-                env.config.get("AUTHENTICATOR_HOST")
-                + env.config.get("MAGIC_LINK_LANDING_PAGE")
+                Config.AUTHENTICATOR_HOST
+                + Config.MAGIC_LINK_LANDING_PAGE
                 + link_key
             )
             new_link_json.update(

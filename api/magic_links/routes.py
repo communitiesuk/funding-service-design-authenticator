@@ -4,7 +4,7 @@ from datetime import datetime
 from api.responses import error_response
 from api.responses import magic_link_201_response
 from api.session.auth_session import AuthSessionView
-from config.env import env
+from config import Config
 from flask import redirect
 from flask import request
 from flask import Response
@@ -46,14 +46,14 @@ class MagicLinksView(MagicLinkMethods, MethodView):
         :return: 302 Redirect / 404 Error
         """
         link_key = ":".join(
-            [env.config.get("MAGIC_LINK_RECORD_PREFIX"), link_id]
+            [Config.MAGIC_LINK_RECORD_PREFIX, link_id]
         )
         link_hash = self.redis_mlinks.get(link_key)
         if link_hash:
             link = json.loads(link_hash)
             user_key = ":".join(
                 [
-                    env.config.get("MAGIC_LINK_USER_PREFIX"),
+                    Config.MAGIC_LINK_USER_PREFIX,
                     link.get("accountId"),
                 ]
             )

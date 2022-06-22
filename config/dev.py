@@ -4,7 +4,7 @@ from os import environ
 from os import path
 
 import redis
-from config.environments.default import Config
+from config.default import DefaultConfig as Config
 from config.utils import VcapServices
 from fsd_tech import configclass
 

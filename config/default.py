@@ -6,7 +6,7 @@ from pathlib import Path
 from fsd_tech import configclass
 
 @configclass
-class Config(object):
+class DefaultConfig(object):
     #  Application Config
     SECRET_KEY = environ.get("SECRET_KEY")
     SESSION_COOKIE_NAME = environ.get("SESSION_COOKIE_NAME", "session_cookie")
@@ -140,7 +140,7 @@ class Config(object):
         ],
         "img-src": ["data:", "'self'"],
     }
-
+    
     # Allow inline scripts for swagger docs (for Talisman Config)
     SWAGGER_CSP = {
         "script-src": ["'self'", "'unsafe-inline'"],
@@ -149,7 +149,7 @@ class Config(object):
 
     # HTTP Strict-Transport-Security (for Talisman Config)
     HSTS_HEADERS = {
-        "Strict-Transport-Security": (
+        "strict-transport-security": (
             "max-age=31536000; includeSubDomains; preload"
         ),
         "X-Content-Type-Options": "nosniff",
