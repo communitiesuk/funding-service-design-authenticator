@@ -50,6 +50,7 @@ coverage.xml
 *.py,cover
 .hypothesis/
 .pytest_cache/
+axe_reports/
 
 # Translations
 *.mo
@@ -140,3 +141,5 @@ flask_session
 # Mac files
 .bash_profile
 .DS_Store
+
+html
