@@ -1,4 +1,3 @@
-import os
 from pathlib import Path
 from typing import Any
 from typing import Dict
@@ -6,6 +5,7 @@ from typing import Dict
 import connexion
 import prance
 from api.demo.routes import build_auth_code_flow
+from config import Config
 from connexion.resolver import MethodViewResolver
 from flask import Flask
 from flask import request
@@ -18,9 +18,9 @@ from jinja2 import ChoiceLoader
 from jinja2 import PackageLoader
 from jinja2 import PrefixLoader
 from utils import logging
-from config import Config
 
 redis_mlinks = FlaskRedis(config_prefix="REDIS_MLINKS")
+
 
 def get_bundled_specs(main_file: Path) -> Dict[str, Any]:
     parser = prance.ResolvingParser(main_file, strict=False)
@@ -41,7 +41,7 @@ def create_app() -> Flask:
         specification_dir="/openapi/",
         options=options,
     )
-    
+
     flask_app = connexion_app.app
     flask_app.config.from_object("config.Config")
 

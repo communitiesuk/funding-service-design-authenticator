@@ -48,7 +48,10 @@ class ApplicationMethods(Application):
             List of Applications
         """
 
-        url = Config.APPLICATION_STORE_API_HOST + Config.APPLICATION_STORE_APPLICATION_ENDPOINT
+        url = (
+            Config.APPLICATION_STORE_API_HOST
+            + Config.APPLICATION_STORE_APPLICATION_ENDPOINT
+        )
         params = {"application_id": application_id}
         response = get_data(url, params)
 
@@ -71,7 +74,10 @@ class ApplicationMethods(Application):
         if account_id is None:
             raise TypeError("Requires an account_id")
 
-        url = Config.APPLICATION_STORE_API_HOST + Config.APPLICATION_STORE_APPLICATIONS_ENDPOINT
+        url = (
+            Config.APPLICATION_STORE_API_HOST
+            + Config.APPLICATION_STORE_APPLICATIONS_ENDPOINT
+        )
         response = get_data(url, kwargs)
 
         if response:

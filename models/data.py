@@ -6,7 +6,6 @@ import requests
 from config import Config
 
 
-
 def api_call(endpoint: str, method: str = "GET", params: dict = None):
     if params:
         params = {k: v for k, v in params.items() if v is not None}

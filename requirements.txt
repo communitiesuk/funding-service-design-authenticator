@@ -47,7 +47,7 @@ axe_selenium_python == 2.1.6
 # funding-service-design-authenticator/tests/mocks/selenium_chrome_driver.py: 4
 chromedriver_py == 103.0.5060.24
 
-# funding-service-design-authenticator/app.py: 6,9
+# funding-service-design-authenticator/app.py: 5,9
 connexion == 2.13.1
 
 # funding-service-design-authenticator/tests/helpers.py: 3
@@ -70,7 +70,7 @@ json2html == 1.3.0
 # funding-service-design-authenticator/api/sso/routes.py: 3
 msal == 1.18.0
 
-# funding-service-design-authenticator/app.py: 7
+# funding-service-design-authenticator/app.py: 6
 prance == 0.21.8.0
 
 # funding-service-design-authenticator/tests/mocks/flask_test_client.py: 1
@@ -94,7 +94,7 @@ pytz == 2022.1
 # funding-service-design-authenticator/config/dev.py: 6
 # funding-service-design-authenticator/config/development.py: 5
 # funding-service-design-authenticator/config/production.py: 4
-# funding-service-design-authenticator/config/test.py: 4
+# funding-service-design-authenticator/config/test.py: 5
 redis == 4.3.3
 
 # funding-service-design-authenticator/api/demo/routes.py: 4

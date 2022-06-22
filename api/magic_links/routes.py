@@ -27,9 +27,7 @@ class MagicLinksView(MagicLinkMethods, MethodView):
         """
         GET /magic-links/landing/{link_id} endpoint
         """
-        return redirect(
-            url_for("magic_links_bp.landing", link_id=link_id)
-        )
+        return redirect(url_for("magic_links_bp.landing", link_id=link_id))
 
     def use(self, link_id: str):
         """
@@ -45,9 +43,7 @@ class MagicLinksView(MagicLinkMethods, MethodView):
         :param link_id: String short key for the link
         :return: 302 Redirect / 404 Error
         """
-        link_key = ":".join(
-            [Config.MAGIC_LINK_RECORD_PREFIX, link_id]
-        )
+        link_key = ":".join([Config.MAGIC_LINK_RECORD_PREFIX, link_id])
         link_hash = self.redis_mlinks.get(link_key)
         if link_hash:
             link = json.loads(link_hash)

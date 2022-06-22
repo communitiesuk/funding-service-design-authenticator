@@ -2,7 +2,7 @@ from os import environ
 
 FLASK_ENV = environ.get("FLASK_ENV")
 
-match FLASK_ENV:
+match FLASK_ENV:  # noqa
     case "development":
         from config.development import DevelopmentConfig as Config  # noqa
     case "dev":

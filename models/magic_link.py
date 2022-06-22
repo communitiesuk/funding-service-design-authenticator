@@ -151,9 +151,7 @@ class MagicLinkMethods(object):
         :param account: Account instance of the user
         :return: True if existing link is cleared
         """
-        user_record_key = ":".join(
-            [Config.MAGIC_LINK_USER_PREFIX, account.id]
-        )
+        user_record_key = ":".join([Config.MAGIC_LINK_USER_PREFIX, account.id])
         existing_link_key = self.redis_mlinks.get(user_record_key)
         if existing_link_key:
             self.redis_mlinks.delete(existing_link_key)
@@ -166,9 +164,7 @@ class MagicLinkMethods(object):
         :param account: Account instance of the user
         :return: Url (str)
         """
-        return Config.MAGIC_LINK_REDIRECT_URL.format(
-            account_id=account.id
-        )
+        return Config.MAGIC_LINK_REDIRECT_URL.format(account_id=account.id)
 
     def create_magic_link(
         self, account: Account, redirect_url: str = None

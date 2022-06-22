@@ -26,9 +26,7 @@ class AuthSessionView(MethodView):
         or an error if no authenticated user session found
         :return: 200 user details json or 404 error
         """
-        token = request.cookies.get(
-            Config.FSD_USER_TOKEN_COOKIE_NAME
-        )
+        token = request.cookies.get(Config.FSD_USER_TOKEN_COOKIE_NAME)
         if token:
             try:
                 valid_token = validate_token(token)
@@ -68,8 +66,7 @@ class AuthSessionView(MethodView):
             "accountId": account_id,
             "iat": int(datetime.now().timestamp()),
             "exp": int(
-                datetime.now().timestamp()
-                + Config.FSD_SESSION_TIMEOUT_SECS
+                datetime.now().timestamp() + Config.FSD_SESSION_TIMEOUT_SECS
             ),
         }
 

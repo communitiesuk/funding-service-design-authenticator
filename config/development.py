@@ -12,9 +12,7 @@ class DevelopmentConfig(Config):
     #  Application Config
     SECRET_KEY = "dev"
     SESSION_COOKIE_NAME = "session_cookie"
-    FLASK_ROOT = path.dirname(
-        path.dirname(path.realpath(__file__)
-    ))
+    FLASK_ROOT = path.dirname(path.dirname(path.realpath(__file__)))
     FLASK_ENV = "development"
 
     # Logging

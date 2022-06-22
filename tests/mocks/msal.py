@@ -31,7 +31,7 @@ class ConfidentialClientApplication(object):
         authority=None,  # See get_authorization_request_url()
         force_refresh=False,  # type: Optional[bool]
         claims_challenge=None,
-        **kwargs
+        **kwargs,
     ):
         return [{"username": "test"}]
 

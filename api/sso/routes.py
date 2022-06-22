@@ -74,9 +74,7 @@ class SsoView(MethodView):
         Requires a valid token in the session
         :return: 200 json of user graph data or 404 not found
         """
-        token = self._get_token_from_cache(
-            Config.MS_GRAPH_PERMISSIONS_SCOPE
-        )
+        token = self._get_token_from_cache(Config.MS_GRAPH_PERMISSIONS_SCOPE)
         if not token:
             return {"message": "No valid token"}, 404
         graph_data = requests.get(  # Use token to call downstream service
