@@ -8,9 +8,13 @@ match FLASK_ENV:  # noqa
             DevelopmentConfig as Config,
         )  # noqa
     case "dev":
-        pass
+        from config.environments.dev import (
+            DevConfig as Config,
+        )  # noqa
     case "test":
-        from config.environments.test import TestConfig as Config  # noqa
+        from config.environments.test import (
+            TestConfig as Config  # noqa
+        )
     case "unit_test":
         from config.environments.unit_test import (
             UnitTestConfig as Config,
