@@ -106,7 +106,7 @@ def create_app() -> Flask:
         if request.path.startswith("/docs"):
             talisman.content_security_policy = Config.SWAGGER_CSP
         else:
-            talisman.content_security_policy = Config.STRICT_CSP
+            talisman.content_security_policy = Config.SECURE_CSP
 
     # This is silently used by flask in the background.
     @flask_app.context_processor

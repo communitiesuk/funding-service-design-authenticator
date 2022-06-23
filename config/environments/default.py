@@ -130,7 +130,6 @@ class DefaultConfig(object):
 
     # Security Settings (for Talisman Config)
     FORCE_HTTPS = True
-    STRICT_CSP = True
 
     # Content Security Policy (for Talisman Config)
     SECURE_CSP = {
