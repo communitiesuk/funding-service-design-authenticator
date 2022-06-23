@@ -3,17 +3,17 @@ import logging
 from os import path
 
 import redis
-from config.default import DefaultConfig as Config
+from config.environments.default import DefaultConfig as Config
 from fsd_tech import configclass
 
 
 @configclass
-class UnitTestConfig(Config):
+class DevelopmentConfig(Config):
     #  Application Config
     SECRET_KEY = "dev"
-    FORCE_HTTPS = False
     SESSION_COOKIE_NAME = "session_cookie"
-    FLASK_ROOT = path.dirname(path.dirname(path.realpath(__file__)))
+    FLASK_ROOT = path.dirname(path.dirname(path.dirname(path.realpath(__file__))))
+    FLASK_ENV = "development"
 
     # Logging
     FSD_LOG_LEVEL = logging.DEBUG
@@ -67,4 +67,3 @@ class UnitTestConfig(Config):
 
     # Security
     FORCE_HTTPS = False
-    

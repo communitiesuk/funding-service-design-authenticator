@@ -4,7 +4,7 @@ import shutil
 import urllib.request
 import zipfile
 
-from config.default import DefaultConfig as Config
+from config.environments.default import DefaultConfig as Config
 from swagger_ui_bundle import swagger_ui_3_52_0_path
 
 
