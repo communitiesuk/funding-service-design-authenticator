@@ -109,6 +109,7 @@ typing_extensions==4.2.0
 urllib3==1.26.9
 virtualenv==20.14.1
 webassets==2.0
+webdriver-manager==3.7.0
 Werkzeug==2.0.3
 wrapt==1.14.1
 wsproto==1.1.0
