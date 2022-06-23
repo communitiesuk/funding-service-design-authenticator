@@ -15,9 +15,6 @@ class DevConfig(Config):
     SECRET_KEY = "dev"
     SESSION_COOKIE_NAME = "session_cookie"
     AUTHENTICATOR_HOST = environ.get("AUTHENTICATOR_HOST", "")
-    FLASK_ROOT = path.dirname(
-        path.dirname(path.dirname(path.realpath(__file__)))
-    )
 
     # Logging
     FSD_LOG_LEVEL = logging.INFO
@@ -38,10 +35,12 @@ class DevConfig(Config):
     AZURE_AD_REDIRECT_URI = AUTHENTICATOR_HOST + AZURE_AD_REDIRECT_PATH
 
     # RSA 256 KEYS
-    _test_private_key_path = FLASK_ROOT + "/tests/keys/rsa256/private.pem"
+    _test_private_key_path = (
+        Config.FLASK_ROOT + "/tests/keys/rsa256/private.pem"
+    )
     with open(_test_private_key_path, mode="rb") as private_key_file:
         RSA256_PRIVATE_KEY = private_key_file.read()
-    _test_public_key_path = FLASK_ROOT + "/tests/keys/rsa256/public.pem"
+    _test_public_key_path = Config.FLASK_ROOT + "/tests/keys/rsa256/public.pem"
     with open(_test_public_key_path, mode="rb") as public_key_file:
         RSA256_PUBLIC_KEY = public_key_file.read()
 

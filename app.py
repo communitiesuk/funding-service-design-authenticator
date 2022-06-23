@@ -31,7 +31,7 @@ def get_bundled_specs(main_file: Path) -> Dict[str, Any]:
 def create_app() -> Flask:
 
     options = {
-        "swagger_path": str(Config.FLASK_ROOT) + "/swagger/dist",
+        "swagger_path": Config.FLASK_ROOT + "/swagger/dist",
         "swagger_url": "/docs",
         "swagger_ui_template_arguments": {},
     }
@@ -63,13 +63,13 @@ def create_app() -> Flask:
 
     # Configure Swagger
     options = {
-        "swagger_path": str(Config.FLASK_ROOT) + "/swagger/dist",
+        "swagger_path": Config.FLASK_ROOT + "/swagger/dist",
         "swagger_url": "/docs",
         "swagger_ui_template_arguments": {},
     }
 
     connexion_app.add_api(
-        get_bundled_specs(str(Config.FLASK_ROOT) + "/openapi/api.yml"),
+        get_bundled_specs(Config.FLASK_ROOT + "/openapi/api.yml"),
         validate_responses=True,
         resolver=MethodViewResolver("api"),
     )
@@ -105,9 +105,8 @@ def create_app() -> Flask:
     def before_request_modifier():
         if request.path.startswith("/docs"):
             talisman.content_security_policy = Config.SWAGGER_CSP
-        # NOT SET ANYWHERE???
-        # else:
-        #     talisman.content_security_policy = Config.STRICT_CSP
+        else:
+            talisman.content_security_policy = Config.STRICT_CSP
 
     # This is silently used by flask in the background.
     @flask_app.context_processor
