@@ -4,13 +4,17 @@ FLASK_ENV = environ.get("FLASK_ENV")
 
 match FLASK_ENV:  # noqa
     case "development":
-        from config.environments.development import DevelopmentConfig as Config  # noqa
+        from config.environments.development import (
+            DevelopmentConfig as Config,
+        )  # noqa
     case "dev":
         pass
     case "test":
         from config.environments.test import TestConfig as Config  # noqa
     case "unit_test":
-        from config.environments.unit_test import UnitTestConfig as Config  # noqa
+        from config.environments.unit_test import (
+            UnitTestConfig as Config,
+        )  # noqa
     case "production":
         pass
     case _:

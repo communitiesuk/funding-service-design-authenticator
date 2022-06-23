@@ -13,7 +13,9 @@ class UnitTestConfig(Config):
     SECRET_KEY = "dev"
     FORCE_HTTPS = False
     SESSION_COOKIE_NAME = "session_cookie"
-    FLASK_ROOT = path.dirname(path.dirname(path.dirname(path.realpath(__file__))))
+    FLASK_ROOT = path.dirname(
+        path.dirname(path.dirname(path.realpath(__file__)))
+    )
 
     # Logging
     FSD_LOG_LEVEL = logging.DEBUG
@@ -67,4 +69,3 @@ class UnitTestConfig(Config):
 
     # Security
     FORCE_HTTPS = False
-    
