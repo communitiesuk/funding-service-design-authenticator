@@ -1,6 +1,5 @@
 """Flask Local Development Environment Configuration."""
 import logging
-from os import path
 
 import redis
 from config.environments.default import DefaultConfig as Config
