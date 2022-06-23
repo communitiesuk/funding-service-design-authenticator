@@ -11,9 +11,9 @@ from fsd_tech import configclass
 class UnitTestConfig(Config):
     #  Application Config
     SECRET_KEY = "dev"
+    FORCE_HTTPS = False
     SESSION_COOKIE_NAME = "session_cookie"
     FLASK_ROOT = path.dirname(path.dirname(path.realpath(__file__)))
-    FLASK_ENV = "development"
 
     # Logging
     FSD_LOG_LEVEL = logging.DEBUG
