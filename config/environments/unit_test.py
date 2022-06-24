@@ -3,7 +3,7 @@ import logging
 
 import redis
 from config.environments.default import DefaultConfig as Config
-from fsd_tech import configclass
+from fsd_utils import configclass
 
 
 @configclass

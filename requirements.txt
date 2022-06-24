@@ -33,7 +33,7 @@ flask-redis==0.4.0
 Flask-Session==0.3.2
 flask-talisman==0.8.1
 Flask-WTF==1.0.0
-fsd-tech @ git+https://github.com/communitiesuk/funding-service-design-utils.git@5a768bf580bb5b0cf6baba6ebafab38b31c0ff4b
+https://github.com/communitiesuk/funding-service-design-utils/archive/refs/tags/0.0.5.tar.gz
 gitdb==4.0.9
 GitPython==3.1.27
 govuk-frontend-jinja==2.0.0

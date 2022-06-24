@@ -19,7 +19,9 @@ match FLASK_ENV:
             UnitTestConfig as Config,
         )
     case "production":
-        pass
+        from config.environments.production import (
+            ProductionConfig as Config,
+        )
     case _:
         from config.environments.default import DefaultConfig as Config
 
