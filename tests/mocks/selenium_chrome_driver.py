@@ -18,7 +18,6 @@ def selenium_chrome_driver(request, live_server):
     @pytest.mark.uses_fixture('selenium_chrome_driver')
     :return: A selenium chrome driver.
     """
-    live_server.start()
 
     service_object = Service(ChromeDriverManager().install())
     chrome_options = Options()

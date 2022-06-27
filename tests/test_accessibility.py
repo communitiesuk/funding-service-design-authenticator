@@ -52,7 +52,6 @@ def print_axe_report(results: dict, route_rel: str):
 
 
 @pytest.mark.usefixtures("selenium_chrome_driver")
-@pytest.mark.usefixtures("live_server")
 def run_axe_and_print_report(
     driver: WebDriver,
     route_rel: str = "",
@@ -79,7 +78,6 @@ def test_app(app):
 
 
 @pytest.mark.usefixtures("selenium_chrome_driver")
-@pytest.mark.usefixtures("live_server")
 class TestAccessibilityWithChrome:
     def test_homepage_accessible(self):
         """

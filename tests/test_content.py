@@ -10,7 +10,6 @@ from tests.utils import print_html_page
 
 
 @pytest.mark.usefixtures("selenium_chrome_driver")
-@pytest.mark.usefixtures("live_server")
 @pytest.mark.usefixtures("client_class")
 class TestContentWithChrome:
     def route_content_test(self, route_rel: str, content_dict: dict):
