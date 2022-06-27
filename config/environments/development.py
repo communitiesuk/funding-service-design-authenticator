@@ -1,5 +1,6 @@
 """Flask Local Development Environment Configuration."""
 import logging
+from os import getenv
 
 import redis
 from config.environments.default import DefaultConfig as Config
@@ -54,8 +55,10 @@ class DevelopmentConfig(Config):
         RSA256_PUBLIC_KEY = public_key_file.read()
 
     # Redis
-    REDIS_MLINKS_URL = "redis://localhost:6379/0"
-    REDIS_SESSIONS_URL = "redis://localhost:6379/1"
+    
+    REDIS_INSTANCE_URI = getenv("REDIS_INSTANCE_URI", "redis://localhost:6379")
+    REDIS_MLINKS_URL = f"{REDIS_INSTANCE_URI}/0"
+    REDIS_SESSIONS_URL = f"{REDIS_INSTANCE_URI}/1"
     SESSION_REDIS = redis.from_url(REDIS_SESSIONS_URL)
 
     # APIs
