@@ -7,11 +7,10 @@ from fsd_utils import configclass
 
 
 @configclass
-class DevelopmentConfig(Config):
+class UnitTestConfig(Config):
     #  Application Config
     SECRET_KEY = "dev"
     SESSION_COOKIE_NAME = "session_cookie"
-    FLASK_ENV = "development"
 
     # Logging
     FSD_LOG_LEVEL = logging.DEBUG
@@ -67,3 +66,4 @@ class DevelopmentConfig(Config):
 
     # Security
     FORCE_HTTPS = False
+    STRICT_CSP = False

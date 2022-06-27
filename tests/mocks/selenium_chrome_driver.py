@@ -1,16 +1,16 @@
 import multiprocessing
 
 import pytest
-from chromedriver_py import binary_path
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
 
 multiprocessing.set_start_method("fork")  # Required on macOSX
 
 
 @pytest.fixture(scope="class")
-def selenium_chrome_driver(request):
+def selenium_chrome_driver(request, live_server):
     """
     Returns a Selenium Chrome driver as a fixture for testing.
     using an installed Chromedriver from the .venv chromedriver_py package
@@ -18,7 +18,8 @@ def selenium_chrome_driver(request):
     @pytest.mark.uses_fixture('selenium_chrome_driver')
     :return: A selenium chrome driver.
     """
-    service_object = Service(binary_path)
+
+    service_object = Service(ChromeDriverManager().install())
     chrome_options = Options()
     chrome_options.add_argument("--headless")
     # TODO: set chrome_options.binary_location = ...

@@ -1,4 +1,4 @@
-from config.env import env
+from config import Config
 from models.data import post_data
 
 
@@ -20,9 +20,7 @@ class Notification(object):
             content: (dict) A dictionary of content to send to
                 fill out the notification template
         """
-        url = env.config.get("NOTIFICATION_SERVICE_HOST") + env.config.get(
-            "SEND_ENDPOINT"
-        )
+        url = Config.NOTIFICATION_SERVICE_HOST + Config.SEND_ENDPOINT
         params = {"type": template_type, "to": to_email, "content": content}
         response = post_data(url, params)
         if response:

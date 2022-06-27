@@ -2,7 +2,7 @@ import warnings
 
 import msal
 import requests
-from config.env import env
+from config import Config
 from flask import Blueprint
 from flask import redirect
 from flask import render_template
@@ -32,7 +32,7 @@ def login():
     # Technically we could use empty list [] as scopes to do just sign in,
     # here we choose to also collect end user consent upfront
     session["flow"] = build_auth_code_flow(
-        scopes=env.config.get("MS_GRAPH_PERMISSIONS_SCOPE")
+        scopes=Config.MS_GRAPH_PERMISSIONS_SCOPE
     )
     return render_template(
         "login.html",
@@ -63,7 +63,7 @@ def authorized():
 def logout():
     session.clear()  # Wipe out user and its token cache from session
     return redirect(  # Also logout from your tenant's web session
-        env.config.get("AZURE_AD_AUTHORITY")
+        Config.AZURE_AD_AUTHORITY
         + "/oauth2/v2.0/logout"
         + "?post_logout_redirect_uri="
         + url_for("demo_bp.index", _external=True)
@@ -72,11 +72,11 @@ def logout():
 
 @demo_bp.route("/graph-call", methods=["GET"])
 def graph_call():
-    token = _get_token_from_cache(env.config.get("MS_GRAPH_PERMISSIONS_SCOPE"))
+    token = _get_token_from_cache(Config.MS_GRAPH_PERMISSIONS_SCOPE)
     if not token:
         return redirect(url_for("demo_bp.login"))
     graph_data = requests.get(  # Use token to call downstream service
-        env.config.get("MS_GRAPH_ENDPOINT"),
+        Config.MS_GRAPH_ENDPOINT,
         headers={"Authorization": "Bearer " + token["access_token"]},
     ).json()
     return render_template("display.html", result=graph_data)
@@ -96,9 +96,9 @@ def _save_cache(cache):
 
 def _build_msal_app(cache=None, authority=None):
     return msal.ConfidentialClientApplication(
-        env.config.get("AZURE_AD_CLIENT_ID"),
-        authority=authority or env.config.get("AZURE_AD_AUTHORITY"),
-        client_credential=env.config.get("AZURE_AD_CLIENT_SECRET"),
+        Config.AZURE_AD_CLIENT_ID,
+        authority=authority or Config.AZURE_AD_AUTHORITY,
+        client_credential=Config.AZURE_AD_CLIENT_SECRET,
         token_cache=cache,
     )
 

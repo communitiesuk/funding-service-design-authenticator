@@ -3,7 +3,7 @@ from datetime import datetime
 import jwt
 from api.responses import error_response
 from api.session.exceptions import SessionCreateError
-from config.env import env
+from config import Config
 from flask import make_response
 from flask import redirect
 from flask import request
@@ -26,9 +26,7 @@ class AuthSessionView(MethodView):
         or an error if no authenticated user session found
         :return: 200 user details json or 404 error
         """
-        token = request.cookies.get(
-            env.config.get("FSD_USER_TOKEN_COOKIE_NAME")
-        )
+        token = request.cookies.get(Config.FSD_USER_TOKEN_COOKIE_NAME)
         if token:
             try:
                 valid_token = validate_token(token)
@@ -50,7 +48,7 @@ class AuthSessionView(MethodView):
             session_details = cls.create_session_details_with_token(account_id)
             response = make_response(redirect(redirect_url), 302)
             response.set_cookie(
-                env.config.get("FSD_USER_TOKEN_COOKIE_NAME"),
+                Config.FSD_USER_TOKEN_COOKIE_NAME,
                 session_details["token"],
             )
             return response
@@ -68,8 +66,7 @@ class AuthSessionView(MethodView):
             "accountId": account_id,
             "iat": int(datetime.now().timestamp()),
             "exp": int(
-                datetime.now().timestamp()
-                + env.config.get("FSD_SESSION_TIMEOUT_SECS", 0)
+                datetime.now().timestamp() + Config.FSD_SESSION_TIMEOUT_SECS
             ),
         }
 

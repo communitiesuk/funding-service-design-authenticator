@@ -1,11 +1,11 @@
 """Flask Test Environment Configuration."""
+import base64
 from os import environ
 
 import redis
-from config.environments.default import Config
+from config.environments.default import DefaultConfig as Config
 from config.utils import VcapServices
-import base64
-from fsd_tech import configclass
+from fsd_utils import configclass
 
 
 @configclass
@@ -24,5 +24,9 @@ class TestConfig(Config):
     REDIS_MLINKS_URL = REDIS_INSTANCE_URI + "/0"
     REDIS_SESSIONS_URL = REDIS_INSTANCE_URI + "/1"
     SESSION_REDIS = redis.from_url(REDIS_SESSIONS_URL)
-    RSA256_PRIVATE_KEY = base64.b64decode(environ.get("RSA256_PRIVATE_KEY_BASE64")).decode()
-    RSA256_PUBLIC_KEY = base64.b64decode(environ.get("RSA256_PUBLIC_KEY_BASE64")).decode()
+    RSA256_PRIVATE_KEY = base64.b64decode(
+        environ.get("RSA256_PRIVATE_KEY_BASE64")
+    ).decode()
+    RSA256_PUBLIC_KEY = base64.b64decode(
+        environ.get("RSA256_PUBLIC_KEY_BASE64")
+    ).decode()

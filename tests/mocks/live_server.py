@@ -16,4 +16,4 @@ def app(session_mocker):
     session_mocker.patch("redis.Redis.set", RedisSessions.set)
     session_mocker.patch("redis.Redis.delete", RedisSessions.delete)
     session_mocker.patch("redis.Redis.setex", RedisSessions.setex)
-    yield create_app(testing=True)
+    yield create_app()

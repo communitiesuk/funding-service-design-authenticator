@@ -27,14 +27,12 @@ def invalid():
         403,
     )
 
+
 @magic_links_bp.route("/landing/<link_id>", methods=["GET"])
 def landing(link_id):
 
-    return (
-        render_template(
-            "landing.html", link_id=link_id
-        )
-    )
+    return render_template("landing.html", link_id=link_id)
+
 
 @magic_links_bp.route("/new", methods=["GET", "POST"])
 def new():

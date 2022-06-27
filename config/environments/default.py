@@ -1,18 +1,17 @@
 """Flask configuration."""
 import logging
 from os import environ
-from os import path
-from fsd_tech import configclass
+from pathlib import Path
+
+from fsd_utils import configclass
 
 
 @configclass
-class Config(object):
+class DefaultConfig(object):
     #  Application Config
     SECRET_KEY = environ.get("SECRET_KEY")
     SESSION_COOKIE_NAME = environ.get("SESSION_COOKIE_NAME", "session_cookie")
-    FLASK_ROOT = path.dirname(
-        path.dirname(path.dirname(path.realpath(__file__)))
-    )
+    FLASK_ROOT = str(Path(__file__).parent.parent.parent)
     FLASK_ENV = environ.get("FLASK_ENV")
 
     # Logging
@@ -151,7 +150,7 @@ class Config(object):
 
     # HTTP Strict-Transport-Security (for Talisman Config)
     HSTS_HEADERS = {
-        "Strict-Transport-Security": (
+        "strict-transport-security": (
             "max-age=31536000; includeSubDomains; preload"
         ),
         "X-Content-Type-Options": "nosniff",

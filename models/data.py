@@ -3,7 +3,7 @@ import os
 import urllib.parse
 
 import requests
-from config.env import env
+from config import Config
 
 
 def api_call(endpoint: str, method: str = "GET", params: dict = None):
@@ -47,7 +47,7 @@ def post_data(endpoint: str, params: dict = None):
 
 def local_api_call(endpoint: str, params: dict = None, method: str = "get"):
     api_data_json = os.path.join(
-        env.config.get("FLASK_ROOT"),
+        Config.FLASK_ROOT,
         "tests",
         "api_data",
         method.lower() + "_endpoint_data.json",

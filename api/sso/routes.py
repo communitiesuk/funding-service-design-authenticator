@@ -2,7 +2,7 @@ import warnings
 
 import msal
 import requests
-from config.env import env
+from config import Config
 from flask import redirect
 from flask import request
 from flask import session
@@ -17,7 +17,7 @@ class SsoView(MethodView):
         :return: 302 redirect to Microsoft Login
         """
         session["flow"] = self.build_auth_code_flow(
-            scopes=env.config.get("MS_GRAPH_PERMISSIONS_SCOPE")
+            scopes=Config.MS_GRAPH_PERMISSIONS_SCOPE
         )
         return redirect(session["flow"]["auth_uri"]), 302
 
@@ -33,7 +33,7 @@ class SsoView(MethodView):
         )
         session.clear()
         return redirect(
-            env.config.get("AZURE_AD_AUTHORITY")
+            Config.AZURE_AD_AUTHORITY
             + "/oauth2/v2.0/logout"
             + "?post_logout_redirect_uri="
             + post_logout_redirect_uri
@@ -74,13 +74,11 @@ class SsoView(MethodView):
         Requires a valid token in the session
         :return: 200 json of user graph data or 404 not found
         """
-        token = self._get_token_from_cache(
-            env.config.get("MS_GRAPH_PERMISSIONS_SCOPE")
-        )
+        token = self._get_token_from_cache(Config.MS_GRAPH_PERMISSIONS_SCOPE)
         if not token:
             return {"message": "No valid token"}, 404
         graph_data = requests.get(  # Use token to call downstream service
-            env.config.get("MS_GRAPH_ENDPOINT"),
+            Config.MS_GRAPH_ENDPOINT,
             headers={"Authorization": "Bearer " + token["access_token"]},
         ).json()
         return graph_data, 200
@@ -100,9 +98,9 @@ class SsoView(MethodView):
     @staticmethod
     def _build_msal_app(cache=None, authority=None):
         return msal.ConfidentialClientApplication(
-            env.config.get("AZURE_AD_CLIENT_ID"),
-            authority=authority or env.config.get("AZURE_AD_AUTHORITY"),
-            client_credential=env.config.get("AZURE_AD_CLIENT_SECRET"),
+            Config.AZURE_AD_CLIENT_ID,
+            authority=authority or Config.AZURE_AD_AUTHORITY,
+            client_credential=Config.AZURE_AD_CLIENT_SECRET,
             token_cache=cache,
         )
 
@@ -110,7 +108,7 @@ class SsoView(MethodView):
         return self._build_msal_app(
             authority=authority
         ).initiate_auth_code_flow(
-            scopes or [], redirect_uri=env.config.get("AZURE_AD_REDIRECT_URI")
+            scopes or [], redirect_uri=Config.AZURE_AD_REDIRECT_URI
         )
 
     def _get_token_from_cache(self, scope=None):

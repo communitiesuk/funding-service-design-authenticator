@@ -2,9 +2,9 @@
 from os import environ
 
 import redis
-from config.environments.default import Config
+from config.environments.default import DefaultConfig as Config
 from config.utils import VcapServices
-from fsd_tech import configclass
+from fsd_utils import configclass
 
 
 @configclass
