@@ -5,6 +5,7 @@ from os import path
 import redis
 from config.environments.default import Config
 from fsd_tech import configclass
+from os import getenv
 
 
 @configclass
@@ -21,8 +22,7 @@ class DevelopmentConfig(Config):
     FSD_LOG_LEVEL = logging.DEBUG
 
     # Hostname for this service
-    AUTHENTICATOR_HOST = "http://localhost:5000"
-
+    AUTHENTICATOR_HOST = getenv("AUTHENTICATOR_HOST", 'http://localhost:5000')
     # Azure Active Directory Config
     # This secret is only used for local testing purposes
     AZURE_AD_CLIENT_SECRET = "nmq8Q~acUEOPWmjfvbOEQLPZy2M38yLe1PEh_cS2"
