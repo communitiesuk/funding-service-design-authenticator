@@ -1,5 +1,6 @@
 """Flask Local Development Environment Configuration."""
 import logging
+from os import getenv
 
 import redis
 from config.environments.default import DefaultConfig as Config
@@ -17,7 +18,7 @@ class DevelopmentConfig(Config):
     FSD_LOG_LEVEL = logging.DEBUG
 
     # Hostname for this service
-    AUTHENTICATOR_HOST = "http://localhost:5000"
+    AUTHENTICATOR_HOST = getenv("AUTHENTICATOR_HOST", "http://localhost:5000")
 
     # Azure Active Directory Config
     # This secret is only used for local testing purposes
@@ -54,16 +55,16 @@ class DevelopmentConfig(Config):
         RSA256_PUBLIC_KEY = public_key_file.read()
 
     # Redis
-    REDIS_MLINKS_URL = "redis://localhost:6379/0"
-    REDIS_SESSIONS_URL = "redis://localhost:6379/1"
+    
+    REDIS_INSTANCE_URI = getenv("REDIS_INSTANCE_URI", "redis://localhost:6379")
+    REDIS_MLINKS_URL = f"{REDIS_INSTANCE_URI}/0"
+    REDIS_SESSIONS_URL = f"{REDIS_INSTANCE_URI}/1"
     SESSION_REDIS = redis.from_url(REDIS_SESSIONS_URL)
 
     # APIs
-    APPLICATION_STORE_API_HOST = "application_store"
-    ACCOUNT_STORE_API_HOST = "account_store"
-    FUND_STORE_API_HOST = "fund_store"
-    ROUND_STORE_API_HOST = "round_store"
-    NOTIFICATION_SERVICE_HOST = "notification_service"
+    APPLICATION_STORE_API_HOST =  getenv("APPLICATION_STORE_API_HOST", "application_store")
+    ACCOUNT_STORE_API_HOST = getenv("ACCOUNT_STORE_API_HOST", "account_store")
+    NOTIFICATION_SERVICE_HOST = getenv("NOTIFICATION_SERVICE_HOST", "notification_service")
 
     # Security
     FORCE_HTTPS = False

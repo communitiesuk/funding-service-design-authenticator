@@ -86,15 +86,6 @@ class DefaultConfig(object):
     APPLICATIONS_ENDPOINT = "/applications"
     APPLICATION_ENDPOINT = "/applications/{account_id}"
 
-    # Fund Store
-    FUND_STORE_API_HOST = environ.get("FUND_STORE_API_HOST")
-    FUNDS_ENDPOINT = "/funds"
-    FUND_ENDPOINT = "/funds/{account_id}"
-
-    # Round Store
-    ROUND_STORE_API_HOST = environ.get("ROUND_STORE_API_HOST")
-    ROUNDS_ENDPOINT = "/funds/{fund_id}/rounds"
-
     # Notification Service
     NOTIFICATION_SERVICE_HOST = environ.get("NOTIFICATION_SERVICE_HOST")
     SEND_ENDPOINT = "/send"
