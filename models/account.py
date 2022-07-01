@@ -2,6 +2,7 @@ from dataclasses import dataclass
 from typing import List
 
 from config import Config
+from flask import current_app
 from models.application import Application
 from models.application import ApplicationMethods
 from models.data import get_data
@@ -130,6 +131,10 @@ class AccountMethods(Account):
                 notification_content,
             )
             return True
+
+        current_app.logger.error(
+            f"Could not create an account ({account}) for email '{email}'"
+        )
         raise AccountError(
             message=(
                 "Sorry, we couldn't create an account for this email, please"

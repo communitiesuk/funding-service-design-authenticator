@@ -10,6 +10,7 @@ from typing import List
 from typing import TYPE_CHECKING
 
 from config import Config
+from flask import current_app
 from flask_redis import FlaskRedis
 from security.utils import create_token
 
@@ -176,6 +177,7 @@ class MagicLinkMethods(object):
         :param redirect_url: (str, optional) An optional redirect_url
         :return:
         """
+        current_app.logger.info(f"Creating magic link for {account}")
         self._clear_existing_user_link(account)
         if not redirect_url:
             redirect_url = self._create_redirect_url(account)
@@ -201,6 +203,10 @@ class MagicLinkMethods(object):
                     "link": magic_link_url,
                 }
             )
+            current_app.logger.info(f"Magic link created for {account}")
             return new_link_json
 
+        current_app.logger.error(
+            f"Magic link for account {account} could not be created"
+        )
         raise MagicLinkError(message="Could not create a magic link")
