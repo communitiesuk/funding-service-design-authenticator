@@ -3,7 +3,7 @@ import base64
 from os import environ
 
 import redis
-from config.environments.default import DefaultConfig as Config
+from config.envs.default import DefaultConfig as Config
 from config.utils import VcapServices
 from fsd_utils import configclass
 

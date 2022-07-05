@@ -14,10 +14,10 @@ from flask_redis import FlaskRedis
 from flask_session import Session
 from flask_talisman import Talisman
 from frontend.assets import compile_static_assets
+from fsd_utils.logging import logging
 from jinja2 import ChoiceLoader
 from jinja2 import PackageLoader
 from jinja2 import PrefixLoader
-from utils import logging
 
 redis_mlinks = FlaskRedis(config_prefix="REDIS_MLINKS")
 
@@ -30,21 +30,26 @@ def get_bundled_specs(main_file: Path) -> Dict[str, Any]:
 
 def create_app() -> Flask:
 
-    options = {
+    # Initialise Connexion Flask App
+    connexion_options = {
         "swagger_path": Config.FLASK_ROOT + "/swagger/dist",
         "swagger_url": "/docs",
         "swagger_ui_template_arguments": {},
     }
-
     connexion_app = connexion.FlaskApp(
-        __name__,
+        "Authenticator",
         specification_dir="/openapi/",
-        options=options,
+        options=connexion_options,
+    )
+    connexion_app.add_api(
+        get_bundled_specs(Config.FLASK_ROOT + "/openapi/api.yml"),
+        validate_responses=True,
+        resolver=MethodViewResolver("api"),
     )
 
+    # Configure Flask App
     flask_app = connexion_app.app
     flask_app.config.from_object("config.Config")
-
     flask_app.static_folder = "frontend/static/dist/"
     flask_app.jinja_loader = ChoiceLoader(
         [
@@ -54,31 +59,23 @@ def create_app() -> Flask:
             ),
         ]
     )
-
     flask_app.jinja_env.trim_blocks = True
     flask_app.jinja_env.lstrip_blocks = True
+    flask_app.jinja_env.globals.update(
+        _build_auth_code_flow=build_auth_code_flow
+    )  # Used in template
 
     # Initialise logging
     logging.init_app(flask_app)
 
-    # Configure Swagger
-    options = {
-        "swagger_path": Config.FLASK_ROOT + "/swagger/dist",
-        "swagger_url": "/docs",
-        "swagger_ui_template_arguments": {},
-    }
-
-    connexion_app.add_api(
-        get_bundled_specs(Config.FLASK_ROOT + "/openapi/api.yml"),
-        validate_responses=True,
-        resolver=MethodViewResolver("api"),
-    )
-
+    # Initialise Sessions
     session = Session()
     session.init_app(flask_app)
 
+    # Initialise Redis Magic Links Store
     redis_mlinks.init_app(flask_app)
 
+    # Configure Talisman Security Settings
     talisman = Talisman(
         flask_app,
         strict_transport_security=Config.HSTS_HEADERS,
@@ -95,10 +92,6 @@ def create_app() -> Flask:
     from werkzeug.middleware.proxy_fix import ProxyFix
 
     flask_app.wsgi_app = ProxyFix(flask_app.wsgi_app, x_proto=1, x_host=1)
-
-    flask_app.jinja_env.globals.update(
-        _build_auth_code_flow=build_auth_code_flow
-    )  # Used in template
 
     # Disable strict talisman on swagger docs pages
     @flask_app.before_request
