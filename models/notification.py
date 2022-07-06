@@ -1,4 +1,5 @@
 from config import Config
+from flask import current_app
 from models.data import post_data
 
 
@@ -22,6 +23,11 @@ class Notification(object):
         """
         url = Config.NOTIFICATION_SERVICE_HOST + Config.SEND_ENDPOINT
         params = {"type": template_type, "to": to_email, "content": content}
+        current_app.logger.info(f"Sending notification to email {to_email}")
+        current_app.logger.info(f"Sending notification to url {url}")
+        current_app.logger.info(
+            f"Sending notification to template_type {template_type}"
+        )
         response = post_data(url, params)
         if response:
             return True
