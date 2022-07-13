@@ -4,6 +4,7 @@ import jwt
 from api.responses import error_response
 from api.session.exceptions import SessionCreateError
 from config import Config
+from flask import current_app
 from flask import make_response
 from flask import redirect
 from flask import request
@@ -47,6 +48,9 @@ class AuthSessionView(MethodView):
         try:
             session_details = cls.create_session_details_with_token(account_id)
             response = make_response(redirect(redirect_url), 302)
+            current_app.logger.error(
+                f"Setting cookie for {Config.COOKIE_DOMAIN}"
+            )
             response.set_cookie(
                 Config.FSD_USER_TOKEN_COOKIE_NAME,
                 session_details["token"],
