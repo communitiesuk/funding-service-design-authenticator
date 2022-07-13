@@ -54,6 +54,7 @@ class AuthSessionView(MethodView):
             response.set_cookie(
                 Config.FSD_USER_TOKEN_COOKIE_NAME,
                 session_details["token"],
+                domain=".london.cloudapps.digital"
                 # domain=Config.COOKIE_DOMAIN,
             )
             return response
