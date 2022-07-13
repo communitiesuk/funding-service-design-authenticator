@@ -1,5 +1,6 @@
 """Flask Local Development Environment Configuration."""
 import logging
+from os import environ
 from os import getenv
 
 import redis
@@ -13,6 +14,8 @@ class DevelopmentConfig(Config):
     SECRET_KEY = "dev"
     SESSION_COOKIE_NAME = "session_cookie"
     FLASK_ENV = "development"
+    COOKIE_DOMAIN = environ.get("COOKIE_DOMAIN", ".localhost.localhost")
+    SESSION_COOKIE_DOMAIN = COOKIE_DOMAIN
 
     # Logging
     FSD_LOG_LEVEL = logging.DEBUG
@@ -66,9 +69,10 @@ class DevelopmentConfig(Config):
         "APPLICATION_STORE_API_HOST", "application_store"
     )
     ACCOUNT_STORE_API_HOST = getenv("ACCOUNT_STORE_API_HOST", "account_store")
-    NOTIFICATION_SERVICE_HOST = getenv(
-        "NOTIFICATION_SERVICE_HOST", "notification_service"
-    )
+    # NOTIFICATION_SERVICE_HOST = getenv(
+    #     "NOTIFICATION_SERVICE_HOST", "notification_service"
+    # )
+    NOTIFICATION_SERVICE_HOST = "http://localhost:5001"
 
     # Security
     FORCE_HTTPS = False
