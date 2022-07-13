@@ -15,7 +15,7 @@ class DevelopmentConfig(Config):
     SESSION_COOKIE_NAME = "session_cookie"
     FLASK_ENV = "development"
     COOKIE_DOMAIN = environ.get("COOKIE_DOMAIN", ".localhost.localhost")
-    SESSION_COOKIE_DOMAIN = COOKIE_DOMAIN
+    SESSION_COOKIE_DOMAIN = environ.get("SESSION_COOKIE_DOMAIN")
 
     # Logging
     FSD_LOG_LEVEL = logging.DEBUG

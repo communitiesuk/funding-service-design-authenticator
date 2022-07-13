@@ -12,7 +12,7 @@ class DefaultConfig(object):
     SECRET_KEY = environ.get("SECRET_KEY")
     SESSION_COOKIE_NAME = environ.get("SESSION_COOKIE_NAME", "session_cookie")
     COOKIE_DOMAIN = ".london.cloudapps.digital"
-    SESSION_COOKIE_DOMAIN = COOKIE_DOMAIN
+    SESSION_COOKIE_DOMAIN = environ.get("SESSION_COOKIE_DOMAIN")
     FLASK_ROOT = str(Path(__file__).parent.parent.parent)
     FLASK_ENV = environ.get("FLASK_ENV")
 
