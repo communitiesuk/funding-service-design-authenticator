@@ -15,6 +15,9 @@ class DevConfig(Config):
     SESSION_COOKIE_NAME = "session_cookie"
     AUTHENTICATOR_HOST = environ.get("AUTHENTICATOR_HOST", "")
 
+    COOKIE_DOMAIN = environ.get("COOKIE_DOMAIN", ".cloudapps.digital")
+    SESSION_COOKIE_DOMAIN = environ.get("SESSION_COOKIE_DOMAIN")
+
     # Logging
     FSD_LOG_LEVEL = logging.INFO
 

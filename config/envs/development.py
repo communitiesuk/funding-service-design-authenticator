@@ -13,6 +13,8 @@ class DevelopmentConfig(Config):
     SECRET_KEY = "dev"
     SESSION_COOKIE_NAME = "session_cookie"
     FLASK_ENV = "development"
+    COOKIE_DOMAIN = getenv("COOKIE_DOMAIN", ".localhost.localhost")
+    SESSION_COOKIE_DOMAIN = getenv("SESSION_COOKIE_DOMAIN")
 
     # Logging
     FSD_LOG_LEVEL = logging.DEBUG
