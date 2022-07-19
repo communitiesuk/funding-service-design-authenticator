@@ -40,6 +40,7 @@ def create_app() -> Flask:
         "Authenticator",
         specification_dir="/openapi/",
         options=connexion_options,
+        server_args={'static_url_path': Config.STATIC_URL_PATH}
     )
     connexion_app.add_api(
         get_bundled_specs(Config.FLASK_ROOT + "/openapi/api.yml"),

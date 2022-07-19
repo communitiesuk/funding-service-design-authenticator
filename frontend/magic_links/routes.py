@@ -8,11 +8,12 @@ from models.account import AccountError
 from models.account import AccountMethods
 from models.magic_link import MagicLinkError
 from models.notification import NotificationError
+from config import Config
 
 magic_links_bp = Blueprint(
     "magic_links_bp",
     __name__,
-    url_prefix="/service/magic-links",
+    url_prefix= Config.URL_PREFIX + "/service/magic-links",
     template_folder="templates",
 )
 

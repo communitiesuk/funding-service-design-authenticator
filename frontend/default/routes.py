@@ -1,7 +1,7 @@
 from flask import Blueprint
 from flask import render_template
-
-default_bp = Blueprint("default_bp", __name__, template_folder="templates")
+from config import Config
+default_bp = Blueprint("default_bp", __name__, template_folder="templates", url_prefix=Config.URL_PREFIX)
 
 
 @default_bp.route("/")

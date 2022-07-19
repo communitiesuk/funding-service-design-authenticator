@@ -13,7 +13,7 @@ from flask import url_for
 demo_bp = Blueprint(
     "demo_bp",
     __name__,
-    url_prefix="/",
+    url_prefix=  Config.URL_PREFIX + "/",
     template_folder="templates",
 )
 

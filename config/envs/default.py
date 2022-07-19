@@ -151,3 +151,6 @@ class DefaultConfig(object):
             "microphone 'none'; camera 'none'; geolocation 'none'"
         ),
     }
+
+    URL_PREFIX = ""
+    STATIC_URL_PATH = '/static'
