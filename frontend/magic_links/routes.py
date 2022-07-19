@@ -31,8 +31,12 @@ def invalid():
 
 @magic_links_bp.route("/landing/<link_id>", methods=["GET"])
 def landing(link_id):
+    def get_connexion_path_prefix(connexion_path):
+        if Config.URL_PREFIX:
+            return f"{Config.URL_PREFIX}.{connexion_path}"
+        return connexion_path
 
-    return render_template("landing.html", link_id=link_id)
+    return render_template("landing.html", link_id=link_id, use_link=get_connexion_path_prefix("api_MagicLinksView_use"))
 
 
 @magic_links_bp.route("/new", methods=["GET", "POST"])
