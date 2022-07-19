@@ -44,6 +44,7 @@ def create_app() -> Flask:
     )
     connexion_app.add_api(
         get_bundled_specs(Config.FLASK_ROOT + "/openapi/api.yml"),
+        base_path = Config.URL_PREFIX,
         validate_responses=True,
         resolver=MethodViewResolver("api"),
     )
