@@ -75,13 +75,15 @@ def create_app() -> Flask:
     # Initialise Redis Magic Links Store
     redis_mlinks.init_app(flask_app)
 
-    # Configure Talisman Security Settings
-    talisman = Talisman(
-        flask_app,
-        strict_transport_security=Config.HSTS_HEADERS,
-        force_https=Config.FORCE_HTTPS,
-        content_security_policy_nonce_in=["script-src"],
-    )
+    # # Configure Talisman Security Settings
+    # talisman = Talisman(
+    #     flask_app,
+    #     strict_transport_security=Config.HSTS_HEADERS,
+    #     force_https=Config.FORCE_HTTPS,
+    #     content_security_policy_nonce_in=["script-src"],
+    # )
+    # Configure application security with Talisman
+    talisman = Talisman(flask_app, **Config.TALISMAN_SETTINGS)
 
     # This section is needed for url_for("foo", _external=True) to
     # automatically generate http scheme when this sample is
