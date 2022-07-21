@@ -6,7 +6,7 @@ applications:
   - https://github.com/cloudfoundry/python-buildpack.git
   command: gunicorn wsgi:app -c run/gunicorn/devtest.py
   env:
-    AUTHENTICATOR_HOST: https://funding-service-design-authenticator-test.london.cloudapps.digital
+    AUTHENTICATOR_HOST: https://authenticator.test.fundingservice.co.uk
     ACCOUNT_STORE_API_HOST: https://funding-service-design-account-store-test.london.cloudapps.digital
     APPLICATION_STORE_API_HOST: https://funding-service-design-application-store-test.london.cloudapps.digital
     NOTIFICATION_SERVICE_HOST: http://funding-service-design-notification-test.apps.internal:8080
@@ -20,3 +20,5 @@ applications:
   services: # eg. Redis
     - funding-service-magic-links-test
     - logit-ssl-drain
+  routes:
+    - route: authenticator.test.fundingservice.co.uk
