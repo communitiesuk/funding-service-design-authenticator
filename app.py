@@ -98,6 +98,7 @@ def create_app() -> Flask:
     def before_request_modifier():
         if request.path.startswith("/docs"):
             talisman.content_security_policy = Config.SWAGGER_CSP
+            talisman.content_security_policy_nonce_in = ["None"]
         else:
             talisman.content_security_policy = Config.SECURE_CSP
 
