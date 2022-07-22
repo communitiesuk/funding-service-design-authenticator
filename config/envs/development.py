@@ -13,6 +13,7 @@ class DevelopmentConfig(Config):
     SECRET_KEY = "dev"
     SESSION_COOKIE_NAME = "session_cookie"
     FLASK_ENV = "development"
+    COOKIE_DOMAIN = None
 
     # Logging
     FSD_LOG_LEVEL = logging.DEBUG
