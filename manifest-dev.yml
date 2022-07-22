@@ -6,7 +6,7 @@ applications:
   - https://github.com/cloudfoundry/python-buildpack.git
   command: gunicorn wsgi:app -c run/gunicorn/devtest.py
   env:
-    AUTHENTICATOR_HOST: https://funding-service-design-authenticator-dev.london.cloudapps.digital
+    AUTHENTICATOR_HOST: https://authenticator.dev.fundingservice.co.uk
     ACCOUNT_STORE_API_HOST: https://funding-service-design-account-store-dev.london.cloudapps.digital
     APPLICATION_STORE_API_HOST: https://funding-service-design-application-store-dev.london.cloudapps.digital
     NOTIFICATION_SERVICE_HOST: http://funding-service-design-notification-dev.apps.internal:8080
