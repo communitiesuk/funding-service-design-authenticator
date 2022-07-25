@@ -143,3 +143,5 @@ flask_session
 .DS_Store
 
 html
+manifest-dev.yml
+.vscode/launch.json

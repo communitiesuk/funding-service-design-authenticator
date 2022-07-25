@@ -165,7 +165,7 @@ class MagicLinkMethods(object):
         :param account: Account instance of the user
         :return: Url (str)
         """
-        return Config.MAGIC_LINK_REDIRECT_URL.format(account_id=account.id)
+        return Config.MAGIC_LINK_REDIRECT_URL
 
     def create_magic_link(
         self, account: Account, redirect_url: str = None

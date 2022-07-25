@@ -10,7 +10,7 @@ applications:
     ACCOUNT_STORE_API_HOST: https://funding-service-design-account-store-dev.london.cloudapps.digital
     APPLICATION_STORE_API_HOST: https://funding-service-design-application-store-dev.london.cloudapps.digital
     NOTIFICATION_SERVICE_HOST: http://funding-service-design-notification-dev.apps.internal:8080
-    MAGIC_LINK_REDIRECT_URL: https://funding-service-design-frontend-dev.london.cloudapps.digital/account/{account_id}
+    MAGIC_LINK_REDIRECT_URL: https://frontend.dev.fundingservice.co.uk/account
     FLASK_ENV: dev
     FLASK_DEBUG: 1
 

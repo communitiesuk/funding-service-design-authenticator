@@ -105,7 +105,7 @@ class DefaultConfig(object):
     if not MAGIC_LINK_REDIRECT_URL:
         if MAGIC_LINK_REDIRECT_HOST:
             MAGIC_LINK_REDIRECT_URL = (
-                MAGIC_LINK_REDIRECT_HOST + "/account/{account_id}"
+                MAGIC_LINK_REDIRECT_HOST + "/account"
             )
         else:
             MAGIC_LINK_REDIRECT_URL = "https://www.gov.uk/error"
