@@ -12,8 +12,6 @@ from fsd_utils import configclass
 class DevConfig(Config):
     #  Application Config
     SECRET_KEY = "dev"
-    SESSION_COOKIE_NAME = "session_cookie"
-    AUTHENTICATOR_HOST = environ.get("AUTHENTICATOR_HOST", "")
 
     COOKIE_DOMAIN = environ.get("COOKIE_DOMAIN", ".dev.fundingservice.co.uk")
 
