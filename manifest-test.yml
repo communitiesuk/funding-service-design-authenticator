@@ -10,7 +10,7 @@ applications:
     ACCOUNT_STORE_API_HOST: https://funding-service-design-account-store-test.london.cloudapps.digital
     APPLICATION_STORE_API_HOST: https://funding-service-design-application-store-test.london.cloudapps.digital
     NOTIFICATION_SERVICE_HOST: http://funding-service-design-notification-test.apps.internal:8080
-    MAGIC_LINK_REDIRECT_URL: https://funding-service-design-frontend-test.london.cloudapps.digital/account/{account_id}
+    APPLICANT_FRONTEND_HOST: https://funding-service-design-frontend-test.london.cloudapps.digital
     FLASK_ENV: test
     RSA256_PUBLIC_KEY_BASE64: ((RSA256_PUBLIC_KEY_BASE64))
     RSA256_PRIVATE_KEY_BASE64: ((RSA256_PRIVATE_KEY_BASE64))

@@ -143,3 +143,4 @@ flask_session
 .DS_Store
 
 html
+.vscode/launch.json

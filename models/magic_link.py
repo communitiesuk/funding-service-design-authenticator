@@ -158,14 +158,6 @@ class MagicLinkMethods(object):
             self.redis_mlinks.delete(existing_link_key)
             return True
 
-    @staticmethod
-    def _create_redirect_url(account: Account):
-        """
-        Returns a formatted url including the user's account id
-        :param account: Account instance of the user
-        :return: Url (str)
-        """
-        return Config.MAGIC_LINK_REDIRECT_URL.format(account_id=account.id)
 
     def create_magic_link(
         self, account: Account, redirect_url: str = None
@@ -180,7 +172,7 @@ class MagicLinkMethods(object):
         current_app.logger.info(f"Creating magic link for {account}")
         self._clear_existing_user_link(account)
         if not redirect_url:
-            redirect_url = self._create_redirect_url(account)
+            redirect_url = Config.MAGIC_LINK_REDIRECT_URL
         new_link_json = self._make_link_json(account, redirect_url)
 
         redis_key, link_key = self._set_unique_keyed_record(

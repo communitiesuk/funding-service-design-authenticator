@@ -100,15 +100,12 @@ class DefaultConfig(object):
     """
     MAGIC_LINK_EXPIRY_DAYS = 1
     MAGIC_LINK_EXPIRY_SECONDS = 86400 * MAGIC_LINK_EXPIRY_DAYS
-    MAGIC_LINK_REDIRECT_HOST = APPLICANT_FRONTEND_HOST
-    MAGIC_LINK_REDIRECT_URL = environ.get("MAGIC_LINK_REDIRECT_URL")
-    if not MAGIC_LINK_REDIRECT_URL:
-        if MAGIC_LINK_REDIRECT_HOST:
-            MAGIC_LINK_REDIRECT_URL = (
-                MAGIC_LINK_REDIRECT_HOST + "/account/{account_id}"
-            )
-        else:
-            MAGIC_LINK_REDIRECT_URL = "https://www.gov.uk/error"
+    if APPLICANT_FRONTEND_HOST:
+        MAGIC_LINK_REDIRECT_URL = (
+            APPLICANT_FRONTEND_HOST + "/account"
+        )
+    else:
+        MAGIC_LINK_REDIRECT_URL = "https://www.gov.uk/error"
     MAGIC_LINK_RECORD_PREFIX = "link"
     MAGIC_LINK_USER_PREFIX = "account"
     MAGIC_LINK_LANDING_PAGE = "/magic-links/landing/"
