@@ -12,8 +12,6 @@ from fsd_utils import configclass
 class DevConfig(Config):
     #  Application Config
     SECRET_KEY = "dev"
-    SESSION_COOKIE_NAME = "session_cookie"
-    AUTHENTICATOR_HOST = environ.get("AUTHENTICATOR_HOST", "")
 
     COOKIE_DOMAIN = environ.get("COOKIE_DOMAIN", ".dev.fundingservice.co.uk")
 
@@ -33,7 +31,7 @@ class DevConfig(Config):
     )
     # The absolute URL must match the redirect URI you set
     # in the app's registration in the Azure portal.
-    AZURE_AD_REDIRECT_URI = AUTHENTICATOR_HOST + AZURE_AD_REDIRECT_PATH
+    AZURE_AD_REDIRECT_URI = Config.AUTHENTICATOR_HOST + AZURE_AD_REDIRECT_PATH
 
     # RSA 256 KEYS
     _test_private_key_path = (
