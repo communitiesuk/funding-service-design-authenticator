@@ -23,12 +23,6 @@ jobs:
         with:
           python-version: 3.10.x
 
-      - name: create python env
-        run: python -m venv .venv
-
-      - name: install dependencies
-        run: source .venv/bin/activate && python -m pip install --upgrade pip && pip install -r requirements.txt
-
       - name: build static assets
         run: python build.py
 
