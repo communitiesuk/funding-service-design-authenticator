@@ -43,4 +43,10 @@ jobs:
         with:
           type: 'zip'
           filename: '${{ github.event.repository.name }}-${{github.ref_name}}.zip'
-          exclusions: '*.git* .venv tests/*'
+          exclusions: '*.git* */.venv/* */tests/*'
+
+      - name: Upload Release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: '${{ github.event.repository.name }}-${{github.ref_name}}.zip'
+          token: ${{ secrets.GITHUB_TOKEN }}
