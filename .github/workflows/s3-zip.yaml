@@ -7,6 +7,11 @@ on:
     paths-ignore:
       - '**/README.md'
 
+env:
+  # This uses the default config, since
+  # build is not a actual config file in envs.
+  FLASK_ENV : build
+
 jobs:
   deploy_dev:
     runs-on: ubuntu-latest
