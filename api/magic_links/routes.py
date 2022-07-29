@@ -23,12 +23,6 @@ class MagicLinksView(MagicLinkMethods, MethodView):
         """
         return Response(json.dumps(self.links), mimetype="application/json")
 
-    def landing(self, link_id: str):
-        """
-        GET /magic-links/landing/{link_id} endpoint
-        """
-        return redirect(url_for("magic_links_bp.landing", link_id=link_id))
-
     def use(self, link_id: str):
         """
         GET /magic-links/{link_id} endpoint
