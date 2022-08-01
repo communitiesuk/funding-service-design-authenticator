@@ -18,23 +18,6 @@ class AuthSessionView(MethodView):
     Views for session related operations
     """
 
-    @staticmethod
-    def user():
-        """
-        GET /sessions/user endpoint
-        Shows the user details of the current user session
-        or an error if no authenticated user session found
-        :return: 200 user details json or 404 error
-        """
-        token = request.cookies.get(Config.FSD_USER_TOKEN_COOKIE_NAME)
-        if token:
-            try:
-                valid_token = validate_token(token)
-                return make_response(valid_token), 200
-            except jwt.PyJWTError:
-                error_response(404, "Session token expired or invalid")
-        error_response(404, "No session token found")
-
     @classmethod
     def create_session_and_redirect(cls, account_id: str, redirect_url: str):
         """

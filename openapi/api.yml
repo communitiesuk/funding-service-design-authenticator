@@ -106,16 +106,3 @@ paths:
       responses:
         200:
           description: SUCCESS - Valid user token
-
-  /sessions/user:
-    get:
-      tags:
-        - sessions
-      summary: Get a users session details
-      description: Get a users session details
-      operationId: api.AuthSessionView.user
-      responses:
-        200:
-          description: SUCCESS - Active user session details returned
-        404:
-          description: ERROR - User session could not be found
