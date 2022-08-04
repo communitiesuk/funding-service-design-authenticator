@@ -64,30 +64,6 @@ paths:
               schema:
                 $ref: 'components.yml#/components/schemas/GeneralError'
 
-  '/magic-links/landing/{link_id}':
-    get:
-      tags:
-        - magic links landing
-      summary: Use a magic link
-      description: Prompt a user to use their magic link
-      operationId: api.MagicLinksView.landing
-      responses:
-        302:
-          description: SUCCESS - Redirect to magic link landing page
-        404:
-          description: ERROR
-          content:
-            application/json:
-              schema:
-                $ref: 'components.yml#/components/schemas/GeneralError'
-      parameters:
-        - name: link_id
-          in: path
-          required: true
-          schema:
-            type: string
-            format: path
-
   '/magic-links/{link_id}':
     get:
       tags:

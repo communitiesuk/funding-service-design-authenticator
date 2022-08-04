@@ -108,7 +108,7 @@ class DefaultConfig(object):
         MAGIC_LINK_REDIRECT_URL = "https://www.gov.uk/error"
     MAGIC_LINK_RECORD_PREFIX = "link"
     MAGIC_LINK_USER_PREFIX = "account"
-    MAGIC_LINK_LANDING_PAGE = "/magic-links/landing/"
+    MAGIC_LINK_LANDING_PAGE = "/service/magic-links/landing/"
 
     """
     Security
