@@ -25,9 +25,8 @@ def invalid():
     return (
         render_template(
             "invalid.html", new_magic_link_url=url_for("magic_links_bp.new"),
-            accessibility_statement_url=Config.APPLICANT_FRONTEND_ACCESSIBILITY_STATEMENT_URL
-        ),
-        403,
+            accessibility_statement_url=Config.APPLICANT_FRONTEND_ACCESSIBILITY_STATEMENT_URL,
+            cookie_policy_url=Config.APPLICANT_FRONTEND_COOKIE_POLICY_URL), 403,
     )
 
 
@@ -35,7 +34,8 @@ def invalid():
 def landing(link_id):
 
     return render_template("landing.html", link_id=link_id,
-                           accessibility_statement_url=Config.APPLICANT_FRONTEND_ACCESSIBILITY_STATEMENT_URL)
+                           accessibility_statement_url=Config.APPLICANT_FRONTEND_ACCESSIBILITY_STATEMENT_URL,
+                           cookie_policy_url=Config.APPLICANT_FRONTEND_COOKIE_POLICY_URL)
 
 
 @magic_links_bp.route("/new", methods=["GET", "POST"])
@@ -77,7 +77,8 @@ def new():
             form.email.errors.append(str(e.message))
 
     return render_template("email.html", form=form, fund_round=fund_round,
-                           accessibility_statement_url=Config.APPLICANT_FRONTEND_ACCESSIBILITY_STATEMENT_URL)
+                           accessibility_statement_url=Config.APPLICANT_FRONTEND_ACCESSIBILITY_STATEMENT_URL,
+                           cookie_policy_url=Config.APPLICANT_FRONTEND_COOKIE_POLICY_URL)
 
 
 @magic_links_bp.route("/check-email", methods=["GET"])
@@ -88,4 +89,5 @@ def check_email():
     """
 
     return render_template("check_email.html", email=request.args.get("email"),
-                           accessibility_statement_url=Config.APPLICANT_FRONTEND_ACCESSIBILITY_STATEMENT_URL)
+                           accessibility_statement_url=Config.APPLICANT_FRONTEND_ACCESSIBILITY_STATEMENT_URL,
+                           cookie_policy_url=Config.APPLICANT_FRONTEND_COOKIE_POLICY_URL)

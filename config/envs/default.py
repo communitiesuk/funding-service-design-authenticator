@@ -95,6 +95,7 @@ class DefaultConfig(object):
     # Applicant Frontend
     APPLICANT_FRONTEND_HOST = environ.get("APPLICANT_FRONTEND_HOST", "frontend")
     APPLICANT_FRONTEND_ACCESSIBILITY_STATEMENT_URL = APPLICANT_FRONTEND_HOST + "/accessibility_statement"
+    APPLICANT_FRONTEND_COOKIE_POLICY_URL = APPLICANT_FRONTEND_HOST + "/cookie_policy"
 
     """
     Magic Links

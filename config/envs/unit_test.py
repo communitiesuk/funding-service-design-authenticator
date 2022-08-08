@@ -68,3 +68,4 @@ class UnitTestConfig(Config):
 
     APPLICANT_FRONTEND_HOST = "frontend"
     APPLICANT_FRONTEND_ACCESSIBILITY_STATEMENT_URL = "/accessibility_statement"
+    APPLICANT_FRONTEND_COOKIE_POLICY_URL = "/cookie_policy"
