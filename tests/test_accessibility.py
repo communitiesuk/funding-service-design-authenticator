@@ -89,10 +89,10 @@ class TestAccessibilityWithChrome:
         results = run_axe_and_print_report(
             driver=self.driver, route_rel=str(route_rel)
         )
-        assert len(results["violations"]) <= 1
+        assert len(results["violations"]) <= 2
         assert (
             len(results["violations"]) == 0
-            or results["violations"][0]["impact"] == "minor"
+            or results["violations"][0]["impact"] == "moderate"
         )
 
     def test_magic_link_routes_accessible(self):
@@ -108,7 +108,7 @@ class TestAccessibilityWithChrome:
             assert len(results["violations"]) <= 2
             assert (
                 len(results["violations"]) == 0
-                or results["violations"][0]["impact"] == "minor"
+                or results["violations"][0]["impact"] == "moderate"
             )
 
     def test_unknown_page_returns_accessible_404(self):
@@ -125,5 +125,5 @@ class TestAccessibilityWithChrome:
         assert len(results["violations"]) <= 2
         assert (
             len(results["violations"]) == 0
-            or results["violations"][0]["impact"] == "minor"
+            or results["violations"][0]["impact"] == "moderate"
         )
