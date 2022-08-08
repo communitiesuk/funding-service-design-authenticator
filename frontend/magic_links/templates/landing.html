@@ -4,13 +4,18 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-l">Single use Magic Link</h1>
-
+    <h1 class="govuk-heading-l">Your applications</h1>
+      <p class="govuk-body">When you select <strong>Continue</strong> we'll check to see if you have started any applications using the email address you visited from. This link will only work once and will expire 24 hours after it was requested.</p>
+    <p class="govuk-body">During your application, if you are inactive for 20 minutes your session will timeout and any information you have not saved will be lost.</p>
+    <p class="govuk-body">You can request a new email link to continue any applications you have in progress.</p>
     <a href="{{ url_for("api_MagicLinksView_use", link_id=link_id) }}" role="button" draggable="false">
-      <button class="govuk-button" data-module="govuk-button">
-        Continue to application
-      </button>
-    </a>
+      <button class="govuk-button" data-module="govuk-button">Continue</button>
+        </a>
+        <h2 class="govuk-heading-m">Get help</h2>
+        <p class="govuk-body">If you have questions about the form or the fund, email us at <a class="govuk-link" href="mailto:COF@levellingup.gov.uk">COF@levellingup.gov.uk</a>.</p>
+        <h2 class="govuk-heading-m">How we'll use your information</h2>
+        <p class="govuk-body">Read how we'll use the information from your application in our <a class="govuk-link" href="https://www.gov.uk/government/publications/community-ownership-fund-privacy-notice">privacy notice</a>.</p>
+
   </div>
 </div>
 

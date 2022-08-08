@@ -9,6 +9,8 @@ from models.account import AccountMethods
 from models.magic_link import MagicLinkError
 from models.notification import NotificationError
 
+from config import Config
+
 magic_links_bp = Blueprint(
     "magic_links_bp",
     __name__,
@@ -22,7 +24,7 @@ def invalid():
 
     return (
         render_template(
-            "invalid.html", new_magic_link_url=url_for("magic_links_bp.new")
+            "invalid.html", new_magic_link_url=url_for("magic_links_bp.new"), accessibility_statement_url=Config.APPLICANT_FRONTEND_HOST
         ),
         403,
     )
@@ -31,7 +33,7 @@ def invalid():
 @magic_links_bp.route("/landing/<link_id>", methods=["GET"])
 def landing(link_id):
 
-    return render_template("landing.html", link_id=link_id)
+    return render_template("landing.html", link_id=link_id, accessibility_statement_url=Config.APPLICANT_FRONTEND_HOST)
 
 
 @magic_links_bp.route("/new", methods=["GET", "POST"])
@@ -72,7 +74,7 @@ def new():
         except AccountError as e:
             form.email.errors.append(str(e.message))
 
-    return render_template("email.html", form=form, fund_round=fund_round)
+    return render_template("email.html", form=form, fund_round=fund_round, accessibility_statement_url=Config.APPLICANT_FRONTEND_HOST)
 
 
 @magic_links_bp.route("/check-email", methods=["GET"])
@@ -82,4 +84,4 @@ def check_email():
     inbox for an email with a magic link
     """
 
-    return render_template("check_email.html", email=request.args.get("email"))
+    return render_template("check_email.html", email=request.args.get("email"), accessibility_statement_url=Config.APPLICANT_FRONTEND_HOST)

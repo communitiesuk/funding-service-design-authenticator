@@ -1,16 +1,22 @@
 {% from "govuk_frontend_jinja/components/footer/macro.html" import govukFooter -%}
+{{ govukFooter(
+    {
+        'meta': {
+            'visuallyHiddenTitle': 'Items',
+            'items': [
+                {
+                    'href': 'https://www.gov.uk/government/publications/community-ownership-fund-privacy-notice/community-ownership-fund-privacy-notice',
+                    'text': 'Privacy policy'
 
-{{ govukFooter({
-    'navigation': [
-      {
-        'title': 'More information',
-        'columns': 1,
-        'items': [
-            {
-              'href': "/",
-              'text': "Authenticator home"
-            },
-          ]
-      }
-    ]
-  }) }}
+                },
+                {
+                    'href': '#2',
+                    'text': 'Cookies policy'
+                },
+                {
+                    'href': accessibility_statement_url + '/accessibility_statement',
+                    'text': 'Accessibility statement'
+                },
+            ]
+    }
+    }) }}
