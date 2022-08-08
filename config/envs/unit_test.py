@@ -65,3 +65,6 @@ class UnitTestConfig(Config):
     # Security
     FORCE_HTTPS = False
     STRICT_CSP = False
+
+    APPLICANT_FRONTEND_HOST = "frontend"
+    APPLICANT_FRONTEND_ACCESSIBILITY_STATEMENT_URL = "/accessibility_statement"

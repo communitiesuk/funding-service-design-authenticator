@@ -93,7 +93,8 @@ class DefaultConfig(object):
     NOTIFY_TEMPLATE_MAGIC_LINK = "MAGIC_LINK"
 
     # Applicant Frontend
-    APPLICANT_FRONTEND_HOST = environ.get("APPLICANT_FRONTEND_HOST")
+    APPLICANT_FRONTEND_HOST = environ.get("APPLICANT_FRONTEND_HOST", "frontend")
+    APPLICANT_FRONTEND_ACCESSIBILITY_STATEMENT_URL = APPLICANT_FRONTEND_HOST + "/accessibility_statement"
 
     """
     Magic Links
