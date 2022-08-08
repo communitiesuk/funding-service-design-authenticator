@@ -1,4 +1,4 @@
-name: Upload to S3
+name: Tag-zip release
 on:
   push:
     tags:
@@ -14,7 +14,7 @@ env:
 
 
 jobs:
-  deploy_dev:
+  release_tag:
     runs-on: ubuntu-latest
     steps:
 
