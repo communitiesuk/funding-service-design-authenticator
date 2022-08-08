@@ -1,0 +1,28 @@
+---
+applications:
+- name: funding-service-design-authenticator-dev
+  memory: 64M
+  buildpacks:
+  - https://github.com/cloudfoundry/python-buildpack.git
+  command: gunicorn wsgi:app -c run/gunicorn/devtest.py
+  env:
+    AUTHENTICATOR_HOST: https://authenticator.dev.fundingservice.co.uk
+    ACCOUNT_STORE_API_HOST: https://funding-service-design-account-store-dev.london.cloudapps.digital
+    APPLICATION_STORE_API_HOST: https://funding-service-design-application-store-dev.london.cloudapps.digital
+    NOTIFICATION_SERVICE_HOST: http://funding-service-design-notification-dev.apps.internal:8080
+    APPLICANT_FRONTEND_HOST: https://frontend.dev.fundingservice.co.uk
+    FLASK_ENV: dev
+    FLASK_DEBUG: 1
+
+  services: # eg. Redis
+    - funding-service-magic-links-dev
+    - logit-ssl-drain
+  routes:
+    - route: authenticator-dev.apps.internal
+- name: authenticator-auth-proxy
+  path: ./auth
+  buildpacks:
+    - binary_buildpack
+  routes:
+    - route: authenticator.dev.gids.dev
+  command: ./oauth2-proxy --config=oauth2-proxy.cfg --http-address="0.0.0.0:$PORT"
