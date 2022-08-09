@@ -5,17 +5,20 @@ applications:
   buildpacks:
   - https://github.com/cloudfoundry/python-buildpack.git
   command: gunicorn wsgi:app -c run/gunicorn/devtest.py
+  # TODO: Remove gids.dev domain if fundingservice.co.uk domain DNS gets restored.
   env:
-    AUTHENTICATOR_HOST: https://authenticator.dev.fundingservice.co.uk
+    AUTHENTICATOR_HOST: https://authenticator2.dev.gids.dev
     ACCOUNT_STORE_API_HOST: https://funding-service-design-account-store-dev.london.cloudapps.digital
     APPLICATION_STORE_API_HOST: https://funding-service-design-application-store-dev.london.cloudapps.digital
     NOTIFICATION_SERVICE_HOST: http://funding-service-design-notification-dev.apps.internal:8080
-    APPLICANT_FRONTEND_HOST: https://frontend.dev.fundingservice.co.uk
+    APPLICANT_FRONTEND_HOST: https://frontend.dev.gids.dev
     FLASK_ENV: dev
     FLASK_DEBUG: 1
+    COOKIE_DOMAIN: .dev.gids.dev
 
   services: # eg. Redis
     - funding-service-magic-links-dev
     - logit-ssl-drain
   routes:
     - route: authenticator.dev.fundingservice.co.uk
+    - route: authenticator2.dev.gids.dev
