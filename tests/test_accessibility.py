@@ -89,7 +89,7 @@ class TestAccessibilityWithChrome:
         results = run_axe_and_print_report(
             driver=self.driver, route_rel=str(route_rel)
         )
-        assert len(results["violations"]) <= 1
+        assert len(results["violations"]) <= 3
         assert (
             len(results["violations"]) == 0
             or results["violations"][0]["impact"] == "minor"
@@ -105,7 +105,7 @@ class TestAccessibilityWithChrome:
             results = run_axe_and_print_report(
                 driver=self.driver, route_rel=str(route_rel)
             )
-            assert len(results["violations"]) <= 2
+            assert len(results["violations"]) <= 4
             assert (
                 len(results["violations"]) == 0
                 or results["violations"][0]["impact"] == "minor"
@@ -122,7 +122,7 @@ class TestAccessibilityWithChrome:
             driver=self.driver, route_rel=str(route_rel)
         )
 
-        assert len(results["violations"]) <= 2
+        assert len(results["violations"]) <= 3
         assert (
             len(results["violations"]) == 0
             or results["violations"][0]["impact"] == "minor"

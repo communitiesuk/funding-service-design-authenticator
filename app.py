@@ -107,12 +107,14 @@ def create_app() -> Flask:
     def inject_global_constants():
         return dict(
             stage="beta",
-            service_title="Funding Service Design - Authenticator",
+            service_title="Apply for funding to save a building in your community",
             service_meta_description=(
-                "Funding Service Design Iteration - Authenticator"
+                "Apply for funding to save a building in your community"
             ),
-            service_meta_keywords="Funding Service Design - Authenticator",
-            service_meta_author="DLUHC",
+            service_meta_keywords="Apply for funding to save a building in your community",
+            service_meta_author="Department for Levelling up Housing and Communities",
+            accessibility_statement_url=Config.APPLICANT_FRONTEND_ACCESSIBILITY_STATEMENT_URL,
+            cookie_policy_url=Config.APPLICANT_FRONTEND_COOKIE_POLICY_URL,
         )
 
     with flask_app.app_context():

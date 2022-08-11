@@ -108,7 +108,7 @@ magic_link_routes_and_test_content = {
     "/service/magic-links/invalid": [
         {
             "tag": "h1",
-            "contains": "Link Expired",
+            "contains": "Link expired",
         },
         {
             "tag": "h2",

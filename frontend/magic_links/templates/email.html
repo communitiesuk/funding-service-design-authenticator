@@ -4,11 +4,6 @@
 
 {% extends "base.html" %}
 
-
-{% block beforeContent %}{% if fund_round and request.referrer %}
-<a href="{{request.referrer}}" class="govuk-back-link">Back to <span class="govuk-!-font-weight-bold">applications</span></a>
-{% endif %}{% endblock %}
-
 {% block content %}
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
@@ -49,14 +44,8 @@
 
     </div>
 
-
 <form method="POST">
   {{form.hidden_tag()}}
-
-
-
-
-
 </form>
 
 {% endblock %}

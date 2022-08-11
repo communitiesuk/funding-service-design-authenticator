@@ -1,7 +1,14 @@
 {% from "govuk_frontend_jinja/components/header/macro.html" import govukHeader -%}
+{% from "govuk_frontend_jinja/components/phase-banner/macro.html" import govukPhaseBanner -%}
 
 {{ govukHeader({
   'homepageUrl': url_for('default_bp.index'),
   'serviceName': service_title,
   'serviceUrl': url_for('default_bp.index')
 }) }}
+
+<div class="govuk-width-container">
+    {{ govukPhaseBanner({'tag': {'text': 'beta'}, 'html': 'This is a new service - your <a href="https://forms.office.com/Pages/ResponsePage.aspx?id=EGg0v32c3kOociSi7zmVqN48ORk8WN5LlJITE3Swt-lURUNCR0dHMjgxWFZOMTMxQzlOTVIxVkQ0Sy4u" class="govuk-link">feedback</a> will help us to improve it.'})}}
+</div>
+
+
