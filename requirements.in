@@ -1,7 +1,7 @@
 #-----------------------------------
 #   FSD Utils
 #-----------------------------------
-git+https://github.com/communitiesuk/funding-service-design-utils.git@bau-redis-healthcheck
+https://github.com/communitiesuk/funding-service-design-utils/archive/refs/tags/0.0.13.tar.gz
 requests
 
 #-----------------------------------
