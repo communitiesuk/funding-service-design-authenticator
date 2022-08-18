@@ -1,0 +1,52 @@
+name: Tag-zip release
+on:
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'
+
+    paths-ignore:
+      - '**/README.md'
+
+env:
+  # This uses the default config, since
+  # build is not a actual config file in envs.
+  FLASK_ENV : build
+
+
+jobs:
+  release_tag:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Set env
+        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+
+      - name: checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.10.x
+
+      - name: create python env
+        run: python -m venv .venv
+
+      - name: install dependencies
+        run: source .venv/bin/activate && python -m pip install --upgrade pip && pip install -r requirements.txt
+
+      - name: build static assets
+        run: source .venv/bin/activate && python build.py
+
+      - name: Archive Release
+        uses: thedoctor0/zip-release@main
+        with:
+          type: 'zip'
+          filename: '${{ github.event.repository.name }}-${{github.ref_name}}.zip'
+          exclusions: '*.git* *.venv/* *tests/*'
+
+      - name: Upload Release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: '${{ github.event.repository.name }}-${{github.ref_name}}.zip'
+          token: ${{ secrets.GITHUB_TOKEN }}

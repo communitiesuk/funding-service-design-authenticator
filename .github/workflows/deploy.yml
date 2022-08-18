@@ -50,6 +50,8 @@ jobs:
     needs: testing
     runs-on: ubuntu-latest
     environment: Dev
+    env:
+      FLASK_ENV : build
     steps:
       - name: checkout code
         uses: actions/checkout@v2
