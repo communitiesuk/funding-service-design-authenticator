@@ -39,6 +39,10 @@ class RedisMLinks(object):
                 del ml_data[name]
         return names, ml_data
 
+    @staticmethod
+    def client_list():
+        return []
+
 
 @pytest.fixture()
 def mock_redis_magic_links(mocker):
@@ -48,3 +52,4 @@ def mock_redis_magic_links(mocker):
     mocker.patch("app.redis_mlinks.setex", RedisMLinks.setex)
     mocker.patch("app.redis_mlinks.delete", RedisMLinks.delete)
     mocker.patch("app.redis_mlinks.keys", RedisMLinks.keys)
+    mocker.patch("app.redis_mlinks.client_list", RedisMLinks.client_list)
