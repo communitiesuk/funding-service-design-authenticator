@@ -22,7 +22,8 @@ def invalid():
 
     return (
         render_template(
-            "invalid.html", new_magic_link_url=url_for("magic_links_bp.new")), 403,
+            "invalid.html", new_magic_link_url="/service/magic-links/new?fund_id=47aef2f5-3fcb-4d45-acb5-f0152b5f03c4"
+                                               "&round_id=c603d114-5364-4474-a0c4-c41cbf4d3bbd"), 403,
     )
 
 
