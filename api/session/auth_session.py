@@ -8,8 +8,11 @@ from flask import make_response
 from flask import redirect
 from flask import request
 from flask import session
+from flask import url_for
 from flask.views import MethodView
+from models.magic_link import MagicLinkMethods
 from security.utils import create_token
+from security.utils import decode_with_options
 from security.utils import validate_token
 
 
@@ -34,6 +37,58 @@ class AuthSessionView(MethodView):
             except jwt.PyJWTError:
                 error_response(404, "Session token expired or invalid")
         error_response(404, "No session token found")
+
+    @classmethod
+    def clear_session(cls):
+        """
+        Clears the user session (signing them out)
+        Also deletes an existing jwt auth cookie and removes the corresponding
+        link records from redis
+
+        Returns: 302 redirect to signed-out page
+        """
+        existing_auth_token = request.cookies.get(
+            Config.FSD_USER_TOKEN_COOKIE_NAME
+        )
+        status = "no_token"
+        valid_token = False
+        if existing_auth_token:
+            # Check if token is valid
+            try:
+                valid_token = validate_token(existing_auth_token)
+                status = "sign_out_request"
+            except jwt.PyJWTError:
+                status = "invalid_token"
+
+            if not valid_token:
+                # Check if token has just expired
+                try:
+                    valid_token = decode_with_options(
+                        existing_auth_token, options={"verify_exp": False}
+                    )
+                except jwt.PyJWTError:
+                    status = "expired_token"
+
+            # If validly issued token, clear the redis store
+            # of the account and link record
+            if valid_token and isinstance(valid_token, dict):
+                MagicLinkMethods().clear_existing_user_record(
+                    valid_token.get("accountId")
+                )
+
+        # Clear the session
+        session.clear()
+
+        # Clear the cookie and redirect to signed out page
+        signed_out_url = url_for("magic_links_bp.signed_out", status=status)
+        response = make_response(redirect(signed_out_url), 302)
+        response.set_cookie(
+            Config.FSD_USER_TOKEN_COOKIE_NAME,
+            "",
+            domain=Config.COOKIE_DOMAIN,
+            expires=0,
+        )
+        return response
 
     @classmethod
     def create_session_and_redirect(cls, account_id: str, redirect_url: str):
