@@ -1,6 +1,7 @@
 """Flask configuration."""
 import logging
 from os import environ
+from os import getenv
 from pathlib import Path
 
 from fsd_utils import configclass
@@ -11,7 +12,7 @@ class DefaultConfig(object):
     #  Application Config
     SECRET_KEY = environ.get("SECRET_KEY")
     SESSION_COOKIE_NAME = environ.get("SESSION_COOKIE_NAME", "session_cookie")
-    COOKIE_DOMAIN = ".cloudapps.digital"
+    COOKIE_DOMAIN = getenv("COOKIE_DOMAIN")
     FLASK_ROOT = str(Path(__file__).parent.parent.parent)
     FLASK_ENV = environ.get("FLASK_ENV")
 
