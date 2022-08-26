@@ -1,4 +1,5 @@
 from datetime import datetime
+from datetime import timedelta
 
 import jwt
 from api.responses import error_response
@@ -102,10 +103,14 @@ class AuthSessionView(MethodView):
         try:
             session_details = cls.create_session_details_with_token(account_id)
             response = make_response(redirect(redirect_url), 302)
+            expiry = datetime.now() + timedelta(
+                seconds=Config.FSD_SESSION_TIMEOUT_SECS
+            )
             response.set_cookie(
                 Config.FSD_USER_TOKEN_COOKIE_NAME,
                 session_details["token"],
                 domain=Config.COOKIE_DOMAIN,
+                expires=expiry,
             )
             return response
         except SessionCreateError as e:
