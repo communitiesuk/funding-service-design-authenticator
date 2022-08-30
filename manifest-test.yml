@@ -25,3 +25,5 @@ applications:
   routes:
     - route: authenticator.test.fundingservice.co.uk
     - route: authenticator2.test.gids.dev
+  health-check-http-endpoint: /healthcheck
+  health-check-type: http

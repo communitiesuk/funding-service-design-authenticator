@@ -25,6 +25,8 @@ jobs:
       - name: install dependencies
         run: python -m pip install --upgrade pip && python -m pip install -r requirements-dev.txt
       - name: build govuk assets
+        env:
+          FLASK_ENV: "development"
         run: python build.py
       - name: run unit tests
         run: python -m pip install pytest && python -m pytest .
@@ -62,6 +64,8 @@ jobs:
       - name: install dependencies
         run: source .venv/bin/activate && python -m pip install --upgrade pip && pip install -r requirements.txt
       - name: build govuk assets
+        env:
+          FLASK_ENV: "development"
         run: source .venv/bin/activate && python build.py
       - name: Deploy to Gov PaaS
         uses: citizen-of-planet-earth/cf-cli-action@v2
@@ -122,6 +126,8 @@ jobs:
       - name: install dependencies
         run: source .venv/bin/activate && python -m pip install --upgrade pip && pip install -r requirements.txt
       - name: build swagger and govuk assets
+        env:
+          FLASK_ENV: "development"
         run: source .venv/bin/activate && python build.py
       - name: Deploy to Gov PaaS
         uses: citizen-of-planet-earth/cf-cli-action@v2

@@ -14,6 +14,9 @@ from flask_redis import FlaskRedis
 from flask_session import Session
 from flask_talisman import Talisman
 from frontend.assets import compile_static_assets
+from fsd_utils.healthchecks.checkers import FlaskRunningChecker
+from fsd_utils.healthchecks.checkers import RedisChecker
+from fsd_utils.healthchecks.healthcheck import Healthcheck
 from fsd_utils.logging import logging
 from jinja2 import ChoiceLoader
 from jinja2 import PackageLoader
@@ -136,6 +139,10 @@ def create_app() -> Flask:
         assets = Environment()
         assets.init_app(flask_app)
         compile_static_assets(assets)
+
+        health = Healthcheck(flask_app)
+        health.add_check(FlaskRunningChecker())
+        health.add_check(RedisChecker(redis_mlinks))
 
         return flask_app
 

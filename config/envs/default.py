@@ -1,6 +1,7 @@
 """Flask configuration."""
 import logging
 from os import environ
+from os import getenv
 from pathlib import Path
 
 from fsd_utils import configclass
@@ -11,7 +12,7 @@ class DefaultConfig(object):
     #  Application Config
     SECRET_KEY = environ.get("SECRET_KEY")
     SESSION_COOKIE_NAME = environ.get("SESSION_COOKIE_NAME", "session_cookie")
-    COOKIE_DOMAIN = ".cloudapps.digital"
+    COOKIE_DOMAIN = getenv("COOKIE_DOMAIN")
     FLASK_ROOT = str(Path(__file__).parent.parent.parent)
     FLASK_ENV = environ.get("FLASK_ENV")
 
@@ -72,7 +73,7 @@ class DefaultConfig(object):
 
     # Funding Service Design
     FSD_USER_TOKEN_COOKIE_NAME = "fsd_user_token"
-    FSD_SESSION_TIMEOUT_SECS = 3600  # 1 hour
+    FSD_SESSION_TIMEOUT_SECS = 86400  # 1 day
 
     """
     APIs Config: contains api hosts (set in manifest.yml)
@@ -93,9 +94,15 @@ class DefaultConfig(object):
     NOTIFY_TEMPLATE_MAGIC_LINK = "MAGIC_LINK"
 
     # Applicant Frontend
-    APPLICANT_FRONTEND_HOST = environ.get("APPLICANT_FRONTEND_HOST", "frontend")
-    APPLICANT_FRONTEND_ACCESSIBILITY_STATEMENT_URL = APPLICANT_FRONTEND_HOST + "/accessibility_statement"
-    APPLICANT_FRONTEND_COOKIE_POLICY_URL = APPLICANT_FRONTEND_HOST + "/cookie_policy"
+    APPLICANT_FRONTEND_HOST = environ.get(
+        "APPLICANT_FRONTEND_HOST", "frontend"
+    )
+    APPLICANT_FRONTEND_ACCESSIBILITY_STATEMENT_URL = (
+        APPLICANT_FRONTEND_HOST + "/accessibility_statement"
+    )
+    APPLICANT_FRONTEND_COOKIE_POLICY_URL = (
+        APPLICANT_FRONTEND_HOST + "/cookie_policy"
+    )
 
     """
     Magic Links
@@ -103,9 +110,7 @@ class DefaultConfig(object):
     MAGIC_LINK_EXPIRY_DAYS = 1
     MAGIC_LINK_EXPIRY_SECONDS = 86400 * MAGIC_LINK_EXPIRY_DAYS
     if APPLICANT_FRONTEND_HOST:
-        MAGIC_LINK_REDIRECT_URL = (
-            APPLICANT_FRONTEND_HOST + "/account"
-        )
+        MAGIC_LINK_REDIRECT_URL = APPLICANT_FRONTEND_HOST + "/account"
     else:
         MAGIC_LINK_REDIRECT_URL = "https://www.gov.uk/error"
     MAGIC_LINK_RECORD_PREFIX = "link"
