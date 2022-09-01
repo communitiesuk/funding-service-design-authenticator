@@ -1,6 +1,7 @@
 -r requirements.txt
 bandit
 safety
+dparse>=0.5.2
 black
 deepdiff
 pre-commit
