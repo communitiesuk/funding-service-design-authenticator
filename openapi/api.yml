@@ -12,28 +12,6 @@ tags:
     description: Session operations
 paths:
   /magic-links:
-    get:
-      tags:
-        - magic links
-      summary: Search magic link
-      description: List all magic links
-      operationId: api.MagicLinksView.search
-      responses:
-        200:
-          description: SUCCESS - A list of magic link keys
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  type: string
-      parameters:
-        - name: link_id
-          in: query
-          required: false
-          schema:
-            type: string
-            format: query
     post:
       tags:
         - magic links
@@ -128,16 +106,3 @@ paths:
       responses:
         200:
           description: SUCCESS - Valid user token
-
-  /sessions/user:
-    get:
-      tags:
-        - sessions
-      summary: Get a users session details
-      description: Get a users session details
-      operationId: api.AuthSessionView.user
-      responses:
-        200:
-          description: SUCCESS - Active user session details returned
-        404:
-          description: ERROR - User session could not be found

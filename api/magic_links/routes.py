@@ -7,7 +7,6 @@ from api.session.auth_session import AuthSessionView
 from config import Config
 from flask import redirect
 from flask import request
-from flask import Response
 from flask import url_for
 from flask.views import MethodView
 from models.account import AccountMethods
@@ -16,12 +15,6 @@ from models.magic_link import MagicLinkMethods
 
 
 class MagicLinksView(MagicLinkMethods, MethodView):
-    def search(self):
-        """
-        GET /magic-links endpoint
-        :return: Json Response
-        """
-        return Response(json.dumps(self.links), mimetype="application/json")
 
     def use(self, link_id: str):
         """
