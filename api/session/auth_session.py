@@ -39,8 +39,8 @@ class AuthSessionView(MethodView):
                 error_response(404, "Session token expired or invalid")
         error_response(404, "No session token found")
 
-    @classmethod
-    def clear_session(cls):
+    @staticmethod
+    def clear_session():
         """
         Clears the user session (signing them out)
         Also deletes an existing jwt auth cookie and removes the corresponding
@@ -112,8 +112,8 @@ class AuthSessionView(MethodView):
         except SessionCreateError as e:
             error_response(404, str(e))
 
-    @classmethod
-    def create_session_details_with_token(cls, account_id: str):
+    @staticmethod
+    def create_session_details_with_token(account_id: str):
         """
         Creates a signed expiring session token for the given account_id
         :param account_id: The account_id for the user to create a token for
