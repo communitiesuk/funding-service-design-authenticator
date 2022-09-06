@@ -6,16 +6,22 @@ from api.responses import magic_link_201_response
 from api.session.auth_session import AuthSessionView
 from config import Config
 from flask import redirect
+from flask import current_app
 from flask import request
 from flask import url_for
 from flask.views import MethodView
 from models.account import AccountMethods
 from models.magic_link import MagicLinkError
 from models.magic_link import MagicLinkMethods
+from fsd_utils.authentication.decorators import login_required
 
+@login_required
+def check_user_status(account_id):
+    current_app.logger.info(f"User (account_id: {account_id}) is logged in.")
+    current_app.logger.info(f"Redirecting to {Config.MAGIC_LINK_REDIRECT_URL}.")
+    return redirect(Config.MAGIC_LINK_REDIRECT_URL)
 
 class MagicLinksView(MagicLinkMethods, MethodView):
-
     def use(self, link_id: str):
         """
         GET /magic-links/{link_id} endpoint
@@ -30,6 +36,7 @@ class MagicLinksView(MagicLinkMethods, MethodView):
         :param link_id: String short key for the link
         :return: 302 Redirect / 404 Error
         """
+
         link_key = ":".join([Config.MAGIC_LINK_RECORD_PREFIX, link_id])
         link_hash = self.redis_mlinks.get(link_key)
         if link_hash:
@@ -52,9 +59,12 @@ class MagicLinksView(MagicLinkMethods, MethodView):
             return redirect(
                 url_for("magic_links_bp.invalid", error="Link expired")
             )
-        return redirect(
-            url_for("magic_links_bp.invalid", error="Link expired or invalid")
-        )
+ 
+        else:
+            # else if no link exists (or its been used)
+            # then check the token has not expired
+            current_app.logger.warn("The magic link has already been used, checking user is logged in.")
+            return check_user_status()
 
     def create(self):
         """
