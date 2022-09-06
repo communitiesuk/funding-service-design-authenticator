@@ -58,17 +58,13 @@ class AuthSessionView(MethodView):
             try:
                 valid_token = validate_token(existing_auth_token)
                 status = "sign_out_request"
+            except jwt.ExpiredSignatureError:
+                valid_token = decode_with_options(
+                    existing_auth_token, options={"verify_exp": False}
+                )
+                status = "expired_token"
             except jwt.PyJWTError:
                 status = "invalid_token"
-
-            if not valid_token:
-                # Check if token has just expired
-                try:
-                    valid_token = decode_with_options(
-                        existing_auth_token, options={"verify_exp": False}
-                    )
-                except jwt.PyJWTError:
-                    status = "expired_token"
 
             # If validly issued token, clear the redis store
             # of the account and link record
