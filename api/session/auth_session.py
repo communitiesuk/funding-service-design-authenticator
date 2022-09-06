@@ -112,8 +112,8 @@ class AuthSessionView(MethodView):
         except SessionCreateError as e:
             error_response(404, str(e))
 
-    @staticmethod
-    def create_session_details_with_token(account_id: str):
+    @classmethod
+    def create_session_details_with_token(cls, account_id: str):
         """
         Creates a signed expiring session token for the given account_id
         :param account_id: The account_id for the user to create a token for
