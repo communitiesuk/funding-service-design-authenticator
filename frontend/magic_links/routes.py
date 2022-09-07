@@ -56,7 +56,6 @@ def new():
     # Default to COF while we only have one fund
     fund_id = request.args.get("fund_id", Config.FUND_ID_COF)
     round_id = request.args.get("round_id")
-    # current_app.logger.debug("Fund ID:", fund_id, "round ID:", round_id)
     fund_round = False
 
     if fund_id and round_id:
