@@ -124,6 +124,7 @@ class AccountMethods(Account):
                 {"magic_link_url": new_link_json.get("link")}
             )
 
+            current_app.logger.debug(f"Magic Link URL: {new_link_json.get('link')}")
             # Send notification
             Notification.send(
                 Config.NOTIFY_TEMPLATE_MAGIC_LINK,
