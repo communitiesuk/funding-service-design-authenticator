@@ -1,13 +1,16 @@
 from flask import Blueprint
+from flask import current_app
 from flask import redirect
 from flask import render_template
 from flask import request
 from flask import url_for
+
 from frontend.magic_links.forms import EmailForm
 from models.account import AccountError
 from models.account import AccountMethods
 from models.magic_link import MagicLinkError
 from models.notification import NotificationError
+from config import Config
 
 magic_links_bp = Blueprint(
     "magic_links_bp",
@@ -52,8 +55,10 @@ def new():
     Returns a page containing a single question requesting the
     users email address.
     """
-    fund_id = request.args.get("fund_id")
+    #Default to COF while we only have one fund
+    fund_id = request.args.get("fund_id", Config.FUND_ID_COF) 
     round_id = request.args.get("round_id")
+    #current_app.logger.debug("Fund ID:", fund_id, "round ID:", round_id)
     fund_round = False
 
     if fund_id and round_id:

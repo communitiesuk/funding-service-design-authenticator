@@ -9,6 +9,7 @@ from models.data import get_data
 from models.data import post_data
 from models.magic_link import MagicLinkMethods
 from models.notification import Notification
+from models.fund import FundMethods
 
 
 @dataclass
@@ -107,7 +108,14 @@ class AccountMethods(Account):
         if not account:
             account = new_account = cls.create_account(email)
         if account:
-            notification_content = {}
+
+            fund = FundMethods.get_fund(fund_id)
+
+            notification_content = {
+                Config.NOTFN_ML_REQUEST_NEW_EMAIL_URL: Config.AUTHENTICATOR_HOST + Config.NEW_LINK_ENDPOINT,
+                Config.NOTFN_ML_CONTACT_HELP_EMAIL: fund.contact_help,
+                Config.NOTFN_ML_FUND_NAME: fund.name,
+            }
             if fund_id and round_id and new_account:
                 # Create an application if none exists
                 new_application = ApplicationMethods.create_application(
@@ -115,13 +123,13 @@ class AccountMethods(Account):
                 )
                 if new_application:
                     notification_content.update(
-                        {"fund_name": new_application.fund_name}
+                        {Config.NOTFN_ML_FUND_NAME: new_application.fund_name}
                     )
 
             # Create a fresh link
             new_link_json = MagicLinkMethods().create_magic_link(account)
             notification_content.update(
-                {"magic_link_url": new_link_json.get("link")}
+                {Config.NOTFN_ML_MAGIC_LINK_URL: new_link_json.get("link")}
             )
 
             current_app.logger.debug(f"Magic Link URL: {new_link_json.get('link')}")
