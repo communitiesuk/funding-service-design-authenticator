@@ -1,4 +1,5 @@
 """Flask configuration."""
+import base64
 import logging
 from os import environ
 from os import getenv
@@ -121,8 +122,14 @@ class DefaultConfig(object):
     Security
     """
     # RSA 256 KEYS
-    RSA256_PRIVATE_KEY = environ.get("RSA256_PRIVATE_KEY")
-    RSA256_PUBLIC_KEY = environ.get("RSA256_PUBLIC_KEY")
+    RSA256_PRIVATE_KEY_BASE64 = environ.get("RSA256_PRIVATE_KEY_BASE64")
+    if RSA256_PRIVATE_KEY_BASE64:
+        RSA256_PRIVATE_KEY = base64.b64decode(
+            RSA256_PRIVATE_KEY_BASE64
+        ).decode()
+    RSA256_PUBLIC_KEY_BASE64 = environ.get("RSA256_PUBLIC_KEY_BASE64")
+    if RSA256_PUBLIC_KEY_BASE64:
+        RSA256_PUBLIC_KEY = base64.b64decode(RSA256_PUBLIC_KEY_BASE64).decode()
 
     # Security Settings (for Talisman Config)
     FORCE_HTTPS = True
