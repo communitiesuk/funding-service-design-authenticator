@@ -10,6 +10,8 @@ async-timeout==4.0.2
     # via redis
 attrs==21.4.0
     # via jsonschema
+babel==2.10.3
+    # via flask-babel
 brotli==1.0.9
     # via flask-compress
 cachelib==0.9.0
@@ -49,6 +51,7 @@ flask==2.1.1
     #   -r requirements.in
     #   connexion
     #   flask-assets
+    #   flask-babel
     #   flask-compress
     #   flask-migrate
     #   flask-redis
@@ -58,6 +61,8 @@ flask==2.1.1
     #   funding-service-design-utils
 flask-assets==2.0
     # via -r requirements.in
+flask-babel==2.0.0
+    # via funding-service-design-utils
 flask-compress==1.10.1
     # via -r requirements.in
 flask-migrate==3.1.0
@@ -74,7 +79,7 @@ flask-talisman==0.8.1
     # via -r requirements.in
 flask-wtf==1.0.0
     # via -r requirements.in
-funding-service-design-utils @ https://github.com/communitiesuk/funding-service-design-utils/archive/refs/tags/0.0.14.tar.gz
+funding-service-design-utils @ git+https://github.com/communitiesuk/funding-service-design-utils@fs1352-req-new-link
     # via -r requirements.in
 govuk-frontend-jinja==2.0.0
     # via -r requirements.in
@@ -96,6 +101,7 @@ itsdangerous==2.1.2
 jinja2==3.1.2
     # via
     #   flask
+    #   flask-babel
     #   govuk-frontend-jinja
     #   swagger-ui-bundle
 jsmin==3.0.1
@@ -146,7 +152,10 @@ python-dotenv==0.20.0
 python-json-logger==2.0.2
     # via funding-service-design-utils
 pytz==2022.1
-    # via funding-service-design-utils
+    # via
+    #   babel
+    #   flask-babel
+    #   funding-service-design-utils
 pyyaml==6.0
     # via
     #   clickclick
