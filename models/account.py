@@ -112,9 +112,9 @@ class AccountMethods(Account):
             fund = FundMethods.get_fund(fund_id)
 
             notification_content = {
-                Config.NOTFN_ML_REQUEST_NEW_EMAIL_URL: Config.AUTHENTICATOR_HOST + Config.NEW_LINK_ENDPOINT,
-                Config.NOTFN_ML_CONTACT_HELP_EMAIL: fund.contact_help,
-                Config.NOTFN_ML_FUND_NAME: fund.name,
+                Config.NOTIFICATION_MAGIC_LINK_REQUEST_NEW_EMAIL_URL: Config.AUTHENTICATOR_HOST + Config.NEW_LINK_ENDPOINT,
+                Config.NOTIFICATION_MAGIC_LINK_CONTACT_HELP_EMAIL: fund.contact_help,
+                Config.NOTIFICATION_MAGIC_LINK_FUND_NAME: fund.name,
             }
             if fund_id and round_id and new_account:
                 # Create an application if none exists
@@ -123,13 +123,13 @@ class AccountMethods(Account):
                 )
                 if new_application:
                     notification_content.update(
-                        {Config.NOTFN_ML_FUND_NAME: new_application.fund_name}
+                        {Config.NOTIFICATION_MAGIC_LINK_FUND_NAME: new_application.fund_name}
                     )
 
             # Create a fresh link
             new_link_json = MagicLinkMethods().create_magic_link(account)
             notification_content.update(
-                {Config.NOTFN_ML_MAGIC_LINK_URL: new_link_json.get("link")}
+                {Config.NOTIFICATION_MAGIC_LINK_MAGIC_LINK_URL: new_link_json.get("link")}
             )
 
             current_app.logger.debug(f"Magic Link URL: {new_link_json.get('link')}")
