@@ -11,6 +11,7 @@ class UnitTestConfig(Config):
     #  Application Config
     SECRET_KEY = "dev"
     SESSION_COOKIE_NAME = "session_cookie"
+    COOKIE_DOMAIN = None
 
     # Logging
     FSD_LOG_LEVEL = logging.DEBUG

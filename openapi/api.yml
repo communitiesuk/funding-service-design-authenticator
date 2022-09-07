@@ -106,3 +106,25 @@ paths:
       responses:
         200:
           description: SUCCESS - Valid user token
+  /sessions/user:
+    get:
+      tags:
+        - sessions
+      summary: Get a users session details
+      description: Get a users session details
+      operationId: api.AuthSessionView.user
+      responses:
+        200:
+          description: SUCCESS - Active user session details returned
+        404:
+          description: ERROR - User session could not be found
+  /sessions/sign-out:
+    get:
+      tags:
+        - sessions
+      summary: Signs out a user
+      description: Signs out a user who has authenticated via a magic link
+      operationId: api.AuthSessionView.clear_session
+      responses:
+        302:
+          description: SUCCESS - Active user session cleared and redirected to the signed out page

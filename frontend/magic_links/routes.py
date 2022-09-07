@@ -22,7 +22,21 @@ def invalid():
 
     return (
         render_template(
-            "invalid.html", new_magic_link_url=url_for("magic_links_bp.new")), 403,
+            "invalid.html", new_magic_link_url=url_for("magic_links_bp.new")
+        ),
+        403,
+    )
+
+
+@magic_links_bp.route("/signed-out/<status>")
+def signed_out(status):
+    return (
+        render_template(
+            "signed_out.html",
+            status=status,
+            new_magic_link_url=url_for("magic_links_bp.new"),
+        ),
+        200,
     )
 
 
