@@ -2,7 +2,7 @@
 #   FSD Utils
 #-----------------------------------
 
-git+https://github.com/communitiesuk/funding-service-design-utils@fs1352-req-new-link
+https://github.com/communitiesuk/funding-service-design-utils/archive/refs/tags/0.0.19.tar.gz
 
 requests
 
