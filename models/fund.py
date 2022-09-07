@@ -1,11 +1,9 @@
-from cgitb import reset
 from dataclasses import dataclass
-from models.data import get_data
 from typing import List
 
-from models.round import Round
-
 from config import Config
+from models.data import get_data
+from models.round import Round
 
 
 @dataclass
@@ -30,13 +28,13 @@ class Fund:
             self.rounds = []
         self.rounds.append(fund_round)
 
+
 class FundMethods:
     @staticmethod
     def get_fund(fund_id: str) -> Fund:
-        url = (Config.FUND_STORE_API_HOST + Config.FUND_STORE_FUND_ENDPOINT).format(
-            fund_id = fund_id
-        )
+        url = (
+            Config.FUND_STORE_API_HOST + Config.FUND_STORE_FUND_ENDPOINT
+        ).format(fund_id=fund_id)
         response = get_data(endpoint=url)
         if response and "id" in response:
             return Fund.from_json(response)
-        

@@ -15,7 +15,6 @@ from models.magic_link import MagicLinkMethods
 
 
 class MagicLinksView(MagicLinkMethods, MethodView):
-
     def use(self, link_id: str):
         """
         GET /magic-links/{link_id} endpoint

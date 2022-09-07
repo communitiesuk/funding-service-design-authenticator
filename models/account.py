@@ -7,9 +7,9 @@ from models.application import Application
 from models.application import ApplicationMethods
 from models.data import get_data
 from models.data import post_data
+from models.fund import FundMethods
 from models.magic_link import MagicLinkMethods
 from models.notification import Notification
-from models.fund import FundMethods
 
 
 @dataclass
@@ -112,8 +112,9 @@ class AccountMethods(Account):
             fund = FundMethods.get_fund(fund_id)
 
             notification_content = {
-                Config.NOTIFICATION_MAGIC_LINK_REQUEST_NEW_EMAIL_URL: Config.AUTHENTICATOR_HOST + Config.NEW_LINK_ENDPOINT,
-                Config.NOTIFICATION_MAGIC_LINK_CONTACT_HELP_EMAIL: fund.contact_help,
+                Config.NOTIFICATION_MAGIC_LINK_REQUEST_NEW_EMAIL_URL: Config.AUTHENTICATOR_HOST  # noqa
+                + Config.NEW_LINK_ENDPOINT,
+                Config.NOTIFICATION_MAGIC_LINK_CONTACT_HELP_EMAIL: fund.contact_help,  # noqa
                 Config.NOTIFICATION_MAGIC_LINK_FUND_NAME: fund.name,
             }
             if fund_id and round_id and new_account:
@@ -123,16 +124,24 @@ class AccountMethods(Account):
                 )
                 if new_application:
                     notification_content.update(
-                        {Config.NOTIFICATION_MAGIC_LINK_FUND_NAME: new_application.fund_name}
+                        {
+                            Config.NOTIFICATION_MAGIC_LINK_FUND_NAME: new_application.fund_name  # noqa
+                        }
                     )
 
             # Create a fresh link
             new_link_json = MagicLinkMethods().create_magic_link(account)
             notification_content.update(
-                {Config.NOTIFICATION_MAGIC_LINK_MAGIC_LINK_URL: new_link_json.get("link")}
+                {
+                    Config.NOTIFICATION_MAGIC_LINK_MAGIC_LINK_URL: new_link_json.get(  # noqa
+                        "link"
+                    )
+                }
             )
 
-            current_app.logger.debug(f"Magic Link URL: {new_link_json.get('link')}")
+            current_app.logger.debug(
+                f"Magic Link URL: {new_link_json.get('link')}"
+            )
             # Send notification
             Notification.send(
                 Config.NOTIFY_TEMPLATE_MAGIC_LINK,
