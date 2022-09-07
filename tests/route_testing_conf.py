@@ -127,4 +127,66 @@ magic_link_routes_and_test_content = {
             "contains": "Request a new link",
         },
     ],
+    "/service/magic-links/signed-out/no_token": [
+        {
+            "tag": "h1",
+            "contains": "You are not logged in",
+        },
+        {
+            "tag": "p",
+            "contains": (
+                "To re-access your account, please click below to request a"
+                " new link."
+            ),
+        },
+        {
+            "tag": "a",
+            "name": None,
+            "contains": "Request a new link",
+        },
+    ],
+    "/service/magic-links/signed-out/sign_out_request": [
+        {
+            "tag": "h1",
+            "contains": "You have been signed out",
+        },
+        {
+            "tag": "p",
+            "contains": "Your session has been closed.",
+        },
+        {
+            "tag": "p",
+            "contains": (
+                "To re-access your account, please click below to request a"
+                " new link."
+            ),
+        },
+        {
+            "tag": "a",
+            "name": None,
+            "contains": "Request a new link",
+        },
+    ],
+    "/service/magic-links/signed-out/invalid_token": [
+        {
+            "tag": "h1",
+            "contains": "You have been signed out",
+        },
+        {
+            "tag": "p",
+            "contains": "Your session has been closed.",
+        },
+        {
+            "tag": "p",
+            "contains": (
+                "To re-access your account, please click below to request a"
+                " new link."
+            ),
+        },
+        {
+            "tag": "a",
+            "name": None,
+            "contains": "Request a new link",
+        },
+    ],
 }
