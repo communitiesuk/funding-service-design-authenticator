@@ -15,11 +15,6 @@ from models.magic_link import MagicLinkError
 from models.magic_link import MagicLinkMethods
 from fsd_utils.authentication.decorators import login_required
 
-@login_required
-def check_user_status(account_id):
-    current_app.logger.info(f"User (account_id: {account_id}) is logged in.")
-    current_app.logger.info(f"Redirecting to {Config.MAGIC_LINK_REDIRECT_URL}.")
-    return redirect(Config.MAGIC_LINK_REDIRECT_URL)
 
 class MagicLinksView(MagicLinkMethods, MethodView):
     def use(self, link_id: str):
@@ -63,8 +58,10 @@ class MagicLinksView(MagicLinkMethods, MethodView):
         else:
             # else if no link exists (or its been used)
             # then check the token has not expired
-            current_app.logger.warn("The magic link has already been used, checking user is logged in.")
-            return check_user_status()
+            current_app.logger.warn(f"The magic link with hash: '{link_hash}' has already been used. Now checking user is logged in.")
+            account_id = self.check_user_is_logged_in()
+            current_app.logger.info(f"The user with account_id: '{account_id}' is logged in, redirecting to '{Config.MAGIC_LINK_REDIRECT_URL}'.")
+            return redirect(Config.MAGIC_LINK_REDIRECT_URL)
 
     def create(self):
         """
@@ -85,3 +82,10 @@ class MagicLinksView(MagicLinkMethods, MethodView):
             except MagicLinkError:
                 return error_response(500, "Could not create a unique link")
         return error_response(401, "Account does not exist")
+
+    @staticmethod
+    @login_required
+    def check_user_is_logged_in(account_id):
+        current_app.logger.info(f"User (account_id: {account_id}) is logged in.")
+        current_app.logger.info(f"Redirecting to {Config.MAGIC_LINK_REDIRECT_URL}.")
+        return account_id
