@@ -5,15 +5,15 @@ from api.responses import error_response
 from api.responses import magic_link_201_response
 from api.session.auth_session import AuthSessionView
 from config import Config
-from flask import redirect
 from flask import current_app
+from flask import redirect
 from flask import request
 from flask import url_for
 from flask.views import MethodView
+from fsd_utils.authentication.decorators import login_required
 from models.account import AccountMethods
 from models.magic_link import MagicLinkError
 from models.magic_link import MagicLinkMethods
-from fsd_utils.authentication.decorators import login_required
 
 
 class MagicLinksView(MagicLinkMethods, MethodView):
@@ -54,13 +54,19 @@ class MagicLinksView(MagicLinkMethods, MethodView):
             return redirect(
                 url_for("magic_links_bp.invalid", error="Link expired")
             )
- 
+
         else:
             # else if no link exists (or its been used)
             # then check the token has not expired
-            current_app.logger.warn(f"The magic link with hash: '{link_hash}' has already been used. Now checking user is logged in.")
+            current_app.logger.warn(
+                f"The magic link with hash: '{link_hash}' has already been"
+                " used. Now checking user is logged in."
+            )
             account_id = self.check_user_is_logged_in()
-            current_app.logger.info(f"The user with account_id: '{account_id}' is logged in, redirecting to '{Config.MAGIC_LINK_REDIRECT_URL}'.")
+            current_app.logger.info(
+                f"The user with account_id: '{account_id}' is logged in,"
+                f" redirecting to '{Config.MAGIC_LINK_REDIRECT_URL}'."
+            )
             return redirect(Config.MAGIC_LINK_REDIRECT_URL)
 
     def create(self):
@@ -86,6 +92,10 @@ class MagicLinksView(MagicLinkMethods, MethodView):
     @staticmethod
     @login_required
     def check_user_is_logged_in(account_id):
-        current_app.logger.info(f"User (account_id: {account_id}) is logged in.")
-        current_app.logger.info(f"Redirecting to {Config.MAGIC_LINK_REDIRECT_URL}.")
+        current_app.logger.info(
+            f"User (account_id: {account_id}) is logged in."
+        )
+        current_app.logger.info(
+            f"Redirecting to {Config.MAGIC_LINK_REDIRECT_URL}."
+        )
         return account_id

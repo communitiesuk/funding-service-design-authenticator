@@ -4,7 +4,7 @@ FROM python:3.10-bullseye
 WORKDIR /app
 COPY requirements.txt requirements.txt
 # Install git to download utils library
-RUN apt update && apt -yq install git 
+RUN apt update && apt -yq install git
 RUN python3 -m pip install --upgrade pip && pip install -r requirements.txt
 COPY . .
 

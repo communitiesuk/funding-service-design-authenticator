@@ -125,7 +125,9 @@ class TestMagicLinks:
 
         assert response.status_code == 302
 
-    def test_reused_magic_link_redirects_for_active_session(self, flask_test_client):
+    def test_reused_magic_link_redirects_for_active_session(
+        self, flask_test_client
+    ):
         """
         GIVEN a running Flask client, redis instance and
         a used magic link with an active session (cookie)
@@ -133,7 +135,7 @@ class TestMagicLinks:
         THEN we are redirected to another url (the application service)
         :param flask_test_client:
         """
-        
+
         magic_link_create_payload = {
             "email": "a@example.com",
             "redirectUrl": "https://example.com/redirect-url",
@@ -157,7 +159,9 @@ class TestMagicLinks:
         second_response = flask_test_client.get(reuse_endpoint)
         assert second_response.status_code == 302
 
-    def test_reused_magic_link_with_no_session_returns_logout(self, flask_test_client):
+    def test_reused_magic_link_with_no_session_returns_logout(
+        self, flask_test_client
+    ):
         """
         GIVEN a running Flask client, redis instance and
         a used magic link with no session
