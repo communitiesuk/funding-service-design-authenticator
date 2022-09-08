@@ -2,7 +2,7 @@
 #   FSD Utils
 #-----------------------------------
 
-git+https://github.com/communitiesuk/funding-service-design-utils@bau-notify-fields
+https://github.com/communitiesuk/funding-service-design-utils/archive/refs/tags/0.0.20.tar.gz
 
 requests
 
