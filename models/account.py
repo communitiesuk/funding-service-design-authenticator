@@ -3,6 +3,7 @@ from typing import List
 
 from config import Config
 from flask import current_app
+from fsd_utils.config.notify_constants import NotifyConstants
 from models.application import Application
 from models.application import ApplicationMethods
 from models.data import get_data
@@ -112,10 +113,10 @@ class AccountMethods(Account):
             fund = FundMethods.get_fund(fund_id)
 
             notification_content = {
-                Config.NOTIFICATION_MAGIC_LINK_REQUEST_NEW_EMAIL_URL: Config.AUTHENTICATOR_HOST  # noqa
+                NotifyConstants.FIELD_REQUEST_NEW_LINK_URL: Config.AUTHENTICATOR_HOST  # noqa
                 + Config.NEW_LINK_ENDPOINT,
-                Config.NOTIFICATION_MAGIC_LINK_CONTACT_HELP_EMAIL: fund.contact_help,  # noqa
-                Config.NOTIFICATION_MAGIC_LINK_FUND_NAME: fund.name,
+                NotifyConstants.FIELD_CONTACT_HELP_EMAIL: fund.contact_help,  # noqa
+                NotifyConstants.FIELD_FUND_NAME: fund.name,
             }
             if fund_id and round_id and new_account:
                 # Create an application if none exists
@@ -125,7 +126,7 @@ class AccountMethods(Account):
                 if new_application:
                     notification_content.update(
                         {
-                            Config.NOTIFICATION_MAGIC_LINK_FUND_NAME: new_application.fund_name  # noqa
+                            NotifyConstants.FIELD_FUND_NAME: new_application.fund_name  # noqa
                         }
                     )
 
@@ -133,7 +134,7 @@ class AccountMethods(Account):
             new_link_json = MagicLinkMethods().create_magic_link(account)
             notification_content.update(
                 {
-                    Config.NOTIFICATION_MAGIC_LINK_MAGIC_LINK_URL: new_link_json.get(  # noqa
+                    NotifyConstants.FIELD_MAGIC_LINK_URL: new_link_json.get(  # noqa
                         "link"
                     )
                 }
@@ -144,7 +145,7 @@ class AccountMethods(Account):
             )
             # Send notification
             Notification.send(
-                Config.NOTIFY_TEMPLATE_MAGIC_LINK,
+                NotifyConstants.TEMPLATE_TYPE_MAGIC_LINK,
                 account.email,
                 notification_content,
             )
