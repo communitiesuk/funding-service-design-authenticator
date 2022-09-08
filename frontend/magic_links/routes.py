@@ -1,3 +1,4 @@
+from config import Config
 from flask import Blueprint
 from flask import redirect
 from flask import render_template
@@ -52,7 +53,8 @@ def new():
     Returns a page containing a single question requesting the
     users email address.
     """
-    fund_id = request.args.get("fund_id")
+    # Default to COF while we only have one fund
+    fund_id = request.args.get("fund_id", Config.FUND_ID_COF)
     round_id = request.args.get("round_id")
     fund_round = False
 

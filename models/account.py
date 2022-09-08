@@ -3,10 +3,12 @@ from typing import List
 
 from config import Config
 from flask import current_app
+from fsd_utils.config.notify_constants import NotifyConstants
 from models.application import Application
 from models.application import ApplicationMethods
 from models.data import get_data
 from models.data import post_data
+from models.fund import FundMethods
 from models.magic_link import MagicLinkMethods
 from models.notification import Notification
 
@@ -107,7 +109,15 @@ class AccountMethods(Account):
         if not account:
             account = new_account = cls.create_account(email)
         if account:
-            notification_content = {}
+
+            fund = FundMethods.get_fund(fund_id)
+
+            notification_content = {
+                NotifyConstants.FIELD_REQUEST_NEW_LINK_URL: Config.AUTHENTICATOR_HOST  # noqa
+                + Config.NEW_LINK_ENDPOINT,
+                NotifyConstants.FIELD_CONTACT_HELP_EMAIL: fund.contact_help,  # noqa
+                NotifyConstants.FIELD_FUND_NAME: fund.name,
+            }
             if fund_id and round_id and new_account:
                 # Create an application if none exists
                 new_application = ApplicationMethods.create_application(
@@ -115,19 +125,27 @@ class AccountMethods(Account):
                 )
                 if new_application:
                     notification_content.update(
-                        {"fund_name": new_application.fund_name}
+                        {
+                            NotifyConstants.FIELD_FUND_NAME: new_application.fund_name  # noqa
+                        }
                     )
 
             # Create a fresh link
             new_link_json = MagicLinkMethods().create_magic_link(account)
             notification_content.update(
-                {"magic_link_url": new_link_json.get("link")}
+                {
+                    NotifyConstants.FIELD_MAGIC_LINK_URL: new_link_json.get(  # noqa
+                        "link"
+                    )
+                }
             )
 
-            current_app.logger.debug(f"Magic Link URL: {new_link_json.get('link')}")
+            current_app.logger.debug(
+                f"Magic Link URL: {new_link_json.get('link')}"
+            )
             # Send notification
             Notification.send(
-                Config.NOTIFY_TEMPLATE_MAGIC_LINK,
+                NotifyConstants.TEMPLATE_TYPE_MAGIC_LINK,
                 account.email,
                 notification_content,
             )

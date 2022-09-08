@@ -1,4 +1,5 @@
 from config import Config
+from fsd_utils.config.notify_constants import NotifyConstants
 from models.data import post_data
 
 
@@ -21,7 +22,11 @@ class Notification(object):
                 fill out the notification template
         """
         url = Config.NOTIFICATION_SERVICE_HOST + Config.SEND_ENDPOINT
-        params = {"type": template_type, "to": to_email, "content": content}
+        params = {
+            NotifyConstants.FIELD_TYPE: template_type,
+            NotifyConstants.FIELD_TO: to_email,
+            NotifyConstants.FIELD_CONTENT: content,
+        }
         response = post_data(url, params)
         if response:
             return True

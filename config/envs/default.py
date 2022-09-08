@@ -5,6 +5,7 @@ from os import environ
 from os import getenv
 from pathlib import Path
 
+from fsd_utils import CommonConfig
 from fsd_utils import configclass
 
 
@@ -28,6 +29,7 @@ class DefaultConfig(object):
 
     # Hostname for this service
     AUTHENTICATOR_HOST = environ.get("AUTHENTICATOR_HOST", "")
+    NEW_LINK_ENDPOINT = "/service/magic-links/new"
 
     """
     Azure Configuration
@@ -92,7 +94,6 @@ class DefaultConfig(object):
     # Notification Service
     NOTIFICATION_SERVICE_HOST = environ.get("NOTIFICATION_SERVICE_HOST")
     SEND_ENDPOINT = "/send"
-    NOTIFY_TEMPLATE_MAGIC_LINK = "MAGIC_LINK"
 
     # Applicant Frontend
     APPLICANT_FRONTEND_HOST = environ.get(
@@ -104,6 +105,10 @@ class DefaultConfig(object):
     APPLICANT_FRONTEND_COOKIE_POLICY_URL = (
         APPLICANT_FRONTEND_HOST + "/cookie_policy"
     )
+
+    # Fund store service
+    FUND_STORE_API_HOST = CommonConfig.FUND_STORE_API_HOST
+    FUND_STORE_FUND_ENDPOINT = CommonConfig.FUND_ENDPOINT
 
     """
     Magic Links
@@ -117,6 +122,7 @@ class DefaultConfig(object):
     MAGIC_LINK_RECORD_PREFIX = "link"
     MAGIC_LINK_USER_PREFIX = "account"
     MAGIC_LINK_LANDING_PAGE = "/service/magic-links/landing/"
+    FUND_ID_COF = "47aef2f5-3fcb-4d45-acb5-f0152b5f03c4"
 
     """
     Security
