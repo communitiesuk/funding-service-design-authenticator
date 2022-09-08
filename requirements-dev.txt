@@ -25,6 +25,10 @@ attrs==21.4.0
     #   trio
 axe-selenium-python==2.1.6
     # via -r requirements-dev.in
+babel==2.10.3
+    # via
+    #   -r requirements.txt
+    #   flask-babel
 bandit==1.7.4
     # via -r requirements-dev.in
 black==22.3.0
@@ -108,6 +112,7 @@ flask==2.1.1
     #   -r requirements.txt
     #   connexion
     #   flask-assets
+    #   flask-babel
     #   flask-compress
     #   flask-migrate
     #   flask-redis
@@ -118,6 +123,10 @@ flask==2.1.1
     #   pytest-flask
 flask-assets==2.0
     # via -r requirements.txt
+flask-babel==2.0.0
+    # via
+    #   -r requirements.txt
+    #   funding-service-design-utils
 flask-compress==1.10.1
     # via -r requirements.txt
 flask-migrate==3.1.0
@@ -134,7 +143,7 @@ flask-talisman==0.8.1
     # via -r requirements.txt
 flask-wtf==1.0.0
     # via -r requirements.txt
-funding-service-design-utils @ https://github.com/communitiesuk/funding-service-design-utils/archive/refs/tags/0.0.16.tar.gz
+funding-service-design-utils @ https://github.com/communitiesuk/funding-service-design-utils/archive/refs/tags/0.0.18.tar.gz
     # via -r requirements.txt
 gitdb==4.0.9
     # via gitpython
@@ -177,6 +186,7 @@ jinja2==3.1.2
     # via
     #   -r requirements.txt
     #   flask
+    #   flask-babel
     #   govuk-frontend-jinja
     #   swagger-ui-bundle
 jsmin==3.0.1
@@ -310,6 +320,8 @@ python-json-logger==2.0.2
 pytz==2022.1
     # via
     #   -r requirements.txt
+    #   babel
+    #   flask-babel
     #   funding-service-design-utils
 pyyaml==6.0
     # via
