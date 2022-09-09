@@ -110,13 +110,19 @@ def create_app() -> Flask:
     def inject_global_constants():
         return dict(
             stage="beta",
-            service_title="Apply for funding to save a building in your community",
+            service_title=(
+                "Apply for funding to save a building in your community"
+            ),
             service_meta_description=(
                 "Apply for funding to save a building in your community"
             ),
-            service_meta_keywords="Apply for funding to save a building in your community",
-            service_meta_author="Department for Levelling up Housing and Communities",
-            accessibility_statement_url=Config.APPLICANT_FRONTEND_ACCESSIBILITY_STATEMENT_URL,
+            service_meta_keywords=(
+                "Apply for funding to save a building in your community"
+            ),
+            service_meta_author=(
+                "Department for Levelling up Housing and Communities"
+            ),
+            accessibility_statement_url=Config.APPLICANT_FRONTEND_ACCESSIBILITY_STATEMENT_URL,  # noqa
             cookie_policy_url=Config.APPLICANT_FRONTEND_COOKIE_POLICY_URL,
         )
 

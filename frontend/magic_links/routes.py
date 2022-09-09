@@ -1,3 +1,4 @@
+from config import Config
 from flask import Blueprint
 from flask import redirect
 from flask import render_template
@@ -22,7 +23,21 @@ def invalid():
 
     return (
         render_template(
-            "invalid.html", new_magic_link_url=url_for("magic_links_bp.new")), 403,
+            "invalid.html", new_magic_link_url=url_for("magic_links_bp.new")
+        ),
+        403,
+    )
+
+
+@magic_links_bp.route("/signed-out/<status>")
+def signed_out(status):
+    return (
+        render_template(
+            "signed_out.html",
+            status=status,
+            new_magic_link_url=url_for("magic_links_bp.new"),
+        ),
+        200,
     )
 
 
@@ -38,7 +53,8 @@ def new():
     Returns a page containing a single question requesting the
     users email address.
     """
-    fund_id = request.args.get("fund_id")
+    # Default to COF while we only have one fund
+    fund_id = request.args.get("fund_id", Config.FUND_ID_COF)
     round_id = request.args.get("round_id")
     fund_round = False
 

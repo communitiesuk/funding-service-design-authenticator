@@ -2,7 +2,7 @@
 #   FSD Utils
 #-----------------------------------
 
-https://github.com/communitiesuk/funding-service-design-utils/archive/refs/tags/0.0.14.tar.gz
+https://github.com/communitiesuk/funding-service-design-utils/archive/refs/tags/0.0.20.tar.gz
 
 requests
 
@@ -46,6 +46,7 @@ msal==1.18.0
 SQLAlchemy
 Flask-SQLAlchemy
 Flask-Migrate
+mako>=1.2.2
 
 #-----------------------------------
 #   Connexion APIs

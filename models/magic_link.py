@@ -121,6 +121,15 @@ class MagicLinkMethods(object):
             if created:
                 return prefixed_key, unique_key
 
+    @staticmethod
+    def get_user_record_key(account_id: str):
+        return ":".join(
+            [
+                Config.MAGIC_LINK_USER_PREFIX,
+                account_id,
+            ]
+        )
+
     def _create_user_record(self, account: Account, link_redis_key: str):
         """
         Creates a record with a key of {MAGIC_LINK_USER_PREFIX}:{account.id}
@@ -132,12 +141,7 @@ class MagicLinkMethods(object):
         :param link_redis_key: String of the currently active key
         :return: 1 if successfully created, or 0 if not
         """
-        prefixed_user_key = ":".join(
-            [
-                Config.MAGIC_LINK_USER_PREFIX,
-                account.id,
-            ]
-        )
+        prefixed_user_key = self.get_user_record_key(account.id)
         created = self.redis_mlinks.setex(
             prefixed_user_key,
             Config.MAGIC_LINK_EXPIRY_SECONDS,
@@ -145,19 +149,19 @@ class MagicLinkMethods(object):
         )
         return created
 
-    def _clear_existing_user_link(self, account: Account):
+    def clear_existing_user_record(self, account_id: str):
         """
-        Checks to see if the account has an existing active magic link
-        and deletes it if so
-        :param account: Account instance of the user
+        Checks to see if the account has an existing redis record
+        and deletes it and its associated link if so
+        :param account_id: Account id of the user
         :return: True if existing link is cleared
         """
-        user_record_key = ":".join([Config.MAGIC_LINK_USER_PREFIX, account.id])
+        user_record_key = ":".join([Config.MAGIC_LINK_USER_PREFIX, account_id])
         existing_link_key = self.redis_mlinks.get(user_record_key)
         if existing_link_key:
             self.redis_mlinks.delete(existing_link_key)
+            self.redis_mlinks.delete(user_record_key)
             return True
-
 
     def create_magic_link(
         self, account: Account, redirect_url: str = None
@@ -170,7 +174,7 @@ class MagicLinkMethods(object):
         :return:
         """
         current_app.logger.info(f"Creating magic link for {account}")
-        self._clear_existing_user_link(account)
+        self.clear_existing_user_record(account.id)
         if not redirect_url:
             redirect_url = Config.MAGIC_LINK_REDIRECT_URL
         new_link_json = self._make_link_json(account, redirect_url)
