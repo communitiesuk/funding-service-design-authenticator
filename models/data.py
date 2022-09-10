@@ -3,7 +3,9 @@ import os
 import urllib.parse
 
 import requests
+
 from config import Config
+from models.round import Round
 
 
 def api_call(endpoint: str, method: str = "GET", params: dict = None):
@@ -70,3 +72,14 @@ def local_api_call(endpoint: str, params: dict = None, method: str = "get"):
             endpoint = f"{endpoint}?{query_params}"
         if endpoint in api_data:
             return api_data.get(endpoint)
+
+
+def get_round_data(fund_id, round_id, as_dict=False):
+    round_request_url = Config.GET_ROUND_DATA_FOR_FUND_ENDPOINT.format(
+        fund_id=fund_id, round_id=round_id
+    )
+    round_response = get_data(round_request_url, None)
+    if as_dict:
+        return Round.from_dict(round_response)
+    else:
+        return round_response

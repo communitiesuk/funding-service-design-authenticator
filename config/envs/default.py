@@ -1,6 +1,7 @@
 """Flask configuration."""
 import base64
 import logging
+from distutils.util import strtobool
 from os import environ
 from os import getenv
 from pathlib import Path
@@ -110,6 +111,10 @@ class DefaultConfig(object):
     FUND_STORE_API_HOST = CommonConfig.FUND_STORE_API_HOST
     FUND_STORE_FUND_ENDPOINT = CommonConfig.FUND_ENDPOINT
 
+    GET_ROUND_DATA_FOR_FUND_ENDPOINT = (
+            FUND_STORE_API_HOST + "/funds/{fund_id}/rounds/{round_id}"
+    )
+
     """
     Magic Links
     """
@@ -169,3 +174,10 @@ class DefaultConfig(object):
             "microphone 'none'; camera 'none'; geolocation 'none'"
         ),
     }
+
+    USE_LOCAL_DATA = strtobool(getenv("USE_LOCAL_DATA", "False"))
+
+    COF_FUND_ID = "47aef2f5-3fcb-4d45-acb5-f0152b5f03c4"
+    COF_ROUND2_ID = "c603d114-5364-4474-a0c4-c41cbf4d3bbd"
+    DEFAULT_FUND_ID = COF_FUND_ID
+    DEFAULT_ROUND_ID = COF_ROUND2_ID

@@ -1,32 +1,63 @@
+from __future__ import annotations
+
+import inspect
 from dataclasses import dataclass
-from datetime import datetime
+
+
+@dataclass
+class ContactDetails:
+    phone: str
+    email_address: str
+    text_phone: str
+
+    @classmethod
+    def from_dict(cls, d: dict):
+        # Filter unknown fields from JSON dictionary
+        return cls(
+            **{
+                k: v
+                for k, v in d.items()
+                if k in inspect.signature(cls).parameters
+            }
+        )
+
+
+@dataclass
+class SupportAvailability:
+    time: str
+    days: str
+
+    @classmethod
+    def from_dict(cls, d: dict):
+        # Filter unknown fields from JSON dictionary
+        return cls(
+            **{
+                k: v
+                for k, v in d.items()
+                if k in inspect.signature(cls).parameters
+            }
+        )
 
 
 @dataclass
 class Round:
-    title: str
-    identifier: str
+    id: str
+    assessment_criteria_weighting: list
+    assessment_deadline: str
+    deadline: str
     fund_id: str
-    opens: datetime
-    deadline: datetime
-    assessment_deadline: datetime
-    eligibility_criteria: dict
+    opens: str
+    title: str
+    contact_details: ContactDetails
+    support_availability: SupportAvailability
 
-    @staticmethod
-    def from_json(data: dict):
-        eligibility_criteria = {}
-        if "eligibility_criteria" in data:
-            for key, value in data["eligibility_criteria"].items():
-                eligibility_criteria.update({key: value})
-        return Round(
-            title=data.get("round_title"),
-            identifier=data.get("round_id"),
-            fund_id=data.get("fund_id"),
-            opens=data.get("opens"),
-            deadline=data.get("deadline"),
-            assessment_deadline=data.get("deadline"),
-            eligibility_criteria=eligibility_criteria,
+    @classmethod
+    def from_dict(cls, d: dict):
+        # Filter unknown fields from JSON dictionary
+        return cls(
+            **{
+                k: v
+                for k, v in d.items()
+                if k in inspect.signature(cls).parameters
+            }
         )
-
-    def add_eligibility_criteria(self, key: str, value: object):
-        self.eligibility_criteria.update({key: value})

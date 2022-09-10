@@ -5,23 +5,24 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
-    {% if form.errors %}
-      {{ govukErrorSummary({
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            {% if form.errors %}
+                {{ govukErrorSummary({
         "titleText": "Fix the following errors",
         "errorList": form.error_list
       }) }}
-    {% endif %}
-    <form action="" class="form" method="post">
-      <div class="govuk-form-group">
-        <h1 class="govuk-label-wrapper"><label class="govuk-label govuk-label--l" for="email">Email address</label>
-        </h1>
-        {{form.hidden_tag()}}
-            {{ govukInput({
+            {% endif %}
+            <form action="" class="form" method="post">
+                <div class="govuk-form-group">
+                    <h1 class="govuk-label-wrapper"><label class="govuk-label govuk-label--l" for="email">Email
+                        address</label>
+                    </h1>
+                    {{ form.hidden_tag() }}
+                    {{ govukInput({
                 'label': None,
                 'hint': {
-                    'text': form.email.description
+                    'html': form.email.description
                 },
                 'id': form.email.id,
                 'name': form.email.name,
@@ -34,18 +35,17 @@
                     'text': form.email.errors.0
                 } if form.email.errors
             }) }}
-        </div>
-            {{ govukButton({
+                </div>
+                {{ govukButton({
               "text": "Continue",
               "preventDoubleClick": true,
             }) }}
-        </form></div>
-
-
+            </form>
+        </div>
     </div>
 
-<form method="POST">
-  {{form.hidden_tag()}}
-</form>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+    </form>
 
 {% endblock %}
