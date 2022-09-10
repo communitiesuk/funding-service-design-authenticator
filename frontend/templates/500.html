@@ -1,12 +1,18 @@
 {% extends "base.html" %}
 
+{% from "partials/contact_details.html" import contact_details %}
+
 {% block pageTitle %}Sorry, there is a problem with the service – {{ service_title }}{% endblock %}
 
 {% block content %}
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-xl">Sorry, there is a problem with the service</h1>
-    <p class="govuk-body">Try again later.</p>
-  </div>
-</div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <h1 class="govuk-heading-xl">Sorry, there is a problem with the service</h1>
+            <p class="govuk-body">Try again later.</p>
+            <p class="govuk-body">We have not saved your answers. When the service is available, you will have to start
+                again. </p>
+            <p class="govuk-body">Contact the Community Ownership Fund if you have any questions. </p>
+            {{ contact_details(contact_us_email_address, contact_us_phone, contact_us_text_phone, opening_days, opening_time, closed) }}
+        </div>
+    </div>
 {% endblock %}

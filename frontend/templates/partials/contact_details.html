@@ -1,0 +1,23 @@
+{% macro contact_details(contact_us_email_address, contact_us_phone, contact_us_text_phone, opening_days, opening_time, closed) %}
+    <p class="govuk-body">Email:<br>
+        <strong class="govuk-!-font-weight-bold"><a class="govuk-link"
+                                                    href="mailto:{{ contact_us_email_address }}">{{ contact_us_email_address }}</a></strong>
+    </p>
+    {% if contact_us_phone|length %}
+        <p class="govuk-body">Telephone:<br>
+            <strong class="govuk-!-font-weight-bold">{{ contact_us_phone }}</strong>
+        </p>
+    {% endif %}
+    {% if contact_us_text_phone|length %}
+        <p class="govuk-body">Textphone:<br>
+            <strong class="govuk-!-font-weight-bold">{{ contact_us_text_phone }}</strong>
+        </p>
+    {% endif %}
+    <p class="govuk-body">
+        Opening times:<br>
+        <strong class="govuk-!-font-weight-bold">{{ opening_days }}: {{ opening_time }}</strong>
+    </p>
+    <p class="govuk-body">
+        Closed {{ closed }}.
+    </p>
+{% endmacro %}
