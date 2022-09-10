@@ -109,6 +109,9 @@ class DefaultConfig(object):
     APPLICANT_FRONTEND_CONTACT_US_URL = (
             APPLICANT_FRONTEND_HOST + "/contact_us"
     )
+    APPLICATION_ALL_QUESTIONS_URL = (
+            APPLICANT_FRONTEND_HOST + "/cof-r2w2-all-questions"
+    )
 
     # Fund store service
     FUND_STORE_API_HOST = CommonConfig.FUND_STORE_API_HOST

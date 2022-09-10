@@ -49,7 +49,12 @@ def landing(link_id):
     round_data = get_round_data(Config.DEFAULT_FUND_ID, Config.DEFAULT_ROUND_ID, as_dict=True)
     current_app.logger.info(round_data)
     submission_deadline = datetime.strptime(round_data.deadline, "%Y-%m-%d %X").strftime("%d %B %Y")
-    return render_template("landing.html", link_id=link_id, submission_deadline=submission_deadline)
+    return render_template(
+        "landing.html",
+        link_id=link_id,
+        submission_deadline=submission_deadline,
+        all_questions_url=Config.APPLICATION_ALL_QUESTIONS_URL
+    )
 
 
 @magic_links_bp.route("/new", methods=["GET", "POST"])
