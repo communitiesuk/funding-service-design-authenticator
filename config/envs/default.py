@@ -106,6 +106,9 @@ class DefaultConfig(object):
     APPLICANT_FRONTEND_COOKIE_POLICY_URL = (
         APPLICANT_FRONTEND_HOST + "/cookie_policy"
     )
+    APPLICANT_FRONTEND_CONTACT_US_URL = (
+            APPLICANT_FRONTEND_HOST + "/contact_us"
+    )
 
     # Fund store service
     FUND_STORE_API_HOST = CommonConfig.FUND_STORE_API_HOST

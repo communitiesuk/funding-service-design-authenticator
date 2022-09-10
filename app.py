@@ -124,6 +124,7 @@ def create_app() -> Flask:
             ),
             accessibility_statement_url=Config.APPLICANT_FRONTEND_ACCESSIBILITY_STATEMENT_URL,  # noqa
             cookie_policy_url=Config.APPLICANT_FRONTEND_COOKIE_POLICY_URL,
+            contact_us_url=Config.APPLICANT_FRONTEND_CONTACT_US_URL,
         )
 
     with flask_app.app_context():
