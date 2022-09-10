@@ -11,7 +11,6 @@ class Fund:
     name: str
     identifier: str
     description: str
-    contact_help: str
     rounds: List[Round] = None
 
     @staticmethod
@@ -19,8 +18,7 @@ class Fund:
         return Fund(
             name=data.get("name"),
             identifier=data.get("id"),
-            description=data.get("description"),
-            contact_help=data.get("contact_email"),
+            description=data.get("description")
         )
 
     def add_round(self, fund_round: Round):
