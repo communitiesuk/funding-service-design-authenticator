@@ -59,8 +59,8 @@ def new():
     users email address.
     """
     # Default to COF while we only have one fund
-    fund_id = request.args.get("fund_id", Config.FUND_ID_COF)
-    round_id = request.args.get("round_id")
+    fund_id = request.args.get("fund_id", Config.COF_FUND_ID)
+    round_id = request.args.get("round_id", Config.COF_ROUND2_ID)
     fund_round = False
 
     if fund_id and round_id:
