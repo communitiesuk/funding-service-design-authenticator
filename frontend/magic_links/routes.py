@@ -1,10 +1,13 @@
 from config import Config
 from flask import Blueprint
+from flask import current_app
+from flask import g
 from flask import redirect
 from flask import render_template
 from flask import request
 from flask import url_for
 from frontend.magic_links.forms import EmailForm
+from fsd_utils.authentication.decorators import login_requested
 from models.account import AccountError
 from models.account import AccountMethods
 from models.magic_link import MagicLinkError
@@ -43,6 +46,7 @@ def signed_out(status):
 
 
 @magic_links_bp.route("/landing/<link_id>", methods=["GET"])
+@login_requested
 def landing(link_id):
     """
     Returns a magic link landing page if the link_id is found
@@ -56,6 +60,16 @@ def landing(link_id):
     link_hash = MagicLinkMethods().redis_mlinks.get(link_key)
     if link_hash:
         return render_template("landing.html", link_id=link_id)
+    elif g.is_authenticated:
+        # else if no link exists (or it has been used)
+        # but the user is already logged in
+        # then redirect them to the global redirect url
+        current_app.logger.warn(
+            f"The magic link with hash: '{link_hash}' has already beenused but"
+            f" the user with account_id: '{g.account_id}' is logged in,"
+            f" redirecting to '{Config.MAGIC_LINK_REDIRECT_URL}'."
+        )
+        return redirect(Config.MAGIC_LINK_REDIRECT_URL)
     return redirect(url_for("magic_links_bp.invalid", error="Link expired"))
 
 
