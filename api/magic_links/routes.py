@@ -6,6 +6,7 @@ from api.responses import magic_link_201_response
 from api.session.auth_session import AuthSessionView
 from config import Config
 from flask import current_app
+from flask import g
 from flask import redirect
 from flask import request
 from flask import url_for
@@ -91,7 +92,8 @@ class MagicLinksView(MagicLinkMethods, MethodView):
 
     @staticmethod
     @login_required
-    def check_user_is_logged_in(account_id):
+    def check_user_is_logged_in():
+        account_id = g.account_id
         current_app.logger.info(
             f"User (account_id: {account_id}) is logged in."
         )

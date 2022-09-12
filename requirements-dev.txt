@@ -103,7 +103,6 @@ dparse==0.5.2
     # via
     #   -r requirements-dev.in
     #   safety
-
 email-validator==1.2.1
     # via -r requirements.txt
 filelock==3.7.1
@@ -144,7 +143,7 @@ flask-talisman==0.8.1
     # via -r requirements.txt
 flask-wtf==1.0.0
     # via -r requirements.txt
-funding-service-design-utils @ https://github.com/communitiesuk/funding-service-design-utils/archive/refs/tags/0.0.20.tar.gz
+funding-service-design-utils @ git+https://github.com/communitiesuk/funding-service-design-utils.git@fs-1450-is-authenticated-flag
     # via -r requirements.txt
 gitdb==4.0.9
     # via gitpython
