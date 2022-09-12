@@ -58,18 +58,8 @@ def landing(link_id):
 
     link_key = ":".join([Config.MAGIC_LINK_RECORD_PREFIX, link_id])
     link_hash = MagicLinkMethods().redis_mlinks.get(link_key)
-    if link_hash:
+    if link_hash or g.is_authenticated:
         return render_template("landing.html", link_id=link_id)
-    elif g.is_authenticated:
-        # else if no link exists (or it has been used)
-        # but the user is already logged in
-        # then redirect them to the global redirect url
-        current_app.logger.warn(
-            f"The magic link with hash: '{link_hash}' has already beenused but"
-            f" the user with account_id: '{g.account_id}' is logged in,"
-            f" redirecting to '{Config.MAGIC_LINK_REDIRECT_URL}'."
-        )
-        return redirect(Config.MAGIC_LINK_REDIRECT_URL)
     return redirect(url_for("magic_links_bp.invalid", error="Link expired"))
 
 
