@@ -79,7 +79,7 @@ flask-talisman==0.8.1
     # via -r requirements.in
 flask-wtf==1.0.0
     # via -r requirements.in
-funding-service-design-utils @ git+https://github.com/communitiesuk/funding-service-design-utils.git@fs-1450-is-authenticated-flag
+funding-service-design-utils @ https://github.com/communitiesuk/funding-service-design-utils/archive/refs/tags/0.0.21.tar.gz
     # via -r requirements.in
 govuk-frontend-jinja==2.0.0
     # via -r requirements.in

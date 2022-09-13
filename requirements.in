@@ -2,7 +2,7 @@
 #   FSD Utils
 #-----------------------------------
 
-git+https://github.com/communitiesuk/funding-service-design-utils.git@fs-1450-is-authenticated-flag
+https://github.com/communitiesuk/funding-service-design-utils/archive/refs/tags/0.0.21.tar.gz
 
 requests
 
