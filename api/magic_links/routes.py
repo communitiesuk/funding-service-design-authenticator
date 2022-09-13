@@ -62,9 +62,10 @@ class MagicLinksView(MagicLinkMethods, MethodView):
             # but the user is already logged in
             # then redirect them to the global redirect url
             current_app.logger.warn(
-                f"The magic link with hash: '{link_hash}' has already beenused"
-                f" but the user with account_id: '{g.account_id}' is logged"
-                f" in, redirecting to '{Config.MAGIC_LINK_REDIRECT_URL}'."
+                f"The magic link with hash: '{link_hash}' has already been"
+                f" used but the user with account_id: '{g.account_id}' is"
+                " logged in, redirecting to"
+                f" '{Config.MAGIC_LINK_REDIRECT_URL}'."
             )
             return redirect(Config.MAGIC_LINK_REDIRECT_URL)
         return redirect(
