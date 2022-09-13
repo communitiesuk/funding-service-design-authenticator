@@ -6,17 +6,19 @@ from api.responses import magic_link_201_response
 from api.session.auth_session import AuthSessionView
 from config import Config
 from flask import current_app
+from flask import g
 from flask import redirect
 from flask import request
 from flask import url_for
 from flask.views import MethodView
-from fsd_utils.authentication.decorators import login_required
+from fsd_utils.authentication.decorators import login_requested
 from models.account import AccountMethods
 from models.magic_link import MagicLinkError
 from models.magic_link import MagicLinkMethods
 
 
 class MagicLinksView(MagicLinkMethods, MethodView):
+    @login_requested
     def use(self, link_id: str):
         """
         GET /magic-links/{link_id} endpoint
@@ -55,19 +57,20 @@ class MagicLinksView(MagicLinkMethods, MethodView):
                 url_for("magic_links_bp.invalid", error="Link expired")
             )
 
-        else:
-            # else if no link exists (or its been used)
-            # then check the token has not expired
+        elif g.is_authenticated:
+            # else if no link exists (or it has been used)
+            # but the user is already logged in
+            # then redirect them to the global redirect url
             current_app.logger.warn(
                 f"The magic link with hash: '{link_hash}' has already been"
-                " used. Now checking user is logged in."
-            )
-            account_id = self.check_user_is_logged_in()
-            current_app.logger.info(
-                f"The user with account_id: '{account_id}' is logged in,"
-                f" redirecting to '{Config.MAGIC_LINK_REDIRECT_URL}'."
+                f" used but the user with account_id: '{g.account_id}' is"
+                " logged in, redirecting to"
+                f" '{Config.MAGIC_LINK_REDIRECT_URL}'."
             )
             return redirect(Config.MAGIC_LINK_REDIRECT_URL)
+        return redirect(
+            url_for("magic_links_bp.invalid", error="Link expired")
+        )
 
     def create(self):
         """
@@ -88,14 +91,3 @@ class MagicLinksView(MagicLinkMethods, MethodView):
             except MagicLinkError:
                 return error_response(500, "Could not create a unique link")
         return error_response(401, "Account does not exist")
-
-    @staticmethod
-    @login_required
-    def check_user_is_logged_in(account_id):
-        current_app.logger.info(
-            f"User (account_id: {account_id}) is logged in."
-        )
-        current_app.logger.info(
-            f"Redirecting to {Config.MAGIC_LINK_REDIRECT_URL}."
-        )
-        return account_id
