@@ -6,7 +6,8 @@ from flask import current_app
 from fsd_utils.config.notify_constants import NotifyConstants
 from models.application import Application
 from models.application import ApplicationMethods
-from models.data import get_data, get_round_data
+from models.data import get_data
+from models.data import get_round_data
 from models.data import post_data
 from models.fund import FundMethods
 from models.magic_link import MagicLinkMethods
@@ -111,12 +112,16 @@ class AccountMethods(Account):
         if account:
 
             fund = FundMethods.get_fund(fund_id)
-            round_for_fund = get_round_data(fund_id=fund_id, round_id=round_id, as_dict=True)
+            round_for_fund = get_round_data(
+                fund_id=fund_id, round_id=round_id, as_dict=True
+            )
 
             notification_content = {
                 NotifyConstants.FIELD_REQUEST_NEW_LINK_URL: Config.AUTHENTICATOR_HOST  # noqa
                 + Config.NEW_LINK_ENDPOINT,
-                NotifyConstants.FIELD_CONTACT_HELP_EMAIL: round_for_fund.contact_details["email_address"],  # noqa
+                NotifyConstants.FIELD_CONTACT_HELP_EMAIL: round_for_fund.contact_details[  # noqa
+                    "email_address"
+                ],  # noqa
                 NotifyConstants.FIELD_FUND_NAME: fund.name,
             }
             if fund_id and round_id and new_account:

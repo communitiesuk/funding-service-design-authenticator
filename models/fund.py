@@ -20,7 +20,7 @@ class Fund:
             name=data.get("name"),
             short_name=data.get("short_name"),
             identifier=data.get("id"),
-            description=data.get("description")
+            description=data.get("description"),
         )
 
     def add_round(self, fund_round: Round):

@@ -1,7 +1,6 @@
-from datetime import datetime
-
 from config import Config
-from flask import Blueprint, current_app
+from flask import Blueprint
+from flask import current_app
 from flask import redirect
 from flask import render_template
 from flask import request
@@ -46,7 +45,9 @@ def signed_out(status):
 
 @magic_links_bp.route("/landing/<link_id>", methods=["GET"])
 def landing(link_id):
-    round_data = get_round_data(Config.DEFAULT_FUND_ID, Config.DEFAULT_ROUND_ID, as_dict=True)
+    round_data = get_round_data(
+        Config.DEFAULT_FUND_ID, Config.DEFAULT_ROUND_ID, as_dict=True
+    )
     current_app.logger.info(round_data)
     submission_deadline = round_data.deadline
     return render_template(
@@ -54,7 +55,7 @@ def landing(link_id):
         link_id=link_id,
         submission_deadline=submission_deadline,
         round_title=round_data.title,
-        all_questions_url=Config.APPLICATION_ALL_QUESTIONS_URL
+        all_questions_url=Config.APPLICATION_ALL_QUESTIONS_URL,
     )
 
 
@@ -65,8 +66,8 @@ def new():
     users email address.
     """
     # Default to COF while we only have one fund
-    fund_id = request.args.get("fund_id", Config.COF_FUND_ID)
-    round_id = request.args.get("round_id", Config.COF_ROUND2_ID)
+    fund_id = request.args.get("fund_id", Config.DEFAULT_FUND_ID)
+    round_id = request.args.get("round_id", Config.DEFAULT_ROUND_ID)
     fund_round = False
 
     if fund_id and round_id:

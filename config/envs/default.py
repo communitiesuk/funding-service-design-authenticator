@@ -1,11 +1,11 @@
 """Flask configuration."""
 import base64
 import logging
-from distutils.util import strtobool
 from os import environ
 from os import getenv
 from pathlib import Path
 
+from distutils.util import strtobool
 from fsd_utils import CommonConfig
 from fsd_utils import configclass
 
@@ -106,11 +106,9 @@ class DefaultConfig(object):
     APPLICANT_FRONTEND_COOKIE_POLICY_URL = (
         APPLICANT_FRONTEND_HOST + "/cookie_policy"
     )
-    APPLICANT_FRONTEND_CONTACT_US_URL = (
-            APPLICANT_FRONTEND_HOST + "/contact_us"
-    )
+    APPLICANT_FRONTEND_CONTACT_US_URL = APPLICANT_FRONTEND_HOST + "/contact_us"
     APPLICATION_ALL_QUESTIONS_URL = (
-            APPLICANT_FRONTEND_HOST + "/cof_r2w2_all_questions"
+        APPLICANT_FRONTEND_HOST + "/cof_r2w2_all_questions"
     )
 
     # Fund store service
@@ -118,7 +116,7 @@ class DefaultConfig(object):
     FUND_STORE_FUND_ENDPOINT = CommonConfig.FUND_ENDPOINT
 
     GET_ROUND_DATA_FOR_FUND_ENDPOINT = (
-            FUND_STORE_API_HOST + "/funds/{fund_id}/rounds/{round_id}"
+        FUND_STORE_API_HOST + CommonConfig.ROUND_ENDPOINT
     )
 
     """
