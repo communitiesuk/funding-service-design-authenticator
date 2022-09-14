@@ -7,11 +7,20 @@
 {% block content %}
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
-            <h1 class="govuk-heading-xl">Sorry, there is a problem with the service</h1>
-            <p class="govuk-body">Try again later.</p>
-            <p class="govuk-body">If the web address is correct, or you selected a link or button, contact the Community Ownership Fund team
-                to speak to an adviser. </p>
-            {{ contact_details(contact_us_email_address, contact_us_phone, contact_us_text_phone, opening_days, opening_time, closed) }}
+            <h1 class="govuk-heading-xl">Page not found</h1>
+            <p class="govuk-body">If you typed the web address, check it is correct.</p>
+            <p class="govuk-body">If you pasted the web address, check you copied the entire address.</p>
+            {% if round_data.contact_details["email_address"]|length %}
+                {{ contact_details(
+                            round_data.contact_details.email_address,
+                            round_data.contact_details.phone,
+                            round_data.contact_details.text_phone,
+                            round_data.support_availability.days,
+                            round_data.support_availability.time,
+                            round_data.support_availability.closed
+                     )
+                }}
+            {%  endif %}
         </div>
     </div>
 {% endblock %}

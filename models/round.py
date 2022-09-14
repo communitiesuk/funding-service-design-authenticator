@@ -10,33 +10,12 @@ class ContactDetails:
     email_address: str
     text_phone: str
 
-    @classmethod
-    def from_dict(cls, d: dict):
-        # Filter unknown fields from JSON dictionary
-        return cls(
-            **{
-                k: v
-                for k, v in d.items()
-                if k in inspect.signature(cls).parameters
-            }
-        )
-
 
 @dataclass
 class SupportAvailability:
     time: str
     days: str
-
-    @classmethod
-    def from_dict(cls, d: dict):
-        # Filter unknown fields from JSON dictionary
-        return cls(
-            **{
-                k: v
-                for k, v in d.items()
-                if k in inspect.signature(cls).parameters
-            }
-        )
+    closed: str
 
 
 @dataclass
@@ -48,6 +27,7 @@ class Round:
     fund_id: str
     opens: str
     title: str
+    short_name: str
     contact_details: ContactDetails
     support_availability: SupportAvailability
 

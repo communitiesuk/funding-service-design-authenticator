@@ -9,6 +9,7 @@ from models.round import Round
 @dataclass
 class Fund:
     name: str
+    short_name: str
     identifier: str
     description: str
     rounds: List[Round] = None
@@ -17,6 +18,7 @@ class Fund:
     def from_json(data: dict):
         return Fund(
             name=data.get("name"),
+            short_name=data.get("short_name"),
             identifier=data.get("id"),
             description=data.get("description")
         )

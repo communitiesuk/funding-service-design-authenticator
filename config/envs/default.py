@@ -110,7 +110,7 @@ class DefaultConfig(object):
             APPLICANT_FRONTEND_HOST + "/contact_us"
     )
     APPLICATION_ALL_QUESTIONS_URL = (
-            APPLICANT_FRONTEND_HOST + "/cof-r2w2-all-questions"
+            APPLICANT_FRONTEND_HOST + "/cof_r2w2_all_questions"
     )
 
     # Fund store service

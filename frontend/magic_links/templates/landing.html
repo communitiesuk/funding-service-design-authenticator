@@ -4,12 +4,12 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds govuk-body">
 
-    <p class="govuk-caption-l">Community Ownership Fund round 2</p>
+    <p class="govuk-caption-l">Community Ownership Fund {{ round_title }}</p>
     <h1 class="govuk-heading-xl">
       Apply for funding to save an asset in your community
     </h1>
     <p class="govuk-heading-s">
-      Submission deadline: <span class="govuk-body">midday, {{ submission_deadline }}</span>
+      Submission deadline: <span class="govuk-body">{{ submission_deadline|datetime_format }}</span>
     </p>
 
     {{ govukButton({

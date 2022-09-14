@@ -50,11 +50,13 @@
   "fund_store/funds/47aef2f5-3fcb-4d45-acb5-f0152b5f03c4": {
     "id": "47aef2f5-3fcb-4d45-acb5-f0152b5f03c4",
     "name": "Community Ownership Fund",
+    "short_name": "COF",
     "description": "The Community Ownership Fund is a £150 million fund over 4 years to...."
   },
   "fund_store/funds/47aef2f5-3fcb-4d45-acb5-f0152b5f03c4/rounds/c603d114-5364-4474-a0c4-c41cbf4d3bbd": {
         "id": "c603d114-5364-4474-a0c4-c41cbf4d3bbd",
         "title": "Round 2 Window 2",
+        "short_name": "R2W2",
         "fund_id": "47aef2f5-3fcb-4d45-acb5-f0152b5f03c4",
         "assessment_criteria_weighting": [
             {
