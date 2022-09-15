@@ -9,18 +9,18 @@ from models.round import Round
 @dataclass
 class Fund:
     name: str
+    short_name: str
     identifier: str
     description: str
-    contact_help: str
     rounds: List[Round] = None
 
     @staticmethod
     def from_json(data: dict):
         return Fund(
             name=data.get("name"),
+            short_name=data.get("short_name"),
             identifier=data.get("id"),
             description=data.get("description"),
-            contact_help=data.get("contact_email"),
         )
 
     def add_round(self, fund_round: Round):

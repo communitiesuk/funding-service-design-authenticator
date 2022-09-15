@@ -1,6 +1,5 @@
 from config import Config
 from flask import Blueprint
-from flask import current_app
 from flask import g
 from flask import redirect
 from flask import render_template
@@ -10,6 +9,7 @@ from frontend.magic_links.forms import EmailForm
 from fsd_utils.authentication.decorators import login_requested
 from models.account import AccountError
 from models.account import AccountMethods
+from models.data import get_round_data
 from models.magic_link import MagicLinkError
 from models.magic_link import MagicLinkMethods
 from models.notification import NotificationError
@@ -55,11 +55,20 @@ def landing(link_id):
     :param link_id: (str) a unique single use magic link id
     :return: 200 landing page or 302 redirect
     """
-
+    round_data = get_round_data(
+        Config.DEFAULT_FUND_ID, Config.DEFAULT_ROUND_ID, as_dict=True
+    )
+    submission_deadline = round_data.deadline
     link_key = ":".join([Config.MAGIC_LINK_RECORD_PREFIX, link_id])
     link_hash = MagicLinkMethods().redis_mlinks.get(link_key)
     if link_hash or g.is_authenticated:
-        return render_template("landing.html", link_id=link_id)
+        return render_template(
+            "landing.html",
+            link_id=link_id,
+            submission_deadline=submission_deadline,
+            round_title=round_data.title,
+            all_questions_url=Config.APPLICATION_ALL_QUESTIONS_URL,
+        )
     return redirect(url_for("magic_links_bp.invalid", error="Link expired"))
 
 
@@ -70,8 +79,8 @@ def new():
     users email address.
     """
     # Default to COF while we only have one fund
-    fund_id = request.args.get("fund_id", Config.FUND_ID_COF)
-    round_id = request.args.get("round_id")
+    fund_id = request.args.get("fund_id", Config.DEFAULT_FUND_ID)
+    round_id = request.args.get("round_id", Config.DEFAULT_ROUND_ID)
     fund_round = False
 
     if fund_id and round_id:

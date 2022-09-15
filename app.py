@@ -22,6 +22,8 @@ from jinja2 import ChoiceLoader
 from jinja2 import PackageLoader
 from jinja2 import PrefixLoader
 
+from frontend.magic_links.filters import datetime_format
+
 redis_mlinks = FlaskRedis(config_prefix="REDIS_MLINKS")
 
 
@@ -111,19 +113,20 @@ def create_app() -> Flask:
         return dict(
             stage="beta",
             service_title=(
-                "Apply for funding to save a building in your community"
+                "Apply for funding to save an asset in your community"
             ),
             service_meta_description=(
-                "Apply for funding to save a building in your community"
+                "Apply for funding to save an asset in your community"
             ),
             service_meta_keywords=(
-                "Apply for funding to save a building in your community"
+                "Apply for funding to save an asset in your community"
             ),
             service_meta_author=(
                 "Department for Levelling up Housing and Communities"
             ),
             accessibility_statement_url=Config.APPLICANT_FRONTEND_ACCESSIBILITY_STATEMENT_URL,  # noqa
             cookie_policy_url=Config.APPLICANT_FRONTEND_COOKIE_POLICY_URL,
+            contact_us_url=Config.APPLICANT_FRONTEND_CONTACT_US_URL,
         )
 
     with flask_app.app_context():
@@ -140,6 +143,7 @@ def create_app() -> Flask:
         flask_app.register_blueprint(default_bp)
         flask_app.register_blueprint(magic_links_bp)
         flask_app.register_blueprint(demo_bp)
+        flask_app.jinja_env.filters["datetime_format"] = datetime_format
 
         # Bundle and compile assets
         assets = Environment()

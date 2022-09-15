@@ -1,13 +1,28 @@
 {% extends "base.html" %}
 
+{% from "partials/contact_details.html" import contact_details %}
+
 {% block pageTitle %}Page not found – {{ service_title }}{% endblock %}
 
 {% block content %}
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-xl">Page not found</h1>
-    <p class="govuk-body">If you typed the web address, check it is correct.</p>
-    <p class="govuk-body">If you pasted the web address, check you copied the entire address.</p>
-  </div>
-</div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <h1 class="govuk-heading-xl">Page not found</h1>
+            <p class="govuk-body">If you typed the web address, check it is correct.</p>
+            <p class="govuk-body">If you pasted the web address, check you copied the entire address.</p>
+            <p class="govuk-body">If the web address is correct or you selected a link or a button, contact
+                the Community Ownership Fund to speak to an adviser.</p>
+            {% if round_data.contact_details["email_address"]|length %}
+                {{ contact_details(
+                            round_data.contact_details.email_address,
+                            round_data.contact_details.phone,
+                            round_data.contact_details.text_phone,
+                            round_data.support_availability.days,
+                            round_data.support_availability.time,
+                            round_data.support_availability.closed
+                     )
+                }}
+            {%  endif %}
+        </div>
+    </div>
 {% endblock %}

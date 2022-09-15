@@ -4,12 +4,12 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds govuk-body">
 
-    <p class="govuk-caption-l">Community Ownership Fund round 2</p>
+    <p class="govuk-caption-l">Community Ownership Fund {{ round_title }}</p>
     <h1 class="govuk-heading-xl">
       Apply for funding to save an asset in your community
     </h1>
     <p class="govuk-heading-s">
-      Submission deadline: <span class="govuk-body">midday, {date} 2022</span>
+      Submission deadline: <span class="govuk-body">{{ submission_deadline|datetime_format }}</span>
     </p>
 
     {{ govukButton({
@@ -25,8 +25,7 @@
     <p>You do not have to complete it in order, or all at once.</p>
     <p>
       You can preview the
-      <a href="#" class="govuk-link">full list of
-        application questions.</a>
+      <a href="{{ all_questions_url }}" class="govuk-link">full list of application questions.</a>
     </p>
     <p>
       When you have written something in every field in a section, the section will be marked as complete. You can still
