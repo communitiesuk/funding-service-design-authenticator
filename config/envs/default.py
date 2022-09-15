@@ -74,7 +74,9 @@ class DefaultConfig(object):
     )
     SESSION_PERMANENT = False
     SESSION_USE_SIGNER = True
-
+    SESSION_COOKIE_SAMESITE = "Strict"
+    SESSION_COOKIE_SECURE = True
+    SESSION_COOKIE_HTTPONLY = True
     # Funding Service Design
     FSD_USER_TOKEN_COOKIE_NAME = "fsd_user_token"
     FSD_SESSION_TIMEOUT_SECS = 86400  # 1 day
