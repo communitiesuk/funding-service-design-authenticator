@@ -159,7 +159,51 @@ class TestMagicLinks:
         second_response = flask_test_client.get(reuse_endpoint)
         assert second_response.status_code == 302
 
-    def test_reused_magic_link_with_no_session_returns_logout(
+    def test_reused_magic_link_with_active_session_shows_landing(
+        self, flask_test_client
+    ):
+        """
+        GIVEN a running Flask client, redis instance and
+        a used magic link with an active session (cookie)
+        WHEN we GET /service/magic-links/landing/{link_key}
+        THEN we are redirected to another url (the application service)
+        :param flask_test_client:
+        """
+
+        magic_link_create_payload = {
+            "email": "a@example.com",
+            "redirectUrl": "https://example.com/redirect-url",
+        }
+        endpoint = "/magic-links"
+        response = flask_test_client.post(
+            endpoint, json=magic_link_create_payload
+        )
+        magic_link = response.get_json()
+        link_key = magic_link.get("key")
+        self.created_link_keys.append(link_key)
+        use_endpoint = f"/magic-links/{link_key}"
+        landing_endpoint = f"/service/magic-links/landing/{link_key}"
+
+        # use magic link landing but unauthorised
+        landing_response = flask_test_client.get(landing_endpoint)
+        assert landing_response.status_code == 200
+        assert b"How to complete your application" in landing_response.data
+        assert b"Continue" in landing_response.data
+
+        # use link
+        use_link_response = flask_test_client.get(use_endpoint)
+        assert use_link_response.status_code == 302
+        self.used_link_keys.append(link_key)
+
+        # re-use magic link landing but now authorised (cookie present)
+        second_landing_response = flask_test_client.get(landing_endpoint)
+        assert second_landing_response.status_code == 200
+        assert (
+            b"How to complete your application" in second_landing_response.data
+        )
+        assert b"Continue" in second_landing_response.data
+
+    def test_reused_magic_link_with_no_session_returns_link_expired(
         self, flask_test_client
     ):
         """
@@ -173,11 +217,11 @@ class TestMagicLinks:
         reuse_endpoint = f"/magic-links/{used_link_key}"
         response = flask_test_client.get(reuse_endpoint, follow_redirects=True)
 
-        assert response.status_code == 200
-        assert b"You are not logged in" in response.data
+        assert response.status_code == 403
+        assert b"Link expired" in response.data
         assert b"Request a new link" in response.data
 
-    def test_invalid_magic_link_returns_logout(self, flask_test_client):
+    def test_invalid_magic_link_returns_link_expired(self, flask_test_client):
         """
         GIVEN a running Flask client, redis instance and
         an invalid magic link
@@ -188,6 +232,6 @@ class TestMagicLinks:
         use_endpoint = "/magic-links/invalidlink"
         response = flask_test_client.get(use_endpoint, follow_redirects=True)
 
-        assert response.status_code == 200
-        assert b"You are not logged in" in response.data
+        assert response.status_code == 403
+        assert b"Link expired" in response.data
         assert b"Request a new link" in response.data
