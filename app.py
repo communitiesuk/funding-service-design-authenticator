@@ -14,6 +14,7 @@ from flask_redis import FlaskRedis
 from flask_session import Session
 from flask_talisman import Talisman
 from frontend.assets import compile_static_assets
+from frontend.magic_links.filters import datetime_format
 from fsd_utils.healthchecks.checkers import FlaskRunningChecker
 from fsd_utils.healthchecks.checkers import RedisChecker
 from fsd_utils.healthchecks.healthcheck import Healthcheck
@@ -21,8 +22,6 @@ from fsd_utils.logging import logging
 from jinja2 import ChoiceLoader
 from jinja2 import PackageLoader
 from jinja2 import PrefixLoader
-
-from frontend.magic_links.filters import datetime_format
 
 redis_mlinks = FlaskRedis(config_prefix="REDIS_MLINKS")
 
@@ -86,6 +85,7 @@ def create_app() -> Flask:
         strict_transport_security=Config.HSTS_HEADERS,
         force_https=Config.FORCE_HTTPS,
         content_security_policy_nonce_in=["script-src"],
+        session_cookie_samesite=Config.SESSION_COOKIE_SAMESITE,
     )
 
     # This section is needed for url_for("foo", _external=True) to
