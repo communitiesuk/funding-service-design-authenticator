@@ -117,12 +117,12 @@ class AccountMethods(Account):
             )
 
             notification_content = {
-                NotifyConstants.FIELD_REQUEST_NEW_LINK_URL: Config.AUTHENTICATOR_HOST  # noqa
+                NotifyConstants.MAGIC_LINK_REQUEST_NEW_LINK_URL_FIELD: Config.AUTHENTICATOR_HOST  # noqa
                 + Config.NEW_LINK_ENDPOINT,
-                NotifyConstants.FIELD_CONTACT_HELP_EMAIL: round_for_fund.contact_details[  # noqa
+                NotifyConstants.MAGIC_LINK_CONTACT_HELP_EMAIL_FIELD: round_for_fund.contact_details[  # noqa
                     "email_address"
                 ],  # noqa
-                NotifyConstants.FIELD_FUND_NAME: fund.name,
+                NotifyConstants.MAGIC_LINK_FUND_NAME_FIELD: fund.name,
             }
             if fund_id and round_id and new_account:
                 # Create an application if none exists
@@ -132,7 +132,7 @@ class AccountMethods(Account):
                 if new_application:
                     notification_content.update(
                         {
-                            NotifyConstants.FIELD_FUND_NAME: new_application.fund_name  # noqa
+                            NotifyConstants.MAGIC_LINK_FUND_NAME_FIELD: new_application.fund_name  # noqa
                         }
                     )
 
@@ -140,7 +140,7 @@ class AccountMethods(Account):
             new_link_json = MagicLinkMethods().create_magic_link(account)
             notification_content.update(
                 {
-                    NotifyConstants.FIELD_MAGIC_LINK_URL: new_link_json.get(  # noqa
+                    NotifyConstants.MAGIC_LINK_URL_FIELD: new_link_json.get(  # noqa
                         "link"
                     )
                 }
