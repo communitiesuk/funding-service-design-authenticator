@@ -169,22 +169,42 @@ class DefaultConfig(object):
         "style-src": ["'self'", "'unsafe-inline'"],
     }
 
-    # HTTP Strict-Transport-Security (for Talisman Config)
-    HSTS_HEADERS = {
-        "strict-transport-security": (
-            "max-age=31536000; includeSubDomains; preload"
-        ),
-        "X-Content-Type-Options": "nosniff",
-        "X-Frame-Options": "SAMEORIGIN",
-        "X-XSS-Protection": "1; mode=block",
-        "Feature_Policy": (
-            "microphone 'none'; camera 'none'; geolocation 'none'"
-        ),
-    }
-
     USE_LOCAL_DATA = strtobool(getenv("USE_LOCAL_DATA", "False"))
 
     COF_FUND_ID = "47aef2f5-3fcb-4d45-acb5-f0152b5f03c4"
     COF_ROUND2_ID = "c603d114-5364-4474-a0c4-c41cbf4d3bbd"
     DEFAULT_FUND_ID = COF_FUND_ID
     DEFAULT_ROUND_ID = COF_ROUND2_ID
+
+    FSD_FEATURE_POLICY = {
+        "microphone": "'none'",
+        "camera": "'none'",
+        "geolocation": "'none'",
+    }
+    FSD_PERMISSIONS_POLICY = {"interest-cohort": "()"}
+    FSD_DOCUMENT_POLICY = {}
+    ONE_YEAR_IN_SECS = 31556926
+
+    TALISMAN_SETTINGS = {
+        "feature_policy": FSD_FEATURE_POLICY,
+        "permissions_policy": FSD_PERMISSIONS_POLICY,
+        "document_policy": FSD_DOCUMENT_POLICY,
+        "force_https": FORCE_HTTPS,
+        "force_https_permanent": False,
+        "force_file_save": False,
+        "frame_options": "SAMEORIGIN",
+        "frame_options_allow_from": None,
+        "strict_transport_security": True,
+        "strict_transport_security_preload": True,
+        "strict_transport_security_max_age": ONE_YEAR_IN_SECS,
+        "strict_transport_security_include_subdomains": True,
+        "content_security_policy": SECURE_CSP,
+        "content_security_policy_report_uri": None,
+        "content_security_policy_report_only": False,
+        "content_security_policy_nonce_in": None,
+        "session_cookie_secure": True,
+        "session_cookie_http_only": True,
+        "session_cookie_samesite": SESSION_COOKIE_SAMESITE,
+        "x_content_type_options": True,
+        "x_xss_protection": True,
+    }
