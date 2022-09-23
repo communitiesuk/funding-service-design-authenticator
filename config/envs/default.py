@@ -148,10 +148,9 @@ class DefaultConfig(object):
     if RSA256_PUBLIC_KEY_BASE64:
         RSA256_PUBLIC_KEY = base64.b64decode(RSA256_PUBLIC_KEY_BASE64).decode()
 
-    # Security Settings (for Talisman Config)
-    FORCE_HTTPS = True
+    USE_LOCAL_DATA = strtobool(getenv("USE_LOCAL_DATA", "False"))
 
-    # Content Security Policy (for Talisman Config)
+    # Secure (Default) Content Security Policy (for Talisman Config)
     SECURE_CSP = {
         "default-src": "'self'",
         "script-src": [
@@ -159,29 +158,59 @@ class DefaultConfig(object):
             "'sha256-+6WnXIl4mbFTCARd8N3COQmT3bJJmo32N8q8ZSQAIcU='",
             "'sha256-l1eTVSK8DTnK8+yloud7wZUqFrI0atVo6VlC6PJvYaQ='",
         ],
+        "connect-src": "",  # APPLICATION_STORE_API_HOST_PUBLIC,
         "img-src": ["data:", "'self'"],
     }
 
-    # Allow inline scripts for swagger docs (for Talisman Config)
+    # Swagger Content Security Policy (less secure)
+    # - Allow inline scripts for swagger docs (for Talisman Config)
     SWAGGER_CSP = {
         "script-src": ["'self'", "'unsafe-inline'"],
         "style-src": ["'self'", "'unsafe-inline'"],
     }
 
-    # HTTP Strict-Transport-Security (for Talisman Config)
-    HSTS_HEADERS = {
-        "strict-transport-security": (
-            "max-age=31536000; includeSubDomains; preload"
-        ),
-        "X-Content-Type-Options": "nosniff",
-        "X-Frame-Options": "SAMEORIGIN",
-        "X-XSS-Protection": "1; mode=block",
-        "Feature_Policy": (
-            "microphone 'none'; camera 'none'; geolocation 'none'"
-        ),
+    # Talisman Config
+    FSD_REFERRER_POLICY = "strict-origin-when-cross-origin"
+    FSD_SESSION_COOKIE_SAMESITE = "Strict"
+    FSD_PERMISSIONS_POLICY = {"interest-cohort": "()"}
+    FSD_DOCUMENT_POLICY = {}
+    FSD_FEATURE_POLICY = {
+        "microphone": "'none'",
+        "camera": "'none'",
+        "geolocation": "'none'",
     }
 
-    USE_LOCAL_DATA = strtobool(getenv("USE_LOCAL_DATA", "False"))
+    DENY = "DENY"
+    SAMEORIGIN = "SAMEORIGIN"
+    ALLOW_FROM = "ALLOW-FROM"
+    ONE_YEAR_IN_SECS = 31556926
+
+    FORCE_HTTPS = True
+
+    TALISMAN_SETTINGS = {
+        "feature_policy": FSD_FEATURE_POLICY,
+        "permissions_policy": FSD_PERMISSIONS_POLICY,
+        "document_policy": FSD_DOCUMENT_POLICY,
+        "force_https": FORCE_HTTPS,
+        "force_https_permanent": False,
+        "force_file_save": False,
+        "frame_options": "SAMEORIGIN",
+        "frame_options_allow_from": None,
+        "strict_transport_security": True,
+        "strict_transport_security_preload": True,
+        "strict_transport_security_max_age": ONE_YEAR_IN_SECS,
+        "strict_transport_security_include_subdomains": True,
+        "content_security_policy": SECURE_CSP,
+        "content_security_policy_report_uri": None,
+        "content_security_policy_report_only": False,
+        "content_security_policy_nonce_in": None,
+        "referrer_policy": FSD_REFERRER_POLICY,
+        "session_cookie_secure": True,
+        "session_cookie_http_only": True,
+        "session_cookie_samesite": FSD_SESSION_COOKIE_SAMESITE,
+        "x_content_type_options": True,
+        "x_xss_protection": True,
+    }
 
     COF_FUND_ID = "47aef2f5-3fcb-4d45-acb5-f0152b5f03c4"
     COF_ROUND2_ID = "c603d114-5364-4474-a0c4-c41cbf4d3bbd"
