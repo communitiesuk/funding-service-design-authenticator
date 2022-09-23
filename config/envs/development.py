@@ -14,7 +14,6 @@ class DevelopmentConfig(Config):
     SESSION_COOKIE_NAME = "session_cookie"
     FLASK_ENV = "development"
     COOKIE_DOMAIN = None
-    SESSION_COOKIE_SECURE = False
 
     # Logging
     FSD_LOG_LEVEL = logging.DEBUG
@@ -45,6 +44,7 @@ class DevelopmentConfig(Config):
     )
     SESSION_PERMANENT = False
     SESSION_USE_SIGNER = True
+    SESSION_COOKIE_SECURE = False
 
     # RSA 256 KEYS
     if not hasattr(Config, "RSA256_PRIVATE_KEY"):
