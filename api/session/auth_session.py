@@ -84,9 +84,6 @@ class AuthSessionView(MethodView):
             "",
             domain=Config.COOKIE_DOMAIN,
             expires=0,
-            secure=Config.SESSION_COOKIE_SECURE,
-            samesite=Config.SESSION_COOKIE_SAMESITE,
-            httponly=Config.SESSION_COOKIE_HTTPONLY,
         )
         return response
 
