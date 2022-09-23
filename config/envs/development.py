@@ -36,6 +36,7 @@ class DevelopmentConfig(Config):
     # in the app's registration in the Azure portal.
     AZURE_AD_REDIRECT_URI = AUTHENTICATOR_HOST + AZURE_AD_REDIRECT_PATH
 
+    # Session Settings
     SESSION_TYPE = (
         # Specifies how the token cache should be stored
         # in server-side session
