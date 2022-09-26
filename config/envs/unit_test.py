@@ -10,9 +10,7 @@ from fsd_utils import configclass
 class UnitTestConfig(Config):
     #  Application Config
     SECRET_KEY = "dev"
-    SESSION_COOKIE_NAME = "session_cookie"
     COOKIE_DOMAIN = None
-    SESSION_COOKIE_SECURE = False
 
     # Logging
     FSD_LOG_LEVEL = logging.DEBUG
@@ -43,6 +41,7 @@ class UnitTestConfig(Config):
     )
     SESSION_PERMANENT = False
     SESSION_USE_SIGNER = True
+    SESSION_COOKIE_SECURE = False
 
     # RSA 256 KEYS
     _test_private_key_path = (
