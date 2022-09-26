@@ -64,8 +64,7 @@ class UnitTestConfig(Config):
     NOTIFICATION_SERVICE_HOST = "notification_service"
 
     # Security
-    FORCE_HTTPS = False
-    STRICT_CSP = False
+    Config.TALISMAN_SETTINGS["force_https"] = False
 
     APPLICANT_FRONTEND_HOST = "frontend"
     APPLICANT_FRONTEND_ACCESSIBILITY_STATEMENT_URL = "/accessibility_statement"

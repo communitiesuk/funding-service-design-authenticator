@@ -78,4 +78,4 @@ class DevelopmentConfig(Config):
     )
 
     # Security
-    FORCE_HTTPS = False
+    Config.TALISMAN_SETTINGS["force_https"] = False
