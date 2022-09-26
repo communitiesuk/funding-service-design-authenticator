@@ -14,7 +14,6 @@ class DevelopmentConfig(Config):
     SESSION_COOKIE_NAME = "session_cookie"
     FLASK_ENV = "development"
     COOKIE_DOMAIN = None
-    SESSION_COOKIE_SECURE = False
 
     # Logging
     FSD_LOG_LEVEL = logging.DEBUG
@@ -37,6 +36,7 @@ class DevelopmentConfig(Config):
     # in the app's registration in the Azure portal.
     AZURE_AD_REDIRECT_URI = AUTHENTICATOR_HOST + AZURE_AD_REDIRECT_PATH
 
+    # Session Settings
     SESSION_TYPE = (
         # Specifies how the token cache should be stored
         # in server-side session
@@ -45,6 +45,7 @@ class DevelopmentConfig(Config):
     )
     SESSION_PERMANENT = False
     SESSION_USE_SIGNER = True
+    SESSION_COOKIE_SECURE = False
 
     # RSA 256 KEYS
     if not hasattr(Config, "RSA256_PRIVATE_KEY"):
@@ -77,4 +78,4 @@ class DevelopmentConfig(Config):
     )
 
     # Security
-    FORCE_HTTPS = False
+    Config.TALISMAN_SETTINGS["force_https"] = False
