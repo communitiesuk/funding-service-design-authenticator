@@ -124,7 +124,7 @@ class AccountMethods(Account):
                 ],  # noqa
                 NotifyConstants.MAGIC_LINK_FUND_NAME_FIELD: fund.name,
             }
-            if fund_id and round_id and new_account:
+            if fund_id and round_id and new_account and Config.CREATE_APPLICATION_ON_ACCOUNT_CREATION:
                 # Create an application if none exists
                 new_application = ApplicationMethods.create_application(
                     account.id, fund_id, round_id

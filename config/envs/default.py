@@ -80,6 +80,7 @@ class DefaultConfig(object):
     # Funding Service Design
     FSD_USER_TOKEN_COOKIE_NAME = "fsd_user_token"
     FSD_SESSION_TIMEOUT_SECS = 86400  # 1 day
+    CREATE_APPLICATION_ON_ACCOUNT_CREATION = False
 
     """
     APIs Config: contains api hosts (set in manifest.yml)
