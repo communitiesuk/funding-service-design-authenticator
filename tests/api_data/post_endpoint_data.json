@@ -2,8 +2,7 @@
   "account_store/accounts": {
     "email_address=a%40example.com": {
       "account_id": "usera",
-      "email_address": "a@example.com",
-      "applications": []
+      "email_address": "a@example.com"
     },
     "email_address=b%40example.com": {
       "account_id": "userb",
