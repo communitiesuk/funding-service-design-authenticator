@@ -1,13 +1,11 @@
 {
   "account_store/accounts?email_address=a%40example.com": {
     "account_id": "usera",
-    "email_address": "a@example.com",
-    "applications": []
+    "email_address": "a@example.com"
   },
   "account_store/accounts?email_address=b%40example.com": {
     "account_id": "userb",
-    "email_address": "b@example.com",
-    "applications": []
+    "email_address": "b@example.com"
   },
   "application_store/applications?account_id=usera$fund_id=funding-service-design&round_id=summer": {
     "account_id": "usera",
