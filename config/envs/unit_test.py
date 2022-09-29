@@ -65,6 +65,7 @@ class UnitTestConfig(Config):
 
     # Security
     Config.TALISMAN_SETTINGS["force_https"] = False
+    WTF_CSRF_ENABLED = False
 
     APPLICANT_FRONTEND_HOST = "frontend"
     APPLICANT_FRONTEND_ACCESSIBILITY_STATEMENT_URL = "/accessibility_statement"
