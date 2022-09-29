@@ -125,6 +125,11 @@ class AccountMethods(Account):
                 NotifyConstants.MAGIC_LINK_FUND_NAME_FIELD: fund.name,
             }
             if fund_id and round_id and new_account and Config.CREATE_APPLICATION_ON_ACCOUNT_CREATION:
+                current_app.logger.info(
+                    f"Preparing to auto-create a blank application for account: {str(account)}, "
+                    f"for fund_id: {fund_id}"
+                    f"and round_id: {round_id}"
+                )
                 # Create an application if none exists
                 new_application = ApplicationMethods.create_application(
                     account.id, fund_id, round_id
