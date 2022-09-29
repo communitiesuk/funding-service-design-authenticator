@@ -6,7 +6,13 @@
     },
     "email_address=b%40example.com": {
       "account_id": "userb",
-      "email_address": "b@example.com"
+      "email_address": "b@example.com",
+      "applications": []
+    },
+    "email_address=new_user%40example.com": {
+      "account_id": "usernew",
+      "email_address": "new_user@example.com",
+      "applications": []
     }
   },
   "notification_service/send":{

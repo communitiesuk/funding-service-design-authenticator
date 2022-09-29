@@ -7,6 +7,9 @@
     "account_id": "userb",
     "email_address": "b@example.com"
   },
+  "account_store/accounts?email_address=new_user%40example.com": {
+    "status": "error"
+  },
   "application_store/applications?account_id=usera$fund_id=funding-service-design&round_id=summer": {
     "account_id": "usera",
     "application_id": "usera-fsd-sum-1",
