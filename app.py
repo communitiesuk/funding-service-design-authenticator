@@ -14,6 +14,8 @@ from flask_redis import FlaskRedis
 from flask_session import Session
 from flask_talisman import Talisman
 from frontend.assets import compile_static_assets
+from frontend.magic_links.filters import datetime_format
+from fsd_utils import init_sentry
 from fsd_utils.healthchecks.checkers import FlaskRunningChecker
 from fsd_utils.healthchecks.checkers import RedisChecker
 from fsd_utils.healthchecks.healthcheck import Healthcheck
@@ -21,8 +23,6 @@ from fsd_utils.logging import logging
 from jinja2 import ChoiceLoader
 from jinja2 import PackageLoader
 from jinja2 import PrefixLoader
-
-from frontend.magic_links.filters import datetime_format
 
 redis_mlinks = FlaskRedis(config_prefix="REDIS_MLINKS")
 
@@ -34,6 +34,8 @@ def get_bundled_specs(main_file: Path) -> Dict[str, Any]:
 
 
 def create_app() -> Flask:
+
+    init_sentry()
 
     # Initialise Connexion Flask App
     connexion_options = {

@@ -20,6 +20,8 @@ applications:
     FLASK_ENV: dev
     FLASK_DEBUG: 1
     COOKIE_DOMAIN: .dev.gids.dev
+    # Sentry DSN is OK to be public see: https://docs.sentry.io/product/sentry-basics/dsn-explainer/#dsn-utilization
+    SENTRY_DSN: https://96b94a5fea854bc99f132ccdebba34eb@o1432034.ingest.sentry.io/4503919190016000
   services: # eg. Redis
     - funding-service-magic-links-dev
     - logit-ssl-drain
