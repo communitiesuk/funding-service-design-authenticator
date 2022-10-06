@@ -4,13 +4,9 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
-    # Separate sections of the branch name with a hyphen
-    # for example, `dependabot-npm_and_yarn-next_js-acorn-6.4.1`
     pull-request-branch-name:
       separator: "-"
     rebase-strategy: "auto"
-    reviewers:
-      - "communitiesuk/funding-service-design"
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
@@ -18,5 +14,3 @@ updates:
     pull-request-branch-name:
       separator: "-"
     rebase-strategy: "auto"
-    reviewers:
-      - "communitiesuk/funding-service-design"
