@@ -31,7 +31,7 @@ babel==2.10.3
     #   flask-babel
 bandit==1.7.4
     # via -r requirements-dev.in
-black==22.3.0
+black==22.8.0
     # via -r requirements-dev.in
 blinker==1.5
     # via
