@@ -190,7 +190,7 @@ six==1.16.0
     #   flask-talisman
     #   prance
     #   pyscss
-sqlalchemy==1.4.39
+sqlalchemy==1.4.41
     # via
     #   -r requirements.in
     #   alembic
