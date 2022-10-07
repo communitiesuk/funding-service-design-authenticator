@@ -41,7 +41,7 @@ jobs:
 #      - name: Run Accessability tests
 #        run: pytest --driver Chrome --driver-path .venv/lib/python3.10/site-packages/chromedriver_py/chromedriver_linux64
 #      - name: 'Upload Accessibility Testing reports'
-#        uses: actions/upload-artifact@v2
+#        uses: actions/upload-artifact@v3
 #        with:
 #          name: accessibility-test-report
 #          path: /home/runner/work/funding-service-design-authenticator/funding-service-design-authenticator/axe_reports/*.html
@@ -170,7 +170,7 @@ jobs:
         run: ls && python -m pip install locust && python -m locust
         working-directory: ./funding-service-design-performance-tests
       - name: 'Upload Artifact'
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: performance-test-report
           path: ./funding-service-design-performance-tests/locust_html_report.html
