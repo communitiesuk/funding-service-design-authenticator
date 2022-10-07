@@ -19,7 +19,7 @@ Flask-Compress==1.10.1
 cssmin==0.2.0
 pyScss==1.4.0
 jsmin==3.0.1
-govuk-frontend-jinja==2.0.0
+govuk-frontend-jinja==2.3.0
 
 #-----------------------------------
 #   Forms
