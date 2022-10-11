@@ -1,11 +1,12 @@
 """
 Test magic links functionality
 """
+from unittest import mock
+
 import pytest
 from config import Config
-from security.utils import validate_token
 from models.application import ApplicationMethods
-from tests.mocks.application_methods import MockApplicationMethods
+from security.utils import validate_token
 
 
 @pytest.mark.usefixtures("flask_test_client")
@@ -38,7 +39,9 @@ class TestMagicLinks:
             "accountId"
         )
 
-    def test_new_magic_link_does_not_create_application(self, flask_test_client, mocker, mock_create_application):
+    def test_new_magic_link_does_not_create_application(
+        self, flask_test_client, mocker, mock_create_application
+    ):
         """
         GIVEN a running Flask client, redis instance and
         an existing h@a.com account in the account_store api
@@ -59,13 +62,16 @@ class TestMagicLinks:
         # Mock the create_application method,
         # so we can check if it has been called
         create_application_mock = mocker.patch.object(
-            ApplicationMethods, "create_application",
+            ApplicationMethods,
+            "create_application",
             new_callable=mock_create_application,
         )
         create_application_mock.assert_not_called()
         assert response.status_code == 302, response.data
 
-    def test_new_magic_link_creates_application_if_flag_set(self, flask_test_client, mocker, mock_create_application):
+    def test_new_magic_link_creates_application_if_flag_set(
+        self, flask_test_client, mocker, mock_create_application
+    ):
         """
         GIVEN a running Flask client, redis instance and
         an existing h@a.com account in the account_store api
@@ -78,13 +84,12 @@ class TestMagicLinks:
         # Set Config.CREATE_APPLICATION_ON_ACCOUNT_CREATION
         # Simply patching it has the effect of it returning True
         # which is the state/effect we want to produce
-        mocker.patch.object(
-            Config, "CREATE_APPLICATION_ON_ACCOUNT_CREATION"
-        )
+        mocker.patch.object(Config, "CREATE_APPLICATION_ON_ACCOUNT_CREATION")
         # Mock the create_application method,
         # so we can check if it has been called
         create_application_mock = mocker.patch.object(
-            ApplicationMethods, "create_application",
+            ApplicationMethods,
+            "create_application",
             new_callable=mock_create_application,
         )
         payload = {
@@ -303,3 +308,21 @@ class TestMagicLinks:
         assert response.status_code == 403
         assert b"Link expired" in response.data
         assert b"Request a new link" in response.data
+
+    @mock.patch.object(Config, "FLASK_ENV", "production")
+    def test_search_magic_link_forbidden_on_production(
+        self, flask_test_client
+    ):
+        use_endpoint = "/magic-links"
+        response = flask_test_client.get(use_endpoint, follow_redirects=True)
+        assert response.status_code == 403
+
+    def test_search_magic_link_returns_magic_links(self, flask_test_client):
+        endpoint = "/magic-links"
+        get_response = flask_test_client.get(endpoint)
+        assert get_response.status_code == 200
+        assert "account:usernew" in get_response.get_json()
+        assert (
+            next(x for x in get_response.get_json() if x.startswith("link:"))
+            is not None
+        )

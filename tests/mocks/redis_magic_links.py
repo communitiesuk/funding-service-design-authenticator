@@ -9,7 +9,7 @@ ml_data = {}
 class RedisMLinks(object):
     @staticmethod
     def keys(match: str = "*"):
-        return [link for link, value in ml_data.items()]
+        return [bytes(link, "utf-8") for link, value in ml_data.items()]
 
     @staticmethod
     def set(key, val):

@@ -10,7 +10,9 @@ from typing import List
 from typing import TYPE_CHECKING
 
 from config import Config
+from flask import abort
 from flask import current_app
+from flask import Response
 from flask_redis import FlaskRedis
 from security.utils import create_token
 
@@ -42,6 +44,18 @@ class MagicLinkError(Exception):
 
 
 class MagicLinkMethods(object):
+    def search(self):
+        """
+        GET /magic-links endpoint
+        :return: Json Response
+        """
+        if not Config.FLASK_ENV == "production":
+            return Response(
+                json.dumps(self.links), mimetype="application/json"
+            )
+        else:
+            return abort(403)
+
     @property
     def redis_mlinks(self) -> FlaskRedis:
         """
