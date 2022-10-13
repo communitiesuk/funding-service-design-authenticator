@@ -100,7 +100,7 @@ class AuthSessionView(MethodView):
             session_details = cls.create_session_details_with_token(account_id)
             response = make_response(redirect(redirect_url), 302)
             expiry = datetime.now() + timedelta(
-                seconds=Config.WTF_CSRF_TIME_LIMIT
+                seconds=Config.FSD_SESSION_TIMEOUT_SECONDS
             )
             response.set_cookie(
                 Config.FSD_USER_TOKEN_COOKIE_NAME,
@@ -126,7 +126,7 @@ class AuthSessionView(MethodView):
             "accountId": account_id,
             "iat": int(datetime.now().timestamp()),
             "exp": int(
-                datetime.now().timestamp() + Config.WTF_CSRF_TIME_LIMIT
+                datetime.now().timestamp() + Config.FSD_SESSION_TIMEOUT_SECONDS
             ),
         }
 

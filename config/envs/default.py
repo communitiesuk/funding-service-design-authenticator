@@ -79,6 +79,7 @@ class DefaultConfig(object):
     SESSION_COOKIE_HTTPONLY = True
     # Funding Service Design
     FSD_USER_TOKEN_COOKIE_NAME = "fsd_user_token"
+    FSD_SESSION_TIMEOUT_SECONDS = CommonConfig.FSD_SESSION_TIMEOUT_SECONDS
     WTF_CSRF_TIME_LIMIT = CommonConfig.WTF_CSRF_TIME_LIMIT
     CREATE_APPLICATION_ON_ACCOUNT_CREATION = False
 
