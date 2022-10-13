@@ -19,19 +19,12 @@ class UnitTestConfig(Config):
     AUTHENTICATOR_HOST = "http://localhost:5000"
 
     # Azure Active Directory Config
-    # This secret is only used for local testing purposes
+    AZURE_AD_CLIENT_ID = "d8be82a8-541c-4768-9296-84bd779a24d9"
     AZURE_AD_CLIENT_SECRET = "nmq8Q~acUEOPWmjfvbOEQLPZy2M38yLe1PEh_cS2"
-    AZURE_AD_AUTHORITY = (
-        # consumers|organisations - signifies the Azure AD tenant endpoint
-        "https://login.microsoftonline.com/consumers"
-    )
-    AZURE_AD_REDIRECT_PATH = (
-        # Used for forming an absolute URL to your redirect URI.
-        "/sso/get-token"
-    )
+
     # The absolute URL must match the redirect URI you set
     # in the app's registration in the Azure portal.
-    AZURE_AD_REDIRECT_URI = AUTHENTICATOR_HOST + AZURE_AD_REDIRECT_PATH
+    AZURE_AD_REDIRECT_URI = AUTHENTICATOR_HOST + Config.AZURE_AD_REDIRECT_PATH
 
     SESSION_TYPE = (
         # Specifies how the token cache should be stored

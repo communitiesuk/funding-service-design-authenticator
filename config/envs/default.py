@@ -1,6 +1,7 @@
 """Flask configuration."""
 import base64
 import logging
+from config.utils import VcapServices
 from os import environ
 from os import getenv
 from pathlib import Path
@@ -38,7 +39,7 @@ class DefaultConfig(object):
     # Azure Active Directory Config
     AZURE_AD_CLIENT_ID = (
         # Application (client) ID of app registration on Azure AD
-        environ.get("AZURE_AD_CLIENT_ID", "d8be82a8-541c-4768-9296-84bd779a24d9")
+        environ.get("AZURE_AD_CLIENT_ID")
     )
     AZURE_AD_CLIENT_SECRET = environ.get("AZURE_AD_CLIENT_SECRET")
     AZURE_AD_AUTHORITY = (
@@ -62,6 +63,10 @@ class DefaultConfig(object):
     # You can find the proper permission names from this document
     # https://docs.microsoft.com/en-us/graph/permissions-reference
     MS_GRAPH_PERMISSIONS_SCOPE = ["User.ReadBasic.All"]
+
+    # GOV.UK PaaS
+    if environ.get("VCAP_SERVICES"):
+        VCAP_SERVICES = VcapServices.from_env_json(environ.get("VCAP_SERVICES"))
 
     """
     Session
