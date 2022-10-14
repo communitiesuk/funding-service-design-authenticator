@@ -42,9 +42,10 @@ class DefaultConfig(object):
         environ.get("AZURE_AD_CLIENT_ID")
     )
     AZURE_AD_CLIENT_SECRET = environ.get("AZURE_AD_CLIENT_SECRET")
+    AZURE_AD_TENANT_ID = environ.get("AZURE_AD_TENANT_ID", "")
     AZURE_AD_AUTHORITY = (
         # consumers|organisations - signifies the Azure AD tenant endpoint
-        "https://login.microsoftonline.com/consumers"
+        "https://login.microsoftonline.com/" + AZURE_AD_TENANT_ID
     )
     AZURE_AD_REDIRECT_PATH = (
         # Used for forming an absolute URL to your redirect URI.
