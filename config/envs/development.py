@@ -24,6 +24,10 @@ class DevelopmentConfig(Config):
     # Azure Active Directory Config
     AZURE_AD_CLIENT_ID = "d8be82a8-541c-4768-9296-84bd779a24d9"
     AZURE_AD_CLIENT_SECRET = "nmq8Q~acUEOPWmjfvbOEQLPZy2M38yLe1PEh_cS2"
+    AZURE_AD_AUTHORITY = (
+        # consumers|organisations - signifies the Azure AD tenant endpoint
+        "https://login.microsoftonline.com/consumers"
+    )
 
     # The absolute URL must match the redirect URI you set
     # in the app's registration in the Azure portal.
