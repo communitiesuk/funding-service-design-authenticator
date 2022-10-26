@@ -25,6 +25,7 @@ applications:
     # Sentry DSN is OK to be public see: https://docs.sentry.io/product/sentry-basics/dsn-explainer/#dsn-utilization
     SENTRY_DSN: https://96b94a5fea854bc99f132ccdebba34eb@o1432034.ingest.sentry.io/4503919190016000
     GITHUB_SHA: ((GITHUB_SHA))
+    FUND_STORE_API_HOST: https://funding-service-design-fund-store-dev.london.cloudapps.digital
   services: # eg. Redis
     - funding-service-magic-links-dev
     - logit-ssl-drain
