@@ -76,10 +76,6 @@ def create_app() -> Flask:
         _build_auth_code_flow=build_auth_code_flow
     )  # Used in template
 
-    babel = Babel(flask_app)
-    babel.locale_selector_func = get_lang
-    LanguageSelector(flask_app)
-
     # Initialise logging
     logging.init_app(flask_app)
 
@@ -102,6 +98,10 @@ def create_app() -> Flask:
     from werkzeug.middleware.proxy_fix import ProxyFix
 
     flask_app.wsgi_app = ProxyFix(flask_app.wsgi_app, x_proto=1, x_host=1)
+
+    babel = Babel(flask_app)
+    babel.locale_selector_func = get_lang
+    LanguageSelector(flask_app)
 
     # Disable strict talisman on swagger docs pages
     @flask_app.before_request
@@ -160,6 +160,5 @@ def create_app() -> Flask:
         health.add_check(RedisChecker(redis_mlinks))
 
         return flask_app
-
 
 app = create_app()
