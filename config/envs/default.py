@@ -229,3 +229,4 @@ class DefaultConfig(object):
     COF_ROUND2_ID = "c603d114-5364-4474-a0c4-c41cbf4d3bbd"
     DEFAULT_FUND_ID = COF_FUND_ID
     BABEL_TRANSLATION_DIRECTORIES = "frontend/translations"
+    DEFAULT_ROUND_ID = COF_ROUND2_ID
