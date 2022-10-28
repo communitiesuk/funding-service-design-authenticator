@@ -21,15 +21,15 @@ msgstr ""
 
 #: app.py:122
 msgid "Apply for funding to save an asset in your community"
-msgstr ""
+msgstr "Gwneud cais am gyllid i achub ased yn eich cymuned"
 
 #: frontend/templates/footer.html:9
 msgid "Privacy"
-msgstr "WELSH HERE"
+msgstr "Preifatrwydd"
 
 #: frontend/templates/footer.html:14
 msgid "Cookies"
-msgstr ""
+msgstr "Cwcis"
 
 #: frontend/templates/footer.html:18
 msgid "Accessibility Statement"
@@ -37,7 +37,7 @@ msgstr ""
 
 #: frontend/templates/footer.html:22
 msgid "Contact us"
-msgstr ""
+msgstr "Cysylltwch â ni"
 
 #: frontend/templates/header.html:34
 msgid "beta"
