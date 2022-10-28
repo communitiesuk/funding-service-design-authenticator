@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-10-26 15:50+0100\n"
-"PO-Revision-Date: 2022-10-21 16:48+0100\n"
+"POT-Creation-Date: 2022-10-28 10:52+0100\n"
+"PO-Revision-Date: 2022-10-28 12:33+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: cy\n"
 "Language-Team: cy <LL@li.org>\n"
@@ -19,13 +19,13 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.10.3\n"
 
-#: app.py:117
+#: app.py:122
 msgid "Apply for funding to save an asset in your community"
 msgstr ""
 
 #: frontend/templates/footer.html:9
 msgid "Privacy"
-msgstr ""
+msgstr "WELSH HERE"
 
 #: frontend/templates/footer.html:14
 msgid "Cookies"
@@ -44,7 +44,6 @@ msgid "beta"
 msgstr ""
 
 #: frontend/templates/header.html:36
-#, fuzzy
 msgid "This is a new service - your "
 msgstr ""
 
@@ -53,7 +52,5 @@ msgid "feedback"
 msgstr ""
 
 #: frontend/templates/header.html:36
-#, fuzzy
 msgid " will help us to improve it."
 msgstr ""
-
