@@ -133,12 +133,14 @@ def create_app() -> Flask:
             internal_server_error,
         )
         from frontend.magic_links.routes import magic_links_bp
+        from frontend.sso.routes import sso_bp
         from api.demo.routes import demo_bp
 
         flask_app.register_error_handler(404, not_found)
         flask_app.register_error_handler(500, internal_server_error)
         flask_app.register_blueprint(default_bp)
         flask_app.register_blueprint(magic_links_bp)
+        flask_app.register_blueprint(sso_bp)
         flask_app.register_blueprint(demo_bp)
         flask_app.jinja_env.filters["datetime_format"] = datetime_format
 

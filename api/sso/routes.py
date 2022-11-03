@@ -30,7 +30,7 @@ class SsoView(MethodView):
         :return:
         """
         post_logout_redirect_uri = request.args.get(
-            "post_logout_redirect_uri", ""
+            "post_logout_redirect_uri", Config.SSO_POST_SIGN_OUT_URL
         )
         session.clear()
         return redirect(
@@ -51,17 +51,13 @@ class SsoView(MethodView):
         # this app's redirect_uri set in Azure AD
         :return: 200 json of valid user token claims or 404 on error
         """
-        current_app.logger.warn(f"get-token request args: {str(request.args)}")
         try:
             cache = self._load_cache()
-            current_app.logger.warn(f"load_cache() returned: {str(cache)}")
             result = self._build_msal_app(
                 cache=cache
             ).acquire_token_by_auth_code_flow(
                 session.get("flow", {}), request.args
             )
-            current_app.logger.warn(f"_build_msal_app(cache=cache) returned: {str(result)}")
-            current_app.logger.warn(f"Session get 'flow' returned: {str(session.get('flow', {}))}")
             if "error" in result:
                 return result, 500
             session["user"] = result.get("id_token_claims")
@@ -70,7 +66,6 @@ class SsoView(MethodView):
             return session["user"], 200
         except ValueError as e:  # Usually caused by CSRF
             warnings.warn(f"Value Error on get_token route: {str(e)}")
-        current_app.logger.warn(f"Session get 'flow' returned: {str(session.get('flow', {}))}")
         return {"message": "No valid token"}, 404
 
     def graph_call(self):
@@ -92,7 +87,6 @@ class SsoView(MethodView):
     @staticmethod
     def _load_cache():
         cache = msal.SerializableTokenCache()
-        current_app.logger.warn(f"msal.SerializableTokenCache() returned: {str(cache)}")
         if session.get("token_cache"):
             cache.deserialize(session["token_cache"])
         return cache
