@@ -1,11 +1,11 @@
 """Flask configuration."""
 import base64
 import logging
-from config.utils import VcapServices
 from os import environ
 from os import getenv
 from pathlib import Path
 
+from config.utils import VcapServices
 from distutils.util import strtobool
 from fsd_utils import CommonConfig
 from fsd_utils import configclass
@@ -16,7 +16,9 @@ class DefaultConfig(object):
     #  Application Config
     SECRET_KEY = environ.get("SECRET_KEY")
     SESSION_COOKIE_NAME = environ.get("SESSION_COOKIE_NAME", "session_cookie")
-    COOKIE_DOMAIN = getenv("COOKIE_DOMAIN")
+
+    COOKIE_DOMAIN = None
+
     FLASK_ROOT = str(Path(__file__).parent.parent.parent)
     FLASK_ENV = environ.get("FLASK_ENV")
 
@@ -45,7 +47,8 @@ class DefaultConfig(object):
     AZURE_AD_TENANT_ID = environ.get("AZURE_AD_TENANT_ID", "")
     AZURE_AD_AUTHORITY = (
         # consumers|organisations - signifies the Azure AD tenant endpoint
-        "https://login.microsoftonline.com/" + AZURE_AD_TENANT_ID
+        "https://login.microsoftonline.com/"
+        + AZURE_AD_TENANT_ID
     )
     AZURE_AD_REDIRECT_PATH = (
         # Used for forming an absolute URL to your redirect URI.
@@ -67,7 +70,9 @@ class DefaultConfig(object):
 
     # GOV.UK PaaS
     if environ.get("VCAP_SERVICES"):
-        VCAP_SERVICES = VcapServices.from_env_json(environ.get("VCAP_SERVICES"))
+        VCAP_SERVICES = VcapServices.from_env_json(
+            environ.get("VCAP_SERVICES")
+        )
 
     """
     Session
@@ -224,3 +229,4 @@ class DefaultConfig(object):
     COF_ROUND2_ID = "c603d114-5364-4474-a0c4-c41cbf4d3bbd"
     DEFAULT_FUND_ID = COF_FUND_ID
     DEFAULT_ROUND_ID = COF_ROUND2_ID
+    BABEL_TRANSLATION_DIRECTORIES = "frontend/translations"

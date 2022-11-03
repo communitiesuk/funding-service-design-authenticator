@@ -1,0 +1,56 @@
+# Welsh translations for PROJECT.
+# Copyright (C) 2022 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2022.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2022-10-28 10:52+0100\n"
+"PO-Revision-Date: 2022-10-28 12:33+0100\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: cy\n"
+"Language-Team: cy <LL@li.org>\n"
+"Plural-Forms: nplurals=5; plural=(n==1 ? 1 : n==2 ? 2 : n==3 ? 3 : n==6 ?"
+" 4 : 0);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.10.3\n"
+
+#: app.py:122
+msgid "Apply for funding to save an asset in your community"
+msgstr "Gwneud cais am gyllid i achub ased yn eich cymuned"
+
+#: frontend/templates/footer.html:9
+msgid "Privacy"
+msgstr "Preifatrwydd"
+
+#: frontend/templates/footer.html:14
+msgid "Cookies"
+msgstr "Cwcis"
+
+#: frontend/templates/footer.html:18
+msgid "Accessibility Statement"
+msgstr "Datganiad Hygyrchedd"
+
+#: frontend/templates/footer.html:22
+msgid "Contact us"
+msgstr "Cysylltwch â ni"
+
+#: frontend/templates/header.html:34
+msgid "beta"
+msgstr "beta"
+
+#: frontend/templates/header.html:36
+msgid "This is a new service - your "
+msgstr "Mae hyn yn wasanaeth newydd - bydd eich "
+
+#: frontend/templates/header.html:36
+msgid "feedback"
+msgstr "adborth"
+
+#: frontend/templates/header.html:36
+msgid " will help us to improve it."
+msgstr " yn ein cefnogi i'w wella."
