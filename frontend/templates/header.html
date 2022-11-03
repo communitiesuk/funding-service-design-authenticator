@@ -3,7 +3,7 @@
 <header class="govuk-header " role="banner" data-module="govuk-header">
     <div class="govuk-header__container govuk-width-container">
         <div class="govuk-header__logo">
-            <a class="govuk-header__link govuk-header__link--homepage" style="pointer-events: none;">
+            <a class="govuk-header__link govuk-header__link--homepage">
                 <span class="govuk-header__logotype">
                     <!--[if gt IE 8]><!-->
                         <svg aria-hidden="true" focusable="false" class="govuk-header__logotype-crown"
@@ -32,7 +32,7 @@
     {{ govukPhaseBanner({
         'tag': {
             'text': gettext('beta')
-        }, 
+        },
         'html': '{}<a href="https://forms.office.com/Pages/ResponsePage.aspx?id=EGg0v32c3kOociSi7zmVqN48ORk8WN5LlJITE3Swt-lURUNCR0dHMjgxWFZOMTMxQzlOTVIxVkQ0Sy4u" class="govuk-link">{}</a>{}'.format(gettext('This is a new service - your '), gettext('feedback'), gettext(' will help us to improve it.'))
     })}}
 </div>
