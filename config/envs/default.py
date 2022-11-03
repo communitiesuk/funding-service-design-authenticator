@@ -32,6 +32,8 @@ class DefaultConfig(object):
     # Hostname for this service
     AUTHENTICATOR_HOST = environ.get("AUTHENTICATOR_HOST", "")
     NEW_LINK_ENDPOINT = "/service/magic-links/new"
+    SSO_LOGIN_ENDPOINT = "/sso/login"
+    SSO_POST_SIGN_OUT_URL = AUTHENTICATOR_HOST + "/service/sso/signed-out/signout-request"
 
     """
     Azure Configuration
@@ -44,7 +46,7 @@ class DefaultConfig(object):
     AZURE_AD_CLIENT_SECRET = environ.get("AZURE_AD_CLIENT_SECRET")
     AZURE_AD_TENANT_ID = environ.get("AZURE_AD_TENANT_ID", "")
     AZURE_AD_AUTHORITY = (
-        # consumers|organisations - signifies the Azure AD tenant endpoint
+        # consumers|organizations|<tenant_id> - signifies the Azure AD tenant endpoint
         "https://login.microsoftonline.com/" + AZURE_AD_TENANT_ID
     )
     AZURE_AD_REDIRECT_PATH = (
@@ -179,7 +181,7 @@ class DefaultConfig(object):
 
     # Talisman Config
     FSD_REFERRER_POLICY = "strict-origin-when-cross-origin"
-    FSD_SESSION_COOKIE_SAMESITE = "Strict"
+    FSD_SESSION_COOKIE_SAMESITE = "Lax"
     FSD_PERMISSIONS_POLICY = {"interest-cohort": "()"}
     FSD_DOCUMENT_POLICY = {}
     FSD_FEATURE_POLICY = {
