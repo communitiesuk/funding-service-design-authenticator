@@ -13,13 +13,17 @@ from flask_assets import Environment
 from flask_redis import FlaskRedis
 from flask_session import Session
 from flask_talisman import Talisman
+from flask_babel import Babel
+from flask_babel import gettext
 from frontend.assets import compile_static_assets
 from frontend.magic_links.filters import datetime_format
 from fsd_utils import init_sentry
+from fsd_utils import LanguageSelector
 from fsd_utils.healthchecks.checkers import FlaskRunningChecker
 from fsd_utils.healthchecks.checkers import RedisChecker
 from fsd_utils.healthchecks.healthcheck import Healthcheck
 from fsd_utils.logging import logging
+from fsd_utils.locale_selector.get_lang import get_lang
 from jinja2 import ChoiceLoader
 from jinja2 import PackageLoader
 from jinja2 import PrefixLoader
@@ -95,6 +99,10 @@ def create_app() -> Flask:
 
     flask_app.wsgi_app = ProxyFix(flask_app.wsgi_app, x_proto=1, x_host=1)
 
+    babel = Babel(flask_app)
+    babel.locale_selector_func = get_lang
+    LanguageSelector(flask_app)
+
     # Disable strict talisman on swagger docs pages
     @flask_app.before_request
     def before_request_modifier():
@@ -110,7 +118,7 @@ def create_app() -> Flask:
         return dict(
             stage="beta",
             service_title=(
-                "Apply for funding to save an asset in your community"
+                gettext('Apply for funding to save an asset in your community')
             ),
             service_meta_description=(
                 "Apply for funding to save an asset in your community"
@@ -154,6 +162,5 @@ def create_app() -> Flask:
         health.add_check(RedisChecker(redis_mlinks))
 
         return flask_app
-
 
 app = create_app()

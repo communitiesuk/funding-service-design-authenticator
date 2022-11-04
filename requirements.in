@@ -2,7 +2,7 @@
 #   FSD Utils
 #-----------------------------------
 
-funding-service-design-utils==1.0.4
+funding-service-design-utils>=1.0.7,<1.1.0
 
 requests
 
