@@ -24,7 +24,7 @@ def test_sso_logout_redirects_to_ms(flask_test_client):
     """
     endpoint = "/sso/logout"
     expected_redirect = (
-        "https://login.microsoftonline.com/consumers/oauth2/v2.0/logout"
+        "https://login.microsoftonline.com/organizations/oauth2/v2.0/logout"
     )
     response = flask_test_client.get(endpoint)
 
