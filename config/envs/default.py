@@ -82,7 +82,7 @@ class DefaultConfig(object):
     )
     SESSION_PERMANENT = False
     SESSION_USE_SIGNER = True
-    SESSION_COOKIE_SAMESITE = "Strict"
+    SESSION_COOKIE_SAMESITE = "Lax"
     SESSION_COOKIE_SECURE = True
     SESSION_COOKIE_HTTPONLY = True
     # Funding Service Design
@@ -181,7 +181,7 @@ class DefaultConfig(object):
 
     # Talisman Config
     FSD_REFERRER_POLICY = "strict-origin-when-cross-origin"
-    FSD_SESSION_COOKIE_SAMESITE = "Lax"
+    FSD_SESSION_COOKIE_SAMESITE = "Strict"
     FSD_PERMISSIONS_POLICY = {"interest-cohort": "()"}
     FSD_DOCUMENT_POLICY = {}
     FSD_FEATURE_POLICY = {
@@ -217,7 +217,7 @@ class DefaultConfig(object):
         "referrer_policy": FSD_REFERRER_POLICY,
         "session_cookie_secure": True,
         "session_cookie_http_only": True,
-        "session_cookie_samesite": FSD_SESSION_COOKIE_SAMESITE,
+        "session_cookie_samesite": SESSION_COOKIE_SAMESITE,
         "x_content_type_options": True,
         "x_xss_protection": True,
     }
