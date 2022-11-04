@@ -3,7 +3,6 @@ import warnings
 import msal
 import requests
 from config import Config
-from flask import current_app
 from flask import redirect
 from flask import request
 from flask import session
@@ -93,7 +92,6 @@ class SsoView(MethodView):
 
     @staticmethod
     def _save_cache(cache):
-        current_app.logger.warn(f"attempted to save cache with: {str(cache)}")
         if cache.has_state_changed:
             session["token_cache"] = cache.serialize()
 
@@ -119,7 +117,6 @@ class SsoView(MethodView):
         )  # This web app maintains one cache per session
         cca = self._build_msal_app(cache=cache)
         accounts = cca.get_accounts()
-        current_app.logger.warn(f"cca.get_accounts() returned: {str(accounts)}")
         if accounts:  # So all account(s) belong to the current signed-in user
             result = cca.acquire_token_silent(scope, account=accounts[0])
             self._save_cache(cache)
