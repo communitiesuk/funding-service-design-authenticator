@@ -29,7 +29,7 @@ class SsoView(MethodView):
         :return:
         """
         post_logout_redirect_uri = request.args.get(
-            "post_logout_redirect_uri", ""
+            "post_logout_redirect_uri", Config.SSO_POST_SIGN_OUT_URL
         )
         session.clear()
         return redirect(

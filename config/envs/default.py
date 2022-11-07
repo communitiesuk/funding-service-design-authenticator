@@ -34,6 +34,8 @@ class DefaultConfig(object):
     # Hostname for this service
     AUTHENTICATOR_HOST = environ.get("AUTHENTICATOR_HOST", "")
     NEW_LINK_ENDPOINT = "/service/magic-links/new"
+    SSO_LOGIN_ENDPOINT = "/sso/login"
+    SSO_POST_SIGN_OUT_URL = AUTHENTICATOR_HOST + "/service/sso/signed-out/signout-request"
 
     """
     Azure Configuration
@@ -46,9 +48,8 @@ class DefaultConfig(object):
     AZURE_AD_CLIENT_SECRET = environ.get("AZURE_AD_CLIENT_SECRET")
     AZURE_AD_TENANT_ID = environ.get("AZURE_AD_TENANT_ID", "")
     AZURE_AD_AUTHORITY = (
-        # consumers|organisations - signifies the Azure AD tenant endpoint
-        "https://login.microsoftonline.com/"
-        + AZURE_AD_TENANT_ID
+        # consumers|organizations|<tenant_id> - signifies the Azure AD tenant endpoint
+        "https://login.microsoftonline.com/" + AZURE_AD_TENANT_ID
     )
     AZURE_AD_REDIRECT_PATH = (
         # Used for forming an absolute URL to your redirect URI.
@@ -85,7 +86,7 @@ class DefaultConfig(object):
     )
     SESSION_PERMANENT = False
     SESSION_USE_SIGNER = True
-    SESSION_COOKIE_SAMESITE = "Strict"
+    SESSION_COOKIE_SAMESITE = "Lax"
     SESSION_COOKIE_SECURE = True
     SESSION_COOKIE_HTTPONLY = True
     # Funding Service Design
@@ -184,7 +185,7 @@ class DefaultConfig(object):
 
     # Talisman Config
     FSD_REFERRER_POLICY = "strict-origin-when-cross-origin"
-    FSD_SESSION_COOKIE_SAMESITE = "Strict"
+    FSD_USER_TOKEN_COOKIE_SAMESITE = "Strict"
     FSD_PERMISSIONS_POLICY = {"interest-cohort": "()"}
     FSD_DOCUMENT_POLICY = {}
     FSD_FEATURE_POLICY = {
@@ -220,7 +221,7 @@ class DefaultConfig(object):
         "referrer_policy": FSD_REFERRER_POLICY,
         "session_cookie_secure": True,
         "session_cookie_http_only": True,
-        "session_cookie_samesite": FSD_SESSION_COOKIE_SAMESITE,
+        "session_cookie_samesite": SESSION_COOKIE_SAMESITE,
         "x_content_type_options": True,
         "x_xss_protection": True,
     }

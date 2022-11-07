@@ -108,7 +108,7 @@ class AuthSessionView(MethodView):
                 domain=Config.COOKIE_DOMAIN,
                 expires=expiry,
                 secure=Config.SESSION_COOKIE_SECURE,
-                samesite=Config.SESSION_COOKIE_SAMESITE,
+                samesite=Config.FSD_USER_TOKEN_COOKIE_SAMESITE,
                 httponly=Config.SESSION_COOKIE_HTTPONLY,
             )
             return response

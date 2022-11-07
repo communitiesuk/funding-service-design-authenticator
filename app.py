@@ -4,7 +4,6 @@ from typing import Dict
 
 import connexion
 import prance
-from api.demo.routes import build_auth_code_flow
 from config import Config
 from connexion.resolver import MethodViewResolver
 from flask import Flask
@@ -72,9 +71,6 @@ def create_app() -> Flask:
     )
     flask_app.jinja_env.trim_blocks = True
     flask_app.jinja_env.lstrip_blocks = True
-    flask_app.jinja_env.globals.update(
-        _build_auth_code_flow=build_auth_code_flow
-    )  # Used in template
 
     # Initialise logging
     logging.init_app(flask_app)
@@ -141,13 +137,13 @@ def create_app() -> Flask:
             internal_server_error,
         )
         from frontend.magic_links.routes import magic_links_bp
-        from api.demo.routes import demo_bp
+        from frontend.sso.routes import sso_bp
 
         flask_app.register_error_handler(404, not_found)
         flask_app.register_error_handler(500, internal_server_error)
         flask_app.register_blueprint(default_bp)
         flask_app.register_blueprint(magic_links_bp)
-        flask_app.register_blueprint(demo_bp)
+        flask_app.register_blueprint(sso_bp)
         flask_app.jinja_env.filters["datetime_format"] = datetime_format
 
         # Bundle and compile assets
@@ -160,5 +156,6 @@ def create_app() -> Flask:
         health.add_check(RedisChecker(redis_mlinks))
 
         return flask_app
+
 
 app = create_app()

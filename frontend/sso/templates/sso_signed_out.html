@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{%- from "govuk_frontend_jinja/components/inset-text/macro.html" import govukInsetText -%}
+{%- from "govuk_frontend_jinja/components/button/macro.html" import govukButton -%}
+
+{% block content %}
+  <div>
+      <h1 class="govuk-heading-xl">{% if status == "no_token" %}You are not logged in{% else %}You have been signed out{% endif %}</h1>
+  </div>
+{% if status != "no_token" %}
+    <p class="govuk-body">Your session has {% if status == "expired_token" %}expired{% else %}been closed{% endif %}.</p>
+{% endif %}
+
+<p class="govuk-body">To re-access your account, please click below to sign in again.</p>
+
+{{ govukButton({
+    "isStartButton": false,
+    "href" : login_url,
+    "text": "Sign in"
+}) }}
+{% endblock %}
