@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-10-28 10:52+0100\n"
+"POT-Creation-Date: 2022-11-15 14:57+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,38 +17,19 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.10.3\n"
 
-#: app.py:122
+#: app.py:117
 msgid "Apply for funding to save an asset in your community"
 msgstr ""
 
-#: frontend/templates/footer.html:9
-msgid "Privacy"
+#: frontend/magic_links/templates/email.html:19
+msgid "Email address "
 msgstr ""
 
-#: frontend/templates/footer.html:14
-msgid "Cookies"
+#: frontend/magic_links/templates/email.html:26
+msgid ""
+"<p>We’ll use this to confirm your email address and show your "
+"applications.</p><p>The link will work once and stop working after 24 "
+"hours.</p><p>If you want to return to an application, you must use the "
+"email address you started the application with.</p>"
 msgstr ""
 
-#: frontend/templates/footer.html:18
-msgid "Accessibility Statement"
-msgstr ""
-
-#: frontend/templates/footer.html:22
-msgid "Contact us"
-msgstr ""
-
-#: frontend/templates/header.html:34
-msgid "beta"
-msgstr ""
-
-#: frontend/templates/header.html:36
-msgid "This is a new service - your "
-msgstr ""
-
-#: frontend/templates/header.html:36
-msgid "feedback"
-msgstr ""
-
-#: frontend/templates/header.html:36
-msgid " will help us to improve it."
-msgstr ""

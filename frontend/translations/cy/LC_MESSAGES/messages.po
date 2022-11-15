@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-10-28 10:52+0100\n"
+"POT-Creation-Date: 2022-11-15 14:57+0000\n"
 "PO-Revision-Date: 2022-10-28 12:33+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: cy\n"
@@ -19,38 +19,46 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.10.3\n"
 
-#: app.py:122
+#: app.py:117
 msgid "Apply for funding to save an asset in your community"
 msgstr "Gwneud cais am gyllid i achub ased yn eich cymuned"
 
-#: frontend/templates/footer.html:9
-msgid "Privacy"
-msgstr "Preifatrwydd"
+#: frontend/magic_links/templates/email.html:19
+msgid "Email address "
+msgstr "Cyfeiriad e-bost"
 
-#: frontend/templates/footer.html:14
-msgid "Cookies"
-msgstr "Cwcis"
+#: frontend/magic_links/templates/email.html:26
+msgid ""
+"<p>We’ll use this to confirm your email address and show your "
+"applications.</p><p>The link will work once and stop working after 24 "
+"hours.</p><p>If you want to return to an application, you must use the "
+"email address you started the application with.</p>"
 
-#: frontend/templates/footer.html:18
-msgid "Accessibility Statement"
-msgstr "Datganiad Hygyrchedd"
+msgstr "<p>We’ll use this to confirm your email address and show your "
+"applications.</p><p>Bydd y ddolen yn gweithio unwaith ac yn stopio gweithio ar ôl 24 "
+"awr.</p><p>Os ydych chi eisiau mynd yn ôl at gais, rhaid i chi ddefnyddio'r "
+"e-bost y dechreuoch y cais gydag ef.</p>"
 
-#: frontend/templates/footer.html:22
-msgid "Contact us"
-msgstr "Cysylltwch â ni"
+ msgid "Privacy"
+ msgstr "Preifatrwydd"
 
-#: frontend/templates/header.html:34
-msgid "beta"
-msgstr "beta"
+ msgid "Cookies"
+ msgstr "Cwcis"
 
-#: frontend/templates/header.html:36
-msgid "This is a new service - your "
-msgstr "Mae hyn yn wasanaeth newydd - bydd eich "
+ msgid "Accessibility Statement"
+ msgstr "Datganiad Hygyrchedd"
+ msgid "Contact us"
+ msgstr "Cysylltwch â ni"
 
-#: frontend/templates/header.html:36
-msgid "feedback"
-msgstr "adborth"
+ msgid "beta"
+ msgstr "beta"
 
-#: frontend/templates/header.html:36
-msgid " will help us to improve it."
-msgstr " yn ein cefnogi i'w wella."
+ msgid "This is a new service - your "
+ msgstr "Mae hyn yn wasanaeth newydd - bydd eich "
+
+ msgid "feedback"
+ msgstr "adborth"
+
+ msgid " will help us to improve it."
+ msgstr " yn ein cefnogi i'w wella."
+
