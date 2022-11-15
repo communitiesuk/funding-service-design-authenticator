@@ -15,14 +15,20 @@
             {% endif %}
             <form action="" class="form" method="post">
                 <div class="govuk-form-group">
-                    <h1 class="govuk-label-wrapper"><label class="govuk-label govuk-label--l" for="email">Email
-                        address</label>
+                    <h1 class="govuk-label-wrapper"><label class="govuk-label govuk-label--l" for="email">
+                        {% trans %}Email address {% endtrans %}</label>
                     </h1>
                     {{ form.hidden_tag() }}
                     {{ govukInput({
                 'label': None,
                 'hint': {
-                    'html': form.email.description
+                    'html':
+                        gettext("<p>We’ll use this to confirm your email address and show your"
+                        " applications.</p><p>The link will work once and stop working"
+                        " after 24 hours.</p><p>If you want to return to an application,"
+                        " you must use the email address you started the application"
+                        " with.</p>")
+                
                 },
                 'id': form.email.id,
                 'name': form.email.name,
