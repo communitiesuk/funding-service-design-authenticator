@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-10-28 10:52+0100\n"
+"POT-Creation-Date: 2022-11-16 11:20+0000\n"
 "PO-Revision-Date: 2022-10-28 12:33+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: cy\n"
@@ -19,9 +19,62 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.10.3\n"
 
-#: app.py:122
+#: app.py:117
 msgid "Apply for funding to save an asset in your community"
 msgstr "Gwneud cais am gyllid i achub ased yn eich cymuned"
+
+#: frontend/magic_links/templates/check_email.html:12
+msgid "Email not sent"
+msgstr ""
+
+#: frontend/magic_links/templates/check_email.html:14
+msgid "No email has been sent."
+msgstr ""
+
+#: frontend/magic_links/templates/check_email.html:15
+msgid "If you need a link to access your applications you can "
+msgstr ""
+
+#: frontend/magic_links/templates/check_email.html:15
+#: frontend/magic_links/templates/check_email.html:35
+msgid "request a new link"
+msgstr "ofyn am ddolen newyd"
+
+#: frontend/magic_links/templates/check_email.html:18
+msgid "Email sent"
+msgstr "E-bost wedi'i anfon"
+
+#: frontend/magic_links/templates/check_email.html:20
+msgid "We have sent an email to "
+msgstr "Rydym wedi anfon e-bost i "
+
+#: frontend/magic_links/templates/check_email.html:21
+msgid "What happens next"
+msgstr "Beth sy'n digwydd nesaf"
+
+#: frontend/magic_links/templates/check_email.html:23
+msgid ""
+"Use the link to confirm your email address and start a new application, "
+"or continue any applications you have in progress."
+msgstr ""
+"Defnyddiwch y ddolen i gadarnhau eich cyfeiriad e-bost a dechrau cais newydd, "
+"neu i barhau ag unrhyw geisiadau sydd gennych ar waith."
+
+#: frontend/magic_links/templates/check_email.html:25
+msgid "The link will work once and stop working after 24 hours."
+msgstr "Bydd y ddolen yn gweithio unwaith ac yn stopio gweithio ar ôl 24 awr."
+
+#: frontend/magic_links/templates/check_email.html:30
+msgid "If you do not receive an email"
+msgstr "Os nad ydych chi'n derbyn e-bost"
+
+#: frontend/magic_links/templates/check_email.html:34
+msgid "The email may take a few minutes to arrive."
+msgstr "Gall gymryd ychydig funudau i'r e-bost gyrraedd."
+
+#: frontend/magic_links/templates/check_email.html:35
+msgid "Check your spam or junk folders – if it still has not arrived, you can "
+msgstr "Gwiriwch eich ffolder sbam neu sothach – os nad yw wedi cyrraedd o hyd, gallwch ofy "
 
 #: frontend/templates/footer.html:9
 msgid "Privacy"
