@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-10-28 10:52+0100\n"
+"POT-Creation-Date: 2022-11-16 23:57+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,8 +17,160 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.10.3\n"
 
-#: app.py:122
+#: app.py:117 frontend/magic_links/templates/landing.html:9
 msgid "Apply for funding to save an asset in your community"
+msgstr ""
+
+#: frontend/magic_links/filters.py:8
+msgid "January"
+msgstr ""
+
+#: frontend/magic_links/filters.py:9
+msgid "February"
+msgstr ""
+
+#: frontend/magic_links/filters.py:10
+msgid "March"
+msgstr ""
+
+#: frontend/magic_links/filters.py:11
+msgid "April"
+msgstr ""
+
+#: frontend/magic_links/filters.py:12
+msgid "May"
+msgstr ""
+
+#: frontend/magic_links/filters.py:13
+msgid "June"
+msgstr ""
+
+#: frontend/magic_links/filters.py:14
+msgid "July"
+msgstr ""
+
+#: frontend/magic_links/filters.py:15
+msgid "August"
+msgstr ""
+
+#: frontend/magic_links/filters.py:16
+msgid "September"
+msgstr ""
+
+#: frontend/magic_links/filters.py:17
+msgid "October"
+msgstr ""
+
+#: frontend/magic_links/filters.py:18
+msgid "November"
+msgstr ""
+
+#: frontend/magic_links/filters.py:19
+msgid "December"
+msgstr ""
+
+#: frontend/magic_links/filters.py:25
+msgid "at"
+msgstr ""
+
+#: frontend/magic_links/templates/landing.html:7
+msgid "Community Ownership Fund"
+msgstr ""
+
+#: frontend/magic_links/templates/landing.html:12
+msgid "Submission deadline:"
+msgstr ""
+
+#: frontend/magic_links/templates/landing.html:16
+msgid "Continue"
+msgstr ""
+
+#: frontend/magic_links/templates/landing.html:21
+msgid "How to complete your application"
+msgstr ""
+
+#: frontend/magic_links/templates/landing.html:23
+msgid "Moving through the form"
+msgstr ""
+
+#: frontend/magic_links/templates/landing.html:24
+msgid "This form is split into sections based on how it will be assessed."
+msgstr ""
+
+#: frontend/magic_links/templates/landing.html:25
+msgid "You do not have to complete it in order, or all at once."
+msgstr ""
+
+#: frontend/magic_links/templates/landing.html:27
+msgid "You can preview the"
+msgstr ""
+
+#: frontend/magic_links/templates/landing.html:28
+msgid "full list of application questions."
+msgstr ""
+
+#: frontend/magic_links/templates/landing.html:31
+msgid ""
+"When you have written something in every field in a section, the section "
+"will be marked as complete. You can still\n"
+"      change your responses in sections that are marked as complete."
+msgstr ""
+
+#: frontend/magic_links/templates/landing.html:36
+msgid "Saving progress and making changes"
+msgstr ""
+
+#: frontend/magic_links/templates/landing.html:38
+msgid ""
+"Your work will not save automatically. To make sure you do not lose "
+"anything, select <strong>Save and\n"
+"        continue</strong> regularly, and always before you go back or "
+"close your internet browser window."
+msgstr ""
+
+#: frontend/magic_links/templates/landing.html:41
+msgid "If you need to edit or revisit any sections, use the browser back button."
+msgstr ""
+
+#: frontend/magic_links/templates/landing.html:43
+msgid "You can edit your responses as many times as you like before you submit."
+msgstr ""
+
+#: frontend/magic_links/templates/landing.html:47
+msgid "Submitting your application"
+msgstr ""
+
+#: frontend/magic_links/templates/landing.html:49
+msgid ""
+"When you have completed all sections, you’ll be able to submit your\n"
+"      application."
+msgstr ""
+
+#: frontend/magic_links/templates/landing.html:53
+msgid ""
+"Once you have submitted your application, you’ll not be able to edit, add"
+"\n"
+"      or change any sections."
+msgstr ""
+
+#: frontend/magic_links/templates/landing.html:57
+msgid "Get help"
+msgstr ""
+
+#: frontend/magic_links/templates/landing.html:59
+msgid "If you have questions about the form or the fund, email us at"
+msgstr ""
+
+#: frontend/magic_links/templates/landing.html:62
+msgid "How we'll use your information"
+msgstr ""
+
+#: frontend/magic_links/templates/landing.html:64
+msgid "Read how we'll use the information from your application in our"
+msgstr ""
+
+#: frontend/magic_links/templates/landing.html:66
+msgid "privacy notice"
 msgstr ""
 
 #: frontend/templates/footer.html:9

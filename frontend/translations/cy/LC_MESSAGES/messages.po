@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-10-28 10:52+0100\n"
+"POT-Creation-Date: 2022-11-16 16:53+0000\n"
 "PO-Revision-Date: 2022-10-28 12:33+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: cy\n"
@@ -19,9 +19,180 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.10.3\n"
 
-#: app.py:122
+#: app.py:117 frontend/magic_links/templates/landing.html:9
 msgid "Apply for funding to save an asset in your community"
 msgstr "Gwneud cais am gyllid i achub ased yn eich cymuned"
+
+#: frontend/magic_links/filters.py:8
+msgid "January"
+msgstr "Ionawr"
+
+#: frontend/magic_links/filters.py:9
+msgid "February"
+msgstr "Chwefror"
+
+#: frontend/magic_links/filters.py:10
+msgid "March"
+msgstr "Mawrth"
+
+#: frontend/magic_links/filters.py:11
+msgid "April"
+msgstr "Ebrill"
+
+#: frontend/magic_links/filters.py:12
+msgid "May"
+msgstr "Mai"
+
+#: frontend/magic_links/filters.py:13
+msgid "June"
+msgstr "Mehefin"
+
+#: frontend/magic_links/filters.py:14
+msgid "July"
+msgstr "Gorffennaf"
+
+#: frontend/magic_links/filters.py:15
+msgid "August"
+msgstr "Awst"
+
+#: frontend/magic_links/filters.py:16
+msgid "September"
+msgstr "Medi"
+
+#: frontend/magic_links/filters.py:17
+msgid "October"
+msgstr "Hydref"
+
+#: frontend/magic_links/filters.py:18
+msgid "November"
+msgstr "Tachwedd"
+
+#: frontend/magic_links/filters.py:19
+msgid "December"
+msgstr "Rhagfyr"
+
+#: frontend/magic_links/filters.py:25
+msgid "at"
+msgstr "am"
+
+#: frontend/magic_links/templates/landing.html:7
+msgid "Community Ownership Fund"
+msgstr "Y Gronfa Perchnogaeth Gymunedol"
+
+#: frontend/magic_links/templates/landing.html:12
+msgid "Submission deadline:"
+msgstr "Dyddiad cau cyflwyno:"
+
+#: frontend/magic_links/templates/landing.html:16
+msgid "Continue"
+msgstr "Parhau"
+
+#: frontend/magic_links/templates/landing.html:21
+msgid "How to complete your application"
+msgstr "Sut i gwblhau eich cais"
+
+#: frontend/magic_links/templates/landing.html:23
+msgid "Moving through the form"
+msgstr "Symud drwy'r ffurflen"
+
+#: frontend/magic_links/templates/landing.html:24
+msgid "This form is split into sections based on how it will be assessed."
+msgstr "Mae'r ffurflen wedi'i rhannu yn adrannau ar sail y modd y caiff ei hasesu."
+
+#: frontend/magic_links/templates/landing.html:25
+msgid "You do not have to complete it in order, or all at once."
+msgstr "Nid oes rhaid i chi ei llenwi mewn trefn, na'r cyfan ar unwaith."
+
+#: frontend/magic_links/templates/landing.html:27
+msgid "You can preview the"
+msgstr "Gallwch gael cip ymlaen llaw o'r"
+
+#: frontend/magic_links/templates/landing.html:28
+msgid "full list of application questions."
+msgstr "rhestr lawn o gwestiynau."
+
+#: frontend/magic_links/templates/landing.html:31
+msgid ""
+"When you have written something in every field in a section, the section "
+"will be marked as complete. You can still\n"
+"      change your responses in sections that are marked as complete."
+msgstr ""
+"Pan fyddwch wedi ysgrifennu rhywbeth ym mhob maes mewn adran, cofnodir yr"
+" adran fel un gyflawn. Gallwch newid eich\n"
+"      ymatebion o hyd mewn adrannau sydd wedi'u cofnodi fel rhai cyflawn."
+
+#: frontend/magic_links/templates/landing.html:36
+msgid "Saving progress and making changes"
+msgstr "Cadw cynnydd a gwneud newidiadau"
+
+#: frontend/magic_links/templates/landing.html:38
+msgid ""
+"Your work will not save automatically. To make sure you do not lose "
+"anything, select <strong>Save and\n"
+"        continue</strong> regularly, and always before you go back or "
+"close your internet browser window."
+msgstr ""
+"Ni fydd eich gwaith yn cael ei gadw'n awtomatig. I wneud yn siŵr nad "
+"ydych chi'n colli unrhyw beth, dewiswch <strong>Cadw a \n"
+"        pharhau</strong> yn rheolaidd, a bob amser cyn i chi fynd yn ôl "
+"neu gau eich ffenestr porwr rhyngrwyd."
+
+#: frontend/magic_links/templates/landing.html:41
+msgid "If you need to edit or revisit any sections, use the browser back button."
+msgstr ""
+"Os oes angen i chi olygu neu fynd yn ôl at unrhyw adrannau, defnyddiwch "
+"fotwm nôl y porwr."
+
+#: frontend/magic_links/templates/landing.html:43
+msgid "You can edit your responses as many times as you like before you submit."
+msgstr ""
+"Gallwch olygu'ch ymatebion gymaint o weithiau a fynnwch cyn i chi eu "
+"cyflwyno."
+
+#: frontend/magic_links/templates/landing.html:47
+msgid "Submitting your application"
+msgstr "Cyflwyno'ch cais"
+
+#: frontend/magic_links/templates/landing.html:49
+msgid ""
+"When you have completed all sections, you’ll be able to submit your\n"
+"      application."
+msgstr ""
+"Pan fyddwch wedi llenwi'r holl adrannau, byddwch yn gallu cyflwyno'ch "
+"cais."
+
+#: frontend/magic_links/templates/landing.html:53
+msgid ""
+"Once you have submitted your application, you’ll not be able to edit, add"
+"\n"
+"      or change any sections."
+msgstr ""
+"Wedi i chi gyflwyno'ch cais, ni fyddwch yn gallu golygu, ychwanegu\n"
+"      na newid unrhyw adrannau."
+
+#: frontend/magic_links/templates/landing.html:57
+msgid "Get help"
+msgstr "Cael help"
+
+#: frontend/magic_links/templates/landing.html:59
+msgid "If you have questions about the form or the fund, email us at"
+msgstr ""
+"Os oes gennych unrhyw gwestiynau ynglŷn â'r ffurflen neu'r gronfa, "
+"anfonwch e-bost atom yn"
+
+#: frontend/magic_links/templates/landing.html:62
+msgid "How we'll use your information"
+msgstr "Sut byddwn ni'n defnyddio'ch gwybodaeth"
+
+#: frontend/magic_links/templates/landing.html:64
+msgid "Read how we'll use the information from your application in our"
+msgstr ""
+"Darllenwch sut byddwn ni'n defnyddio'r wybodaeth o'ch cais yn ein "
+"hysbysiad preifatrwydd"
+
+#: frontend/magic_links/templates/landing.html:66
+msgid "privacy notice"
+msgstr "hysbysiad preifatrwydd"
 
 #: frontend/templates/footer.html:9
 msgid "Privacy"
