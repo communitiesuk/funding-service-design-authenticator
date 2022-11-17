@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-11-16 16:53+0000\n"
+"POT-Creation-Date: 2022-11-17 10:53+0000\n"
 "PO-Revision-Date: 2022-10-28 12:33+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: cy\n"
@@ -24,54 +24,6 @@ msgid "Apply for funding to save an asset in your community"
 msgstr "Gwneud cais am gyllid i achub ased yn eich cymuned"
 
 #: frontend/magic_links/filters.py:8
-msgid "January"
-msgstr "Ionawr"
-
-#: frontend/magic_links/filters.py:9
-msgid "February"
-msgstr "Chwefror"
-
-#: frontend/magic_links/filters.py:10
-msgid "March"
-msgstr "Mawrth"
-
-#: frontend/magic_links/filters.py:11
-msgid "April"
-msgstr "Ebrill"
-
-#: frontend/magic_links/filters.py:12
-msgid "May"
-msgstr "Mai"
-
-#: frontend/magic_links/filters.py:13
-msgid "June"
-msgstr "Mehefin"
-
-#: frontend/magic_links/filters.py:14
-msgid "July"
-msgstr "Gorffennaf"
-
-#: frontend/magic_links/filters.py:15
-msgid "August"
-msgstr "Awst"
-
-#: frontend/magic_links/filters.py:16
-msgid "September"
-msgstr "Medi"
-
-#: frontend/magic_links/filters.py:17
-msgid "October"
-msgstr "Hydref"
-
-#: frontend/magic_links/filters.py:18
-msgid "November"
-msgstr "Tachwedd"
-
-#: frontend/magic_links/filters.py:19
-msgid "December"
-msgstr "Rhagfyr"
-
-#: frontend/magic_links/filters.py:25
 msgid "at"
 msgstr "am"
 

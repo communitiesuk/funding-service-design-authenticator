@@ -1,5 +1,6 @@
 import frontend.magic_links.filters as filters
 import pytest
+from app import app
 
 
 @pytest.mark.parametrize(
@@ -11,4 +12,5 @@ import pytest
     ],
 )
 def test_datetime_format(input_date, expected):
-    assert filters.datetime_format(input_date) == expected
+    with app.test_request_context():
+        assert filters.datetime_format(input_date) == expected
