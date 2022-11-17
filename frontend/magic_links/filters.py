@@ -1,16 +1,13 @@
 from datetime import datetime
 
+from flask_babel import format_datetime
+from flask_babel import gettext
 
-def datetime_format(value):
-    date_format = "%d %B %Y at %H:%M"
-    am_pm_format = "%p"
-    formatted_time = datetime.strptime(value, "%Y-%m-%d %X").strftime(
-        date_format
-    )
-    formatted_time = (
-        formatted_time
-        + datetime.strptime(value, "%Y-%m-%d %X")
-        .strftime(am_pm_format)
-        .lower()
-    )
-    return formatted_time
+
+def datetime_format(value: str) -> str:
+    parsed = datetime.strptime(value, "%Y-%m-%d %H:%M:%S")
+    formatted_date = format_datetime(parsed, format="dd MMMM yyyy ")
+    formatted_date += gettext("at")
+    formatted_date += format_datetime(parsed, format=" HH:mm")
+    formatted_date += format_datetime(parsed, "a").lower()
+    return formatted_date
