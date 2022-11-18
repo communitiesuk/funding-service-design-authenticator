@@ -2,9 +2,9 @@ from dataclasses import dataclass
 from typing import List
 
 from config import Config
+from fsd_utils.locale_selector.get_lang import get_lang
 from models.data import get_data
 from models.round import Round
-from fsd_utils.locale_selector.get_lang import get_lang
 
 
 @dataclass
@@ -36,7 +36,7 @@ class FundMethods:
         url = (
             Config.FUND_STORE_API_HOST + Config.FUND_STORE_FUND_ENDPOINT
         ).format(fund_id=fund_id)
-        
+
         language = {"language": get_lang()}
         response = get_data(endpoint=url, params=language)
         if response and "id" in response:

@@ -5,8 +5,8 @@ import urllib.parse
 import requests
 from config import Config
 from flask import current_app
-from models.round import Round
 from fsd_utils.locale_selector.get_lang import get_lang
+from models.round import Round
 
 
 def api_call(endpoint: str, method: str = "GET", params: dict = None):

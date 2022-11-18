@@ -20,7 +20,9 @@ class DevelopmentConfig(Config):
 
     # Hostname for this service
     AUTHENTICATOR_HOST = getenv("AUTHENTICATOR_HOST", "http://localhost:5000")
-    SSO_POST_SIGN_OUT_URL = AUTHENTICATOR_HOST + "/service/sso/signed-out/signout-request"
+    SSO_POST_SIGN_OUT_URL = (
+        AUTHENTICATOR_HOST + "/service/sso/signed-out/signout-request"
+    )
 
     # Azure Active Directory Config
     AZURE_AD_AUTHORITY = (

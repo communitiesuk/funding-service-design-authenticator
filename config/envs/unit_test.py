@@ -24,7 +24,8 @@ class UnitTestConfig(Config):
     AZURE_AD_TENANT_ID = "organizations"
     AZURE_AD_AUTHORITY = (
         # consumers|organizations|<tenant_id> - signifies the Azure AD tenant endpoint
-            "https://login.microsoftonline.com/" + AZURE_AD_TENANT_ID
+        "https://login.microsoftonline.com/"
+        + AZURE_AD_TENANT_ID
     )
 
     # The absolute URL must match the redirect URI you set
