@@ -10,6 +10,7 @@ from fsd_utils.authentication.decorators import login_requested
 from models.account import AccountError
 from models.account import AccountMethods
 from models.data import get_round_data
+from models.fund import FundMethods
 from models.magic_link import MagicLinkError
 from models.magic_link import MagicLinkMethods
 from models.notification import NotificationError
@@ -58,6 +59,8 @@ def landing(link_id):
     round_data = get_round_data(
         Config.DEFAULT_FUND_ID, Config.DEFAULT_ROUND_ID, as_dict=True
     )
+    fund_data = FundMethods.get_fund(Config.DEFAULT_FUND_ID)
+    fund_name = fund_data.name
     submission_deadline = round_data.deadline
     link_key = ":".join([Config.MAGIC_LINK_RECORD_PREFIX, link_id])
     link_hash = MagicLinkMethods().redis_mlinks.get(link_key)
@@ -66,6 +69,7 @@ def landing(link_id):
             "landing.html",
             link_id=link_id,
             submission_deadline=submission_deadline,
+            fund_name = fund_name,
             round_title=round_data.title,
             all_questions_url=Config.APPLICATION_ALL_QUESTIONS_URL,
         )
