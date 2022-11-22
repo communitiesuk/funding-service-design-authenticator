@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-11-22 14:32+0000\n"
+"POT-Creation-Date: 2022-11-22 18:05+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,21 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.10.3\n"
 
-#: app.py:117
-msgid "Apply for funding to save an asset in your community"
-msgstr ""
-
-#: frontend/magic_links/templates/email.html:19
-msgid "Email address "
-msgstr ""
-
-#: frontend/magic_links/templates/email.html:26
-msgid ""
-"<p>We’ll use this to confirm your email address and show your "
-"applications.</p><p>The link will work once and stop working after 24 "
-"hours.</p><p>If you want to return to an application, you must use the "
-"email address you started the application with.</p>"
-#: app.py:117 frontend/magic_links/templates/landing.html:9
+#: app.py:118 frontend/magic_links/templates/landing.html:9
 msgid "Apply for funding to save an asset in your community"
 msgstr ""
 
@@ -39,19 +25,11 @@ msgstr ""
 msgid "at"
 msgstr ""
 
-#: frontend/magic_links/forms.py:16
-msgid ""
-"<p>We’ll use this to confirm your email address and show your "
-"applications.</p><p>The link will work once and stop working after 24 "
-"hours.</p><p>If you want to return to an application, you must use the "
-"email address you started the application with.</p>"
-msgstr ""
-
-#: frontend/magic_links/forms.py:25
+#: frontend/magic_links/forms.py:19
 msgid "Enter an email address in the correct format, like name@example.com"
 msgstr ""
 
-#: frontend/magic_links/forms.py:41
+#: frontend/magic_links/forms.py:34
 msgid "Session expired, please refresh page to continue."
 msgstr ""
 
@@ -110,11 +88,19 @@ msgstr ""
 msgid "There is a problem"
 msgstr ""
 
-#: frontend/magic_links/templates/email.html:20
-msgid "Email address"
+#: frontend/magic_links/templates/email.html:19
+msgid "Email address "
 msgstr ""
 
-#: frontend/magic_links/templates/email.html:42
+#: frontend/magic_links/templates/email.html:26
+msgid ""
+"<p>We’ll use this to confirm your email address and show your "
+"applications.</p><p>The link will work once and stop working after 24 "
+"hours.</p><p>If you want to return to an application, you must use the "
+"email address you started the application with.</p>"
+msgstr ""
+
+#: frontend/magic_links/templates/email.html:46
 #: frontend/magic_links/templates/landing.html:16
 msgid "Continue"
 msgstr ""
@@ -249,7 +235,7 @@ msgid "You have been signed out"
 msgstr ""
 
 #: frontend/magic_links/templates/signed_out.html:17
-msgid "Your session has"
+msgid "Your session has "
 msgstr ""
 
 #: frontend/magic_links/templates/signed_out.html:19
