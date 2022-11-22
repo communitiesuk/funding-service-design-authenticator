@@ -19,9 +19,25 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.10.3\n"
 
-#: app.py:117 frontend/magic_links/templates/landing.html:9
+#: app.py:117
 msgid "Apply for funding to save an asset in your community"
 msgstr "Gwneud cais am gyllid i achub ased yn eich cymuned"
+
+#: frontend/magic_links/templates/email.html:19
+msgid "Email address "
+msgstr "Cyfeiriad e-bost"
+
+#: frontend/magic_links/templates/email.html:26
+msgid ""
+"<p>We’ll use this to confirm your email address and show your "
+"applications.</p><p>The link will work once and stop working after 24 "
+"hours.</p><p>If you want to return to an application, you must use the "
+"email address you started the application with.</p>"
+msgstr ""
+"<p>Byddwn yn defnyddio hwn I gadarnhau eich e-bost a dangos eich "
+"ceisiadau.</p><p>Bydd y ddolen yn gweithio unwaith ac yn stopio "
+"gweithio ar ôl 24 awr.</p><p>Os ydych chi eisiau mynd yn ôl at gais, "
+"rhaid i chi ddefnyddio'r e-bost y dechreuoch y cais gydag ef.</p>"
 
 #: frontend/magic_links/filters.py:8
 msgid "at"

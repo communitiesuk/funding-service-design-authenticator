@@ -17,6 +17,20 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.10.3\n"
 
+#: app.py:117
+msgid "Apply for funding to save an asset in your community"
+msgstr ""
+
+#: frontend/magic_links/templates/email.html:19
+msgid "Email address "
+msgstr ""
+
+#: frontend/magic_links/templates/email.html:26
+msgid ""
+"<p>We’ll use this to confirm your email address and show your "
+"applications.</p><p>The link will work once and stop working after 24 "
+"hours.</p><p>If you want to return to an application, you must use the "
+"email address you started the application with.</p>"
 #: app.py:117 frontend/magic_links/templates/landing.html:9
 msgid "Apply for funding to save an asset in your community"
 msgstr ""
