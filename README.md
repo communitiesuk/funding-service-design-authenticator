@@ -90,7 +90,7 @@ Then run gunicorn using the following command:
 
 Updating translations:
 
-    pybabel extract -F babel.cfg -o messages.pot .
+    pybabel extract -F babel.cfg -k lazy_gettext -o messages.pot .
     pybabel update -i messages.pot -d frontend/translations
     pybabel compile -d frontend/translations
 

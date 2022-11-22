@@ -5,8 +5,10 @@
 {% block content %}
 
 {{ govukPanel({
-  "titleText": "We've emailed you a link to sign in",
-  "html": "Check your email and follow the link to continue your application"
+"titleText": gettext("We've emailed you a link to sign in"),
+"html": gettext("Check your email and follow the link to continue your application")
 }) }}
 
 {% endblock %}
+
+{# TODO: is this being used? #}
