@@ -71,6 +71,7 @@ def create_app() -> Flask:
     )
     flask_app.jinja_env.trim_blocks = True
     flask_app.jinja_env.lstrip_blocks = True
+    flask_app.jinja_env.globals["get_lang"] = get_lang
 
     # Initialise logging
     logging.init_app(flask_app)

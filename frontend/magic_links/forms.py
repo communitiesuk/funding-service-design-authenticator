@@ -14,13 +14,6 @@ class EmailForm(FlaskForm):
 
     email = EmailField(
         "",
-        description=lazy_gettext(
-            "<p>We’ll use this to confirm your email address and show your"
-            " applications.</p><p>The link will work once and stop working"
-            " after 24 hours.</p><p>If you want to return to an application,"
-            " you must use the email address you started the application"
-            " with.</p>"
-        ),
         validators=[
             DataRequired(
                 lazy_gettext(
