@@ -1,10 +1,11 @@
+from flask_babel import gettext
+from flask_babel import lazy_gettext
 from flask_wtf import FlaskForm
 from wtforms import EmailField
 from wtforms import HiddenField
 from wtforms.validators import DataRequired
 from wtforms.validators import Email
-from flask_babel import gettext
-from flask_babel import _
+
 
 class EmailForm(FlaskForm):
     """A Flask-WTForms class for validating a user's email address
@@ -15,19 +16,22 @@ class EmailForm(FlaskForm):
         "",
         validators=[
             DataRequired(
-                "Enter an email address in the correct format, like"
-                " name@example.com"
+                lazy_gettext(
+                    "Enter an email address in the correct format, like"
+                    " name@example.com"
+                )
             ),
             Email(),
         ],
     )
+
     fund_id = HiddenField()
     round_id = HiddenField()
 
     @property
     def error_list(self):
         error_list = []
-        csrf_error_message = (
+        csrf_error_message = gettext(
             "Session expired, please refresh page to continue."
         )
         for key, error in self.errors.items():

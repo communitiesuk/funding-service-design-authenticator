@@ -9,7 +9,7 @@
         <div class="govuk-grid-column-two-thirds">
             {% if form.errors %}
                 {{ govukErrorSummary({
-        "titleText": "There is a problem",
+        "titleText": gettext("There is a problem"),
         "errorList": form.error_list
       }) }}
             {% endif %}
@@ -28,7 +28,7 @@
                         " after 24 hours.</p><p>If you want to return to an application,"
                         " you must use the email address you started the application"
                         " with.</p>")
-                
+
                 },
                 'id': form.email.id,
                 'name': form.email.name,
@@ -43,7 +43,7 @@
             }) }}
                 </div>
                 {{ govukButton({
-              "text": "Continue",
+              "text": gettext("Continue"),
               "preventDoubleClick": true,
             }) }}
             </form>
