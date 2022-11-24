@@ -3,7 +3,8 @@ from models.fund import FundMethods
 
 
 class TestFund:
-    def testGetFund(self):
+    def testGetFund(self, app_context):
+
         fund = FundMethods.get_fund(DefaultConfig.FUND_ID_COF)
         assert (
             DefaultConfig.FUND_ID_COF == fund.identifier

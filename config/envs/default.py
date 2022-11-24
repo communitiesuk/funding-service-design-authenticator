@@ -35,7 +35,9 @@ class DefaultConfig(object):
     AUTHENTICATOR_HOST = environ.get("AUTHENTICATOR_HOST", "")
     NEW_LINK_ENDPOINT = "/service/magic-links/new"
     SSO_LOGIN_ENDPOINT = "/sso/login"
-    SSO_POST_SIGN_OUT_URL = AUTHENTICATOR_HOST + "/service/sso/signed-out/signout-request"
+    SSO_POST_SIGN_OUT_URL = (
+        AUTHENTICATOR_HOST + "/service/sso/signed-out/signout-request"
+    )
 
     """
     Azure Configuration
@@ -49,7 +51,8 @@ class DefaultConfig(object):
     AZURE_AD_TENANT_ID = environ.get("AZURE_AD_TENANT_ID", "")
     AZURE_AD_AUTHORITY = (
         # consumers|organizations|<tenant_id> - signifies the Azure AD tenant endpoint
-        "https://login.microsoftonline.com/" + AZURE_AD_TENANT_ID
+        "https://login.microsoftonline.com/"
+        + AZURE_AD_TENANT_ID
     )
     AZURE_AD_REDIRECT_PATH = (
         # Used for forming an absolute URL to your redirect URI.

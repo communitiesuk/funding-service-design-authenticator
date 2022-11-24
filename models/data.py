@@ -5,6 +5,7 @@ import urllib.parse
 import requests
 from config import Config
 from flask import current_app
+from fsd_utils.locale_selector.get_lang import get_lang
 from models.round import Round
 
 
@@ -78,7 +79,8 @@ def get_round_data(fund_id, round_id, as_dict=False):
     round_request_url = Config.GET_ROUND_DATA_FOR_FUND_ENDPOINT.format(
         fund_id=fund_id, round_id=round_id
     )
-    round_response = get_data(round_request_url, None)
+    language = {"language": get_lang()}
+    round_response = get_data(round_request_url, language)
     if as_dict:
         return Round.from_dict(round_response)
     else:
