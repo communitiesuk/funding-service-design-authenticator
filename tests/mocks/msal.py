@@ -3,7 +3,17 @@ from typing import Optional
 
 import pytest
 
-id_token_claims = {"name": "Mr Test", "id": 123}
+id_token_claims = {
+    "name": "Mr Test",
+    "id": 123,
+    "sub": "abc",
+    "preferred_username": "sso@example.com",
+    "roles": [
+        "LeadAssessor",
+        "Assessor",
+        "Commenter"
+    ]
+}
 accounts = [{"username": "test"}]
 
 

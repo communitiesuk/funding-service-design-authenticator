@@ -3,6 +3,10 @@
     "account_id": "usera",
     "email_address": "a@example.com"
   },
+  "account_store/accounts?account_id=usera": {
+    "account_id": "usera",
+    "email_address": "a@example.com"
+  },
   "account_store/accounts?email_address=b%40example.com": {
     "account_id": "userb",
     "email_address": "b@example.com"

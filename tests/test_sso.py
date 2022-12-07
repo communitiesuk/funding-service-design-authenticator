@@ -45,19 +45,19 @@ def test_sso_get_token_returns_404(flask_test_client):
     assert response.get_json()["message"] == "No valid token"
 
 
-def test_sso_get_token_returns_user_claims(
+def test_sso_get_token_sets_session_and_redirects(
     flask_test_client, mock_msal_client_application
 ):
     """
     GIVEN We have a functioning Authenticator API
     WHEN a GET request for /sso/get-token with a valid session
-    THEN we should receive a 200 response with user claims
+    THEN we should receive a 302 redirect response with
+        the correct claims in the session
     """
     endpoint = "/sso/get-token"
     response = flask_test_client.get(endpoint)
 
-    assert response.status_code == 200
-    assert response.get_json() == id_token_claims
+    assert response.status_code == 302
     assert session.get("user") == id_token_claims
 
 

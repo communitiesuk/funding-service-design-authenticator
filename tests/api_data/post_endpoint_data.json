@@ -2,17 +2,24 @@
   "account_store/accounts": {
     "email_address=a%40example.com": {
       "account_id": "usera",
-      "email_address": "a@example.com"
+      "email_address": "a@example.com",
+      "roles": []
     },
     "email_address=b%40example.com": {
       "account_id": "userb",
       "email_address": "b@example.com",
-      "applications": []
+      "roles": []
     },
     "email_address=new_user%40example.com": {
       "account_id": "usernew",
       "email_address": "new_user@example.com",
-      "applications": []
+      "roles": []
+    },
+    "email_address=sso%40example.com&azure_ad_subject_id=abc": {
+      "account_id": "usersso",
+      "azure_ad_subject_id": "abc",
+      "email_address": "sso@example.com",
+      "roles": []
     }
   },
   "notification_service/send":{
