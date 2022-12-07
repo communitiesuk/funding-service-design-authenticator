@@ -34,6 +34,7 @@ class DefaultConfig(object):
     # Hostname for this service
     AUTHENTICATOR_HOST = environ.get("AUTHENTICATOR_HOST", "")
     NEW_LINK_ENDPOINT = "/service/magic-links/new"
+    SSO_LOGOUT_ENDPOINT = "/sso/logout"
     SSO_LOGIN_ENDPOINT = "/sso/login"
     SSO_POST_SIGN_OUT_URL = (
         AUTHENTICATOR_HOST + "/service/sso/signed-out/signout-request"
@@ -129,6 +130,15 @@ class DefaultConfig(object):
     APPLICATION_ALL_QUESTIONS_URL = (
         APPLICANT_FRONTEND_HOST + "/cof_r2w2_all_questions"
     )
+
+    # Assessment Frontend
+    ASSESSMENT_FRONTEND_HOST = environ.get(
+        "ASSESSMENT_FRONTEND_HOST"
+    )
+    ASSESSMENT_POST_LOGIN_URL = (
+        ASSESSMENT_FRONTEND_HOST
+    )
+    FSD_ASSESSMENT_SESSION_TIMEOUT_SECONDS = CommonConfig.FSD_SESSION_TIMEOUT_SECONDS
 
     # Fund store service
     FUND_STORE_API_HOST = CommonConfig.FUND_STORE_API_HOST
