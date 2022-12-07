@@ -48,6 +48,19 @@ def post_data(endpoint: str, params: dict = None):
         return local_api_call(endpoint, params, "post")
 
 
+def put_data(endpoint: str, params: dict = None):
+    if params:
+        params = {k: v for k, v in params.items() if v is not None}
+    if endpoint.startswith("http"):
+        response = requests.put(endpoint, json=params)
+        if response.status_code in [200, 201]:
+            return response.json()
+        else:
+            current_app.logger.error("API error response of : " + str(response.json()))
+    else:
+        return local_api_call(endpoint, params, "put")
+
+
 def local_api_call(endpoint: str, params: dict = None, method: str = "get"):
     api_data_json = os.path.join(
         Config.FLASK_ROOT,
@@ -61,7 +74,7 @@ def local_api_call(endpoint: str, params: dict = None, method: str = "get"):
     query_params = "_"
     if params:
         query_params = urllib.parse.urlencode(params)
-    if method.lower() == "post":
+    if method.lower() in ["post", "put"]:
         if endpoint in api_data:
             post_dict = api_data.get(endpoint)
             if query_params in post_dict:
