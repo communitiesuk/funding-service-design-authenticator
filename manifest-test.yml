@@ -8,6 +8,7 @@ applications:
   # TODO: Remove gids.dev domain if fundingservice.co.uk domain DNS gets restored.
   env:
     AUTHENTICATOR_HOST: https://authenticator2.test.gids.dev
+    ASSESSMENT_FRONTEND_HOST: https://assessment.test.gids.dev
     ACCOUNT_STORE_API_HOST: https://funding-service-design-account-store-test.london.cloudapps.digital
     APPLICATION_STORE_API_HOST: https://funding-service-design-application-store-test.london.cloudapps.digital
     NOTIFICATION_SERVICE_HOST: http://funding-service-design-notification-test.apps.internal:8080
