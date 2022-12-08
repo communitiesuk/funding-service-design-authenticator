@@ -133,7 +133,7 @@ class DefaultConfig(object):
 
     # Assessment Frontend
     ASSESSMENT_FRONTEND_HOST = environ.get(
-        "ASSESSMENT_FRONTEND_HOST"
+        "ASSESSMENT_FRONTEND_HOST", ""
     )
     ASSESSMENT_POST_LOGIN_URL = (
         ASSESSMENT_FRONTEND_HOST + "/dashboard"
