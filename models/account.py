@@ -103,13 +103,7 @@ class AccountMethods(Account):
             Account object or None
         """
         url = Config.ACCOUNT_STORE_API_HOST + Config.ACCOUNT_ENDPOINT.format(account_id=id)
-        role_map = {
-            "LeadAssessor": "LEAD_ASSESSOR",
-            "Assessor": "ASSESSOR",
-            "Commenter": "COMMENTER"
-        }
         cleaned_roles = [azure_ad_role_map[role] for role in roles]
-        current_app.logger.info(str(cleaned_roles))
         params = {
             "email_address": email,
             "azure_ad_subject_id": azure_ad_subject_id,
@@ -117,7 +111,6 @@ class AccountMethods(Account):
             "roles": cleaned_roles
         }
         response = put_data(url, params)
-        print(response)
         if response and "account_id" in response:
             return Account.from_json(response)
 
