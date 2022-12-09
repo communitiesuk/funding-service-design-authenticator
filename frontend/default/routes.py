@@ -12,9 +12,7 @@ default_bp = Blueprint("default_bp", __name__, template_folder="templates")
 @default_bp.route("/")
 @login_requested
 def index():
-    logged_in_user = None
-    if g.is_authenticated:
-        logged_in_user = g.user
+    logged_in_user = g.user if g.is_authenticated else None
     return render_template(
         "index.html",
         logged_in_user=logged_in_user,
