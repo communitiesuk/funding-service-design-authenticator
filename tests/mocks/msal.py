@@ -3,8 +3,10 @@ from typing import Optional
 
 import pytest
 
+# Abbreviated sample claims that appear on the
+# id_token_claims object received from Azure AD
 id_token_claims = {
-    "name": "Mr Test",
+    "name": "Test User SSO",
     "id": 123,
     "sub": "abc",
     "preferred_username": "sso@example.com",
@@ -14,7 +16,18 @@ id_token_claims = {
         "Commenter"
     ]
 }
+
+# Mocked accounts response from msal get_accounts method
 accounts = [{"username": "test"}]
+
+# Expected fsd-user-token claims
+expected_fsd_user_token_claims = {
+        "accountId": "usersso",
+        "azureAdSubjectId": "abc",
+        "email": "sso@example.com",
+        "fullName": "Test User SSO",
+        "roles": ["LEAD_ASSESSOR", "ASSESSOR", "COMMENTER"],
+    }
 
 
 class Account(dict):
@@ -43,7 +56,7 @@ class ConfidentialClientApplication(object):
         claims_challenge=None,
         **kwargs,
     ):
-        return [{"username": "test"}]
+        return accounts
 
 
 @pytest.fixture()
