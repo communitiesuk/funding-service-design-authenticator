@@ -144,7 +144,6 @@ class AuthSessionView(MethodView):
         """
         session_details = {
             "accountId": account.id,
-            "name": account.full_name,
             "azureAdSubjectId": account.azure_ad_subject_id,
             "email": account.email,
             "fullName": account.full_name,
