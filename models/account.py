@@ -87,7 +87,7 @@ class AccountMethods(Account):
             return Account.from_json(response)
 
     @staticmethod
-    def update_account(id: str, email: str, azure_ad_subject_id: str, full_name: str, roles: List[str] = None) -> Account | None:
+    def update_account(id: str, email: str, azure_ad_subject_id: str, full_name: str, roles: List[str]) -> Account | None:
         """
         Get an account corresponding to an email_address
         or create a new account if none exists
@@ -97,7 +97,7 @@ class AccountMethods(Account):
             email (str): The user's email address.
             azure_ad_subject_id (str): The user's Azure AD subject id.
             full_name (str): The user's full_name.
-            roles (List[str], optional): Roles to update on the account record.
+            roles (List[str]): Roles to update on the account record.
 
         Returns:
             Account object or None
@@ -163,14 +163,17 @@ class AccountMethods(Account):
                 azure_ad_subject_id=azure_ad_subject_id
             )
 
+        if roles:
+            account = AccountMethods.update_account(
+                id=account.id,
+                email=email,
+                azure_ad_subject_id=account.azure_ad_subject_id,
+                full_name=full_name,
+                roles=roles
+            )
+
         # Update account with latest roles, email and name from token
-        return AccountMethods.update_account(
-            id=account.id,
-            email=email,
-            azure_ad_subject_id=account.azure_ad_subject_id,
-            full_name=full_name,
-            roles=roles
-        )
+        return account
 
     @classmethod
     def get_magic_link(
