@@ -6,32 +6,4 @@
   <div>
       <h1 class="govuk-heading-xl">Authenticator</h1>
   </div>
-<div>
-    {% if logged_in_user %}
-    <p class="govuk-body">
-        You are currently logged in as:
-        <br /><strong>{{ logged_in_user.full_name }}</strong>
-        <br /><i>({{ logged_in_user.email }})</i>
-    </p>
-    <p class="govuk-body">
-        <strong>You have been given the following role permissions:</strong>
-        {% for role in logged_in_user.roles %}
-        <br />{{ role }}
-        {% endfor %}
-    </p>
-    {{ govukButton({
-        "isStartButton": false,
-        "href" : logout_url,
-        "text": "Sign out"
-    }) }}
-    {% else %}
-    <p class="govuk-body">You are not logged in.</p>
-
-{{ govukButton({
-    "isStartButton": false,
-    "href" : login_url,
-    "text": "Sign in"
-}) }}
-    {% endif %}
-</div>
 {% endblock %}
