@@ -8,6 +8,7 @@ from flask import redirect
 from flask import request
 from flask import session
 from flask import current_app
+from flask import make_response
 from flask.views import MethodView
 from models.account import AccountMethods
 from api.session.auth_session import AuthSessionView
@@ -35,13 +36,19 @@ class SsoView(MethodView):
         post_logout_redirect_uri = request.args.get(
             "post_logout_redirect_uri", Config.SSO_POST_SIGN_OUT_URL
         )
+        azure_ad_sign_out_url = Config.AZURE_AD_AUTHORITY\
+                                + "/oauth2/v2.0/logout"\
+                                + "?post_logout_redirect_uri="\
+                                + post_logout_redirect_uri
         session.clear()
-        return redirect(
-            Config.AZURE_AD_AUTHORITY
-            + "/oauth2/v2.0/logout"
-            + "?post_logout_redirect_uri="
-            + post_logout_redirect_uri
+        response = make_response(redirect(azure_ad_sign_out_url), 302)
+        response.set_cookie(
+            Config.FSD_USER_TOKEN_COOKIE_NAME,
+            "",
+            domain=Config.COOKIE_DOMAIN,
+            expires=0,
         )
+        return response
 
     def get_token(self):
         """
