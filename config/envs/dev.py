@@ -1,6 +1,5 @@
 """Flask Dev Pipeline Environment Configuration."""
 import logging
-from os import environ
 
 import redis
 from config.envs.default import DefaultConfig as Config
@@ -11,8 +10,6 @@ from fsd_utils import configclass
 class DevConfig(Config):
     #  Application Config
     SECRET_KEY = "dev"
-
-    COOKIE_DOMAIN = environ.get("COOKIE_DOMAIN", ".dev.fundingservice.co.uk")
 
     # Logging
     FSD_LOG_LEVEL = logging.INFO

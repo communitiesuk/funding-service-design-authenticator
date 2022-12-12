@@ -17,7 +17,7 @@ class DefaultConfig(object):
     SECRET_KEY = environ.get("SECRET_KEY")
     SESSION_COOKIE_NAME = environ.get("SESSION_COOKIE_NAME", "session_cookie")
 
-    COOKIE_DOMAIN = None
+    COOKIE_DOMAIN = environ.get("COOKIE_DOMAIN", None)
 
     FLASK_ROOT = str(Path(__file__).parent.parent.parent)
     FLASK_ENV = environ.get("FLASK_ENV")
@@ -51,7 +51,7 @@ class DefaultConfig(object):
     AZURE_AD_CLIENT_SECRET = environ.get("AZURE_AD_CLIENT_SECRET")
     AZURE_AD_TENANT_ID = environ.get("AZURE_AD_TENANT_ID", "")
     AZURE_AD_AUTHORITY = (
-        # consumers|organizations|<tenant_id> - signifies the Azure AD tenant endpoint
+        # consumers|organizations|<tenant_id> - signifies the Azure AD tenant endpoint # noqa
         "https://login.microsoftonline.com/"
         + AZURE_AD_TENANT_ID
     )
