@@ -4,11 +4,13 @@ from typing import List
 from config import Config
 from flask import current_app
 from fsd_utils.config.notify_constants import NotifyConstants
+from fsd_utils.authentication.config import azure_ad_role_map
 from models.application import Application
 from models.application import ApplicationMethods
 from models.data import get_data
 from models.data import get_round_data
 from models.data import post_data
+from models.data import put_data
 from models.fund import FundMethods
 from models.magic_link import MagicLinkMethods
 from models.notification import Notification
@@ -18,14 +20,18 @@ from models.notification import Notification
 class Account(object):
     id: str
     email: str
-    applications: List[Application]
+    azure_ad_subject_id: str
+    full_name: str
+    roles: List[str]
 
     @staticmethod
     def from_json(data: dict):
         return Account(
             id=data.get("account_id"),
             email=data.get("email_address"),
-            applications=data.get("applications"),
+            azure_ad_subject_id=data.get("azure_ad_subject_id"),
+            full_name=data.get("full_name"),
+            roles=data.get("roles")
         )
 
 
@@ -44,7 +50,7 @@ class AccountError(Exception):
 class AccountMethods(Account):
     @staticmethod
     def get_account(
-        email: str = None, account_id: str = None
+        email: str = None, account_id: str = None, azure_ad_subject_id = None
     ) -> Account | None:
         """
         Get an account from the account store using either
@@ -54,6 +60,8 @@ class AccountMethods(Account):
             email (str, optional): The account email address
             Defaults to None.
             account_id (str, optional): The account id. Defaults to None.
+            azure_ad_subject_id (str, optional): The Azure AD subject id.
+            Defaults to None.
 
         Raises:
             TypeError: If both an email address or account id is given,
@@ -62,18 +70,52 @@ class AccountMethods(Account):
         Returns:
             Account object or None
         """
-        if email is account_id is None:
-            raise TypeError("Requires an email address or account_id")
+        if email is account_id is azure_ad_subject_id is None:
+            raise TypeError(
+                "Requires an email address, azure_ad_subject_id or account_id"
+            )
 
         url = Config.ACCOUNT_STORE_API_HOST + Config.ACCOUNTS_ENDPOINT
-        params = {"email_address": email, "account_id": account_id}
+        params = {
+            "email_address": email,
+            "azure_ad_subject_id": azure_ad_subject_id,
+            "account_id": account_id
+        }
         response = get_data(url, params)
 
         if response and "account_id" in response:
             return Account.from_json(response)
 
     @staticmethod
-    def create_account(email: str) -> Account | None:
+    def update_account(id: str, email: str, azure_ad_subject_id: str, full_name: str, roles: List[str]) -> Account | None:
+        """
+        Get an account corresponding to an email_address
+        or create a new account if none exists
+
+        Args:
+            id (str): The account id to update
+            email (str): The user's email address.
+            azure_ad_subject_id (str): The user's Azure AD subject id.
+            full_name (str): The user's full_name.
+            roles (List[str]): Roles to update on the account record.
+
+        Returns:
+            Account object or None
+        """
+        url = Config.ACCOUNT_STORE_API_HOST + Config.ACCOUNT_ENDPOINT.format(account_id=id)
+        cleaned_roles = [azure_ad_role_map[role] for role in roles]
+        params = {
+            "email_address": email,
+            "azure_ad_subject_id": azure_ad_subject_id,
+            "full_name": full_name,
+            "roles": cleaned_roles
+        }
+        response = put_data(url, params)
+        if response and "account_id" in response:
+            return Account.from_json(response)
+
+    @staticmethod
+    def create_account(email: str, azure_ad_subject_id: str = None) -> Account | None:
         """
         Get an account corresponding to an email_address
         or create a new account if none exists
@@ -81,16 +123,57 @@ class AccountMethods(Account):
         Args:
             email (str): The email address we wish
             to create a new account with.
+            azure_ad_subject_id (str, optional): The Azure AD subject id
 
         Returns:
             Account object or None
         """
         url = Config.ACCOUNT_STORE_API_HOST + Config.ACCOUNTS_ENDPOINT
-        params = {"email_address": email}
+        params = {
+            "email_address": email,
+            "azure_ad_subject_id": azure_ad_subject_id
+        }
         response = post_data(url, params)
 
         if response and "account_id" in response:
             return Account.from_json(response)
+        raise AccountError(
+            message = f"Could not create account for email '{email}' "
+                      f"and azure_ad_subject_id {azure_ad_subject_id}"
+        )
+
+    @classmethod
+    def create_or_update_account(
+            cls,
+            email: str,
+            azure_ad_subject_id: str,
+            full_name: str,
+            roles: List[str]
+    ):
+        # Check to see if account already exists
+        account = AccountMethods.get_account(
+            email=email,
+            azure_ad_subject_id=azure_ad_subject_id
+        )
+
+        # Create account if it doesn't exist
+        if not account:
+            account = AccountMethods.create_account(
+                email=email,
+                azure_ad_subject_id=azure_ad_subject_id
+            )
+
+        if roles:
+            account = AccountMethods.update_account(
+                id=account.id,
+                email=email,
+                azure_ad_subject_id=account.azure_ad_subject_id,
+                full_name=full_name,
+                roles=roles
+            )
+
+        # Update account with latest roles, email and name from token
+        return account
 
     @classmethod
     def get_magic_link(

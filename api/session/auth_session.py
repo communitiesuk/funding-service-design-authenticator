@@ -2,6 +2,7 @@ from datetime import datetime
 from datetime import timedelta
 
 import jwt
+from typing import TYPE_CHECKING
 from api.responses import error_response
 from api.session.exceptions import SessionCreateError
 from config import Config
@@ -10,11 +11,15 @@ from flask import redirect
 from flask import request
 from flask import session
 from flask import url_for
+from flask import current_app
 from flask.views import MethodView
 from models.magic_link import MagicLinkMethods
 from security.utils import create_token
 from security.utils import decode_with_options
 from security.utils import validate_token
+
+if TYPE_CHECKING:
+    from models.account import Account as Account
 
 
 class AuthSessionView(MethodView):
@@ -88,19 +93,28 @@ class AuthSessionView(MethodView):
         return response
 
     @classmethod
-    def create_session_and_redirect(cls, account_id: str, redirect_url: str):
+    def create_session_and_redirect(
+            cls,
+            account: "Account",
+            redirect_url: str,
+            timeout_seconds: int = Config.FSD_SESSION_TIMEOUT_SECONDS
+    ):
         """
         Sets a user session token in the client for a given account_id
         and then redirects to a given url
-        :param account_id: The account_id of the user we are authenticating
+        :param account: The account object of the user we are authenticating
         :param redirect_url: The url to redirect them to after session creation
+        :param timeout_seconds: (int, optional) The session TTL to set in seconds
         :return: 302 redirect
         """
         try:
-            session_details = cls.create_session_details_with_token(account_id)
+            session_details = cls.create_session_details_with_token(
+                account,
+                timeout_seconds=timeout_seconds
+            )
             response = make_response(redirect(redirect_url), 302)
             expiry = datetime.now() + timedelta(
-                seconds=Config.FSD_SESSION_TIMEOUT_SECONDS
+                seconds=timeout_seconds
             )
             response.set_cookie(
                 Config.FSD_USER_TOKEN_COOKIE_NAME,
@@ -111,22 +125,32 @@ class AuthSessionView(MethodView):
                 samesite=Config.FSD_USER_TOKEN_COOKIE_SAMESITE,
                 httponly=Config.SESSION_COOKIE_HTTPONLY,
             )
+            current_app.logger.info(f"User logged in to account : {account.id}")
             return response
         except SessionCreateError as e:
             error_response(404, str(e))
 
     @classmethod
-    def create_session_details_with_token(cls, account_id: str):
+    def create_session_details_with_token(
+            cls,
+            account: "Account",
+            timeout_seconds: int = Config.FSD_SESSION_TIMEOUT_SECONDS
+    ):
         """
-        Creates a signed expiring session token for the given account_id
-        :param account_id: The account_id for the user to create a token for
+        Creates a signed expiring session token for the given account
+        :param account: The account object for the user to create a token for
+        :param timeout_seconds: The length of the token expiry (or timeout)
         :return: A dict including the signed session token
         """
         session_details = {
-            "accountId": account_id,
+            "accountId": account.id,
+            "azureAdSubjectId": account.azure_ad_subject_id,
+            "email": account.email,
+            "fullName": account.full_name,
+            "roles": account.roles,
             "iat": int(datetime.now().timestamp()),
             "exp": int(
-                datetime.now().timestamp() + Config.FSD_SESSION_TIMEOUT_SECONDS
+                datetime.now().timestamp() + timeout_seconds
             ),
         }
 

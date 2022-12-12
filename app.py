@@ -139,12 +139,14 @@ def create_app() -> Flask:
         )
         from frontend.magic_links.routes import magic_links_bp
         from frontend.sso.routes import sso_bp
+        from frontend.user.routes import user_bp
 
         flask_app.register_error_handler(404, not_found)
         flask_app.register_error_handler(500, internal_server_error)
         flask_app.register_blueprint(default_bp)
         flask_app.register_blueprint(magic_links_bp)
         flask_app.register_blueprint(sso_bp)
+        flask_app.register_blueprint(user_bp)
         flask_app.jinja_env.filters["datetime_format"] = datetime_format
 
         # Bundle and compile assets
