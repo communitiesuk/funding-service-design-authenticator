@@ -17,14 +17,6 @@
             <br /><strong>{{ logged_in_user.email }}</strong>
         {% endif %}
     </p>
-    {% if logged_in_user.roles %}v
-        <p class="govuk-body">
-            <strong>You have been given the following role permissions:</strong>
-            {% for role in logged_in_user.roles %}
-            <br />{{ role }}
-            {% endfor %}
-        </p>
-    {% endif %}
     {{ govukButton({
         "isStartButton": false,
         "href" : logout_url,
