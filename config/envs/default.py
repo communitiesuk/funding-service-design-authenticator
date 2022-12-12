@@ -136,7 +136,7 @@ class DefaultConfig(object):
         "ASSESSMENT_FRONTEND_HOST", ""
     )
     ASSESSMENT_POST_LOGIN_URL = (
-        ASSESSMENT_FRONTEND_HOST + "/dashboard"
+        ASSESSMENT_FRONTEND_HOST + "/assess/landing"
     )
     FSD_ASSESSMENT_SESSION_TIMEOUT_SECONDS = CommonConfig.FSD_SESSION_TIMEOUT_SECONDS
 
