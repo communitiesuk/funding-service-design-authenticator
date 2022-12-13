@@ -87,6 +87,21 @@ jobs:
           cf_password: ${{secrets.CF_PASSWORD}}
           command: add-network-policy funding-service-design-authenticator-dev funding-service-design-notification-dev --protocol tcp --port 8080
 
+  run-shared-tests_dev:
+    needs: deploy_dev
+    if: ${{ github.actor != 'dependabot[bot]' }}
+    uses: communitiesuk/funding-design-service-workflows/.github/workflows/run-shared-tests.yml@main
+    with:
+      perf_test_target_url_application_store: https://funding-service-design-application-store-dev.london.cloudapps.digital
+      perf_test_target_url_fund_store: https://funding-service-design-fund-store-dev.london.cloudapps.digital
+      e2e_tests_target_url_frontend: https://fsd:fsd@frontend.dev.gids.dev
+      e2e_tests_target_url_authenticator: https://fsd:fsd@authenticator2.dev.gids.dev
+      e2e_tests_target_url_form_runner: https://fsd:fsd@forms.dev.gids.dev
+      run_performance_tests: true
+      run_e2e_tests: true
+    secrets:
+       E2E_PAT: ${{secrets.E2E_PAT}}
+
   security:
     needs: deploy_dev
     runs-on: ubuntu-latest
@@ -147,31 +162,18 @@ jobs:
           cf_password: ${{secrets.CF_PASSWORD}}
           command: add-network-policy funding-service-design-authenticator-test funding-service-design-notification-test --protocol tcp --port 8080
 
-  run_performance_tests:
-    needs: deploy_test
-    runs-on: ubuntu-latest
-    environment: test
-    steps:
-      - name: checkout code
-        uses: actions/checkout@main
-        with:
-          repository: communitiesuk/funding-service-design-performance-tests
-          path: ./funding-service-design-performance-tests
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.10.x
-      - name: create python env
-        run: python -m venv .venv
-      - name: install dependencies
-        run: source .venv/bin/activate && python -m pip install --upgrade pip && pip install -r ./funding-service-design-performance-tests/requirements.txt
 
-      - name: Run performance tests
-        run: ls && python -m pip install locust && python -m locust
-        working-directory: ./funding-service-design-performance-tests
-      - name: 'Upload Artifact'
-        uses: actions/upload-artifact@v2
-        with:
-          name: performance-test-report
-          path: ./funding-service-design-performance-tests/locust_html_report.html
-          retention-days: 5
+  run-shared-tests_test:
+    needs: deploy_test
+    if: ${{ github.actor != 'dependabot[bot]' }}
+    uses: communitiesuk/funding-design-service-workflows/.github/workflows/run-shared-tests.yml@main
+    with:
+      perf_test_target_url_application_store: https://funding-service-design-application-store-test.london.cloudapps.digital
+      perf_test_target_url_fund_store: https://funding-service-design-fund-store-test.london.cloudapps.digital
+      e2e_tests_target_url_frontend: https://fsd:fsd@frontend.test.gids.dev
+      e2e_tests_target_url_authenticator: https://fsd:fsd@authenticator2.test.gids.dev
+      e2e_tests_target_url_form_runner: https://fsd:fsd@forms.test.gids.dev
+      run_performance_tests: true
+      run_e2e_tests: true
+    secrets:
+       E2E_PAT: ${{secrets.E2E_PAT}}
