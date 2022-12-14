@@ -17,7 +17,6 @@ user_bp = Blueprint(
 @login_requested
 def user():
     roles_required = request.args.get("roles_required")
-    print(g.is_authenticated)
     logged_in_user = g.user if g.is_authenticated else None
     roles_error = False
     if logged_in_user and (
@@ -28,7 +27,6 @@ def user():
         )
     ):
         roles_error = True
-    print("GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG")
     return render_template(
         "user.html",
         roles_error=roles_error,

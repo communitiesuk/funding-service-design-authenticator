@@ -8,7 +8,6 @@ from security.utils import validate_token
 
 @pytest.mark.usefixtures("flask_test_client")
 @pytest.mark.usefixtures("mock_redis_magic_links")
-@pytest.mark.usefixtures("app_context")
 class TestSignout:
 
     created_link_keys = []
@@ -130,8 +129,20 @@ class TestSignout:
         }
 
         token = create_token(test_payload)
-        flask_test_client.set_cookie("localhost", "fsd-user-token", token)
+        flask_test_client.set_cookie("localhost", "fsd_user_token", token)
 
-        endpoint = "/service/user?roles_required=commenter|ultimate_assessor"
+        endpoint = "/service/user?roles_required=ultimate_assessor"
         response = flask_test_client.get(endpoint)
         assert response.status_code == 200
+        assert (
+            """<p class="govuk-body">You do not have access"""
+            in response.get_data(as_text=True)
+        )
+        assert (
+            """<li class="govuk-body">\n            do not have the right account permissions set up, or\n        </li>"""  # noqa
+            in response.get_data(as_text=True)
+        )
+        assert (
+            """<a href="/sso/login" role="button" draggable="false" class="govuk-button" data-module="govuk-button">\n  Sign in\n</a>"""  # noqa
+            not in response.get_data(as_text=True)
+        )
