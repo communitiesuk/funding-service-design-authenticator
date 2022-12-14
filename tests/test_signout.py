@@ -2,11 +2,14 @@
 Test magic links functionality
 """
 import pytest
+from flask import g
+from security.utils import create_token
 from security.utils import validate_token
 
 
 @pytest.mark.usefixtures("flask_test_client")
 @pytest.mark.usefixtures("mock_redis_magic_links")
+@pytest.mark.usefixtures("app_context")
 class TestSignout:
 
     created_link_keys = []
@@ -104,3 +107,33 @@ class TestSignout:
             response.location
             == "/service/magic-links/signed-out/sign_out_request"
         )
+
+    def test_user_page_for_logged_out_user(self, flask_test_client):
+        endpoint = "/service/user"
+        response = flask_test_client.get(endpoint)
+        assert response.status_code == 200
+        assert (
+            """<p class="govuk-body">You are not logged in.</p>"""
+            in response.get_data(as_text=True)
+        )
+        assert (
+            """<a href="/sso/login" role="button" draggable="false" class="govuk-button" data-module="govuk-button">\n  Sign in\n</a>"""  # noqa
+            in response.get_data(as_text=True)
+        )
+
+    def test_user_page_with_missing_roles(self, flask_test_client):
+
+        test_payload = {
+            "accountId": "test-user",
+            "email": "test@example.com",
+            "fullName": "Test User",
+            "roles": ["LEAD_ASSESSOR", "ASSESSOR", "COMMENTER"],
+        }
+
+        create_token(test_payload)
+
+        endpoint = "/service/user?roles_required=commenter|ultimate_assessor"
+        response = flask_test_client.get(endpoint)
+        print(g.is_authenticated)
+        print("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT")
+        assert response.status_code == 200
