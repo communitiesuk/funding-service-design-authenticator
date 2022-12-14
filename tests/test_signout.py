@@ -2,7 +2,6 @@
 Test magic links functionality
 """
 import pytest
-from flask import g
 from security.utils import create_token
 from security.utils import validate_token
 
@@ -130,10 +129,9 @@ class TestSignout:
             "roles": ["LEAD_ASSESSOR", "ASSESSOR", "COMMENTER"],
         }
 
-        create_token(test_payload)
+        token = create_token(test_payload)
+        flask_test_client.set_cookie("localhost", "fsd-user-token", token)
 
         endpoint = "/service/user?roles_required=commenter|ultimate_assessor"
         response = flask_test_client.get(endpoint)
-        print(g.is_authenticated)
-        print("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT")
         assert response.status_code == 200
