@@ -17,6 +17,8 @@ repos:
       - id: trailing-whitespace
       - id: end-of-file-fixer
       - id: check-ast
+      - id: name-tests-test
+        args: ["--pytest-test-first"]
 -   repo: https://github.com/asottile/reorder_python_imports
     rev: v3.1.0
     hooks:
