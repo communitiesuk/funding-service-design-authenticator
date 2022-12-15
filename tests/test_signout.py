@@ -107,6 +107,12 @@ class TestSignout:
         )
 
     def test_user_page_for_logged_out_user(self, flask_test_client):
+        """
+        GIVEN a running Flask client and user is not logged in
+        WHEN we access the user page
+        THEN the user page is displayed
+        :param flask_test_client:
+        """
         endpoint = "/service/user"
         response = flask_test_client.get(endpoint)
         assert response.status_code == 200
@@ -120,6 +126,13 @@ class TestSignout:
         )
 
     def test_user_page_with_missing_roles(self, flask_test_client):
+        """
+        GIVEN a running Flask client, user is logged in but does not
+        have the required roles
+        WHEN we access the user page
+        THEN the roles required error is shown on the user page
+        :param flask_test_client:
+        """
 
         test_payload = {
             "accountId": "test-user",
@@ -131,18 +144,47 @@ class TestSignout:
         token = create_token(test_payload)
         flask_test_client.set_cookie("localhost", "fsd_user_token", token)
 
-        endpoint = "/service/user?roles_required=ultimate_assessor"
+        endpoint = (
+            "/service/user?roles_required=ultimate_assessor|mega_assessor"
+        )
         response = flask_test_client.get(endpoint)
         assert response.status_code == 200
         assert (
-            """<p class="govuk-body">You do not have access"""
+            """<p class="govuk-body">You do not have access as your account does not have the right permissions set up."""  # noqa
             in response.get_data(as_text=True)
         )
         assert (
-            """<li class="govuk-body">\n            do not have the right account permissions set up, or\n        </li>"""  # noqa
+            """<p class="govuk-body">Please email the support mailbox"""  # noqa
             in response.get_data(as_text=True)
         )
         assert (
             """<a href="/sso/login" role="button" draggable="false" class="govuk-button" data-module="govuk-button">\n  Sign in\n</a>"""  # noqa
             not in response.get_data(as_text=True)
+        )
+
+    def test_user_page_with_correct_roles(self, flask_test_client):
+        """
+        GIVEN a running Flask client, user is logged in and
+        has the required roles
+        WHEN we access the user page
+        THEN the user page is displayed with option to sign out
+        :param flask_test_client:
+        """
+
+        test_payload = {
+            "accountId": "test-user",
+            "email": "test@example.com",
+            "fullName": "Test User",
+            "roles": ["LEAD_ASSESSOR", "ASSESSOR", "COMMENTER"],
+        }
+
+        token = create_token(test_payload)
+        flask_test_client.set_cookie("localhost", "fsd_user_token", token)
+
+        endpoint = "/service/user?roles_required=assessor|commenter"
+        response = flask_test_client.get(endpoint)
+        assert response.status_code == 200
+        assert (
+            """<a href="/sso/logout" role="button" draggable="false" class="govuk-button" data-module="govuk-button">\n  Sign out\n</a>"""  # noqa
+            in response.get_data(as_text=True)
         )

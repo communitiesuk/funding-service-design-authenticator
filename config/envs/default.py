@@ -21,6 +21,7 @@ class DefaultConfig(object):
 
     FLASK_ROOT = str(Path(__file__).parent.parent.parent)
     FLASK_ENV = environ.get("FLASK_ENV")
+    SUPPORT_MAILBOX_EMAIL = "fsd.support@levellingup.gov.uk"
 
     # Logging
     FSD_LOG_LEVEL = logging.WARNING
@@ -132,13 +133,11 @@ class DefaultConfig(object):
     )
 
     # Assessment Frontend
-    ASSESSMENT_FRONTEND_HOST = environ.get(
-        "ASSESSMENT_FRONTEND_HOST", ""
+    ASSESSMENT_FRONTEND_HOST = environ.get("ASSESSMENT_FRONTEND_HOST", "")
+    ASSESSMENT_POST_LOGIN_URL = ASSESSMENT_FRONTEND_HOST + "/assess/landing"
+    FSD_ASSESSMENT_SESSION_TIMEOUT_SECONDS = (
+        CommonConfig.FSD_SESSION_TIMEOUT_SECONDS
     )
-    ASSESSMENT_POST_LOGIN_URL = (
-        ASSESSMENT_FRONTEND_HOST + "/assess/landing"
-    )
-    FSD_ASSESSMENT_SESSION_TIMEOUT_SECONDS = CommonConfig.FSD_SESSION_TIMEOUT_SECONDS
 
     # Fund store service
     FUND_STORE_API_HOST = CommonConfig.FUND_STORE_API_HOST

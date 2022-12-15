@@ -8,18 +8,9 @@
 </div>
 <div>
 
-    {% if roles_error %}
-    <p class="govuk-body">You do not have access
-    <p class="govuk-body">Either you:</p>
-    <ul class="govuk-list govuk-list--bullet">
-        <li class="govuk-body">
-            do not have the right account permissions set up, or
-        </li>
-        <li class="govuk-body">
-            the link you’re using has expired
-        </li>
-    </ul>
-    <p class="govuk-body">Please email the support mailbox to request access or get help if you think this is a mistake.</p>
+    {% if roles_required %}
+    <p class="govuk-body">You do not have access as your account does not have the right permissions set up.
+    <p class="govuk-body">Please email the support mailbox ({{support_mailbox}}) to request access or get help if you think this is a mistake.</p>
     </p>
     {% else %}
 
