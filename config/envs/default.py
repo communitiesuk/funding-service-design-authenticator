@@ -134,7 +134,7 @@ class DefaultConfig(object):
 
     # Assessment Frontend
     ASSESSMENT_FRONTEND_HOST = environ.get("ASSESSMENT_FRONTEND_HOST", "")
-    ASSESSMENT_POST_LOGIN_URL = ASSESSMENT_FRONTEND_HOST + "/assess/landing"
+    ASSESSMENT_POST_LOGIN_URL = ASSESSMENT_FRONTEND_HOST + "/assess/assessor_dashboard"
     FSD_ASSESSMENT_SESSION_TIMEOUT_SECONDS = (
         CommonConfig.FSD_SESSION_TIMEOUT_SECONDS
     )
@@ -197,7 +197,7 @@ class DefaultConfig(object):
 
     # Talisman Config
     FSD_REFERRER_POLICY = "strict-origin-when-cross-origin"
-    FSD_USER_TOKEN_COOKIE_SAMESITE = "Strict"
+    FSD_USER_TOKEN_COOKIE_SAMESITE = "Lax"
     FSD_PERMISSIONS_POLICY = {"interest-cohort": "()"}
     FSD_DOCUMENT_POLICY = {}
     FSD_FEATURE_POLICY = {
