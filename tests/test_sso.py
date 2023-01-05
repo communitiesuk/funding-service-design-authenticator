@@ -2,6 +2,10 @@ from flask import session
 from tests.mocks.msal import id_token_claims
 from tests.mocks.msal import expected_fsd_user_token_claims
 from fsd_utils.authentication.utils import validate_token_rs256
+from tests.mocks.msal import ConfidentialClientApplication
+from tests.mocks.msal import HijackedConfidentialClientApplication
+from models.account import AccountError
+import pytest
 
 
 def test_sso_login_redirects_to_ms(flask_test_client):
@@ -62,6 +66,41 @@ def test_sso_get_token_sets_session_and_redirects(
 
     assert response.status_code == 302
     assert session.get("user") == id_token_claims
+
+
+def test_sso_get_token_prevents_overwrite_of_existing_azure_subject_id(
+    flask_test_client, mocker, caplog
+):
+    """
+    GIVEN We have a functioning Authenticator API
+    WHEN a GET request for /sso/get-token with a valid
+        response from azure_ad via the mock_msal_client_application
+    THEN we should receive a 302 redirect response with
+        the correct claims in the session
+    """
+    mocker.patch(
+        "msal.ConfidentialClientApplication.acquire_token_by_auth_code_flow",
+        ConfidentialClientApplication.acquire_token_by_auth_code_flow,
+    )
+    endpoint = "/sso/get-token"
+    response = flask_test_client.get(endpoint)
+
+    assert response.status_code == 302
+    assert session.get("user") == id_token_claims
+
+    mocker.patch(
+        "msal.ConfidentialClientApplication.acquire_token_by_auth_code_flow",
+        HijackedConfidentialClientApplication.acquire_token_by_auth_code_flow,
+    )
+
+    endpoint = "/sso/get-token"
+    error_response = flask_test_client.get(endpoint)
+
+    assert error_response.status_code == 500
+    assert "Cannot update account id: usersso - " \
+           "attempting to update existing azure_ad_subject_id " \
+           "from abc to xyx which is not allowed." in caplog.text
+
 
 
 def test_sso_get_token_sets_expected_fsd_user_token_cookie_claims(

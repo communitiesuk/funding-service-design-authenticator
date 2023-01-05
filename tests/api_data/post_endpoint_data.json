@@ -15,10 +15,10 @@
       "email_address": "new_user@example.com",
       "roles": []
     },
-    "email_address=sso%40example.com&azure_ad_subject_id=abc": {
+    "email_address=sso%40example.com": {
       "account_id": "usersso",
       "azure_ad_subject_id": "abc",
-      "full_name": "Test User",
+      "full_name": null,
       "email_address": "sso@example.com",
       "roles": []
     }
