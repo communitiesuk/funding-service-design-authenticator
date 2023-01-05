@@ -30,6 +30,20 @@ expected_fsd_user_token_claims = {
     }
 
 
+# Hijacked id_token_claims object received from Azure AD
+# with bad "sub" (Azure AD subject ID)
+bad_id_token_claims = {
+    "name": "Test User SSO",
+    "id": 123,
+    "sub": "xyx",
+    "preferred_username": "sso@example.com",
+    "roles": [
+        "LeadAssessor",
+        "Assessor",
+        "Commenter"
+    ]
+}
+
 class Account(dict):
     pass
 
@@ -57,6 +71,17 @@ class ConfidentialClientApplication(object):
         **kwargs,
     ):
         return accounts
+
+
+class HijackedConfidentialClientApplication(ConfidentialClientApplication):
+    def acquire_token_by_auth_code_flow(
+        self, auth_code_flow, auth_response, scopes=None, **kwargs
+    ):
+        return {
+            "id_token": 1,
+            "access_token": 2,
+            "id_token_claims": bad_id_token_claims,
+        }
 
 
 @pytest.fixture()
