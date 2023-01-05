@@ -115,7 +115,7 @@ class AccountMethods(Account):
             return Account.from_json(response)
 
     @staticmethod
-    def create_account(email: str, azure_ad_subject_id: str = None) -> Account | None:
+    def create_account(email: str) -> Account | None:
         """
         Get an account corresponding to an email_address
         or create a new account if none exists
@@ -123,23 +123,20 @@ class AccountMethods(Account):
         Args:
             email (str): The email address we wish
             to create a new account with.
-            azure_ad_subject_id (str, optional): The Azure AD subject id
 
         Returns:
             Account object or None
         """
         url = Config.ACCOUNT_STORE_API_HOST + Config.ACCOUNTS_ENDPOINT
         params = {
-            "email_address": email,
-            "azure_ad_subject_id": azure_ad_subject_id
+            "email_address": email
         }
         response = post_data(url, params)
 
         if response and "account_id" in response:
             return Account.from_json(response)
         raise AccountError(
-            message = f"Could not create account for email '{email}' "
-                      f"and azure_ad_subject_id {azure_ad_subject_id}"
+            message = f"Could not create account for email '{email}'"
         )
 
     @classmethod
@@ -152,27 +149,32 @@ class AccountMethods(Account):
     ):
         # Check to see if account already exists
         account = AccountMethods.get_account(
-            email=email,
-            azure_ad_subject_id=azure_ad_subject_id
+            email=email
         )
 
         # Create account if it doesn't exist
         if not account:
             account = AccountMethods.create_account(
-                email=email,
-                azure_ad_subject_id=azure_ad_subject_id
+                email=email
             )
 
-        if roles:
-            account = AccountMethods.update_account(
-                id=account.id,
-                email=email,
-                azure_ad_subject_id=account.azure_ad_subject_id,
-                full_name=full_name,
-                roles=roles
+        if account.azure_ad_subject_id and account.azure_ad_subject_id != azure_ad_subject_id:
+            raise AccountError(
+                message=f"Cannot update account id: {account.id} "
+                        "- attempting to update existing azure_ad_subject_id "
+                        f"from { account.azure_ad_subject_id } to { azure_ad_subject_id}"
+                        f" which is not allowed."
             )
 
-        # Update account with latest roles, email and name from token
+        # Update account with the latest roles, email and name
+        account = AccountMethods.update_account(
+            id=account.id,
+            email=email,
+            azure_ad_subject_id=azure_ad_subject_id,
+            full_name=full_name,
+            roles=roles
+        )
+
         return account
 
     @classmethod
