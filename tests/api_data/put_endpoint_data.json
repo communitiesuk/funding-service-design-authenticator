@@ -16,11 +16,7 @@
       "full_name": "Test User SSO",
       "azure_ad_subject_id": "abc",
       "email_address": "sso@example.com",
-      "roles": [
-        "LEAD_ASSESSOR",
-        "ASSESSOR",
-        "COMMENTER"
-      ]
+      "roles": []
     }
   }
 }
