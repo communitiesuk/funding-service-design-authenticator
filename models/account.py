@@ -103,7 +103,15 @@ class AccountMethods(Account):
             Account object or None
         """
         url = Config.ACCOUNT_STORE_API_HOST + Config.ACCOUNT_ENDPOINT.format(account_id=id)
-        cleaned_roles = [azure_ad_role_map[role] for role in roles]
+        cleaned_roles = []
+        if isinstance(roles, List):
+            cleaned_roles = [azure_ad_role_map[role] for role in roles]
+        if len(cleaned_roles) == 0:
+            current_app.logger.error(
+                f"When attempting to update account id: {id} "
+                f"with email: {email} - no roles were found"
+            )
+
         params = {
             "email_address": email,
             "azure_ad_subject_id": azure_ad_subject_id,
