@@ -148,7 +148,7 @@ class TestSignout:
             "/service/user?roles_required=ultimate_assessor|mega_assessor"
         )
         response = flask_test_client.get(endpoint)
-        assert response.status_code == 200
+        assert response.status_code == 403
         assert (
             """<p class="govuk-body">You do not have access as your account does not have the right permissions set up."""  # noqa
             in response.get_data(as_text=True)

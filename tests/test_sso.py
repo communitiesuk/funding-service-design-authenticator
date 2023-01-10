@@ -121,9 +121,7 @@ def test_sso_get_token_logs_error_for_roleless_users(
     error_response = flask_test_client.get(endpoint)
 
     assert error_response.status_code == 302
-    assert "When attempting to update account id: " \
-           "usersso with email: sso@example.com " \
-           "- no roles were found" in caplog.text
+    assert "account id: usersso has not been assigned any roles" in caplog.text
 
 def test_sso_get_token_sets_expected_fsd_user_token_cookie_claims(
         flask_test_client, mock_msal_client_application

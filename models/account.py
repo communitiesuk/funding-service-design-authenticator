@@ -108,8 +108,7 @@ class AccountMethods(Account):
             cleaned_roles = [azure_ad_role_map[role] for role in roles]
         if len(cleaned_roles) == 0:
             current_app.logger.error(
-                f"When attempting to update account id: {id} "
-                f"with email: {email} - no roles were found"
+                f"account id: {id} has not been assigned any roles"
             )
 
         params = {
