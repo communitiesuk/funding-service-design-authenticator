@@ -24,6 +24,7 @@ def user():
        - roles_required: List[str] is set by checking if
          logged_in_user
     """
+    status_code = 200
     roles_required = request.args.get("roles_required")
     logged_in_user = g.user if g.is_authenticated else None
     if logged_in_user:
@@ -33,6 +34,8 @@ def user():
                 for role_required in roles_required.upper().split("|")
             ):
                 roles_required = None
+            else:
+                status_code = 403
     return render_template(
         "user.html",
         roles_required=roles_required,
@@ -40,4 +43,4 @@ def user():
         login_url=Config.SSO_LOGIN_ENDPOINT,
         logout_url=Config.SSO_LOGOUT_ENDPOINT,
         support_mailbox=Config.SUPPORT_MAILBOX_EMAIL,
-    )
+    ), status_code
