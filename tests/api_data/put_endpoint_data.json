@@ -10,6 +10,13 @@
         "ASSESSOR",
         "COMMENTER"
       ]
+    },
+    "email_address=sso%40example.com&azure_ad_subject_id=abc&full_name=Test+User+SSO&roles=%5B%5D": {
+      "account_id": "usersso",
+      "full_name": "Test User SSO",
+      "azure_ad_subject_id": "abc",
+      "email_address": "sso@example.com",
+      "roles": []
     }
   }
 }
