@@ -84,7 +84,7 @@ flask-talisman==0.8.1
     # via -r requirements.in
 flask-wtf==1.0.0
     # via -r requirements.in
-funding-service-design-utils==1.0.14
+funding-service-design-utils @ git+https://github.com/communitiesuk/funding-service-design-utils.git@7b08ad32cadef30e9f405f48bb2cc62f197cbc18
     # via -r requirements.in
 govuk-frontend-jinja==2.3.0
     # via -r requirements.in
