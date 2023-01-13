@@ -1,19 +1,16 @@
 import warnings
-import json
 
 import msal
 import requests
+from api.session.auth_session import AuthSessionView
 from config import Config
-from flask import abort
+from flask import make_response
 from flask import redirect
 from flask import request
 from flask import session
-from flask import current_app
-from flask import make_response
 from flask.views import MethodView
+from fsd_utils import clear_sentry
 from models.account import AccountMethods
-from models.account import AccountError
-from api.session.auth_session import AuthSessionView
 
 
 class SsoView(MethodView):
@@ -38,10 +35,12 @@ class SsoView(MethodView):
         post_logout_redirect_uri = request.args.get(
             "post_logout_redirect_uri", Config.SSO_POST_SIGN_OUT_URL
         )
-        azure_ad_sign_out_url = Config.AZURE_AD_AUTHORITY\
-                                + "/oauth2/v2.0/logout"\
-                                + "?post_logout_redirect_uri="\
-                                + post_logout_redirect_uri
+        azure_ad_sign_out_url = (
+            Config.AZURE_AD_AUTHORITY
+            + "/oauth2/v2.0/logout"
+            + "?post_logout_redirect_uri="
+            + post_logout_redirect_uri
+        )
         session.clear()
         response = make_response(redirect(azure_ad_sign_out_url), 302)
         response.set_cookie(
@@ -50,6 +49,7 @@ class SsoView(MethodView):
             domain=Config.COOKIE_DOMAIN,
             expires=0,
         )
+        clear_sentry()
         return response
 
     def get_token(self):
@@ -77,21 +77,21 @@ class SsoView(MethodView):
         except ValueError as e:  # Usually caused by CSRF
             warnings.warn(f"Value Error on get_token route: {str(e)}")
 
-        if not "user" in session or not session["user"].get("sub"):
+        if "user" not in session or not session["user"].get("sub"):
             return {"message": "No valid token"}, 404
 
         updated_account = AccountMethods.create_or_update_account(
             azure_ad_subject_id=session["user"].get("sub"),
-            email = session["user"].get("preferred_username"),
-            full_name = session["user"].get("name"),
-            roles = session["user"].get("roles")
+            email=session["user"].get("preferred_username"),
+            full_name=session["user"].get("name"),
+            roles=session["user"].get("roles"),
         )
 
         # Create session token, set cookie and redirect
         return AuthSessionView.create_session_and_redirect(
             account=updated_account,
             redirect_url=Config.ASSESSMENT_POST_LOGIN_URL,
-            timeout_seconds=Config.FSD_ASSESSMENT_SESSION_TIMEOUT_SECONDS
+            timeout_seconds=Config.FSD_ASSESSMENT_SESSION_TIMEOUT_SECONDS,
         )
 
     def graph_call(self):
