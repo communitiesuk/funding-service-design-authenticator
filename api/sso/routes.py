@@ -9,6 +9,7 @@ from flask import redirect
 from flask import request
 from flask import session
 from flask.views import MethodView
+from fsd_utils import clear_sentry
 from models.account import AccountMethods
 
 
@@ -41,7 +42,6 @@ class SsoView(MethodView):
             + post_logout_redirect_uri
         )
         session.clear()
-
         response = make_response(redirect(azure_ad_sign_out_url), 302)
         response.set_cookie(
             Config.FSD_USER_TOKEN_COOKIE_NAME,
@@ -49,6 +49,7 @@ class SsoView(MethodView):
             domain=Config.COOKIE_DOMAIN,
             expires=0,
         )
+        clear_sentry()
         return response
 
     def get_token(self):

@@ -146,7 +146,7 @@ flask-talisman==0.8.1
     # via -r requirements.txt
 flask-wtf==1.0.0
     # via -r requirements.txt
-funding-service-design-utils @ git+https://github.com/communitiesuk/funding-service-design-utils.git@7b08ad32cadef30e9f405f48bb2cc62f197cbc18
+funding-service-design-utils @ git+https://github.com/communitiesuk/funding-service-design-utils.git@afd8f115d1d5daccd92e0d2d745773a21f1941ef
     # via -r requirements.txt
 gitdb==4.0.9
     # via gitpython
