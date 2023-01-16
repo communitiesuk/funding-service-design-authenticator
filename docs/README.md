@@ -5,9 +5,9 @@ Most repos in the Funding Service Design architecture are either backend *stores
 
 It does not strictly operate as a store, however it does use a **redis** instance for temporary storage of session/access related info.
 
-The long term persistent storage of user data is handled instead by places like the FSD account-store and DLUHC Azure Active Directory (AD) Single Sign-on (SSO) tenant.
+The long term persistent storage of user data is handled instead by the FSD account-store, and DLUHC Azure Active Directory (AD) Single Sign-on (SSO) tenant.
 
-The reason for merging the two was that the frontend views are mostly just human-readable error messages or user prompts for the backend api endpoints.
+The original reason for combining the two was that the frontend views are mostly just human-readable error messages or user prompts for the backend api endpoints.
 ## Frontend and Backend Directories
 ### Frontend
 The code for the frontend views and endpoints are in the `/frontend` directory. These include things like error messages, user authentication state displays and user email input pages.
@@ -52,7 +52,9 @@ Applicants are directed to visit the `/service/magic-links/new` route on this se
 
 The service creates a unique link reference and stores this reference in the `redis` key/value store together with data about the email address requested and how long this link should last until it expires (eg. 24hrs), and then sends a notification with a link which contains this reference to the email account, using the FSD notification service (which sends the email via Gov Notify).
 
-The user clicks the link in the email which links to the `/service/magic-links/landing/<link_id>` route which displays a 'continue' button. 
+The user is then redirected to the `/service/magic-links/check-email` route which confirms to the user that a magic link email has been sent to their address and they should check their inbox. 
+
+The user clicks the link in the email which links to the [`/service/magic-links/landing/<link_id>`](/frontend/magic_links/routes.py#L49) route which displays a 'continue' button. 
 
 NOTE: This landing page exists to prevent email software bots from prematurely following and "using" the one-time link before the user has opened the email and followed it themselves. (Mail software bots sometimes "click" links in client's emails to check for malicious code before displaying them to the user)
 
