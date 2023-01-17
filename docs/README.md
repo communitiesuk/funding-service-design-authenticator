@@ -41,6 +41,15 @@ The benefit of this shared keypair with token approach is that the other service
 
 We set an expiry time on the token to set the time after which the other services should consider the token invalid, and redirect the user back to this authenticator service to revalidate their ID and get issued with fresh token.
 
+### Where we use it
+We set our auth JWT cookie, start the user's session and redirect to their chosen service in one step in [AuthSessionView.create_session_and_redirect](/api/session/auth_session.py#L99).
+
+The method that creates the token itself (and where you can see the claims we are adding to the token payload) is [AuthSessionView.create_session_details_with_token](/api/session/auth_session.py#L137)
+
+The name for the user token cookie is set by the config variable `FSD_USER_TOKEN_COOKIE_NAME` which is currently set in the [default.py](/config/envs/default.py) config file as "*fsd_user_token*".
+
+When you use either magic link or SSO method to log in (described below), you should see the token cookie in Chrome developer tools, in the Application tab, if you select Storage>Cookies in the Application tab sidebar, and then select your current host name in the drop-down. In the list of cookies, find the one called "fsd_user_token" and then you can see the encoded (but not encrypted) value. If you select and copy the value there, and then go to [jwt.io](https://jwt.io) and paste it into the "encoded" left panel you can then see what the decoded JWT contains (and the payload of claims that have been set).
+
 ## Magic Links
 ### What are magic links?
 "Magic links" are the friendly name sometimes given to single-use-links that have the effect of authenticating a user, or performing some other one-time action.
@@ -79,7 +88,7 @@ To enable two namespaces of keys like this, *redis* has a concept of *prefixes* 
 SSO is what happens when you "Sign in using Google" or "Sign in using Facebook". In these cases an Identity Provider (IDP) takes responsibility for verifying the user's identity (eg. getting them to log in with a password, and verify by a text to their phone). The IDP then lets the service securely know that the user has signed in successfully and then passes the session back to the service that wants to authenticate the user.
 
 ### What is Azure AD (AD or AAD)
-Azure AD is an IDP provided by Microsoft, that let's organisations manage their own director of user accounts.
+Azure AD is an IDP provided by Microsoft, that let's organisations manage their own directory of user accounts.
 
 ### How do we use it?
 This service uses Azure AD via an integration using the [`msal`](https://pypi.org/project/msal/) (Microsoft Authentication Library) package provided by Microsoft.
