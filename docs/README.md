@@ -42,9 +42,9 @@ The benefit of this shared keypair with token approach is that the other service
 We set an expiry time on the token to set the time after which the other services should consider the token invalid, and redirect the user back to this authenticator service to revalidate their ID and get issued with fresh token.
 
 ### Where we use it
-We set our auth JWT cookie, start the user's session and redirect to their chosen service in one step in [AuthSessionView.create_session_and_redirect](/api/session/auth_session.py#L99).
+We set our auth JWT cookie, start the user's session and redirect to their chosen service in one step in [AuthSessionView.create_session_and_redirect](https://github.com/communitiesuk/funding-service-design-authenticator/blob/453d03123f681a33ed836b7d370bf3d974c6a030/api/session/auth_session.py#L99).
 
-The method that creates the token itself (and where you can see the claims we are adding to the token payload) is [AuthSessionView.create_session_details_with_token](/api/session/auth_session.py#L137)
+The method that creates the token itself (and where you can see the claims we are adding to the token payload) is [AuthSessionView.create_session_details_with_token](https://github.com/communitiesuk/funding-service-design-authenticator/blob/453d03123f681a33ed836b7d370bf3d974c6a030/api/session/auth_session.py#L137)
 
 The name for the user token cookie is set by the config variable `FSD_USER_TOKEN_COOKIE_NAME` which is currently set in the [default.py](/config/envs/default.py) config file as "*fsd_user_token*".
 
@@ -57,17 +57,17 @@ When you use either magic link or SSO method to log in (described below), you sh
 ### How do we use them?
 In this application we use one time links to authenticate applicants using the applicant frontend instead of them having to use passwords.
 
-Applicants are directed to visit the [`/service/magic-links/new`](/frontend/magic_links/routes.py#L79) route on this service where they can enter an email address and click a button to request a magic link.
+Applicants are directed to visit the [`/service/magic-links/new`](https://github.com/communitiesuk/funding-service-design-authenticator/blob/453d03123f681a33ed836b7d370bf3d974c6a030/frontend/magic_links/routes.py#L79) route on this service where they can enter an email address and click a button to request a magic link.
 
 The service creates a unique link reference and stores this reference in the `redis` key/value store together with data about the email address requested and how long this link should last until it expires (eg. 24hrs), and then sends a notification with a link which contains this reference to the email account, using the FSD notification service (which sends the email via Gov Notify).
 
-The user is then redirected to the [`/service/magic-links/check-email`](/frontend/magic_links/routes.py#L121) route which confirms to the user that a magic link email has been sent to their address and they should check their inbox. 
+The user is then redirected to the [`/service/magic-links/check-email`](https://github.com/communitiesuk/funding-service-design-authenticator/blob/453d03123f681a33ed836b7d370bf3d974c6a030/frontend/magic_links/routes.py#L121) route which confirms to the user that a magic link email has been sent to their address and they should check their inbox. 
 
-The user clicks the link in the email which links to the [`/service/magic-links/landing/<link_id>`](/frontend/magic_links/routes.py#L49) route which displays a 'continue' button. 
+The user clicks the link in the email which links to the [`/service/magic-links/landing/<link_id>`](https://github.com/communitiesuk/funding-service-design-authenticator/blob/453d03123f681a33ed836b7d370bf3d974c6a030/frontend/magic_links/routes.py#L49) route which displays a 'continue' button. 
 
 NOTE: This landing page exists to prevent email software bots from prematurely following and "using" the one-time link before the user has opened the email and followed it themselves. (Mail software bots sometimes "click" links in client's emails to check for malicious code before displaying them to the user)
 
-When the user clicks the "continue" button on the landing view, they are redirected to the actual magic-link endpoint on the backend api at [`/magic-links/<link_id>`](/api/magic_links/routes.py#L22) which "claims" the magic link, checks it is valid, redirects the user to the applicant frontend, and deletes the magic link record from the store so that it cannot be used again.
+When the user clicks the "continue" button on the landing view, they are redirected to the actual magic-link endpoint on the backend api at [`/magic-links/<link_id>`](https://github.com/communitiesuk/funding-service-design-authenticator/blob/453d03123f681a33ed836b7d370bf3d974c6a030/api/magic_links/routes.py#L22) which "claims" the magic link, checks it is valid, redirects the user to the applicant frontend, and deletes the magic link record from the store so that it cannot be used again.
 
 ### Redis storage of link references
 The *redis* key/value store is like a very simple, flat data store, it is just a dictionary of key/value pairs. There are no tables or columns to relate data objects.
@@ -80,7 +80,7 @@ To achieve this, as well as storing the magic link key, we also store a user acc
 
 So when a user requests a new magic link, we first check if they have an existing account key in the *redis* instance. If they do, we remove the link key referenced by the old account key, create a new magic link (and key) and then update the account key value with the new link key. This has the effect of deleting the old magic link and replacing it with the new one.
 
-To enable two namespaces of keys like this, *redis* has a concept of *prefixes* so in this application, we use the prefix of [`link:`](/models/magic_link.py#L196) on keys that reference links, and the prefix of [`account:`](/models/magic_link.py#L173) on keys that reference accounts.
+To enable two namespaces of keys like this, *redis* has a concept of *prefixes* so in this application, we use the prefix of [`link:`](https://github.com/communitiesuk/funding-service-design-authenticator/blob/453d03123f681a33ed836b7d370bf3d974c6a030/models/magic_link.py#L196) on keys that reference links, and the prefix of [`account:`](https://github.com/communitiesuk/funding-service-design-authenticator/blob/453d03123f681a33ed836b7d370bf3d974c6a030/models/magic_link.py#L173) on keys that reference accounts.
 
 ## SSO / Azure AD
 
@@ -93,16 +93,16 @@ Azure AD is an IDP provided by Microsoft, that let's organisations manage their 
 ### How do we use it?
 This service uses Azure AD via an integration using the [`msal`](https://pypi.org/project/msal/) (Microsoft Authentication Library) package provided by Microsoft.
 
-We have exposed a number of endpoints on this services backend api, eg. [`/sso/login`](/api/sso/routes.py#L17), [`/sso/logout`](/api/sso/routes.py#L28), [`/sso/get-token`](/api/sso/routes.py#L55) which use redirects and background calls (mostly handled for us by the *msal* package) which are used to log the user in and out.
+We have exposed a number of endpoints on this services backend api, eg. [`/sso/login`](https://github.com/communitiesuk/funding-service-design-authenticator/blob/453d03123f681a33ed836b7d370bf3d974c6a030/api/sso/routes.py#L17), [`/sso/logout`](https://github.com/communitiesuk/funding-service-design-authenticator/blob/453d03123f681a33ed836b7d370bf3d974c6a030/api/sso/routes.py#L28), [`/sso/get-token`](https://github.com/communitiesuk/funding-service-design-authenticator/blob/453d03123f681a33ed836b7d370bf3d974c6a030/api/sso/routes.py#L55) which use redirects and background calls (mostly handled for us by the *msal* package) which are used to log the user in and out.
 
 ### Logging in with SSO
-When a user visits the [`/sso/login`](/api/sso/routes.py#L17) endpoint, they are redirected to Microsoft Azure to login, once logged in, Azure redirects the user back to [`/sso/get-token`](/api/sso/routes.py#L55) with a code in the querystring.
+When a user visits the [`/sso/login`](https://github.com/communitiesuk/funding-service-design-authenticator/blob/453d03123f681a33ed836b7d370bf3d974c6a030/api/sso/routes.py#L17) endpoint, they are redirected to Microsoft Azure to login, once logged in, Azure redirects the user back to [`/sso/get-token`](https://github.com/communitiesuk/funding-service-design-authenticator/blob/453d03123f681a33ed836b7d370bf3d974c6a030/api/sso/routes.py#L55) with a code in the querystring.
 
 The *msal* package configured at that endpoint takes the code from the querystring and makes a background callback to redeem that code and allow Azure to confirm that it has issued the code and the user has indeed just logged in successfully on their side.
 
 Azure then sends a signed token back which contains the authenticated user's ID claims (their email address, azure subject id and and roles they have associated with their account for example).
 
-If we receive a successful response back from Microsoft at [`/sso/get-token`](/api/sso/routes.py#L55) then we consider the user authenticated and we issue them with a signed token cookie (see above) which allows them to access our other services (appropriate to their roles).
+If we receive a successful response back from Microsoft at [`/sso/get-token`](https://github.com/communitiesuk/funding-service-design-authenticator/blob/453d03123f681a33ed836b7d370bf3d974c6a030/api/sso/routes.py#L55) then we consider the user authenticated and we issue them with a signed token cookie (see above) which allows them to access our other services (appropriate to their roles).
 
 ### Role management
 Different users on the service have different roles that allow them to different things.
@@ -117,9 +117,9 @@ The role types are created in Azure AD, and assigned to groups. Users can be mad
 Those using the *Assessment* frontend must be registered on the DLUHC FSD Azure AD tenant and also must have at least the role of "COMMENTER" (i.e. be in the "Commenters" group on Azure AD).
 
 ### Permission denied error messages
-If an applicant user tried to access the assessment frontend (for assessment processes) they would be redirected to the [`/service/user`](/frontend/user/routes.py#L18) endpoint with a `?roles_required=COMMENTER` query string argument.
+If an applicant user tried to access the assessment frontend (for assessment processes) they would be redirected to the [`/service/user`](https://github.com/communitiesuk/funding-service-design-authenticator/blob/453d03123f681a33ed836b7d370bf3d974c6a030/frontend/user/routes.py#L18) endpoint with a `?roles_required=COMMENTER` query string argument.
 
-The [`/service/user`](/frontend/user/routes.py#L18) endpoint shows confirmation of the account email of the current logged in user. However if the user has tried to access an area that they do not have appropriate roles for, they will be redirected to the [`/service/user`](/frontend/user/routes.py#L18)  endpoint with redirect with the *roles_required=...* argument appended this will then display to the user a 403 permission denied error message.
+The [`/service/user`](https://github.com/communitiesuk/funding-service-design-authenticator/blob/453d03123f681a33ed836b7d370bf3d974c6a030/frontend/user/routes.py#L18) endpoint shows confirmation of the account email of the current logged in user. However if the user has tried to access an area that they do not have appropriate roles for, they will be redirected to the [`/service/user`](https://github.com/communitiesuk/funding-service-design-authenticator/blob/453d03123f681a33ed836b7d370bf3d974c6a030/frontend/user/routes.py#L18)  endpoint with redirect with the *roles_required=...* argument appended this will then display to the user a 403 permission denied error message.
 
 ## [fsd_utils](https://pypi.org/project/funding-service-design-utils/)
 The [funding-service-design-utils](https://pypi.org/project/funding-service-design-utils/) package on pypi also has an [authentication toolkit](https://github.com/communitiesuk/funding-service-design-utils/blob/main/fsd_utils/authentication/) that goes with this service.
@@ -129,13 +129,13 @@ The *fsd_utils* package should be installed on services in this system that need
 It includes [some handy decorators](https://github.com/communitiesuk/funding-service-design-utils/blob/main/fsd_utils/authentication/decorators.py):
 
 ### `@login_required`
-If this is added to a flask route, it will require the user to have a valid JWT to access the route. If not, the user will be redirected to the [`/session/sign-out` (clear_session)](/api/session/auth_session.py#L49) backend endpoint on this service.
+If this is added to a flask route, it will require the user to have a valid JWT to access the route. If not, the user will be redirected to the [`/session/sign-out` (clear_session)](https://github.com/communitiesuk/funding-service-design-authenticator/blob/453d03123f681a33ed836b7d370bf3d974c6a030/api/session/auth_session.py#L49) backend endpoint on this service.
 
 If the user has a valid JWT auth cookie, a number of attributes will be set on the flask `g` global request object. Properties that will be set include `g.is_authenticated=True`, and `g.user` will be set with a User object containing properties such as `g.user.email`, `g.user.full_name`, `g.user.roles` (a list of roles that the user has) and `g.user.highest_role` which is a string value of the users highest role in the roles hierarchy.
 
-It will also set a `g.logout_url` variable which (at the time of writing) is set to [`/sessions/signout`](/openapi/api.yml#L136) - NOTE: this sign out endpoint is designed primarily for magic-link users as it just deletes the JWT cookie from the user's browser. SSO authenticated users should use the [`/sso/logout`](/openapi/api.yml#L94) endpoint to logout fully via Azure AD.
+It will also set a `g.logout_url` variable which (at the time of writing) is set to [`/sessions/signout`](https://github.com/communitiesuk/funding-service-design-authenticator/blob/453d03123f681a33ed836b7d370bf3d974c6a030/openapi/api.yml#L136) - NOTE: this sign out endpoint is designed primarily for magic-link users as it just deletes the JWT cookie from the user's browser. SSO authenticated users should use the [`/sso/logout`](https://github.com/communitiesuk/funding-service-design-authenticator/blob/453d03123f681a33ed836b7d370bf3d974c6a030/openapi/api.yml#L94) endpoint to logout fully via Azure AD.
 
-The `@login_required` decorator also takes an optional `roles_required` argument. This can be set to a list of roles that a user must have in order to access the route. If the user is authenticated but does not have the required roles, they will be redirected to the [`/service/user?roles_required=...`](/frontend/user/routes.py#L18) endpoint on this service with the *roles_required* value representing a list of required roles as set on the decorator.
+The `@login_required` decorator also takes an optional `roles_required` argument. This can be set to a list of roles that a user must have in order to access the route. If the user is authenticated but does not have the required roles, they will be redirected to the [`/service/user?roles_required=...`](https://github.com/communitiesuk/funding-service-design-authenticator/blob/453d03123f681a33ed836b7d370bf3d974c6a030/frontend/user/routes.py#L18) endpoint on this service with the *roles_required* value representing a list of required roles as set on the decorator.
 
 ### `@login_requested`
 If this is added to a flask route, it will check if the user has a valid JWT and update the flask `g` variables as above. But if the user cannot be authenticated this decorator will still let the request continue to the route.
