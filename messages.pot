@@ -1,14 +1,14 @@
 # Translations template for PROJECT.
-# Copyright (C) 2022 ORGANIZATION
+# Copyright (C) 2023 ORGANIZATION
 # This file is distributed under the same license as the PROJECT project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2022.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2023.
 #
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-11-22 18:05+0000\n"
+"POT-Creation-Date: 2023-01-19 20:13+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -23,10 +23,6 @@ msgstr ""
 
 #: frontend/magic_links/filters.py:10
 msgid "at"
-msgstr ""
-
-#: frontend/magic_links/forms.py:19
-msgid "Enter an email address in the correct format, like name@example.com"
 msgstr ""
 
 #: frontend/magic_links/forms.py:34
@@ -94,10 +90,10 @@ msgstr ""
 
 #: frontend/magic_links/templates/email.html:26
 msgid ""
-"<p>We’ll use this to confirm your email address and show your "
-"applications.</p><p>The link will work once and stop working after 24 "
-"hours.</p><p>If you want to return to an application, you must use the "
-"email address you started the application with.</p>"
+"<p>We’ll email you a link to start a new application, or continue any "
+"applications you have in progress.</p><p>The link will work once and stop"
+" working after 24 hours.</p><p>If you want to return to an application, "
+"you must use the email you started the application with.</p>"
 msgstr ""
 
 #: frontend/magic_links/templates/email.html:46
@@ -120,10 +116,6 @@ msgstr ""
 #: frontend/magic_links/templates/invalid.html:29
 #: frontend/magic_links/templates/signed_out.html:31
 msgid "Request a new link"
-msgstr ""
-
-#: frontend/magic_links/templates/landing.html:7
-msgid "Community Ownership Fund"
 msgstr ""
 
 #: frontend/magic_links/templates/landing.html:12
@@ -281,3 +273,4 @@ msgstr ""
 #: frontend/templates/header.html:36
 msgid " will help us to improve it."
 msgstr ""
+
