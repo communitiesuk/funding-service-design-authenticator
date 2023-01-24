@@ -1,15 +1,18 @@
 {% extends "base.html" %}
+{% set pageHeading %}
+{% if status == "no_token" %}
+    {% trans %}You are not logged in{% endtrans %}
+{% else %}
+    {% trans %}You have been signed out{% endtrans %}
+{% endif %}
+{% endset %}
 {%- from "govuk_frontend_jinja/components/inset-text/macro.html" import govukInsetText -%}
 {%- from "govuk_frontend_jinja/components/button/macro.html" import govukButton -%}
 
 {% block content %}
   <div>
       <h1 class="govuk-heading-xl">
-          {% if status == "no_token" %}
-            {% trans %}You are not logged in{% endtrans %}
-          {% else %}
-            {% trans %}You have been signed out{% endtrans %}
-          {% endif %}
+        {{pageHeading}}
       </h1>
   </div>
 {% if status != "no_token" %}

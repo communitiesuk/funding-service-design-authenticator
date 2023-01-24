@@ -3,6 +3,7 @@
 {%- from "govuk_frontend_jinja/components/button/macro.html" import govukButton -%}
 
 {% extends "base.html" %}
+{% set pageHeading %}{% trans %}Email address{% endtrans %}{% endset %}
 
 {% block content %}
     <div class="govuk-grid-row">
@@ -16,7 +17,8 @@
             <form action="" class="form" method="post">
                 <div class="govuk-form-group">
                     <h1 class="govuk-label-wrapper"><label class="govuk-label govuk-label--l" for="email">
-                        {% trans %}Email address {% endtrans %}</label>
+                        {{pageHeading}}
+                    </label>
                     </h1>
                     {{ form.hidden_tag() }}
                     {{ govukInput({
