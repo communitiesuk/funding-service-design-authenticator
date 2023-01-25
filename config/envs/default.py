@@ -134,7 +134,9 @@ class DefaultConfig(object):
 
     # Assessment Frontend
     ASSESSMENT_FRONTEND_HOST = environ.get("ASSESSMENT_FRONTEND_HOST", "")
-    ASSESSMENT_POST_LOGIN_URL = ASSESSMENT_FRONTEND_HOST + "/assess/assessor_dashboard"
+    ASSESSMENT_POST_LOGIN_URL = (
+        ASSESSMENT_FRONTEND_HOST + "/assess/assessor_dashboard"
+    )
     FSD_ASSESSMENT_SESSION_TIMEOUT_SECONDS = (
         CommonConfig.FSD_SESSION_TIMEOUT_SECONDS
     )
@@ -238,8 +240,6 @@ class DefaultConfig(object):
         "x_xss_protection": True,
     }
 
-    COF_FUND_ID = "47aef2f5-3fcb-4d45-acb5-f0152b5f03c4"
-    COF_ROUND2_ID = "c603d114-5364-4474-a0c4-c41cbf4d3bbd"
-    DEFAULT_FUND_ID = COF_FUND_ID
-    DEFAULT_ROUND_ID = COF_ROUND2_ID
+    DEFAULT_FUND_ID = CommonConfig.DEFAULT_FUND_ID
+    DEFAULT_ROUND_ID = CommonConfig.get_default_round_id()
     BABEL_TRANSLATION_DIRECTORIES = "frontend/translations"
