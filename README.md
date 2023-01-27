@@ -8,6 +8,11 @@ Repo for the DLUCH Funding Service Design Authenticator.
 
 Built with Flask.
 
+## Overview
+
+- If you want an overview of how this service functions including architecture and features there's a fuller description in the [/docs/README here](/docs/README.md).
+- If you just want to get started and install for development, read on below.
+
 ## Prerequisites
 - python ^= 3.10
 - redis ^= 7.0.0
