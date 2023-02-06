@@ -175,8 +175,7 @@ def test_sso_get_token_sets_expected_fsd_user_token_cookie_claims(
 def test_sso_graphcall_returns_404(flask_test_client, mock_redis_sessions):
     """
     GIVEN We have a functioning Authenticator API
-    endpoint = "/magic-links/new"
-    response = flask_test_client.get(endpoint) a GET request for /sso/graphcall
+    WHEN a GET request for /sso/graphcall
     THEN we should be redirected to Microsoft Login
     """
     endpoint = "/sso/graph-call"
@@ -184,8 +183,3 @@ def test_sso_graphcall_returns_404(flask_test_client, mock_redis_sessions):
 
     assert response.status_code == 404
     assert response.get_json()["message"] == "No valid token"
-
-
-def test_sso_role_in_prod(flask_test_client):
-
-    pass

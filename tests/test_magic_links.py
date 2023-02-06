@@ -326,3 +326,22 @@ class TestMagicLinks:
             next(x for x in get_response.get_json() if x.startswith("link:"))
             is not None
         )
+
+    def test_sso_role_in_prod(self, flask_test_client):
+
+        endpoint = "/magic-links/new"
+        expected_link_attributes = {"accountId": "usera"}
+        payload = {
+            "email": "a@example.com",
+            "redirectUrl": "https://example.com/redirect-url",
+        }
+        endpoint = "/magic-links"
+        response = flask_test_client.post(endpoint, json=payload)
+        magic_link = response.get_json()
+        print(f"MAGIC LINKKKKKKKKKKKKK::: {magic_link}")
+        self.created_link_keys.append(magic_link.get("key"))
+
+        assert response.status_code == 400
+        assert magic_link.get("accountId") == expected_link_attributes.get(
+            "accountId"
+        )
