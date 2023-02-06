@@ -7,6 +7,9 @@ import pytest
 from config import Config
 from models.application import ApplicationMethods
 from security.utils import validate_token
+import unittest.mock 
+from api.session.auth_session import AuthSessionView
+from app import app
 
 
 @pytest.mark.usefixtures("flask_test_client")
@@ -327,21 +330,22 @@ class TestMagicLinks:
             is not None
         )
 
-    def test_sso_role_in_prod(self, flask_test_client):
 
-        endpoint = "/magic-links/new"
-        expected_link_attributes = {"accountId": "usera"}
-        payload = {
-            "email": "a@example.com",
-            "redirectUrl": "https://example.com/redirect-url",
-        }
-        endpoint = "/magic-links"
-        response = flask_test_client.post(endpoint, json=payload)
-        magic_link = response.get_json()
-        print(f"MAGIC LINKKKKKKKKKKKKK::: {magic_link}")
-        self.created_link_keys.append(magic_link.get("key"))
+def test_sso_role():
+    mock_account = unittest.mock.Mock(
+        id='821192fb-15fd-445a-b833-4b399b985d47',
+        email='ram@admin.com',
+        azure_ad_subject_id='fg4FtjR5he365ir5h4k34_43ck34HreK6fr6rtDe47',
+        full_name='Ram Sharma',
+        roles= Config.SESSION_ROLES
+    )
 
-        assert response.status_code == 400
-        assert magic_link.get("accountId") == expected_link_attributes.get(
-            "accountId"
+    with app.app_context():
+      with app.test_request_context():
+        session_details = AuthSessionView.create_session_details_with_token_via_magic_link(
+            mock_account,
+            timeout_seconds=3600
         )
+        
+        assert session_details.get("roles") == []
+           
