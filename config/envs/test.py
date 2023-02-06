@@ -28,3 +28,6 @@ class TestConfig(Config):
     RSA256_PUBLIC_KEY = base64.b64decode(
         environ.get("RSA256_PUBLIC_KEY_BASE64")
     ).decode()
+
+    # Session
+    SESSION_ROLES = True

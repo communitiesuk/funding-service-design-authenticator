@@ -23,7 +23,8 @@ class UnitTestConfig(Config):
     AZURE_AD_CLIENT_SECRET = "123"
     AZURE_AD_TENANT_ID = "organizations"
     AZURE_AD_AUTHORITY = (
-        # consumers|organizations|<tenant_id> - signifies the Azure AD tenant endpoint
+        # consumers|organizations|<tenant_id>
+        # - signifies the Azure AD tenant endpoint
         "https://login.microsoftonline.com/"
         + AZURE_AD_TENANT_ID
     )
@@ -41,6 +42,7 @@ class UnitTestConfig(Config):
     SESSION_PERMANENT = False
     SESSION_USE_SIGNER = True
     SESSION_COOKIE_SECURE = False
+    SESSION_ROLES = False
 
     # RSA 256 KEYS
     _test_private_key_path = (
