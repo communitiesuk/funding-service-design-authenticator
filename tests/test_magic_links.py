@@ -333,11 +333,11 @@ class TestMagicLinks:
 
 def test_sso_role():
     mock_account = unittest.mock.Mock(
-        id='821192fb-15fd-445a-b833-4b399b985d47',
-        email='ram@admin.com',
-        azure_ad_subject_id='fg4FtjR5he365ir5h4k34_43ck34HreK6fr6rtDe47',
-        full_name='Ram Sharma',
-        roles= Config.SESSION_ROLES
+        id='821192fb-15ft-445a-b833-4b311b985d47',
+        email='example@admin.com',
+        azure_ad_subject_id='fg4FtjR5he365ir5h4k34_43ck5454ddsrtDe47',
+        full_name='Joe Smith',
+        roles= ['LEAD_ASSESSOR', 'ASSESSOR', 'COMMENTER']
     )
 
     with app.app_context():
