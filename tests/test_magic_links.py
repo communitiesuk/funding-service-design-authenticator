@@ -355,8 +355,12 @@ class TestMagicLinks(AuthSessionView):
 
         with app.app_context():
             with app.test_request_context():
-                session_details = self.create_session_details_with_token_via_magic_link(  # noqa
-                    mock_account, timeout_seconds=3600
+                session_details = (
+                    self.create_session_details_with_token(  # noqa
+                        mock_account,
+                        is_via_magic_link=True,
+                        timeout_seconds=3600,
+                    )
                 )
 
                 assert session_details.get("roles") == []

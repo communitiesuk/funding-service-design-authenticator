@@ -96,10 +96,11 @@ class AuthSessionView(MethodView):
         return response
 
     @classmethod
-    def create_session_and_redirect_via_sso(
+    def create_session_and_redirect(
         cls,
         account: "Account",
         redirect_url: str,
+        is_via_magic_link: bool,
         timeout_seconds: int = Config.FSD_SESSION_TIMEOUT_SECONDS,
     ):
         """
@@ -112,8 +113,8 @@ class AuthSessionView(MethodView):
         :return: 302 redirect
         """
         try:
-            session_details = cls.create_session_details_with_token_via_sso(
-                account, timeout_seconds=timeout_seconds
+            session_details = cls.create_session_details_with_token(
+                account, is_via_magic_link, timeout_seconds=timeout_seconds
             )
             response = make_response(redirect(redirect_url), 302)
             expiry = datetime.now() + timedelta(seconds=timeout_seconds)
@@ -134,9 +135,10 @@ class AuthSessionView(MethodView):
             error_response(404, str(e))
 
     @classmethod
-    def create_session_details_with_token_via_sso(
+    def create_session_details_with_token(
         cls,
         account: "Account",
+        is_via_magic_link: bool,
         timeout_seconds: int = Config.FSD_SESSION_TIMEOUT_SECONDS,
     ):
         """
@@ -150,75 +152,10 @@ class AuthSessionView(MethodView):
             "azureAdSubjectId": account.azure_ad_subject_id,
             "email": account.email,
             "fullName": account.full_name,
-            "roles": account.roles,
-            "iat": int(datetime.now().timestamp()),
-            "exp": int(datetime.now().timestamp() + timeout_seconds),
-        }
-
-        session_details.update({"token": create_token(session_details)})
-        session.update(session_details)
-        return session_details
-
-    @classmethod
-    def create_session_and_redirect_via_magic_link(
-        cls,
-        account: "Account",
-        redirect_url: str,
-        timeout_seconds: int = Config.FSD_SESSION_TIMEOUT_SECONDS,
-    ):
-        """
-        Sets a user session token in the client for a given account_id
-        and then redirects to a given url
-        :param account: The account object of the user we are authenticating
-        :param redirect_url: The url to redirect them to after session creation
-        :param timeout_seconds: (int, optional)
-        The session TTL to set in seconds
-        :return: 302 redirect
-        """
-        try:
-            session_details = (
-                cls.create_session_details_with_token_via_magic_link(
-                    account, timeout_seconds=timeout_seconds
-                )
-            )
-            response = make_response(redirect(redirect_url), 302)
-            expiry = datetime.now() + timedelta(seconds=timeout_seconds)
-            response.set_cookie(
-                Config.FSD_USER_TOKEN_COOKIE_NAME,
-                session_details["token"],
-                domain=Config.COOKIE_DOMAIN,
-                expires=expiry,
-                secure=Config.SESSION_COOKIE_SECURE,
-                samesite=Config.FSD_USER_TOKEN_COOKIE_SAMESITE,
-                httponly=Config.SESSION_COOKIE_HTTPONLY,
-            )
-            current_app.logger.info(
-                f"User logged in to account : {account.id}"
-            )
-            return response
-        except SessionCreateError as e:
-            error_response(404, str(e))
-
-    @classmethod
-    def create_session_details_with_token_via_magic_link(
-        cls,
-        account: "Account",
-        timeout_seconds: int = Config.FSD_SESSION_TIMEOUT_SECONDS,
-    ):
-        """
-        Creates a signed expiring session token for the given account
-        :param account: The account object for the user to create a token for
-        :param timeout_seconds: The length of the token expiry (or timeout)
-        :return: A dict including the signed session token
-        """
-        session_details = {
-            "accountId": account.id,
-            "azureAdSubjectId": account.azure_ad_subject_id,
-            "email": account.email,
-            "fullName": account.full_name,
-            "roles": account.roles
-            if Config.ALLOW_ASSESSMENT_LOGIN_VIA_MAGIC_LINK
-            else [],
+            "roles": []
+            if is_via_magic_link
+            and not Config.ALLOW_ASSESSMENT_LOGIN_VIA_MAGIC_LINK
+            else account.roles,
             "iat": int(datetime.now().timestamp()),
             "exp": int(datetime.now().timestamp() + timeout_seconds),
         }

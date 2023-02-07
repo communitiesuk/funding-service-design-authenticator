@@ -60,11 +60,10 @@ class MagicLinksView(MagicLinkMethods, MethodView):
 
             # Check link is not expired
             if link.get("exp") > int(datetime.now().timestamp()):
-                return (
-                    AuthSessionView.create_session_and_redirect_via_magic_link(
-                        account=account,
-                        redirect_url=link.get("redirectUrl"),
-                    )
+                return AuthSessionView.create_session_and_redirect(
+                    account=account,
+                    is_via_magic_link=True,
+                    redirect_url=link.get("redirectUrl"),
                 )
             return redirect(
                 url_for("magic_links_bp.invalid", error="Link expired")
