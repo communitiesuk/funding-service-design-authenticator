@@ -1,15 +1,15 @@
 """
 Test magic links functionality
 """
+import unittest.mock
 from unittest import mock
 
 import pytest
+from api.session.auth_session import AuthSessionView
+from app import app
 from config import Config
 from models.application import ApplicationMethods
 from security.utils import validate_token
-import unittest.mock 
-from api.session.auth_session import AuthSessionView
-from app import app
 
 
 @pytest.mark.usefixtures("flask_test_client")
@@ -330,33 +330,33 @@ class TestMagicLinks:
             is not None
         )
 
+    def test_assessor_roles_is_empty_via_magic_link_auth(self):
+        """
+        GIVEN we are on the production environment
+        i.e. SESSION_ROLES = False
+        WHEN we go through the authentication flow via magic links
+        THEN the session token should return an empty list of roles.
 
-def test_assessor_role_for_magic_link():
-    """ 
-      Test the assessor role of a mock account
-      when SESSION_ROLES = False
-      then it should return empty list of roles. 
+        Args:
+        mock_account: The mock account role to be tested, with
+        specified parameters such as email, id, subject id,
+        full name, and roles.
 
-    Args:
-    mock_account: The mock account role to be tested, with specified parameters such as email, id, subject id, full name, and roles.
-
-    Returns:
-    Empty list of roles 
-    """
-    mock_account = unittest.mock.Mock(
-        id='821192fb-15ft-445a-b833-4b311b985d47',
-        email='example@admin.com',
-        azure_ad_subject_id='fg4FtjR5he365ir5h4k34_43ck5454ddsrtDe47',
-        full_name='Joe Smith',
-        roles= ['LEAD_ASSESSOR', 'ASSESSOR', 'COMMENTER']
-    )
-
-    with app.app_context():
-      with app.test_request_context():
-        session_details = AuthSessionView.create_session_details_with_token_via_magic_link(
-            mock_account,
-            timeout_seconds=3600
+        Returns:
+        Empty list of roles
+        """
+        mock_account = unittest.mock.Mock(
+            id="821192fb-15ft-445a-b833-4b311b985d47",
+            email="example@admin.com",
+            azure_ad_subject_id="fg4FtjR5he365ir5h4k34_43ck5454ddsrtDe47",
+            full_name="Joe Smith",
+            roles=["LEAD_ASSESSOR", "ASSESSOR", "COMMENTER"],
         )
-        
-        assert session_details.get("roles") == []
-           
+
+        with app.app_context():
+            with app.test_request_context():
+                session_details = AuthSessionView.create_session_details_with_token_via_magic_link(  # noqa
+                    mock_account, timeout_seconds=3600
+                )
+
+                assert session_details.get("roles") == []
