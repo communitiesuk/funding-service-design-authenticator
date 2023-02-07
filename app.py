@@ -42,9 +42,7 @@ def create_app() -> Flask:
 
     # Initialise Connexion Flask App
     connexion_options = {
-        "swagger_path": Config.FLASK_ROOT + "/swagger/dist",
         "swagger_url": "/docs",
-        "swagger_ui_template_arguments": {},
     }
     connexion_app = connexion.FlaskApp(
         "Authenticator",
