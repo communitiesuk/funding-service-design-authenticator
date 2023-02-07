@@ -14,7 +14,7 @@ from security.utils import validate_token
 
 @pytest.mark.usefixtures("flask_test_client")
 @pytest.mark.usefixtures("mock_redis_magic_links")
-class TestMagicLinks:
+class TestMagicLinks(AuthSessionView):
 
     created_link_keys = []
     used_link_keys = []
@@ -355,7 +355,7 @@ class TestMagicLinks:
 
         with app.app_context():
             with app.test_request_context():
-                session_details = AuthSessionView.create_session_details_with_token_via_magic_link(  # noqa
+                session_details = self.create_session_details_with_token_via_magic_link(  # noqa
                     mock_account, timeout_seconds=3600
                 )
 
