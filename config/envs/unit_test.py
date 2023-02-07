@@ -1,5 +1,6 @@
 """Flask Local Development Environment Configuration."""
 import logging
+from os import getenv
 
 import redis
 from config.envs.default import DefaultConfig as Config
@@ -42,7 +43,9 @@ class UnitTestConfig(Config):
     SESSION_PERMANENT = False
     SESSION_USE_SIGNER = True
     SESSION_COOKIE_SECURE = False
-    SESSION_ROLES = False
+    ALLOW_ASSESSMENT_LOGIN_VIA_MAGIC_LINK = getenv(
+        "ALLOW_ASSESSMENT_LOGIN_VIA_MAGIC_LINK", False
+    )
 
     # RSA 256 KEYS
     _test_private_key_path = (

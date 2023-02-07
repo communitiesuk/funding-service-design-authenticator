@@ -1,4 +1,6 @@
 """Flask Production Environment Configuration."""
+from os import getenv
+
 import redis
 from config.envs.default import DefaultConfig as Config
 from fsd_utils import configclass
@@ -17,4 +19,6 @@ class ProductionConfig(Config):
     SESSION_REDIS = redis.from_url(REDIS_SESSIONS_URL)
 
     # Session
-    SESSION_ROLES = False
+    ALLOW_ASSESSMENT_LOGIN_VIA_MAGIC_LINK = getenv(
+        "ALLOW_ASSESSMENT_LOGIN_VIA_MAGIC_LINK", False
+    )

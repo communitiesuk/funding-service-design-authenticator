@@ -333,7 +333,7 @@ class TestMagicLinks:
     def test_assessor_roles_is_empty_via_magic_link_auth(self):
         """
         GIVEN we are on the production environment
-        i.e. SESSION_ROLES = False
+        i.e. ALLOW_ASSESSMENT_LOGIN_VIA_MAGIC_LINK = False
         WHEN we go through the authentication flow via magic links
         THEN the session token should return an empty list of roles.
 

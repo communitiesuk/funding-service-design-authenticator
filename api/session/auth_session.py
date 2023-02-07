@@ -216,7 +216,9 @@ class AuthSessionView(MethodView):
             "azureAdSubjectId": account.azure_ad_subject_id,
             "email": account.email,
             "fullName": account.full_name,
-            "roles": account.roles if Config.SESSION_ROLES else [],
+            "roles": account.roles
+            if Config.ALLOW_ASSESSMENT_LOGIN_VIA_MAGIC_LINK
+            else [],
             "iat": int(datetime.now().timestamp()),
             "exp": int(datetime.now().timestamp() + timeout_seconds),
         }

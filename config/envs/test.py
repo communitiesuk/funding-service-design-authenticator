@@ -1,6 +1,7 @@
 """Flask Test Environment Configuration."""
 import base64
 from os import environ
+from os import getenv
 
 import redis
 from config.envs.default import DefaultConfig as Config
@@ -30,4 +31,6 @@ class TestConfig(Config):
     ).decode()
 
     # Session
-    SESSION_ROLES = True
+    ALLOW_ASSESSMENT_LOGIN_VIA_MAGIC_LINK = getenv(
+        "ALLOW_ASSESSMENT_LOGIN_VIA_MAGIC_LINK", True
+    )
