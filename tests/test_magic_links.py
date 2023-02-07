@@ -331,15 +331,17 @@ class TestMagicLinks:
         )
 
 
-def test_account_role_for_magic_link():
+def test_assessor_role_for_magic_link():
     """ 
-      Test the user role of a mock account.
+      Test the assessor role of a mock account
+      when SESSION_ROLES = False
+      then it should return empty list of roles. 
 
     Args:
     mock_account: The mock account role to be tested, with specified parameters such as email, id, subject id, full name, and roles.
 
     Returns:
-    None roles 
+    Empty list of roles 
     """
     mock_account = unittest.mock.Mock(
         id='821192fb-15ft-445a-b833-4b311b985d47',
