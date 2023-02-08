@@ -3,6 +3,7 @@ from os import getenv
 
 import redis
 from config.envs.default import DefaultConfig as Config
+from distutils.util import strtobool
 from fsd_utils import configclass
 
 
@@ -19,6 +20,6 @@ class ProductionConfig(Config):
     SESSION_REDIS = redis.from_url(REDIS_SESSIONS_URL)
 
     # Session
-    ALLOW_ASSESSMENT_LOGIN_VIA_MAGIC_LINK = getenv(
-        "ALLOW_ASSESSMENT_LOGIN_VIA_MAGIC_LINK", False
+    ALLOW_ASSESSMENT_LOGIN_VIA_MAGIC_LINK = strtobool(
+        getenv("ALLOW_ASSESSMENT_LOGIN_VIA_MAGIC_LINK", "False")
     )
