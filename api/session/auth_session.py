@@ -100,6 +100,7 @@ class AuthSessionView(MethodView):
         cls,
         account: "Account",
         redirect_url: str,
+        is_via_magic_link: bool,
         timeout_seconds: int = Config.FSD_SESSION_TIMEOUT_SECONDS,
     ):
         """
@@ -113,7 +114,7 @@ class AuthSessionView(MethodView):
         """
         try:
             session_details = cls.create_session_details_with_token(
-                account, timeout_seconds=timeout_seconds
+                account, is_via_magic_link, timeout_seconds=timeout_seconds
             )
             response = make_response(redirect(redirect_url), 302)
             expiry = datetime.now() + timedelta(seconds=timeout_seconds)
@@ -137,6 +138,7 @@ class AuthSessionView(MethodView):
     def create_session_details_with_token(
         cls,
         account: "Account",
+        is_via_magic_link: bool,
         timeout_seconds: int = Config.FSD_SESSION_TIMEOUT_SECONDS,
     ):
         """
@@ -150,7 +152,10 @@ class AuthSessionView(MethodView):
             "azureAdSubjectId": account.azure_ad_subject_id,
             "email": account.email,
             "fullName": account.full_name,
-            "roles": account.roles,
+            "roles": []
+            if is_via_magic_link
+            and not Config.ALLOW_ASSESSMENT_LOGIN_VIA_MAGIC_LINK
+            else account.roles,
             "iat": int(datetime.now().timestamp()),
             "exp": int(datetime.now().timestamp() + timeout_seconds),
         }

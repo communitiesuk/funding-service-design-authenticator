@@ -1,8 +1,10 @@
 """Flask Local Development Environment Configuration."""
 import logging
+from os import getenv
 
 import redis
 from config.envs.default import DefaultConfig as Config
+from distutils.util import strtobool
 from fsd_utils import configclass
 
 
@@ -23,7 +25,8 @@ class UnitTestConfig(Config):
     AZURE_AD_CLIENT_SECRET = "123"
     AZURE_AD_TENANT_ID = "organizations"
     AZURE_AD_AUTHORITY = (
-        # consumers|organizations|<tenant_id> - signifies the Azure AD tenant endpoint
+        # consumers|organizations|<tenant_id>
+        # - signifies the Azure AD tenant endpoint
         "https://login.microsoftonline.com/"
         + AZURE_AD_TENANT_ID
     )
@@ -41,6 +44,9 @@ class UnitTestConfig(Config):
     SESSION_PERMANENT = False
     SESSION_USE_SIGNER = True
     SESSION_COOKIE_SECURE = False
+    ALLOW_ASSESSMENT_LOGIN_VIA_MAGIC_LINK = strtobool(
+        getenv("ALLOW_ASSESSMENT_LOGIN_VIA_MAGIC_LINK", "False")
+    )
 
     # RSA 256 KEYS
     _test_private_key_path = (

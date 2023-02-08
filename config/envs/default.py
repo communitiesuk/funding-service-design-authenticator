@@ -99,6 +99,9 @@ class DefaultConfig(object):
     FSD_SESSION_TIMEOUT_SECONDS = CommonConfig.FSD_SESSION_TIMEOUT_SECONDS
     WTF_CSRF_TIME_LIMIT = CommonConfig.WTF_CSRF_TIME_LIMIT
     CREATE_APPLICATION_ON_ACCOUNT_CREATION = False
+    ALLOW_ASSESSMENT_LOGIN_VIA_MAGIC_LINK = strtobool(
+        getenv("ALLOW_ASSESSMENT_LOGIN_VIA_MAGIC_LINK", "True")
+    )
 
     """
     APIs Config: contains api hosts (set in manifest.yml)

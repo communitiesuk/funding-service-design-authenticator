@@ -91,6 +91,7 @@ class SsoView(MethodView):
         return AuthSessionView.create_session_and_redirect(
             account=updated_account,
             redirect_url=Config.ASSESSMENT_POST_LOGIN_URL,
+            is_via_magic_link=False,
             timeout_seconds=Config.FSD_ASSESSMENT_SESSION_TIMEOUT_SECONDS,
         )
 
