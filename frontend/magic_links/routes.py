@@ -1,5 +1,6 @@
 from config import Config
 from flask import Blueprint
+from flask import current_app
 from flask import g
 from flask import redirect
 from flask import render_template
@@ -65,13 +66,17 @@ def landing(link_id):
     link_key = ":".join([Config.MAGIC_LINK_RECORD_PREFIX, link_id])
     link_hash = MagicLinkMethods().redis_mlinks.get(link_key)
     if link_hash or g.is_authenticated:
+        current_app.logger.info("Rendering all questions")
         return render_template(
             "landing.html",
             link_id=link_id,
             submission_deadline=submission_deadline,
             fund_name=fund_name,
             round_title=round_data.title,
-            all_questions_url=Config.APPLICATION_ALL_QUESTIONS_URL,
+            all_questions_url=Config.APPLICATION_ALL_QUESTIONS_URL.format(
+                fund_id=Config.DEFAULT_FUND_ID,
+                round_id=Config.DEFAULT_ROUND_ID,
+            ),
         )
     return redirect(url_for("magic_links_bp.invalid", error="Link expired"))
 
