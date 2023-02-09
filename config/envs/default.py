@@ -132,7 +132,8 @@ class DefaultConfig(object):
     )
     APPLICANT_FRONTEND_CONTACT_US_URL = APPLICANT_FRONTEND_HOST + "/contact_us"
     APPLICATION_ALL_QUESTIONS_URL = (
-        APPLICANT_FRONTEND_HOST + "/all_questions/{fund_id}/{round_id}"
+        APPLICANT_FRONTEND_HOST
+        + "/all_questions/{fund_short_name}/{round_short_name}"
     )
 
     # Assessment Frontend

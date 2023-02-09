@@ -74,8 +74,8 @@ def landing(link_id):
             fund_name=fund_name,
             round_title=round_data.title,
             all_questions_url=Config.APPLICATION_ALL_QUESTIONS_URL.format(
-                fund_id=Config.DEFAULT_FUND_ID,
-                round_id=Config.DEFAULT_ROUND_ID,
+                fund_short_name=fund_data.short_name,
+                round_short_name=round_data.short_name,
             ),
         )
     return redirect(url_for("magic_links_bp.invalid", error="Link expired"))
