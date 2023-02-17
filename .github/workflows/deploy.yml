@@ -97,6 +97,7 @@ jobs:
       e2e_tests_target_url_frontend: https://fsd:fsd@frontend.dev.gids.dev
       e2e_tests_target_url_authenticator: https://fsd:fsd@authenticator2.dev.gids.dev
       e2e_tests_target_url_form_runner: https://fsd:fsd@forms.dev.gids.dev
+      e2e_tests_target_url_assessment: https://fsd:fsd@assessment.dev.gids.dev
       run_performance_tests: true
       run_e2e_tests: true
     secrets:
@@ -173,6 +174,7 @@ jobs:
       e2e_tests_target_url_frontend: https://fsd:fsd@frontend.test.gids.dev
       e2e_tests_target_url_authenticator: https://fsd:fsd@authenticator2.test.gids.dev
       e2e_tests_target_url_form_runner: https://fsd:fsd@forms.test.gids.dev
+      e2e_tests_target_url_assessment: https://fsd:fsd@assessment.test.gids.dev
       run_performance_tests: true
       run_e2e_tests: true
     secrets:
