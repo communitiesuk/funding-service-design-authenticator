@@ -89,7 +89,7 @@ msgid "There is a problem"
 msgstr "Mae problem"
 
 #: frontend/magic_links/templates/email.html:19
-msgid "Email address "
+msgid "Email address"
 msgstr "Cyfeiriad e-bost"
 
 #: frontend/magic_links/templates/email.html:26
