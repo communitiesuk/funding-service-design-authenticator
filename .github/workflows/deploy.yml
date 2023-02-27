@@ -48,6 +48,7 @@ jobs:
 #          retention-days: 5
   deploy_dev:
     if: ${{ github.actor != 'dependabot[bot]' }}
+    concurrency: deploy_dev_${{github.repository}}
     needs: testing
     runs-on: ubuntu-latest
     environment: Dev
