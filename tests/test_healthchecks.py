@@ -1,6 +1,11 @@
 import pytest
 
 
+@pytest.mark.app(debug=False)
+def test_app(app):
+    assert not app.debug, "Ensure the app not in debug mode"
+
+
 class TestHealthchecks:
     @pytest.mark.usefixtures("mock_redis_magic_links")
     def testChecks(self, flask_test_client):
