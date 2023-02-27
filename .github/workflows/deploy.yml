@@ -90,7 +90,7 @@ jobs:
 
   run-shared-tests_dev:
     needs: deploy_dev
-    concurrency: shared_tests_dev
+    concurrency: deploy_dev_${{github.repository}}
     if: ${{ github.actor != 'dependabot[bot]' }}
     uses: communitiesuk/funding-design-service-workflows/.github/workflows/run-shared-tests.yml@main
     with:
