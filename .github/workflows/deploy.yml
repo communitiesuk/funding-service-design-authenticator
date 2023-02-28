@@ -90,8 +90,7 @@ jobs:
 
   run-shared-tests_dev:
     needs: deploy_dev
-    # Waits for deploy test to finish before running the tests
-    concurrency: deploy_dev_${{github.repository}}
+    concurrency: run-shared-tests_dev
     if: ${{ github.actor != 'dependabot[bot]' }}
     uses: communitiesuk/funding-design-service-workflows/.github/workflows/run-shared-tests.yml@main
     with:
@@ -171,8 +170,7 @@ jobs:
 
   run-shared-tests_test:
     needs: deploy_test
-    # Waits for deploy test to finish before running the tests
-    concurrency: deploy_test_${{github.repository}}
+    concurrency: run-shared-tests_test
     if: ${{ github.actor != 'dependabot[bot]' }}
     uses: communitiesuk/funding-design-service-workflows/.github/workflows/run-shared-tests.yml@main
     with:
