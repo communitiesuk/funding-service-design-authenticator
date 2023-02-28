@@ -48,7 +48,6 @@ jobs:
 #          retention-days: 5
   deploy_dev:
     if: ${{ github.actor != 'dependabot[bot]' }}
-    concurrency: deploy_dev_${{github.repository}}
     needs: testing
     runs-on: ubuntu-latest
     environment: Dev
@@ -90,7 +89,7 @@ jobs:
 
   run-shared-tests_dev:
     needs: deploy_dev
-    concurrency: run-shared-tests_dev
+    concurrency: deploy_dev_${{github.repository}}
     if: ${{ github.actor != 'dependabot[bot]' }}
     uses: communitiesuk/funding-design-service-workflows/.github/workflows/run-shared-tests.yml@main
     with:
@@ -129,7 +128,6 @@ jobs:
 
   deploy_test:
     if: github.ref == 'refs/heads/main'
-    concurrency: deploy_test_${{github.repository}}
     needs: security
     runs-on: ubuntu-latest
     environment: test
@@ -170,7 +168,7 @@ jobs:
 
   run-shared-tests_test:
     needs: deploy_test
-    concurrency: run-shared-tests_test
+    concurrency: deploy_test_${{github.repository}}
     if: ${{ github.actor != 'dependabot[bot]' }}
     uses: communitiesuk/funding-design-service-workflows/.github/workflows/run-shared-tests.yml@main
     with:
