@@ -12,10 +12,7 @@ jobs:
     uses: communitiesuk/funding-design-service-workflows/.github/workflows/deploy.yml@fs-2415-standardise-github-workflows
     with:
       app_name: ${{ github.event.repository.name }}
-      assets_required: true
       include_rsa256_base64: true
-      include_forms_service_private_host: true
-      include_sentry_dsn: true
       include_rsa256_base64_private: true
       include_azure_ad_client_id: true
       include_azure_ad_tenant_id: true
