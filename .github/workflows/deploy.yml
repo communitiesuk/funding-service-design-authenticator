@@ -30,7 +30,7 @@ jobs:
       CF_API: ${{secrets.CF_API}}
       CF_ORG: ${{secrets.CF_ORG}}
       CF_SPACE: ${{secrets.CF_SPACE}}
-      CF_USER: ${{secrets.CF_USERNAME}}
+      CF_USERNAME: ${{secrets.CF_USERNAME}}
       CF_PASSWORD: ${{secrets.CF_PASSWORD}}
       E2E_PAT: ${{secrets.E2E_PAT}}
       RSA256_PUBLIC_KEY_BASE64: ${{secrets.RSA256_PUBLIC_KEY_BASE64}}
