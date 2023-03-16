@@ -26,7 +26,8 @@ class DevelopmentConfig(Config):
 
     # Azure Active Directory Config
     AZURE_AD_AUTHORITY = (
-        # consumers|organizations|<tenant_id> - signifies the Azure AD tenant endpoint
+        # consumers|organizations|<tenant_id>
+        # ^ signifies the Azure AD tenant endpoint
         "https://login.microsoftonline.com/organizations"
     )
 
@@ -73,6 +74,10 @@ class DevelopmentConfig(Config):
     ACCOUNT_STORE_API_HOST = getenv("ACCOUNT_STORE_API_HOST", "account_store")
     NOTIFICATION_SERVICE_HOST = getenv(
         "NOTIFICATION_SERVICE_HOST", "notification_service"
+    )
+
+    DISABLE_NOTIFICATION_SERVICE = (
+        False  # Toggle on if you have no notify api key.
     )
 
     # Security
