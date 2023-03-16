@@ -10,11 +10,7 @@ id_token_claims = {
     "id": 123,
     "sub": "abc",
     "preferred_username": "sso@example.com",
-    "roles": [
-        "LeadAssessor",
-        "Assessor",
-        "Commenter"
-    ]
+    "roles": ["LeadAssessor", "Assessor", "Commenter"],
 }
 
 # Mocked accounts response from msal get_accounts method
@@ -22,12 +18,12 @@ accounts = [{"username": "test"}]
 
 # Expected fsd-user-token claims
 expected_fsd_user_token_claims = {
-        "accountId": "usersso",
-        "azureAdSubjectId": "abc",
-        "email": "sso@example.com",
-        "fullName": "Test User SSO",
-        "roles": ["LEAD_ASSESSOR", "ASSESSOR", "COMMENTER"],
-    }
+    "accountId": "usersso",
+    "azureAdSubjectId": "abc",
+    "email": "sso@example.com",
+    "fullName": "Test User SSO",
+    "roles": ["LEAD_ASSESSOR", "ASSESSOR", "COMMENTER"],
+}
 
 # Role-less fsd-user-token claims
 roleless_fsd_user_token_claims = {
@@ -35,7 +31,7 @@ roleless_fsd_user_token_claims = {
     "id": 123,
     "sub": "abc",
     "preferred_username": "sso@example.com",
-    "roles": []
+    "roles": [],
 }
 
 
@@ -46,12 +42,9 @@ bad_id_token_claims = {
     "id": 123,
     "sub": "xyx",
     "preferred_username": "sso@example.com",
-    "roles": [
-        "LeadAssessor",
-        "Assessor",
-        "Commenter"
-    ]
+    "roles": ["LeadAssessor", "Assessor", "Commenter"],
 }
+
 
 class Account(dict):
     pass
@@ -102,6 +95,7 @@ class RolelessConfidentialClientApplication(ConfidentialClientApplication):
             "access_token": 2,
             "id_token_claims": roleless_fsd_user_token_claims,
         }
+
 
 @pytest.fixture()
 def mock_msal_client_application(mocker):

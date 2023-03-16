@@ -56,7 +56,9 @@ def put_data(endpoint: str, params: dict = None):
         if response.status_code in [200, 201]:
             return response.json()
         else:
-            current_app.logger.error("API error response of : " + str(response.json()))
+            current_app.logger.error(
+                "API error response of : " + str(response.json())
+            )
     else:
         return local_api_call(endpoint, params, "put")
 
