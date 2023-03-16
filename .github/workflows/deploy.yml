@@ -13,7 +13,7 @@ jobs:
     with:
       app_name: ${{ github.event.repository.name }}
       assets_required: true
-      include_rsa256_base64: true
+      include_rsa256_base64_public: true
       include_rsa256_base64_private: true
       include_azure_ad_client_id: true
       include_azure_ad_tenant_id: true
