@@ -36,11 +36,14 @@ def user():
                 roles_required = None
             else:
                 status_code = 403
-    return render_template(
-        "user.html",
-        roles_required=roles_required,
-        logged_in_user=logged_in_user,
-        login_url=Config.SSO_LOGIN_ENDPOINT,
-        logout_url=Config.SSO_LOGOUT_ENDPOINT,
-        support_mailbox=Config.SUPPORT_MAILBOX_EMAIL,
-    ), status_code
+    return (
+        render_template(
+            "user.html",
+            roles_required=roles_required,
+            logged_in_user=logged_in_user,
+            login_url=Config.SSO_LOGIN_ENDPOINT,
+            logout_url=Config.SSO_LOGOUT_ENDPOINT,
+            support_mailbox=Config.SUPPORT_MAILBOX_EMAIL,
+        ),
+        status_code,
+    )
