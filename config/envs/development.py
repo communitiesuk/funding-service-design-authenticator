@@ -26,8 +26,8 @@ class DevelopmentConfig(Config):
 
     # Azure Active Directory Config
     AZURE_AD_AUTHORITY = (
-        # consumers|organizations|<tenant_id>
-        # ^ signifies the Azure AD tenant endpoint
+        # consumers|organizations|<tenant_id> - signifies the Azure AD
+        # tenant endpoint
         "https://login.microsoftonline.com/organizations"
     )
 

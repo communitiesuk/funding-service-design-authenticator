@@ -1,6 +1,6 @@
 import pytest
 from app import create_app
-from tests.mocks.redis_sessions import RedisSessions
+from testing.mocks.mocks.redis_sessions import RedisSessions
 
 
 @pytest.fixture(scope="session")

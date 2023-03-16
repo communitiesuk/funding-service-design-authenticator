@@ -23,15 +23,13 @@ attrs==21.4.0
     #   outcome
     #   pytest
     #   trio
-axe-selenium-python==2.1.6
-    # via -r requirements-dev.in
 babel==2.10.3
     # via
     #   -r requirements.txt
     #   flask-babel
 bandit==1.7.4
     # via -r requirements-dev.in
-black==22.3.0
+black==22.10.0
     # via -r requirements-dev.in
 blinker==1.5
     # via
@@ -154,6 +152,10 @@ gitpython==3.1.27
     # via bandit
 govuk-frontend-jinja==2.3.0
     # via -r requirements.txt
+greenlet==1.1.3.post0
+    # via
+    #   -r requirements.txt
+    #   sqlalchemy
 gunicorn==20.1.0
     # via
     #   -r requirements.txt
@@ -190,8 +192,6 @@ jinja2==3.1.2
     #   swagger-ui-bundle
 jsmin==3.0.1
     # via -r requirements.txt
-json2html==1.3.0
-    # via -r requirements-dev.in
 jsonschema==4.6.0
     # via
     #   -r requirements.txt
@@ -281,7 +281,6 @@ pysocks==1.7.1
 pytest==7.1.2
     # via
     #   -r requirements-dev.in
-    #   axe-selenium-python
     #   pytest-base-url
     #   pytest-env
     #   pytest-flask
@@ -359,7 +358,6 @@ ruamel-yaml-clib==0.2.6
 selenium==4.2.0
     # via
     #   -r requirements-dev.in
-    #   axe-selenium-python
     #   pytest-selenium
 semver==2.13.0
     # via
@@ -383,7 +381,7 @@ sniffio==1.2.0
     # via trio
 sortedcontainers==2.4.0
     # via trio
-sqlalchemy==1.4.39
+sqlalchemy==1.4.42
     # via
     #   -r requirements.txt
     #   alembic

@@ -110,7 +110,7 @@ These are the current pipelines running on the repo:
 
 # Testing
 
-## Unit & Accessibility Testing
+## Unit Testing
 
 To run all tests run:
 
