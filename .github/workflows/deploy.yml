@@ -14,7 +14,6 @@ jobs:
       app_name: ${{ github.event.repository.name }}
       api: false
       assets_required: true
-      postgres_unit_testing: true
       include_rsa256_base64: true
       include_forms_service_private_host: true
       include_sentry_dsn: true
