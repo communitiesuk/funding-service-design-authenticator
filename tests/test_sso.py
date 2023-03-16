@@ -1,10 +1,10 @@
 from flask import session
 from fsd_utils.authentication.utils import validate_token_rs256
-from tests.mocks.msal import ConfidentialClientApplication
-from tests.mocks.msal import expected_fsd_user_token_claims
-from tests.mocks.msal import HijackedConfidentialClientApplication
-from tests.mocks.msal import id_token_claims
-from tests.mocks.msal import RolelessConfidentialClientApplication
+from testing.mocks.mocks import ConfidentialClientApplication
+from testing.mocks.mocks import expected_fsd_user_token_claims
+from testing.mocks.mocks import HijackedConfidentialClientApplication
+from testing.mocks.mocks import id_token_claims
+from testing.mocks.mocks import RolelessConfidentialClientApplication
 
 
 def test_sso_login_redirects_to_ms(flask_test_client):
