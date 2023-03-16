@@ -79,4 +79,3 @@ class UnitTestConfig(Config):
     # Assessment Frontend
     ASSESSMENT_FRONTEND_HOST = ""
     ASSESSMENT_POST_LOGIN_URL = ""
-    FLASK_ENV = "unit_test"
