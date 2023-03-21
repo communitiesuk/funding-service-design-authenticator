@@ -61,9 +61,9 @@ Applicants are directed to visit the [`/service/magic-links/new`](https://github
 
 The service creates a unique link reference and stores this reference in the `redis` key/value store together with data about the email address requested and how long this link should last until it expires (eg. 24hrs), and then sends a notification with a link which contains this reference to the email account, using the FSD notification service (which sends the email via Gov Notify).
 
-The user is then redirected to the [`/service/magic-links/check-email`](https://github.com/communitiesuk/funding-service-design-authenticator/blob/453d03123f681a33ed836b7d370bf3d974c6a030/frontend/magic_links/routes.py#L121) route which confirms to the user that a magic link email has been sent to their address and they should check their inbox. 
+The user is then redirected to the [`/service/magic-links/check-email`](https://github.com/communitiesuk/funding-service-design-authenticator/blob/453d03123f681a33ed836b7d370bf3d974c6a030/frontend/magic_links/routes.py#L121) route which confirms to the user that a magic link email has been sent to their address and they should check their inbox.
 
-The user clicks the link in the email which links to the [`/service/magic-links/landing/<link_id>`](https://github.com/communitiesuk/funding-service-design-authenticator/blob/453d03123f681a33ed836b7d370bf3d974c6a030/frontend/magic_links/routes.py#L49) route which displays a 'continue' button. 
+The user clicks the link in the email which links to the [`/service/magic-links/landing/<link_id>`](https://github.com/communitiesuk/funding-service-design-authenticator/blob/453d03123f681a33ed836b7d370bf3d974c6a030/frontend/magic_links/routes.py#L49) route which displays a 'continue' button.
 
 NOTE: This landing page exists to prevent email software bots from prematurely following and "using" the one-time link before the user has opened the email and followed it themselves. (Mail software bots sometimes "click" links in client's emails to check for malicious code before displaying them to the user)
 
