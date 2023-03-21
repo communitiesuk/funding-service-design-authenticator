@@ -1,7 +1,7 @@
 import pytest
 from app import create_app
 from flask import current_app
-from tests.mocks import *  # noqa
+from testing.mocks.mocks import *  # noqa
 
 
 @pytest.fixture
