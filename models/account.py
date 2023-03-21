@@ -5,7 +5,6 @@ from config import Config
 from flask import current_app
 from fsd_utils.authentication.config import azure_ad_role_map
 from fsd_utils.config.notify_constants import NotifyConstants
-from models.application import Application
 from models.application import ApplicationMethods
 from models.data import get_data
 from models.data import get_round_data
