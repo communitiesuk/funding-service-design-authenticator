@@ -9,7 +9,7 @@ on:
 jobs:
   test_and_deploy:
     if: ${{ github.actor != 'dependabot[bot]' }}
-    uses: communitiesuk/funding-design-service-workflows/.github/workflows/deploy.yml@fs-2415-standardise-github-workflows
+    uses: communitiesuk/funding-design-service-workflows/.github/workflows/deploy.yml@main
     with:
       app_name: ${{ github.event.repository.name }}
       assets_required: true
