@@ -313,4 +313,3 @@ msgstr " yn ein cefnogi i'w wella."
 
 #~ msgid "Community Ownership Fund"
 #~ msgstr "Y Gronfa Perchnogaeth Gymunedol"
-
