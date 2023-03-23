@@ -6,7 +6,7 @@
 
     <p class="govuk-caption-l"> {{ fund_name }} {{ round_title }}</p>
     <h1 class="govuk-heading-xl">
-      {{fund_title}}
+      {% trans %}Apply for{% endtrans %} {{fund_title}}
     </h1>
     <p class="govuk-heading-s">
       {% trans %}Submission deadline:{% endtrans %} <span class="govuk-body">{{ submission_deadline|datetime_format }}</span>
