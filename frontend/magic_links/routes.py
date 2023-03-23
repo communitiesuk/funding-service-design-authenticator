@@ -47,7 +47,9 @@ def signed_out(status):
     )
 
 
-@magic_links_bp.route("/landing/<link_id>", methods=["GET"])
+@magic_links_bp.route(
+    "/landing/<link_id>", methods=["GET"]
+)  # this is gonna need fund and round info!!!!
 @login_requested
 def landing(link_id):
     """
@@ -103,7 +105,7 @@ def new():
 
     if form.validate_on_submit():
         try:
-            AccountMethods.get_magic_link(
+            AccountMethods.get_magic_link(  # send fund and round info to here!!!! # noqa
                 email=form.data.get("email"),
                 fund_id=fund_id,
                 round_id=round_id,

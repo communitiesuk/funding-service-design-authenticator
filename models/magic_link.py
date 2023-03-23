@@ -190,7 +190,9 @@ class MagicLinkMethods(object):
         current_app.logger.info(f"Creating magic link for {account}")
         self.clear_existing_user_record(account.id)
         if not redirect_url:
-            redirect_url = Config.MAGIC_LINK_REDIRECT_URL
+            redirect_url = (
+                Config.MAGIC_LINK_REDIRECT_URL
+            )  # add fund and round info here!!!!
         new_link_json = self._make_link_json(account, redirect_url)
 
         redis_key, link_key = self._set_unique_keyed_record(
@@ -205,7 +207,7 @@ class MagicLinkMethods(object):
             magic_link_url = (
                 Config.AUTHENTICATOR_HOST
                 + Config.MAGIC_LINK_LANDING_PAGE
-                + link_key
+                + link_key  # add fund and round info here!!!!
             )
             new_link_json.update(
                 {

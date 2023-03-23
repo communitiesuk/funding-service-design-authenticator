@@ -209,8 +209,10 @@ class AccountMethods(Account):
             account = new_account = cls.create_account(email)
         if account:
 
-            fund = FundMethods.get_fund(fund_id)
-            round_for_fund = get_round_data(
+            fund = FundMethods.get_fund(
+                fund_id
+            )  # change this get the fund dict by using short_id passed through from frontend!!!!! # noqa
+            round_for_fund = get_round_data(  # change this get the round dict by using short_id passed through from frontend!!!!! # noqa
                 fund_id=fund_id, round_id=round_id, as_dict=True
             )
 
@@ -222,7 +224,7 @@ class AccountMethods(Account):
                 ],  # noqa
                 NotifyConstants.MAGIC_LINK_FUND_NAME_FIELD: fund.name,
             }
-            if (
+            if (  # get rid of this!!!!! fs-1367
                 fund_id
                 and round_id
                 and new_account
@@ -245,7 +247,9 @@ class AccountMethods(Account):
                     )
 
             # Create a fresh link
-            new_link_json = MagicLinkMethods().create_magic_link(account)
+            new_link_json = MagicLinkMethods().create_magic_link(
+                account
+            )  # this is gonna need fund and round info passed through to create_magic_link!!!! # noqa
             notification_content.update(
                 {
                     NotifyConstants.MAGIC_LINK_URL_FIELD: new_link_json.get(  # noqa
@@ -263,7 +267,7 @@ class AccountMethods(Account):
                 account.email,
                 notification_content,
             )
-            return True
+            return True  # weird??????
 
         current_app.logger.error(
             f"Could not create an account ({account}) for email '{email}'"
