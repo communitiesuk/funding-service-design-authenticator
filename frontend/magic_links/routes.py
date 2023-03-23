@@ -73,7 +73,7 @@ def landing(link_id):
             link_id=link_id,
             submission_deadline=submission_deadline,
             fund_name=fund_name,
-            fund_title = fund_title,
+            fund_title=fund_title,
             round_title=round_data.title,
             all_questions_url=Config.APPLICATION_ALL_QUESTIONS_URL.format(
                 fund_short_name=fund_data.short_name,

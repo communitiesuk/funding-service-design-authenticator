@@ -20,7 +20,7 @@ class Fund:
     def from_json(data: dict):
         return Fund(
             name=data.get("name"),
-            title = data.get("title"),
+            title=data.get("title"),
             short_name=data.get("short_name"),
             identifier=data.get("id"),
             description=data.get("description"),
