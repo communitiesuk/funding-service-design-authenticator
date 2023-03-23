@@ -62,6 +62,7 @@ def landing(link_id):
     )
     fund_data = FundMethods.get_fund(Config.DEFAULT_FUND_ID)
     fund_name = fund_data.name
+    fund_title = fund_data.title
     submission_deadline = round_data.deadline
     link_key = ":".join([Config.MAGIC_LINK_RECORD_PREFIX, link_id])
     link_hash = MagicLinkMethods().redis_mlinks.get(link_key)
@@ -72,6 +73,7 @@ def landing(link_id):
             link_id=link_id,
             submission_deadline=submission_deadline,
             fund_name=fund_name,
+            fund_title = fund_title,
             round_title=round_data.title,
             all_questions_url=Config.APPLICATION_ALL_QUESTIONS_URL.format(
                 fund_short_name=fund_data.short_name,

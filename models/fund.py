@@ -10,6 +10,7 @@ from models.round import Round
 @dataclass
 class Fund:
     name: str
+    title: str
     short_name: str
     identifier: str
     description: str
@@ -19,6 +20,7 @@ class Fund:
     def from_json(data: dict):
         return Fund(
             name=data.get("name"),
+            title = data.get("title"),
             short_name=data.get("short_name"),
             identifier=data.get("id"),
             description=data.get("description"),
