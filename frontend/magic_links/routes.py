@@ -124,7 +124,9 @@ def new():
         except AccountError as e:
             form.email.errors.append(str(e.message))
 
-    return render_template("email.html", form=form, fund_round=fund_round, fund_title = fund_title)
+    return render_template(
+        "email.html", form=form, fund_round=fund_round, fund_title=fund_title
+    )
 
 
 @magic_links_bp.route("/check-email", methods=["GET"])
