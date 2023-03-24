@@ -93,6 +93,8 @@ def new():
     fund_id = request.args.get("fund_id", Config.DEFAULT_FUND_ID)
     round_id = request.args.get("round_id", Config.DEFAULT_ROUND_ID)
     fund_round = False
+    fund_data = FundMethods.get_fund(fund_id)
+    fund_title = fund_data.title
 
     if fund_id and round_id:
         fund_round = True
@@ -122,7 +124,7 @@ def new():
         except AccountError as e:
             form.email.errors.append(str(e.message))
 
-    return render_template("email.html", form=form, fund_round=fund_round)
+    return render_template("email.html", form=form, fund_round=fund_round, fund_title = fund_title)
 
 
 @magic_links_bp.route("/check-email", methods=["GET"])
