@@ -2,7 +2,7 @@
 
 {% set assetPath = url_for('static', filename='').rstrip('/') %}
 
-{% block serviceTitle %}{{ service_title }}{% endblock %}
+{% block serviceTitle %}{{ fund_title }}{% endblock %}
 
 {% block pageTitle %}{{[pageHeading, serviceTitle]|join(' - ') if pageHeading else serviceTitle}}{% endblock %}
 
