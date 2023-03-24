@@ -3,7 +3,6 @@ from typing import Any
 from typing import Dict
 
 import connexion
-from models.fund import FundMethods
 import prance
 from config import Config
 from connexion.resolver import MethodViewResolver
@@ -27,6 +26,7 @@ from fsd_utils.logging import logging
 from jinja2 import ChoiceLoader
 from jinja2 import PackageLoader
 from jinja2 import PrefixLoader
+from models.fund import FundMethods
 
 redis_mlinks = FlaskRedis(config_prefix="REDIS_MLINKS")
 
