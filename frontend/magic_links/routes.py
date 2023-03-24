@@ -89,13 +89,17 @@ def new():
     Returns a page containing a single question requesting the
     users email address.
     """
+    # TODO remove after R2W3 closes and fs-2505 is complete (ids replaced by short_names) # noqa
     # Default to COF while we only have one fund
     fund_id = request.args.get("fund_id", Config.DEFAULT_FUND_ID)
     round_id = request.args.get("round_id", Config.DEFAULT_ROUND_ID)
-    fund_round = False
 
-    if fund_id and round_id:
-        fund_round = True
+    fund_short_name = request.args.get("fund")
+    round_short_name = request.args.get("round")
+
+    fund_round = (
+        True if fund_id and round_id else False
+    )  # TODO change to look for short names
 
     form_data = request.data
     if request.method == "GET":
@@ -107,8 +111,10 @@ def new():
         try:
             AccountMethods.get_magic_link(  # send fund and round info to here!!!! # noqa
                 email=form.data.get("email"),
-                fund_id=fund_id,
-                round_id=round_id,
+                fund_id=fund_id,  # TODO remove after R2W3 closes and fs-2505 is complete # noqa
+                round_id=round_id,  # TODO remove after R2W3 closes and fs-2505 is complete # noqa
+                fund_short_name=fund_short_name,
+                round_short_name=round_short_name,
             )
             return redirect(
                 url_for(

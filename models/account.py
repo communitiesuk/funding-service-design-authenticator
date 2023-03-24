@@ -192,7 +192,12 @@ class AccountMethods(Account):
 
     @classmethod
     def get_magic_link(
-        cls, email: str, fund_id: str = None, round_id: str = None
+        cls,
+        email: str,
+        fund_id: str = None,
+        round_id: str = None,
+        fund_short_name: str = None,
+        round_short_name: str = None,
     ) -> bool:
         """
         Create a new magic link for a user
@@ -209,12 +214,17 @@ class AccountMethods(Account):
             account = new_account = cls.create_account(email)
         if account:
 
-            fund = FundMethods.get_fund(
-                fund_id
-            )  # change this get the fund dict by using short_id passed through from frontend!!!!! # noqa
-            round_for_fund = get_round_data(  # change this get the round dict by using short_id passed through from frontend!!!!! # noqa
-                fund_id=fund_id, round_id=round_id, as_dict=True
-            )
+            if fund_short_name and round_short_name:
+                fund = FundMethods.get_fund(fund_short_name=fund_short_name)
+                round_for_fund = get_round_data(
+                    round_short_name=round_short_name, as_dict=True
+                )
+            # TODO remove after R2W3 closes and fs-2505 is complete
+            else:
+                fund = FundMethods.get_fund(fund_id=fund_id)
+                round_for_fund = get_round_data(
+                    fund_id=fund_id, round_id=round_id, as_dict=True
+                )
 
             notification_content = {
                 NotifyConstants.MAGIC_LINK_REQUEST_NEW_LINK_URL_FIELD: Config.AUTHENTICATOR_HOST  # noqa

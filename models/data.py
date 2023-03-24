@@ -90,16 +90,31 @@ def local_api_call(endpoint: str, params: dict = None, method: str = "get"):
             return api_data.get(endpoint)
 
 
-def get_round_data(fund_id, round_id, as_dict=False):
-    round_request_url = Config.GET_ROUND_DATA_FOR_FUND_ENDPOINT.format(
-        fund_id=fund_id, round_id=round_id
-    )
-    language = {"language": get_lang()}
-    round_response = get_data(round_request_url, language)
-    if as_dict:
-        return Round.from_dict(round_response)
+def get_round_data(
+    fund_id: str = None,
+    round_id: str = None,
+    round_short_name: str = None,
+    as_dict=False,
+):
+
+    if round_short_name:
+        url = (Config.GET_ROUND_DATA_FOR_FUND_ENDPOINT).format(
+            fund_id=fund_id, round_id=round_short_name
+        )
+    # TODO remove after R2W3 closes and fs-2505 is complete (make round_short_name non-optional) # noqa
     else:
-        return round_response
+        url = Config.GET_ROUND_DATA_FOR_FUND_ENDPOINT.format(
+            fund_id=fund_id, round_id=round_id
+        )
+    params = {
+        "language": get_lang(),
+        "use_short_name": True if round_short_name else False,
+    }
+    response = get_data(endpoint=url, params=params)
+    if as_dict:
+        return Round.from_dict(response)
+    else:
+        return response
 
 
 def get_round_data_fail_gracefully(fund_id, round_id):
