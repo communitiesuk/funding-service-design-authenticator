@@ -3,10 +3,12 @@
 {%- from "govuk_frontend_jinja/components/button/macro.html" import govukButton -%}
 
 {% extends "base.html" %}
-{% set service_title = gettext("Apply for") + " " + fund_title %}
+{% set service_title = gettext("Apply for") + " " + title %}
+
 {% set pageHeading %}{% trans %}Email address{% endtrans %}{% endset %}
 
 {% block content %}
+
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
             {% if form.errors %}
