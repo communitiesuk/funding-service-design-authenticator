@@ -43,3 +43,12 @@ class FundMethods:
         response = get_data(endpoint=url, params=language)
         if response and "id" in response:
             return Fund.from_json(response)
+        
+    @staticmethod
+    def get_fund_title():
+        from flask import request
+        from flask import current_app
+        fund = request.args.get("fund")
+        current_app.logger.error(f"FUND ARGS::::::::: {fund}")
+        return fund
+    

@@ -3,6 +3,7 @@ from typing import Any
 from typing import Dict
 
 import connexion
+from models.fund import FundMethods
 import prance
 from config import Config
 from connexion.resolver import MethodViewResolver
@@ -112,9 +113,6 @@ def create_app() -> Flask:
     def inject_global_constants():
         return dict(
             stage="beta",
-            service_title=(
-                gettext("Apply for funding to save an asset in your community")
-            ),
             service_meta_description=(
                 "Apply for funding to save an asset in your community"
             ),
