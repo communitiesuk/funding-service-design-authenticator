@@ -226,14 +226,30 @@ class AccountMethods(Account):
                     fund_id=fund_id, round_id=round_id, as_dict=True
                 )
 
-            notification_content = {
-                NotifyConstants.MAGIC_LINK_REQUEST_NEW_LINK_URL_FIELD: Config.AUTHENTICATOR_HOST  # noqa
-                + Config.NEW_LINK_ENDPOINT,
-                NotifyConstants.MAGIC_LINK_CONTACT_HELP_EMAIL_FIELD: round_for_fund.contact_details[  # noqa
-                    "email_address"
-                ],  # noqa
-                NotifyConstants.MAGIC_LINK_FUND_NAME_FIELD: fund.name,
-            }
+            if fund_short_name and round_short_name:
+                notification_content = {
+                    NotifyConstants.MAGIC_LINK_REQUEST_NEW_LINK_URL_FIELD: Config.AUTHENTICATOR_HOST  # noqa
+                    + Config.NEW_LINK_ENDPOINT
+                    + "?fund="
+                    + fund_short_name
+                    + "&round="
+                    + round_short_name,  # noqa
+                    NotifyConstants.MAGIC_LINK_CONTACT_HELP_EMAIL_FIELD: round_for_fund.contact_details[  # noqa
+                        "email_address"
+                    ],  # noqa
+                    NotifyConstants.MAGIC_LINK_FUND_NAME_FIELD: fund.name,
+                }
+            # TODO remove after R2W3 closes and fs-2505 is complete
+            else:
+                notification_content = {
+                    NotifyConstants.MAGIC_LINK_REQUEST_NEW_LINK_URL_FIELD: Config.AUTHENTICATOR_HOST  # noqa
+                    + Config.NEW_LINK_ENDPOINT,
+                    NotifyConstants.MAGIC_LINK_CONTACT_HELP_EMAIL_FIELD: round_for_fund.contact_details[  # noqa
+                        "email_address"
+                    ],  # noqa
+                    NotifyConstants.MAGIC_LINK_FUND_NAME_FIELD: fund.name,
+                }
+
             if (  # get rid of this!!!!! fs-1367
                 fund_id
                 and round_id
@@ -259,8 +275,8 @@ class AccountMethods(Account):
             # Create a fresh link
             new_link_json = MagicLinkMethods().create_magic_link(
                 account,
-                fund_short_name=fund_short_name,
-                round_short_name=round_short_name,
+                fund_short_name=fund_short_name if fund_short_name else "",
+                round_short_name=round_short_name if round_short_name else "",
             )
             notification_content.update(
                 {
