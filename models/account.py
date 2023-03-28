@@ -5,7 +5,6 @@ from config import Config
 from flask import current_app
 from fsd_utils.authentication.config import azure_ad_role_map
 from fsd_utils.config.notify_constants import NotifyConstants
-from models.application import ApplicationMethods
 from models.data import get_data
 from models.data import get_round_data
 from models.data import post_data
@@ -208,10 +207,9 @@ class AccountMethods(Account):
         :param round_id: The round id
         :return: True if successfully created
         """
-        new_account = False
         account = cls.get_account(email)
         if not account:
-            account = new_account = cls.create_account(email)
+            account = cls.create_account(email)
         if account:
 
             if fund_short_name and round_short_name:
@@ -249,28 +247,6 @@ class AccountMethods(Account):
                     ],  # noqa
                     NotifyConstants.MAGIC_LINK_FUND_NAME_FIELD: fund.name,
                 }
-
-            if (  # get rid of this!!!!! fs-1367
-                fund_id
-                and round_id
-                and new_account
-                and Config.CREATE_APPLICATION_ON_ACCOUNT_CREATION
-            ):
-                current_app.logger.info(
-                    "Preparing to auto-create a blank application for"
-                    f" account: {str(account)}, for fund_id: {fund_id}and"
-                    f" round_id: {round_id}"
-                )
-                # Create an application if none exists
-                new_application = ApplicationMethods.create_application(
-                    account.id, fund_id, round_id
-                )
-                if new_application:
-                    notification_content.update(
-                        {
-                            NotifyConstants.MAGIC_LINK_FUND_NAME_FIELD: new_application.fund_name  # noqa
-                        }
-                    )
 
             # Create a fresh link
             new_link_json = MagicLinkMethods().create_magic_link(
