@@ -178,7 +178,11 @@ class MagicLinkMethods(object):
             return True
 
     def create_magic_link(
-        self, account: Account, redirect_url: str = None
+        self,
+        account: Account,
+        redirect_url: str = None,
+        fund_short_name: str = "",
+        round_short_name: str = "",
     ) -> dict:
         """
         Creates a new magic link for an account, with an optional redirect_url
@@ -192,7 +196,11 @@ class MagicLinkMethods(object):
         if not redirect_url:
             redirect_url = (
                 Config.MAGIC_LINK_REDIRECT_URL
-            )  # add fund and round info here!!!!
+                + "?fund="
+                + fund_short_name
+                + "&round="
+                + round_short_name
+            )
         new_link_json = self._make_link_json(account, redirect_url)
 
         redis_key, link_key = self._set_unique_keyed_record(
@@ -207,7 +215,11 @@ class MagicLinkMethods(object):
             magic_link_url = (
                 Config.AUTHENTICATOR_HOST
                 + Config.MAGIC_LINK_LANDING_PAGE
-                + link_key  # add fund and round info here!!!!
+                + link_key
+                + "?fund="
+                + fund_short_name
+                + "&round="
+                + round_short_name
             )
             new_link_json.update(
                 {

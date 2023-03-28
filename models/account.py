@@ -258,8 +258,10 @@ class AccountMethods(Account):
 
             # Create a fresh link
             new_link_json = MagicLinkMethods().create_magic_link(
-                account
-            )  # this is gonna need fund and round info passed through to create_magic_link!!!! # noqa
+                account,
+                fund_short_name=fund_short_name,
+                round_short_name=round_short_name,
+            )
             notification_content.update(
                 {
                     NotifyConstants.MAGIC_LINK_URL_FIELD: new_link_json.get(  # noqa
