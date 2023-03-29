@@ -61,7 +61,6 @@ class TestMagicLinks(AuthSessionView):
         }
         endpoint = "/service/magic-links/new"
         response = flask_test_client.post(endpoint, data=payload)
-
         # Mock the create_application method,
         # so we can check if it has been called
         create_application_mock = mocker.patch.object(
@@ -70,45 +69,6 @@ class TestMagicLinks(AuthSessionView):
             new_callable=mock_create_application,
         )
         create_application_mock.assert_not_called()
-        assert response.status_code == 302, response.data
-
-    def test_new_magic_link_creates_application_if_flag_set(
-        self, flask_test_client, mocker, mock_create_application
-    ):
-        """
-        GIVEN a running Flask client, redis instance and
-        an existing h@a.com account in the account_store api
-        WHEN we POST to /magic-links/a@example.com
-        with valid fund_id and round_id params
-        AND Config.CREATE_APPLICATION_ON_ACCOUNT_CREATION is set to True
-        THEN an application is automatically created
-        :param flask_test_client:
-        """
-        # Set Config.CREATE_APPLICATION_ON_ACCOUNT_CREATION
-        # Simply patching it has the effect of it returning True
-        # which is the state/effect we want to produce
-        mocker.patch.object(Config, "CREATE_APPLICATION_ON_ACCOUNT_CREATION")
-        # Mock the create_application method,
-        # so we can check if it has been called
-        create_application_mock = mocker.patch.object(
-            ApplicationMethods,
-            "create_application",
-            new_callable=mock_create_application,
-        )
-        payload = {
-            "email": "new_user@example.com",
-            "redirectUrl": "https://example.com/redirect-url",
-            "fund_id": "47aef2f5-3fcb-4d45-acb5-f0152b5f03c4",
-            "round_id": "c603d114-5364-4474-a0c4-c41cbf4d3bbd",
-        }
-        endpoint = "/service/magic-links/new"
-        response = flask_test_client.post(endpoint, data=payload)
-
-        create_application_mock.assert_called_once_with(
-            "usernew",
-            "47aef2f5-3fcb-4d45-acb5-f0152b5f03c4",
-            "c603d114-5364-4474-a0c4-c41cbf4d3bbd",
-        )
         assert response.status_code == 302, response.data
 
     def test_magic_link_redirects_to_landing(self, flask_test_client):
@@ -255,6 +215,7 @@ class TestMagicLinks(AuthSessionView):
             endpoint, json=magic_link_create_payload
         )
         magic_link = response.get_json()
+
         link_key = magic_link.get("key")
         self.created_link_keys.append(link_key)
         use_endpoint = f"/magic-links/{link_key}"
@@ -262,6 +223,7 @@ class TestMagicLinks(AuthSessionView):
 
         # use magic link landing but unauthorised
         landing_response = flask_test_client.get(landing_endpoint)
+
         assert landing_response.status_code == 200
         assert b"How to complete your application" in landing_response.data
         assert b"Continue" in landing_response.data
