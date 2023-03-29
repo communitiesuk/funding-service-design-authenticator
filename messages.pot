@@ -8,14 +8,18 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-03-29 15:21+0100\n"
+"POT-Creation-Date: 2023-03-29 18:44+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.9.1\n"
+"Generated-By: Babel 2.10.3\n"
+
+#: app.py:135
+msgid "Apply for"
+msgstr ""
 
 #: frontend/magic_links/filters.py:10
 msgid "at"
@@ -25,73 +29,66 @@ msgstr ""
 msgid "Session expired, please refresh page to continue."
 msgstr ""
 
-#: frontend/magic_links/templates/check_email.html:6
-#: frontend/magic_links/templates/email.html:6
-#: frontend/magic_links/templates/landing.html:4
-#: frontend/magic_links/templates/landing.html:13
-msgid "Apply for"
-msgstr ""
-
-#: frontend/magic_links/templates/check_email.html:9
+#: frontend/magic_links/templates/check_email.html:8
 msgid "Email sent"
 msgstr ""
 
-#: frontend/magic_links/templates/check_email.html:11
+#: frontend/magic_links/templates/check_email.html:10
 msgid "Email not sent"
 msgstr ""
 
-#: frontend/magic_links/templates/check_email.html:22
+#: frontend/magic_links/templates/check_email.html:21
 msgid "No email has been sent."
 msgstr ""
 
-#: frontend/magic_links/templates/check_email.html:23
+#: frontend/magic_links/templates/check_email.html:22
 msgid "If you need a link to access your applications you can "
 msgstr ""
 
-#: frontend/magic_links/templates/check_email.html:23
-#: frontend/magic_links/templates/check_email.html:43
+#: frontend/magic_links/templates/check_email.html:22
+#: frontend/magic_links/templates/check_email.html:42
 msgid "request a new link"
 msgstr ""
 
-#: frontend/magic_links/templates/check_email.html:28
+#: frontend/magic_links/templates/check_email.html:27
 msgid "We have sent an email to "
 msgstr ""
 
-#: frontend/magic_links/templates/check_email.html:29
+#: frontend/magic_links/templates/check_email.html:28
 msgid "What happens next"
 msgstr ""
 
-#: frontend/magic_links/templates/check_email.html:31
+#: frontend/magic_links/templates/check_email.html:30
 msgid ""
 "Use the link to confirm your email address and start a new application, "
 "or continue any applications you have in progress."
 msgstr ""
 
-#: frontend/magic_links/templates/check_email.html:33
+#: frontend/magic_links/templates/check_email.html:32
 msgid "The link will work once and stop working after 24 hours."
 msgstr ""
 
-#: frontend/magic_links/templates/check_email.html:38
+#: frontend/magic_links/templates/check_email.html:37
 msgid "If you do not receive an email"
 msgstr ""
 
-#: frontend/magic_links/templates/check_email.html:42
+#: frontend/magic_links/templates/check_email.html:41
 msgid "The email may take a few minutes to arrive."
 msgstr ""
 
-#: frontend/magic_links/templates/check_email.html:43
+#: frontend/magic_links/templates/check_email.html:42
 msgid "Check your spam or junk folders – if it still has not arrived, you can "
 msgstr ""
 
-#: frontend/magic_links/templates/email.html:8
+#: frontend/magic_links/templates/email.html:7
 msgid "Email address"
 msgstr ""
 
-#: frontend/magic_links/templates/email.html:16
+#: frontend/magic_links/templates/email.html:15
 msgid "There is a problem"
 msgstr ""
 
-#: frontend/magic_links/templates/email.html:31
+#: frontend/magic_links/templates/email.html:30
 msgid ""
 "<p>We’ll email you a link to start a new application, or continue any "
 "applications you have in progress.</p><p>The link will work once and stop"
@@ -99,8 +96,8 @@ msgid ""
 "you must use the email you started the application with.</p>"
 msgstr ""
 
-#: frontend/magic_links/templates/email.html:51
-#: frontend/magic_links/templates/landing.html:20
+#: frontend/magic_links/templates/email.html:50
+#: frontend/magic_links/templates/landing.html:19
 msgid "Continue"
 msgstr ""
 
@@ -121,46 +118,46 @@ msgstr ""
 msgid "Request a new link"
 msgstr ""
 
-#: frontend/magic_links/templates/landing.html:16
+#: frontend/magic_links/templates/landing.html:15
 msgid "Submission deadline:"
 msgstr ""
 
-#: frontend/magic_links/templates/landing.html:25
+#: frontend/magic_links/templates/landing.html:24
 msgid "How to complete your application"
 msgstr ""
 
-#: frontend/magic_links/templates/landing.html:26
+#: frontend/magic_links/templates/landing.html:25
 msgid "Moving through the form"
 msgstr ""
 
-#: frontend/magic_links/templates/landing.html:27
+#: frontend/magic_links/templates/landing.html:26
 msgid "This form is split into sections based on how it will be assessed."
 msgstr ""
 
-#: frontend/magic_links/templates/landing.html:28
+#: frontend/magic_links/templates/landing.html:27
 msgid "You do not have to complete it in order, or all at once."
 msgstr ""
 
-#: frontend/magic_links/templates/landing.html:30
+#: frontend/magic_links/templates/landing.html:29
 msgid "You can preview the"
 msgstr ""
 
-#: frontend/magic_links/templates/landing.html:31
+#: frontend/magic_links/templates/landing.html:30
 msgid "full list of application questions."
 msgstr ""
 
-#: frontend/magic_links/templates/landing.html:34
+#: frontend/magic_links/templates/landing.html:33
 msgid ""
 "When you have written something in every field in a section, the section "
 "will be marked as complete. You can still\n"
 "      change your responses in sections that are marked as complete."
 msgstr ""
 
-#: frontend/magic_links/templates/landing.html:39
+#: frontend/magic_links/templates/landing.html:38
 msgid "Saving progress and making changes"
 msgstr ""
 
-#: frontend/magic_links/templates/landing.html:41
+#: frontend/magic_links/templates/landing.html:40
 msgid ""
 "Your work will not save automatically. To make sure you do not lose "
 "anything, select <strong>Save and\n"
@@ -168,48 +165,48 @@ msgid ""
 "close your internet browser window."
 msgstr ""
 
-#: frontend/magic_links/templates/landing.html:44
+#: frontend/magic_links/templates/landing.html:43
 msgid "If you need to edit or revisit any sections, use the browser back button."
 msgstr ""
 
-#: frontend/magic_links/templates/landing.html:46
+#: frontend/magic_links/templates/landing.html:45
 msgid "You can edit your responses as many times as you like before you submit."
 msgstr ""
 
-#: frontend/magic_links/templates/landing.html:50
+#: frontend/magic_links/templates/landing.html:49
 msgid "Submitting your application"
 msgstr ""
 
-#: frontend/magic_links/templates/landing.html:52
+#: frontend/magic_links/templates/landing.html:51
 msgid ""
 "When you have completed all sections, you’ll be able to submit your\n"
 "      application."
 msgstr ""
 
-#: frontend/magic_links/templates/landing.html:56
+#: frontend/magic_links/templates/landing.html:55
 msgid ""
 "Once you have submitted your application, you’ll not be able to edit, add"
 "\n"
 "      or change any sections."
 msgstr ""
 
-#: frontend/magic_links/templates/landing.html:60
+#: frontend/magic_links/templates/landing.html:59
 msgid "Get help"
 msgstr ""
 
-#: frontend/magic_links/templates/landing.html:62
+#: frontend/magic_links/templates/landing.html:61
 msgid "If you have questions about the form or the fund, email us at"
 msgstr ""
 
-#: frontend/magic_links/templates/landing.html:65
+#: frontend/magic_links/templates/landing.html:64
 msgid "How we'll use your information"
 msgstr ""
 
-#: frontend/magic_links/templates/landing.html:67
+#: frontend/magic_links/templates/landing.html:66
 msgid "Read how we'll use the information from your application in our"
 msgstr ""
 
-#: frontend/magic_links/templates/landing.html:69
+#: frontend/magic_links/templates/landing.html:68
 msgid "privacy notice"
 msgstr ""
 
@@ -276,3 +273,4 @@ msgstr ""
 #: frontend/templates/header.html:36
 msgid " will help us to improve it."
 msgstr ""
+
