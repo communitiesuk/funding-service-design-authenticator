@@ -5,6 +5,7 @@ import urllib.parse
 import requests
 from config import Config
 from flask import current_app
+from flask import request
 from fsd_utils.locale_selector.get_lang import get_lang
 from models.round import Round
 
@@ -102,9 +103,12 @@ def get_round_data(
     as_dict=False,
 ):
 
+    round_short_name = request.args.get("round")
+    fund_short_name = request.args.get("round")
+
     if round_short_name:
         url = (Config.GET_ROUND_DATA_FOR_FUND_ENDPOINT).format(
-            fund_id=fund_id, round_id=round_short_name
+            fund_id=fund_short_name, round_id=round_short_name
         )
     # TODO remove after R2W3 closes and fs-2505 is complete (make round_short_name non-optional) # noqa
     else:
