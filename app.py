@@ -3,7 +3,6 @@ from typing import Any
 from typing import Dict
 
 import connexion
-from models.fund import FundMethods
 import prance
 from config import Config
 from connexion.resolver import MethodViewResolver
@@ -11,7 +10,6 @@ from flask import Flask
 from flask import request
 from flask_assets import Environment
 from flask_babel import Babel
-from flask_babel import gettext
 from flask_redis import FlaskRedis
 from flask_session import Session
 from flask_talisman import Talisman
