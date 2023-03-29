@@ -1,5 +1,9 @@
 {%- from "govuk_frontend_jinja/components/button/macro.html" import govukButton
--%} {% extends "base.html" %} {% block content %}
+-%}
+{% extends "base.html" %}
+{% set service_title = gettext("Apply for") + " " + fund_title %}
+
+{% block content %}
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds govuk-body">
@@ -19,7 +23,6 @@
     }}
 
     <h2 class="govuk-heading-m">{% trans %}How to complete your application{% endtrans %}</h2>
-
     <h3 class="govuk-heading-s">{% trans %}Moving through the form{% endtrans %}</h3>
     <p>{% trans %}This form is split into sections based on how it will be assessed.{% endtrans %}</p>
     <p>{% trans %}You do not have to complete it in order, or all at once.{% endtrans %}</p>

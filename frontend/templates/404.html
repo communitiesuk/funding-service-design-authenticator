@@ -1,8 +1,9 @@
 {% extends "base.html" %}
+{% set service_title = "Apply for" + " " + fund_title %}
 
 {% from "partials/contact_details.html" import contact_details %}
 
-{% block pageTitle %}Page not found – {{ service_title }}{% endblock %}
+{% block pageTitle %}Page not found – {{ fund_title }}{% endblock %}
 
 {% block content %}
     <div class="govuk-grid-row">
