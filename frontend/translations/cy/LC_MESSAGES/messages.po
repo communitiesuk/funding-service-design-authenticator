@@ -310,4 +310,3 @@ msgstr " yn ein cefnogi i'w wella."
 
 #~ msgid "Apply for funding to save an asset in your community"
 #~ msgstr ""
-
