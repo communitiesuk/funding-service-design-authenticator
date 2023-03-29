@@ -5,7 +5,6 @@ from config import Config
 from flask import current_app
 from fsd_utils.authentication.config import azure_ad_role_map
 from fsd_utils.config.notify_constants import NotifyConstants
-from models.application import ApplicationMethods
 from models.data import get_data
 from models.data import get_round_data
 from models.data import post_data
@@ -192,7 +191,12 @@ class AccountMethods(Account):
 
     @classmethod
     def get_magic_link(
-        cls, email: str, fund_id: str = None, round_id: str = None
+        cls,
+        email: str,
+        fund_id: str = None,
+        round_id: str = None,
+        fund_short_name: str = None,
+        round_short_name: str = None,
     ) -> bool:
         """
         Create a new magic link for a user
@@ -203,49 +207,51 @@ class AccountMethods(Account):
         :param round_id: The round id
         :return: True if successfully created
         """
-        new_account = False
         account = cls.get_account(email)
         if not account:
-            account = new_account = cls.create_account(email)
+            account = cls.create_account(email)
         if account:
-
-            fund = FundMethods.get_fund(fund_id)
-            round_for_fund = get_round_data(
-                fund_id=fund_id, round_id=round_id, as_dict=True
-            )
-
-            notification_content = {
-                NotifyConstants.MAGIC_LINK_REQUEST_NEW_LINK_URL_FIELD: Config.AUTHENTICATOR_HOST  # noqa
-                + Config.NEW_LINK_ENDPOINT,
-                NotifyConstants.MAGIC_LINK_CONTACT_HELP_EMAIL_FIELD: round_for_fund.contact_details[  # noqa
-                    "email_address"
-                ],  # noqa
-                NotifyConstants.MAGIC_LINK_FUND_NAME_FIELD: fund.name,
-            }
-            if (
-                fund_id
-                and round_id
-                and new_account
-                and Config.CREATE_APPLICATION_ON_ACCOUNT_CREATION
-            ):
-                current_app.logger.info(
-                    "Preparing to auto-create a blank application for"
-                    f" account: {str(account)}, for fund_id: {fund_id}and"
-                    f" round_id: {round_id}"
+            if fund_short_name and round_short_name:
+                fund = FundMethods.get_fund(fund_short_name=fund_short_name)
+                round_for_fund = get_round_data(
+                    round_short_name=round_short_name, as_dict=True
                 )
-                # Create an application if none exists
-                new_application = ApplicationMethods.create_application(
-                    account.id, fund_id, round_id
+            # TODO remove after R2W3 closes and fs-2505 is complete
+            else:
+                fund = FundMethods.get_fund(fund_id=fund_id)
+                round_for_fund = get_round_data(
+                    fund_id=fund_id, round_id=round_id, as_dict=True
                 )
-                if new_application:
-                    notification_content.update(
-                        {
-                            NotifyConstants.MAGIC_LINK_FUND_NAME_FIELD: new_application.fund_name  # noqa
-                        }
-                    )
 
+            if fund_short_name and round_short_name:
+                notification_content = {
+                    NotifyConstants.MAGIC_LINK_REQUEST_NEW_LINK_URL_FIELD: Config.AUTHENTICATOR_HOST  # noqa
+                    + Config.NEW_LINK_ENDPOINT
+                    + "?fund="
+                    + fund_short_name
+                    + "&round="
+                    + round_short_name,  # noqa
+                    NotifyConstants.MAGIC_LINK_CONTACT_HELP_EMAIL_FIELD: round_for_fund.contact_details[  # noqa
+                        "email_address"
+                    ],  # noqa
+                    NotifyConstants.MAGIC_LINK_FUND_NAME_FIELD: fund.name,
+                }
+            # TODO remove after R2W3 closes and fs-2505 is complete
+            else:
+                notification_content = {
+                    NotifyConstants.MAGIC_LINK_REQUEST_NEW_LINK_URL_FIELD: Config.AUTHENTICATOR_HOST  # noqa
+                    + Config.NEW_LINK_ENDPOINT,
+                    NotifyConstants.MAGIC_LINK_CONTACT_HELP_EMAIL_FIELD: round_for_fund.contact_details[  # noqa
+                        "email_address"
+                    ],  # noqa
+                    NotifyConstants.MAGIC_LINK_FUND_NAME_FIELD: fund.name,
+                }
             # Create a fresh link
-            new_link_json = MagicLinkMethods().create_magic_link(account)
+            new_link_json = MagicLinkMethods().create_magic_link(
+                account,
+                fund_short_name=fund_short_name if fund_short_name else "",
+                round_short_name=round_short_name if round_short_name else "",
+            )
             notification_content.update(
                 {
                     NotifyConstants.MAGIC_LINK_URL_FIELD: new_link_json.get(  # noqa
@@ -253,7 +259,6 @@ class AccountMethods(Account):
                     )
                 }
             )
-
             current_app.logger.debug(
                 f"Magic Link URL: {new_link_json.get('link')}"
             )
@@ -263,8 +268,7 @@ class AccountMethods(Account):
                 account.email,
                 notification_content,
             )
-            return True
-
+            return True  # weird??????
         current_app.logger.error(
             f"Could not create an account ({account}) for email '{email}'"
         )

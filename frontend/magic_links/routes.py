@@ -60,9 +60,10 @@ def landing(link_id):
     round_data = get_round_data(
         Config.DEFAULT_FUND_ID, Config.DEFAULT_ROUND_ID, as_dict=True
     )
+
     fund_data = FundMethods.get_fund(Config.DEFAULT_FUND_ID)
     fund_name = fund_data.name
-    fund_title = fund_data.title
+    fund_title = fund_data.fund_title
     submission_deadline = round_data.deadline
     link_key = ":".join([Config.MAGIC_LINK_RECORD_PREFIX, link_id])
     link_hash = MagicLinkMethods().redis_mlinks.get(link_key)
@@ -89,34 +90,50 @@ def new():
     Returns a page containing a single question requesting the
     users email address.
     """
+    # TODO remove after R2W3 closes and fs-2505 is complete (ids replaced by short_names) # noqa
     # Default to COF while we only have one fund
+
     fund_id = request.args.get("fund_id", Config.DEFAULT_FUND_ID)
     round_id = request.args.get("round_id", Config.DEFAULT_ROUND_ID)
-    fund_round = False
+    fund_short_name = request.args.get("fund")
+    round_short_name = request.args.get("round")
     fund_data = FundMethods.get_fund(fund_id)
-    fund_title = fund_data.title
 
-    if fund_id and round_id:
-        fund_round = True
-
+    fund_title = fund_data.fund_title
+    fund_round = (
+        True if fund_id and round_id else False
+    )  # TODO change to look for short names
     form_data = request.data
     if request.method == "GET":
         form_data = request.args
-
     form = EmailForm(data=form_data)
-
     if form.validate_on_submit():
         try:
-            AccountMethods.get_magic_link(
+            AccountMethods.get_magic_link(  # send fund and round info to here!!!! # noqa
                 email=form.data.get("email"),
-                fund_id=fund_id,
-                round_id=round_id,
+                fund_id=fund_id,  # TODO remove after R2W3 closes and fs-2505 is complete # noqa
+                round_id=round_id,  # TODO remove after R2W3 closes and fs-2505 is complete # noqa
+                fund_short_name=fund_short_name,
+                round_short_name=round_short_name,
             )
-            return redirect(
-                url_for(
-                    "magic_links_bp.check_email", email=form.data.get("email")
+
+            if fund_short_name and round_short_name:
+                return redirect(
+                    url_for(
+                        "magic_links_bp.check_email",
+                        email=form.data.get("email"),
+                        fund=fund_short_name,
+                        round=round_short_name,
+                    )
                 )
-            )
+            else:
+                return redirect(
+                    url_for(
+                        "magic_links_bp.check_email",
+                        email=form.data.get("email"),
+                    )
+                )
+
         except MagicLinkError as e:
             form.email.errors.append(str(e.message))
         except NotificationError as e:
@@ -124,7 +141,9 @@ def new():
         except AccountError as e:
             form.email.errors.append(str(e.message))
 
-    return render_template("email.html", form=form, fund_round=fund_round, title = fund_title)
+    return render_template(
+        "email.html", form=form, fund_round=fund_round, fund_title=fund_title
+    )
 
 
 @magic_links_bp.route("/check-email", methods=["GET"])
@@ -133,5 +152,11 @@ def check_email():
     Shows the user a message asking them to check their
     inbox for an email with a magic link
     """
+    fund_id = request.args.get("fund", Config.DEFAULT_FUND_ID)
 
-    return render_template("check_email.html", email=request.args.get("email"))
+    fund_data = FundMethods.get_fund(fund_id=fund_id)
+    return render_template(
+        "check_email.html",
+        email=request.args.get("email"),
+        fund_title=fund_data.fund_title,
+    )
