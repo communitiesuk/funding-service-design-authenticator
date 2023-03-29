@@ -55,3 +55,12 @@ class FundMethods:
 
         if response and "id" in response:
             return Fund.from_json(response)
+
+    @staticmethod
+    def get_service_name():
+        short_name = request.args.get("fund")
+        if short_name:
+            fund_data = FundMethods.get_fund(fund_short_name=short_name)
+        else:
+            fund_data = FundMethods.get_fund(fund_id=Config.DEFAULT_FUND_ID)
+        return fund_data.fund_title
