@@ -276,4 +276,3 @@ msgstr ""
 #: frontend/templates/header.html:36
 msgid " will help us to improve it."
 msgstr ""
-
