@@ -7,21 +7,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-03-23 12:27+0000\n"
+"POT-Creation-Date: 2023-03-29 15:21+0100\n"
 "PO-Revision-Date: 2022-10-28 12:33+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: cy\n"
 "Language-Team: cy <LL@li.org>\n"
 "Plural-Forms: nplurals=5; plural=(n==1 ? 1 : n==2 ? 2 : n==3 ? 3 : n==6 ?"
-" 4 : 0);\n"
+" 4 : 0)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.10.3\n"
-
-#: app.py:116
-msgid "Apply for funding to save an asset in your community"
-msgstr ""
+"Generated-By: Babel 2.9.1\n"
 
 #: frontend/magic_links/filters.py:10
 msgid "at"
@@ -31,36 +27,43 @@ msgstr "am"
 msgid "Session expired, please refresh page to continue."
 msgstr ""
 
-#: frontend/magic_links/templates/check_email.html:8
+#: frontend/magic_links/templates/check_email.html:6
+#: frontend/magic_links/templates/email.html:6
+#: frontend/magic_links/templates/landing.html:4
+#: frontend/magic_links/templates/landing.html:13
+msgid "Apply for"
+msgstr "Gwneud cais am"
+
+#: frontend/magic_links/templates/check_email.html:9
 msgid "Email sent"
 msgstr "E-bost wedi'i anfon"
 
-#: frontend/magic_links/templates/check_email.html:10
+#: frontend/magic_links/templates/check_email.html:11
 msgid "Email not sent"
 msgstr ""
 
-#: frontend/magic_links/templates/check_email.html:21
+#: frontend/magic_links/templates/check_email.html:22
 msgid "No email has been sent."
 msgstr ""
 
-#: frontend/magic_links/templates/check_email.html:22
+#: frontend/magic_links/templates/check_email.html:23
 msgid "If you need a link to access your applications you can "
 msgstr ""
 
-#: frontend/magic_links/templates/check_email.html:22
-#: frontend/magic_links/templates/check_email.html:42
+#: frontend/magic_links/templates/check_email.html:23
+#: frontend/magic_links/templates/check_email.html:43
 msgid "request a new link"
 msgstr "cais am linc arall"
 
-#: frontend/magic_links/templates/check_email.html:27
+#: frontend/magic_links/templates/check_email.html:28
 msgid "We have sent an email to "
 msgstr "Rydym wedi anfon e-bost i "
 
-#: frontend/magic_links/templates/check_email.html:28
+#: frontend/magic_links/templates/check_email.html:29
 msgid "What happens next"
 msgstr "Beth sy'n digwydd nesaf"
 
-#: frontend/magic_links/templates/check_email.html:30
+#: frontend/magic_links/templates/check_email.html:31
 msgid ""
 "Use the link to confirm your email address and start a new application, "
 "or continue any applications you have in progress."
@@ -68,32 +71,31 @@ msgstr ""
 "Defnyddiwch y ddolen i gadarnhau eich cyfeiriad e-bost a dechrau cais "
 "newydd, neu i barhau ag unrhyw geisiadau sydd gennych ar waith."
 
-#: frontend/magic_links/templates/check_email.html:32
+#: frontend/magic_links/templates/check_email.html:33
 msgid "The link will work once and stop working after 24 hours."
 msgstr "Bydd y ddolen yn gweithio unwaith ac yn stopio gweithio ar ôl 24 awr."
 
-#: frontend/magic_links/templates/check_email.html:37
+#: frontend/magic_links/templates/check_email.html:38
 msgid "If you do not receive an email"
 msgstr "Os nad ydych chi'n derbyn e-bost"
 
-#: frontend/magic_links/templates/check_email.html:41
+#: frontend/magic_links/templates/check_email.html:42
 msgid "The email may take a few minutes to arrive."
 msgstr "Gall gymryd ychydig funudau i'r e-bost gyrraedd."
 
-#: frontend/magic_links/templates/check_email.html:42
+#: frontend/magic_links/templates/check_email.html:43
 msgid "Check your spam or junk folders – if it still has not arrived, you can "
 msgstr "Gwiriwch eich folder 'junk' a 'spam' - os nad ydyw wedi cyrraedd, gallech "
 
-#: frontend/magic_links/templates/email.html:6
-#, fuzzy
+#: frontend/magic_links/templates/email.html:8
 msgid "Email address"
 msgstr "Cyfeiriad e-bost"
 
-#: frontend/magic_links/templates/email.html:13
+#: frontend/magic_links/templates/email.html:16
 msgid "There is a problem"
 msgstr "Mae problem"
 
-#: frontend/magic_links/templates/email.html:28
+#: frontend/magic_links/templates/email.html:31
 msgid ""
 "<p>We’ll email you a link to start a new application, or continue any "
 "applications you have in progress.</p><p>The link will work once and stop"
@@ -106,13 +108,12 @@ msgstr ""
 "mynd yn ôl at gais, rhaid i chi ddefnyddio'r e-bost y dechreuoch y cais "
 "gydag ef.</p>"
 
-#: frontend/magic_links/templates/email.html:48
-#: frontend/magic_links/templates/landing.html:16
+#: frontend/magic_links/templates/email.html:51
+#: frontend/magic_links/templates/landing.html:20
 msgid "Continue"
 msgstr "Parhau"
 
 #: frontend/magic_links/templates/invalid.html:4
-#, fuzzy
 msgid "Link expired"
 msgstr " Dolen hud wedi dod i ben "
 
@@ -129,39 +130,35 @@ msgstr " Dolen hud wedi dod i ben "
 msgid "Request a new link"
 msgstr "Cais am linc arall"
 
-#: frontend/magic_links/templates/landing.html:9
-msgid "Apply for"
-msgstr "Gwneud cais am"
-
-#: frontend/magic_links/templates/landing.html:12
+#: frontend/magic_links/templates/landing.html:16
 msgid "Submission deadline:"
 msgstr "Dyddiad cau cyflwyno:"
 
-#: frontend/magic_links/templates/landing.html:21
+#: frontend/magic_links/templates/landing.html:25
 msgid "How to complete your application"
 msgstr "Sut i gwblhau eich cais"
 
-#: frontend/magic_links/templates/landing.html:23
+#: frontend/magic_links/templates/landing.html:26
 msgid "Moving through the form"
 msgstr "Symud drwy'r ffurflen"
 
-#: frontend/magic_links/templates/landing.html:24
+#: frontend/magic_links/templates/landing.html:27
 msgid "This form is split into sections based on how it will be assessed."
 msgstr "Mae'r ffurflen wedi'i rhannu yn adrannau ar sail y modd y caiff ei hasesu."
 
-#: frontend/magic_links/templates/landing.html:25
+#: frontend/magic_links/templates/landing.html:28
 msgid "You do not have to complete it in order, or all at once."
 msgstr "Nid oes rhaid i chi ei llenwi mewn trefn, na'r cyfan ar unwaith."
 
-#: frontend/magic_links/templates/landing.html:27
+#: frontend/magic_links/templates/landing.html:30
 msgid "You can preview the"
 msgstr "Gallwch gael cip ymlaen llaw o'r"
 
-#: frontend/magic_links/templates/landing.html:28
+#: frontend/magic_links/templates/landing.html:31
 msgid "full list of application questions."
 msgstr "rhestr lawn o gwestiynau."
 
-#: frontend/magic_links/templates/landing.html:31
+#: frontend/magic_links/templates/landing.html:34
 msgid ""
 "When you have written something in every field in a section, the section "
 "will be marked as complete. You can still\n"
@@ -171,11 +168,11 @@ msgstr ""
 " adran fel un gyflawn. Gallwch newid eich\n"
 "      ymatebion o hyd mewn adrannau sydd wedi'u cofnodi fel rhai cyflawn."
 
-#: frontend/magic_links/templates/landing.html:36
+#: frontend/magic_links/templates/landing.html:39
 msgid "Saving progress and making changes"
 msgstr "Cadw cynnydd a gwneud newidiadau"
 
-#: frontend/magic_links/templates/landing.html:38
+#: frontend/magic_links/templates/landing.html:41
 msgid ""
 "Your work will not save automatically. To make sure you do not lose "
 "anything, select <strong>Save and\n"
@@ -187,23 +184,23 @@ msgstr ""
 "        pharhau</strong> yn rheolaidd, a bob amser cyn i chi fynd yn ôl "
 "neu gau eich ffenestr porwr rhyngrwyd."
 
-#: frontend/magic_links/templates/landing.html:41
+#: frontend/magic_links/templates/landing.html:44
 msgid "If you need to edit or revisit any sections, use the browser back button."
 msgstr ""
 "Os oes angen i chi olygu neu fynd yn ôl at unrhyw adrannau, defnyddiwch "
 "fotwm nôl y porwr."
 
-#: frontend/magic_links/templates/landing.html:43
+#: frontend/magic_links/templates/landing.html:46
 msgid "You can edit your responses as many times as you like before you submit."
 msgstr ""
 "Gallwch olygu'ch ymatebion gymaint o weithiau a fynnwch cyn i chi eu "
 "cyflwyno."
 
-#: frontend/magic_links/templates/landing.html:47
+#: frontend/magic_links/templates/landing.html:50
 msgid "Submitting your application"
 msgstr "Cyflwyno'ch cais"
 
-#: frontend/magic_links/templates/landing.html:49
+#: frontend/magic_links/templates/landing.html:52
 msgid ""
 "When you have completed all sections, you’ll be able to submit your\n"
 "      application."
@@ -211,7 +208,7 @@ msgstr ""
 "Pan fyddwch wedi llenwi'r holl adrannau, byddwch yn gallu cyflwyno'ch "
 "cais."
 
-#: frontend/magic_links/templates/landing.html:53
+#: frontend/magic_links/templates/landing.html:56
 msgid ""
 "Once you have submitted your application, you’ll not be able to edit, add"
 "\n"
@@ -220,27 +217,27 @@ msgstr ""
 "Wedi i chi gyflwyno'ch cais, ni fyddwch yn gallu golygu, ychwanegu\n"
 "      na newid unrhyw adrannau."
 
-#: frontend/magic_links/templates/landing.html:57
+#: frontend/magic_links/templates/landing.html:60
 msgid "Get help"
 msgstr "Cael help"
 
-#: frontend/magic_links/templates/landing.html:59
+#: frontend/magic_links/templates/landing.html:62
 msgid "If you have questions about the form or the fund, email us at"
 msgstr ""
 "Os oes gennych unrhyw gwestiynau ynglŷn â'r ffurflen neu'r gronfa, "
 "anfonwch e-bost atom yn"
 
-#: frontend/magic_links/templates/landing.html:62
+#: frontend/magic_links/templates/landing.html:65
 msgid "How we'll use your information"
 msgstr "Sut byddwn ni'n defnyddio'ch gwybodaeth"
 
-#: frontend/magic_links/templates/landing.html:64
+#: frontend/magic_links/templates/landing.html:67
 msgid "Read how we'll use the information from your application in our"
 msgstr ""
 "Darllenwch sut byddwn ni'n defnyddio'r wybodaeth o'ch cais yn ein "
 "hysbysiad preifatrwydd"
 
-#: frontend/magic_links/templates/landing.html:66
+#: frontend/magic_links/templates/landing.html:69
 msgid "privacy notice"
 msgstr "hysbysiad preifatrwydd"
 
@@ -313,3 +310,7 @@ msgstr " yn ein cefnogi i'w wella."
 
 #~ msgid "Community Ownership Fund"
 #~ msgstr "Y Gronfa Perchnogaeth Gymunedol"
+
+#~ msgid "Apply for funding to save an asset in your community"
+#~ msgstr ""
+
