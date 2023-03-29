@@ -25,7 +25,6 @@ from fsd_utils.logging import logging
 from jinja2 import ChoiceLoader
 from jinja2 import PackageLoader
 from jinja2 import PrefixLoader
-from models.fund import FundMethods
 
 redis_mlinks = FlaskRedis(config_prefix="REDIS_MLINKS")
 
