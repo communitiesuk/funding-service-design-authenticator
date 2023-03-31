@@ -96,9 +96,7 @@ def new():
     fund_short_name = request.args.get("fund")
     round_short_name = request.args.get("round")
 
-    fund_round = (
-        True if fund_id and round_id else False
-    )  # TODO change to look for short names
+    fund_round = bool(fund_id and round_id)
     form_data = request.data
     if request.method == "GET":
         form_data = request.args
