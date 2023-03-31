@@ -105,7 +105,7 @@ def new():
     form = EmailForm(data=form_data)
     if form.validate_on_submit():
         try:
-            AccountMethods.get_magic_link(  # send fund and round info to here!!!! # noqa
+            AccountMethods.get_magic_link(
                 email=form.data.get("email"),
                 fund_id=fund_id,  # TODO remove after R2W3 closes and fs-2505 is complete # noqa
                 round_id=round_id,  # TODO remove after R2W3 closes and fs-2505 is complete # noqa

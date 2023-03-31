@@ -4,10 +4,13 @@ Test magic links functionality
 import unittest.mock
 from unittest import mock
 
+import frontend
 import pytest
 from api.session.auth_session import AuthSessionView
 from app import app
 from config import Config
+from frontend.magic_links.forms import EmailForm
+from models.account import AccountMethods
 from models.application import ApplicationMethods
 from security.utils import validate_token
 
@@ -326,3 +329,37 @@ class TestMagicLinks(AuthSessionView):
                 )
 
                 assert session_details.get("roles") == []
+
+    def test_magic_link_route_new(self, flask_test_client):
+
+        # create a MagicMock object for the form used in new():
+        mock_form = mock.MagicMock(spec=EmailForm)
+        mock_form.validate_on_submit.return_value = True
+        mock_form.data = {"email": "example@email.com"}
+
+        # mock get_magic_link() used in new():
+        mock_account = mock.MagicMock(spec=AccountMethods)
+        mock_account.get_magic_link.return_value = True
+
+        # Test post request with fund and round short names:
+        with mock.patch(
+            "frontend.magic_links.routes.EmailForm", return_value=mock_form
+        ):
+            with mock.patch(
+                "frontend.magic_links.routes.AccountMethods",
+                return_value=mock_account,
+            ):
+                response = flask_test_client.post(
+                    "service/magic-links/new?fund=COF&round=R2W3",
+                    follow_redirects=True,
+                )
+
+                # Assert get_magic_link() was called with short_names:
+                frontend.magic_links.routes.AccountMethods.get_magic_link.assert_called_once_with(  # noqa
+                    email="example@email.com",
+                    fund_id=Config.DEFAULT_FUND_ID,
+                    round_id=Config.DEFAULT_ROUND_ID,
+                    fund_short_name="COF",
+                    round_short_name="R2W3",
+                )
+                assert response.status_code == 200

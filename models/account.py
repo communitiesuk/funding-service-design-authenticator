@@ -268,7 +268,7 @@ class AccountMethods(Account):
                 account.email,
                 notification_content,
             )
-            return True  # weird??????
+            return True
         current_app.logger.error(
             f"Could not create an account ({account}) for email '{email}'"
         )
