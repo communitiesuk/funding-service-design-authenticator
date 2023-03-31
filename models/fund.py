@@ -49,7 +49,7 @@ class FundMethods:
 
         params = {
             "language": get_lang(),
-            "use_short_name": True if fund_short_name else False,
+            "use_short_name": bool(fund_short_name),
         }
         response = get_data(endpoint=url, params=params)
 
