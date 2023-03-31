@@ -118,7 +118,7 @@ def get_round_data(
         )
     params = {
         "language": get_lang(),
-        "use_short_name": True if round_short_name else False,
+        "use_short_name": bool(round_short_name),
     }
     response = get_data(endpoint=url, params=params)
     if as_dict:
