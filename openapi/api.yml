@@ -12,6 +12,21 @@ tags:
     description: Session operations
 paths:
   /magic-links:
+    get:
+      tags:
+        - magic links
+      summary: Search magic link
+      description: List all magic links
+      operationId: api.MagicLinksView.search
+      responses:
+        200:
+          description: SUCCESS - A list of magic link keys
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
     post:
       tags:
         - magic links

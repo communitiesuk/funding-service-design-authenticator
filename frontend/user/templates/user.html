@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{%- from 'govuk_frontend_jinja/components/inset-text/macro.html' import govukInsetText -%}
+{%- from "govuk_frontend_jinja/components/button/macro.html" import govukButton -%}
+
+{% block content %}
+<div>
+    <h1 class="govuk-heading-xl">Apply for Funding</h1>
+</div>
+<div>
+
+    {% if roles_required %}
+    <p class="govuk-body">You do not have access as your account does not have the right permissions set up.
+    <p class="govuk-body">Please email the support mailbox ({{support_mailbox}}) to request access or get help if you think this is a mistake.</p>
+    </p>
+    {% else %}
+
+    {% if logged_in_user %}
+    <p class="govuk-body">
+        You are currently logged in as:
+        {% if logged_in_user.full_name %}
+        <br /><strong>{{ logged_in_user.full_name }}</strong>
+        <br /><i>({{ logged_in_user.email }})</i>
+        {% else %}
+        <br /><strong>{{ logged_in_user.email }}</strong>
+        {% endif %}
+    </p>
+    {{ govukButton({
+    "isStartButton": false,
+    "href" : logout_url,
+    "text": "Sign out"
+    }) }}
+    {% else %}
+    <p class="govuk-body">You are not logged in.</p>
+
+    {{ govukButton({
+    "isStartButton": false,
+    "href" : login_url,
+    "text": "Sign in"
+    }) }}
+    {% endif %}
+
+    {% endif %}
+</div>
+{% endblock %}

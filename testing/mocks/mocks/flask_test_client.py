@@ -9,5 +9,6 @@ def flask_test_client():
     from our app, this is a test fixture.
     :return: A flask test client.
     """
-    with create_app().test_client() as test_client:
-        yield test_client
+    with create_app().app_context() as app_context:
+        with app_context.app.test_client() as test_client:
+            yield test_client

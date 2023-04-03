@@ -3,12 +3,12 @@ from typing import List
 
 from config import Config
 from flask import current_app
+from fsd_utils.authentication.config import azure_ad_role_map
 from fsd_utils.config.notify_constants import NotifyConstants
-from models.application import Application
-from models.application import ApplicationMethods
 from models.data import get_data
 from models.data import get_round_data
 from models.data import post_data
+from models.data import put_data
 from models.fund import FundMethods
 from models.magic_link import MagicLinkMethods
 from models.notification import Notification
@@ -18,14 +18,18 @@ from models.notification import Notification
 class Account(object):
     id: str
     email: str
-    applications: List[Application]
+    azure_ad_subject_id: str
+    full_name: str
+    roles: List[str]
 
     @staticmethod
     def from_json(data: dict):
         return Account(
             id=data.get("account_id"),
             email=data.get("email_address"),
-            applications=data.get("applications"),
+            azure_ad_subject_id=data.get("azure_ad_subject_id"),
+            full_name=data.get("full_name"),
+            roles=data.get("roles"),
         )
 
 
@@ -44,7 +48,7 @@ class AccountError(Exception):
 class AccountMethods(Account):
     @staticmethod
     def get_account(
-        email: str = None, account_id: str = None
+        email: str = None, account_id: str = None, azure_ad_subject_id=None
     ) -> Account | None:
         """
         Get an account from the account store using either
@@ -54,6 +58,8 @@ class AccountMethods(Account):
             email (str, optional): The account email address
             Defaults to None.
             account_id (str, optional): The account id. Defaults to None.
+            azure_ad_subject_id (str, optional): The Azure AD subject id.
+            Defaults to None.
 
         Raises:
             TypeError: If both an email address or account id is given,
@@ -62,13 +68,62 @@ class AccountMethods(Account):
         Returns:
             Account object or None
         """
-        if email is account_id is None:
-            raise TypeError("Requires an email address or account_id")
+        if email is account_id is azure_ad_subject_id is None:
+            raise TypeError(
+                "Requires an email address, azure_ad_subject_id or account_id"
+            )
 
         url = Config.ACCOUNT_STORE_API_HOST + Config.ACCOUNTS_ENDPOINT
-        params = {"email_address": email, "account_id": account_id}
+        params = {
+            "email_address": email,
+            "azure_ad_subject_id": azure_ad_subject_id,
+            "account_id": account_id,
+        }
         response = get_data(url, params)
 
+        if response and "account_id" in response:
+            return Account.from_json(response)
+
+    @staticmethod
+    def update_account(
+        id: str,
+        email: str,
+        azure_ad_subject_id: str,
+        full_name: str,
+        roles: List[str],
+    ) -> Account | None:
+        """
+        Get an account corresponding to an email_address
+        or create a new account if none exists
+
+        Args:
+            id (str): The account id to update
+            email (str): The user's email address.
+            azure_ad_subject_id (str): The user's Azure AD subject id.
+            full_name (str): The user's full_name.
+            roles (List[str]): Roles to update on the account record.
+
+        Returns:
+            Account object or None
+        """
+        url = Config.ACCOUNT_STORE_API_HOST + Config.ACCOUNT_ENDPOINT.format(
+            account_id=id
+        )
+        cleaned_roles = []
+        if isinstance(roles, List):
+            cleaned_roles = [azure_ad_role_map[role] for role in roles]
+        if len(cleaned_roles) == 0:
+            current_app.logger.error(
+                f"account id: {id} has not been assigned any roles"
+            )
+
+        params = {
+            "email_address": email,
+            "azure_ad_subject_id": azure_ad_subject_id,
+            "full_name": full_name,
+            "roles": cleaned_roles,
+        }
+        response = put_data(url, params)
         if response and "account_id" in response:
             return Account.from_json(response)
 
@@ -91,10 +146,57 @@ class AccountMethods(Account):
 
         if response and "account_id" in response:
             return Account.from_json(response)
+        raise AccountError(
+            message=f"Could not create account for email '{email}'"
+        )
+
+    @classmethod
+    def create_or_update_account(
+        cls,
+        email: str,
+        azure_ad_subject_id: str,
+        full_name: str,
+        roles: List[str],
+    ):
+        # Check to see if account already exists
+        account = AccountMethods.get_account(email=email)
+
+        # Create account if it doesn't exist
+        if not account:
+            account = AccountMethods.create_account(email=email)
+
+        if (
+            account.azure_ad_subject_id
+            and account.azure_ad_subject_id != azure_ad_subject_id
+        ):
+            raise AccountError(
+                message=(
+                    f"Cannot update account id: {account.id} - attempting to"
+                    " update existing azure_ad_subject_id from"
+                    f" { account.azure_ad_subject_id } to"
+                    f" { azure_ad_subject_id} which is not allowed."
+                )
+            )
+
+        # Update account with the latest roles, email and name
+        account = AccountMethods.update_account(
+            id=account.id,
+            email=email,
+            azure_ad_subject_id=azure_ad_subject_id,
+            full_name=full_name,
+            roles=roles,
+        )
+
+        return account
 
     @classmethod
     def get_magic_link(
-        cls, email: str, fund_id: str = None, round_id: str = None
+        cls,
+        email: str,
+        fund_id: str = None,
+        round_id: str = None,
+        fund_short_name: str = None,
+        round_short_name: str = None,
     ) -> bool:
         """
         Create a new magic link for a user
@@ -105,44 +207,51 @@ class AccountMethods(Account):
         :param round_id: The round id
         :return: True if successfully created
         """
-        new_account = False
         account = cls.get_account(email)
         if not account:
-            account = new_account = cls.create_account(email)
+            account = cls.create_account(email)
         if account:
-
-            fund = FundMethods.get_fund(fund_id)
-            round_for_fund = get_round_data(
-                fund_id=fund_id, round_id=round_id, as_dict=True
-            )
-
-            notification_content = {
-                NotifyConstants.MAGIC_LINK_REQUEST_NEW_LINK_URL_FIELD: Config.AUTHENTICATOR_HOST  # noqa
-                + Config.NEW_LINK_ENDPOINT,
-                NotifyConstants.MAGIC_LINK_CONTACT_HELP_EMAIL_FIELD: round_for_fund.contact_details[  # noqa
-                    "email_address"
-                ],  # noqa
-                NotifyConstants.MAGIC_LINK_FUND_NAME_FIELD: fund.name,
-            }
-            if fund_id and round_id and new_account and Config.CREATE_APPLICATION_ON_ACCOUNT_CREATION:
-                current_app.logger.info(
-                    f"Preparing to auto-create a blank application for account: {str(account)}, "
-                    f"for fund_id: {fund_id}"
-                    f"and round_id: {round_id}"
+            if fund_short_name and round_short_name:
+                fund = FundMethods.get_fund(fund_short_name=fund_short_name)
+                round_for_fund = get_round_data(
+                    round_short_name=round_short_name, as_dict=True
                 )
-                # Create an application if none exists
-                new_application = ApplicationMethods.create_application(
-                    account.id, fund_id, round_id
+            # TODO remove after R2W3 closes and fs-2505 is complete
+            else:
+                fund = FundMethods.get_fund(fund_id=fund_id)
+                round_for_fund = get_round_data(
+                    fund_id=fund_id, round_id=round_id, as_dict=True
                 )
-                if new_application:
-                    notification_content.update(
-                        {
-                            NotifyConstants.MAGIC_LINK_FUND_NAME_FIELD: new_application.fund_name  # noqa
-                        }
-                    )
 
+            if fund_short_name and round_short_name:
+                notification_content = {
+                    NotifyConstants.MAGIC_LINK_REQUEST_NEW_LINK_URL_FIELD: Config.AUTHENTICATOR_HOST  # noqa
+                    + Config.NEW_LINK_ENDPOINT
+                    + "?fund="
+                    + fund_short_name
+                    + "&round="
+                    + round_short_name,  # noqa
+                    NotifyConstants.MAGIC_LINK_CONTACT_HELP_EMAIL_FIELD: round_for_fund.contact_details[  # noqa
+                        "email_address"
+                    ],  # noqa
+                    NotifyConstants.MAGIC_LINK_FUND_NAME_FIELD: fund.name,
+                }
+            # TODO remove after R2W3 closes and fs-2505 is complete
+            else:
+                notification_content = {
+                    NotifyConstants.MAGIC_LINK_REQUEST_NEW_LINK_URL_FIELD: Config.AUTHENTICATOR_HOST  # noqa
+                    + Config.NEW_LINK_ENDPOINT,
+                    NotifyConstants.MAGIC_LINK_CONTACT_HELP_EMAIL_FIELD: round_for_fund.contact_details[  # noqa
+                        "email_address"
+                    ],  # noqa
+                    NotifyConstants.MAGIC_LINK_FUND_NAME_FIELD: fund.name,
+                }
             # Create a fresh link
-            new_link_json = MagicLinkMethods().create_magic_link(account)
+            new_link_json = MagicLinkMethods().create_magic_link(
+                account,
+                fund_short_name=fund_short_name if fund_short_name else "",
+                round_short_name=round_short_name if round_short_name else "",
+            )
             notification_content.update(
                 {
                     NotifyConstants.MAGIC_LINK_URL_FIELD: new_link_json.get(  # noqa
@@ -150,7 +259,6 @@ class AccountMethods(Account):
                     )
                 }
             )
-
             current_app.logger.debug(
                 f"Magic Link URL: {new_link_json.get('link')}"
             )
@@ -161,7 +269,6 @@ class AccountMethods(Account):
                 notification_content,
             )
             return True
-
         current_app.logger.error(
             f"Could not create an account ({account}) for email '{email}'"
         )

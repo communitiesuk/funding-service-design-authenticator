@@ -20,21 +20,20 @@ class DevelopmentConfig(Config):
 
     # Hostname for this service
     AUTHENTICATOR_HOST = getenv("AUTHENTICATOR_HOST", "http://localhost:5000")
+    SSO_POST_SIGN_OUT_URL = (
+        AUTHENTICATOR_HOST + "/service/sso/signed-out/signout-request"
+    )
 
     # Azure Active Directory Config
-    # This secret is only used for local testing purposes
-    AZURE_AD_CLIENT_SECRET = "nmq8Q~acUEOPWmjfvbOEQLPZy2M38yLe1PEh_cS2"
     AZURE_AD_AUTHORITY = (
-        # consumers|organisations - signifies the Azure AD tenant endpoint
-        "https://login.microsoftonline.com/consumers"
+        # consumers|organizations|<tenant_id> - signifies the Azure AD
+        # tenant endpoint
+        "https://login.microsoftonline.com/organizations"
     )
-    AZURE_AD_REDIRECT_PATH = (
-        # Used for forming an absolute URL to your redirect URI.
-        "/sso/get-token"
-    )
+
     # The absolute URL must match the redirect URI you set
     # in the app's registration in the Azure portal.
-    AZURE_AD_REDIRECT_URI = AUTHENTICATOR_HOST + AZURE_AD_REDIRECT_PATH
+    AZURE_AD_REDIRECT_URI = AUTHENTICATOR_HOST + Config.AZURE_AD_REDIRECT_PATH
 
     # Session Settings
     SESSION_TYPE = (

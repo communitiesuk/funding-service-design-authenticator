@@ -47,10 +47,22 @@ class MagicLinksView(MagicLinkMethods, MethodView):
             self.redis_mlinks.delete(link_key)
             self.redis_mlinks.delete(user_key)
 
+            # Check account exists
+            account = AccountMethods.get_account(
+                account_id=link.get("accountId")
+            )
+            if not account:
+                current_app.logger.error(
+                    "Tried to use magic link for "
+                    f"non-existent account_id {link.get('accountId')}"
+                )
+                redirect(url_for("magic_links_bp.invalid"))
+
             # Check link is not expired
             if link.get("exp") > int(datetime.now().timestamp()):
                 return AuthSessionView.create_session_and_redirect(
-                    account_id=link.get("accountId"),
+                    account=account,
+                    is_via_magic_link=True,
                     redirect_url=link.get("redirectUrl"),
                 )
             return redirect(

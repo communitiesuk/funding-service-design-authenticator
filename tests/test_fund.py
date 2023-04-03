@@ -3,8 +3,8 @@ from models.fund import FundMethods
 
 
 class TestFund:
-    def testGetFund(self):
-        fund = FundMethods.get_fund(DefaultConfig.FUND_ID_COF)
+    def testGetFund(self, app_context):
+        fund = FundMethods.get_fund(fund_short_name="COF")
         assert (
             DefaultConfig.FUND_ID_COF == fund.identifier
         ), "Unexpected fund ID"

@@ -3,6 +3,10 @@
     "account_id": "usera",
     "email_address": "a@example.com"
   },
+  "account_store/accounts?account_id=usera": {
+    "account_id": "usera",
+    "email_address": "a@example.com"
+  },
   "account_store/accounts?email_address=b%40example.com": {
     "account_id": "userb",
     "email_address": "b@example.com"
@@ -48,14 +52,27 @@
       }
     ]
   },
-  "fund_store/funds/47aef2f5-3fcb-4d45-acb5-f0152b5f03c4": {
+
+  "__COMMENT ONE__": "below endpoint is to test with the fund id only ( To be deleted?)",
+  "fund_store/funds/47aef2f5-3fcb-4d45-acb5-f0152b5f03c4?language=en&use_short_name=False": {
     "id": "47aef2f5-3fcb-4d45-acb5-f0152b5f03c4",
     "name": "Community Ownership Fund",
+    "title":"funding to save an asset in your community",
     "short_name": "COF",
     "description": "The Community Ownership Fund is a £150 million fund over 4 years to...."
   },
-  "fund_store/funds/47aef2f5-3fcb-4d45-acb5-f0152b5f03c4/rounds/c603d114-5364-4474-a0c4-c41cbf4d3bbd": {
+
+  "__COMMENT TWO__": "below endpoint is to test with the fund short name only",
+  "fund_store/funds/COF?language=en&use_short_name=True": {
+    "id": "47aef2f5-3fcb-4d45-acb5-f0152b5f03c4",
+    "name": "Community Ownership Fund",
+    "title":"funding to save an asset in your community",
+    "short_name": "COF",
+    "description": "The Community Ownership Fund is a £150 million fund over 4 years to...."
+  },
+  "fund_store/funds/47aef2f5-3fcb-4d45-acb5-f0152b5f03c4/rounds/c603d114-5364-4474-a0c4-c41cbf4d3bbd?language=en&use_short_name=False": {
         "id": "c603d114-5364-4474-a0c4-c41cbf4d3bbd",
+
         "title": "Round 2 Window 2",
         "short_name": "R2W2",
         "fund_id": "47aef2f5-3fcb-4d45-acb5-f0152b5f03c4",

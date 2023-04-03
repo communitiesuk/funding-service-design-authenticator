@@ -5,6 +5,7 @@ from os import environ
 from os import getenv
 from pathlib import Path
 
+from config.utils import VcapServices
 from distutils.util import strtobool
 from fsd_utils import CommonConfig
 from fsd_utils import configclass
@@ -15,9 +16,12 @@ class DefaultConfig(object):
     #  Application Config
     SECRET_KEY = environ.get("SECRET_KEY")
     SESSION_COOKIE_NAME = environ.get("SESSION_COOKIE_NAME", "session_cookie")
-    COOKIE_DOMAIN = getenv("COOKIE_DOMAIN")
+
+    COOKIE_DOMAIN = environ.get("COOKIE_DOMAIN", None)
+
     FLASK_ROOT = str(Path(__file__).parent.parent.parent)
     FLASK_ENV = environ.get("FLASK_ENV")
+    SUPPORT_MAILBOX_EMAIL = "fsd.support@levellingup.gov.uk"
 
     # Logging
     FSD_LOG_LEVEL = logging.WARNING
@@ -31,6 +35,11 @@ class DefaultConfig(object):
     # Hostname for this service
     AUTHENTICATOR_HOST = environ.get("AUTHENTICATOR_HOST", "")
     NEW_LINK_ENDPOINT = "/service/magic-links/new"
+    SSO_LOGOUT_ENDPOINT = "/sso/logout"
+    SSO_LOGIN_ENDPOINT = "/sso/login"
+    SSO_POST_SIGN_OUT_URL = (
+        AUTHENTICATOR_HOST + "/service/sso/signed-out/signout-request"
+    )
 
     """
     Azure Configuration
@@ -38,12 +47,14 @@ class DefaultConfig(object):
     # Azure Active Directory Config
     AZURE_AD_CLIENT_ID = (
         # Application (client) ID of app registration on Azure AD
-        "d8be82a8-541c-4768-9296-84bd779a24d9"
+        environ.get("AZURE_AD_CLIENT_ID")
     )
     AZURE_AD_CLIENT_SECRET = environ.get("AZURE_AD_CLIENT_SECRET")
+    AZURE_AD_TENANT_ID = environ.get("AZURE_AD_TENANT_ID", "")
     AZURE_AD_AUTHORITY = (
-        # consumers|organisations - signifies the Azure AD tenant endpoint
-        "https://login.microsoftonline.com/consumers"
+        # consumers|organizations|<tenant_id> - signifies the Azure AD tenant endpoint # noqa
+        "https://login.microsoftonline.com/"
+        + AZURE_AD_TENANT_ID
     )
     AZURE_AD_REDIRECT_PATH = (
         # Used for forming an absolute URL to your redirect URI.
@@ -63,6 +74,12 @@ class DefaultConfig(object):
     # https://docs.microsoft.com/en-us/graph/permissions-reference
     MS_GRAPH_PERMISSIONS_SCOPE = ["User.ReadBasic.All"]
 
+    # GOV.UK PaaS
+    if environ.get("VCAP_SERVICES"):
+        VCAP_SERVICES = VcapServices.from_env_json(
+            environ.get("VCAP_SERVICES")
+        )
+
     """
     Session
     """
@@ -74,13 +91,17 @@ class DefaultConfig(object):
     )
     SESSION_PERMANENT = False
     SESSION_USE_SIGNER = True
-    SESSION_COOKIE_SAMESITE = "Strict"
+    SESSION_COOKIE_SAMESITE = "Lax"
     SESSION_COOKIE_SECURE = True
     SESSION_COOKIE_HTTPONLY = True
     # Funding Service Design
     FSD_USER_TOKEN_COOKIE_NAME = "fsd_user_token"
-    FSD_SESSION_TIMEOUT_SECS = 86400  # 1 day
+    FSD_SESSION_TIMEOUT_SECONDS = CommonConfig.FSD_SESSION_TIMEOUT_SECONDS
+    WTF_CSRF_TIME_LIMIT = CommonConfig.WTF_CSRF_TIME_LIMIT
     CREATE_APPLICATION_ON_ACCOUNT_CREATION = False
+    ALLOW_ASSESSMENT_LOGIN_VIA_MAGIC_LINK = strtobool(
+        getenv("ALLOW_ASSESSMENT_LOGIN_VIA_MAGIC_LINK", "True")
+    )
 
     """
     APIs Config: contains api hosts (set in manifest.yml)
@@ -111,7 +132,17 @@ class DefaultConfig(object):
     )
     APPLICANT_FRONTEND_CONTACT_US_URL = APPLICANT_FRONTEND_HOST + "/contact_us"
     APPLICATION_ALL_QUESTIONS_URL = (
-        APPLICANT_FRONTEND_HOST + "/cof_r2w2_all_questions"
+        APPLICANT_FRONTEND_HOST
+        + "/all_questions/{fund_short_name}/{round_short_name}"
+    )
+
+    # Assessment Frontend
+    ASSESSMENT_FRONTEND_HOST = environ.get("ASSESSMENT_FRONTEND_HOST", "")
+    ASSESSMENT_POST_LOGIN_URL = (
+        ASSESSMENT_FRONTEND_HOST + "/assess/assessor_dashboard"
+    )
+    FSD_ASSESSMENT_SESSION_TIMEOUT_SECONDS = (
+        CommonConfig.FSD_SESSION_TIMEOUT_SECONDS
     )
 
     # Fund store service
@@ -172,7 +203,7 @@ class DefaultConfig(object):
 
     # Talisman Config
     FSD_REFERRER_POLICY = "strict-origin-when-cross-origin"
-    FSD_SESSION_COOKIE_SAMESITE = "Strict"
+    FSD_USER_TOKEN_COOKIE_SAMESITE = "Lax"
     FSD_PERMISSIONS_POLICY = {"interest-cohort": "()"}
     FSD_DOCUMENT_POLICY = {}
     FSD_FEATURE_POLICY = {
@@ -208,12 +239,11 @@ class DefaultConfig(object):
         "referrer_policy": FSD_REFERRER_POLICY,
         "session_cookie_secure": True,
         "session_cookie_http_only": True,
-        "session_cookie_samesite": FSD_SESSION_COOKIE_SAMESITE,
+        "session_cookie_samesite": SESSION_COOKIE_SAMESITE,
         "x_content_type_options": True,
         "x_xss_protection": True,
     }
 
-    COF_FUND_ID = "47aef2f5-3fcb-4d45-acb5-f0152b5f03c4"
-    COF_ROUND2_ID = "c603d114-5364-4474-a0c4-c41cbf4d3bbd"
-    DEFAULT_FUND_ID = COF_FUND_ID
-    DEFAULT_ROUND_ID = COF_ROUND2_ID
+    DEFAULT_FUND_ID = CommonConfig.DEFAULT_FUND_ID
+    DEFAULT_ROUND_ID = CommonConfig.get_default_round_id()
+    BABEL_TRANSLATION_DIRECTORIES = "frontend/translations"

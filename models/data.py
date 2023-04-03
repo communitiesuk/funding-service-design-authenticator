@@ -5,6 +5,8 @@ import urllib.parse
 import requests
 from config import Config
 from flask import current_app
+from flask import request
+from fsd_utils.locale_selector.get_lang import get_lang
 from models.round import Round
 
 
@@ -47,6 +49,21 @@ def post_data(endpoint: str, params: dict = None):
         return local_api_call(endpoint, params, "post")
 
 
+def put_data(endpoint: str, params: dict = None):
+    if params:
+        params = {k: v for k, v in params.items() if v is not None}
+    if endpoint.startswith("http"):
+        response = requests.put(endpoint, json=params)
+        if response.status_code in [200, 201]:
+            return response.json()
+        else:
+            current_app.logger.error(
+                "API error response of : " + str(response.json())
+            )
+    else:
+        return local_api_call(endpoint, params, "put")
+
+
 def local_api_call(endpoint: str, params: dict = None, method: str = "get"):
     api_data_json = os.path.join(
         Config.FLASK_ROOT,
@@ -60,29 +77,55 @@ def local_api_call(endpoint: str, params: dict = None, method: str = "get"):
     query_params = "_"
     if params:
         query_params = urllib.parse.urlencode(params)
-    if method.lower() == "post":
+
+    if method.lower() in ["post", "put"]:
+
         if endpoint in api_data:
             post_dict = api_data.get(endpoint)
             if query_params in post_dict:
+
                 return post_dict.get(query_params)
             else:
                 return post_dict.get("_default")
     else:
+
         if params:
             endpoint = f"{endpoint}?{query_params}"
+
         if endpoint in api_data:
             return api_data.get(endpoint)
 
 
-def get_round_data(fund_id, round_id, as_dict=False):
-    round_request_url = Config.GET_ROUND_DATA_FOR_FUND_ENDPOINT.format(
-        fund_id=fund_id, round_id=round_id
-    )
-    round_response = get_data(round_request_url, None)
-    if as_dict:
-        return Round.from_dict(round_response)
+def get_round_data(
+    fund_id: str = None,
+    round_id: str = None,
+    round_short_name: str = None,
+    as_dict=False,
+):
+
+    round_short_name = request.args.get("round")
+    fund_short_name = request.args.get("round")
+
+    if round_short_name:
+        url = (Config.GET_ROUND_DATA_FOR_FUND_ENDPOINT).format(
+            fund_id=fund_short_name, round_id=round_short_name
+        )
+    # TODO remove after R2W3 closes and fs-2505 is complete (make round_short_name non-optional) # noqa
     else:
-        return round_response
+
+        url = Config.GET_ROUND_DATA_FOR_FUND_ENDPOINT.format(
+            fund_id=fund_id, round_id=round_id
+        )
+    params = {
+        "language": get_lang(),
+        "use_short_name": bool(round_short_name),
+    }
+    response = get_data(endpoint=url, params=params)
+    if as_dict:
+        return Round.from_dict(response)
+
+    else:
+        return response
 
 
 def get_round_data_fail_gracefully(fund_id, round_id):
