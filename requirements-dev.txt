@@ -299,7 +299,7 @@ pytest-html==3.1.1
     # via pytest-selenium
 pytest-metadata==2.0.1
     # via pytest-html
-pytest-mock==3.7.0
+pytest-mock==3.10.0
     # via -r requirements-dev.in
 pytest-selenium==2.0.1
     # via -r requirements-dev.in

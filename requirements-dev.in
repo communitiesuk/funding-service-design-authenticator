@@ -7,7 +7,7 @@ pre-commit
 pytest
 pytest-env
 pytest-flask
-pytest-mock==3.7.0
+pytest-mock==3.10.0
 pytest-selenium==2.0.1
 pip-tools
 selenium==4.2.0
