@@ -8,6 +8,11 @@ Repo for the DLUCH Funding Service Design Authenticator.
 
 Built with Flask.
 
+## Overview
+
+- If you want an overview of how this service functions including architecture and features there's a fuller description in the [/docs/README here](/docs/README.md).
+- If you just want to get started and install for development, read on below.
+
 ## Prerequisites
 - python ^= 3.10
 - redis ^= 7.0.0
@@ -86,6 +91,14 @@ Then run gunicorn using the following command:
 
     gunicorn wsgi:app -c run/gunicorn/local.py
 
+# Translations
+
+Updating translations:
+
+    pybabel extract -F babel.cfg -k lazy_gettext -o messages.pot .
+    pybabel update -i messages.pot -d frontend/translations
+    pybabel compile -d frontend/translations
+
 # Configuration
 
 # Pipelines
@@ -97,7 +110,7 @@ These are the current pipelines running on the repo:
 
 # Testing
 
-## Unit & Accessibility Testing
+## Unit Testing
 
 To run all tests run:
 

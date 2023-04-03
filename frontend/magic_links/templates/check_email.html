@@ -3,36 +3,43 @@
 {%- from "govuk_frontend_jinja/components/panel/macro.html" import govukPanel -%}
 
 {% extends "base.html" %}
+{% set pageHeading %}
+{% if email %}
+  {% trans %}Email sent{% endtrans %}
+{% else %}
+  {% trans %}Email not sent{% endtrans %}
+{% endif %}
+{% endset %}
 
 {% block content %}
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
         {% if not email %}
-            <h1 class="govuk-heading-l govuk-!-margin-top-2">Email not sent</h1>
+            <h1 class="govuk-heading-l govuk-!-margin-top-2">{{pageHeading}}</h1>
 
-            <p class="govuk-body">No email has been sent.</p>
-            <p class="govuk-body">If you need a link to access your applications you can <a href="{{url_for('magic_links_bp.new')}}" class="govuk-link govuk-link--no-visited-state">request a new link</a>.</p>
+            <p class="govuk-body">{% trans %}No email has been sent.{% endtrans %}</p>
+            <p class="govuk-body">{% trans %}If you need a link to access your applications you can {% endtrans %}<a href="{{url_for('magic_links_bp.new')}}" class="govuk-link govuk-link--no-visited-state">{% trans %}request a new link{% endtrans %}</a>.</p>
 
         {% else %}
-            <h1 class="govuk-heading-l govuk-!-margin-top-2">Email sent</h1>
+            <h1 class="govuk-heading-l govuk-!-margin-top-2">{{pageHeading}}</h1>
 
-            <p class="govuk-body">We have sent an email to <span class="govuk-!-font-weight-bold">{{ email }}</span></p>
-            <h2 class="govuk-heading-m">What happens next</h2>
+            <p class="govuk-body">{% trans %}We have sent an email to {% endtrans %}<span class="govuk-!-font-weight-bold">{{ email }}</span></p>
+            <h2 class="govuk-heading-m">{% trans %}What happens next{% endtrans %}</h2>
 
-            <p class="govuk-body">Use the link to confirm your email address and start a new application, or continue any applications you have in progress.</p>
+            <p class="govuk-body">{% trans %}Use the link to confirm your email address and start a new application, or continue any applications you have in progress.{% endtrans %}</p>
 
-            <p class="govuk-body">The link will work once and stop working after 24 hours.</p>
+            <p class="govuk-body">{% trans %}The link will work once and stop working after 24 hours.{% endtrans %}</p>
 
             <details class="govuk-details" data-module="govuk-details" open="open">
               <summary class="govuk-details__summary">
                 <span class="govuk-details__summary-text">
-                  If you do not receive an email
+                  {% trans %}If you do not receive an email{% endtrans %}
                 </span>
               </summary>
               <div class="govuk-details__text">
-                <p class="govuk-body">The email may take a few minutes to arrive.</p>
-                <p class="govuk-body">Check your spam or junk folders – if it still has not arrived, you can <a href="{{url_for('magic_links_bp.new')}}" class="govuk-link govuk-link--no-visited-state">request a new link</a>.</p>
+                <p class="govuk-body">{% trans %}The email may take a few minutes to arrive.{% endtrans %}</p>
+                <p class="govuk-body">{% trans %}Check your spam or junk folders – if it still has not arrived, you can {% endtrans %}<a href="{{url_for('magic_links_bp.new')}}" class="govuk-link govuk-link--no-visited-state">{% trans %}request a new link{% endtrans %}</a>.</p>
               </div>
             </details>
 

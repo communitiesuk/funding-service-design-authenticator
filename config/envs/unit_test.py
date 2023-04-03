@@ -1,8 +1,10 @@
 """Flask Local Development Environment Configuration."""
 import logging
+from os import getenv
 
 import redis
 from config.envs.default import DefaultConfig as Config
+from distutils.util import strtobool
 from fsd_utils import configclass
 
 
@@ -19,11 +21,14 @@ class UnitTestConfig(Config):
     AUTHENTICATOR_HOST = "http://localhost:5000"
 
     # Azure Active Directory Config
-    AZURE_AD_CLIENT_ID = "d8be82a8-541c-4768-9296-84bd779a24d9"
-    AZURE_AD_CLIENT_SECRET = "nmq8Q~acUEOPWmjfvbOEQLPZy2M38yLe1PEh_cS2"
+    AZURE_AD_CLIENT_ID = "abc"
+    AZURE_AD_CLIENT_SECRET = "123"
+    AZURE_AD_TENANT_ID = "organizations"
     AZURE_AD_AUTHORITY = (
-        # consumers|organisations - signifies the Azure AD tenant endpoint
-        "https://login.microsoftonline.com/consumers"
+        # consumers|organizations|<tenant_id>
+        # - signifies the Azure AD tenant endpoint
+        "https://login.microsoftonline.com/"
+        + AZURE_AD_TENANT_ID
     )
 
     # The absolute URL must match the redirect URI you set
@@ -39,6 +44,9 @@ class UnitTestConfig(Config):
     SESSION_PERMANENT = False
     SESSION_USE_SIGNER = True
     SESSION_COOKIE_SECURE = False
+    ALLOW_ASSESSMENT_LOGIN_VIA_MAGIC_LINK = strtobool(
+        getenv("ALLOW_ASSESSMENT_LOGIN_VIA_MAGIC_LINK", "False")
+    )
 
     # RSA 256 KEYS
     _test_private_key_path = (
@@ -67,3 +75,7 @@ class UnitTestConfig(Config):
     APPLICANT_FRONTEND_HOST = "frontend"
     APPLICANT_FRONTEND_ACCESSIBILITY_STATEMENT_URL = "/accessibility_statement"
     APPLICANT_FRONTEND_COOKIE_POLICY_URL = "/cookie_policy"
+
+    # Assessment Frontend
+    ASSESSMENT_FRONTEND_HOST = ""
+    ASSESSMENT_POST_LOGIN_URL = ""

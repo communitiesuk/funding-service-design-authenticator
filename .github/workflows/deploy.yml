@@ -3,175 +3,31 @@ name: Deploy to Gov PaaS
 on:
   workflow_dispatch:
   push:
-    # branches:
-    # - master
-    # - FS-389
-    # - FS-390
-
     paths-ignore:
       - '**/README.md'
 
 jobs:
-  testing:
-    runs-on: ubuntu-latest
-    environment: Dev
-    steps:
-      - name: checkout code
-        uses: actions/checkout@v2
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.10.1
-      - name: install dependencies
-        run: python -m pip install --upgrade pip && python -m pip install -r requirements-dev.txt
-      - name: build govuk assets
-        env:
-          FLASK_ENV: "development"
-        run: python build.py
-      - name: run unit tests
-        run: python -m pip install pytest && python -m pytest .
-# Not required unless api has user accessible views, such as error or login pages
-#      - name: Install Chromium
-#        uses: browser-actions/setup-chrome@latest
-#      - name: setup Chromedriver
-#        uses: nanasess/setup-chromedriver@v1
-#        with:
-#        # Optional: do not specify to match Chrome's version
-#          chromedriver-version: '88.0.4324.96'
-#      - name: Run Accessability tests
-#        run: pytest --driver Chrome --driver-path .venv/lib/python3.10/site-packages/chromedriver_py/chromedriver_linux64
-#      - name: 'Upload Accessibility Testing reports'
-#        uses: actions/upload-artifact@v2
-#        with:
-#          name: accessibility-test-report
-#          path: /home/runner/work/funding-service-design-authenticator/funding-service-design-authenticator/axe_reports/*.html
-#          retention-days: 5
-  deploy_dev:
+  test_and_deploy:
     if: ${{ github.actor != 'dependabot[bot]' }}
-    needs: testing
-    runs-on: ubuntu-latest
-    environment: Dev
-    env:
-      FLASK_ENV : build
-    steps:
-      - name: checkout code
-        uses: actions/checkout@v2
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.10.1
-      - name: create python env
-        run: python -m venv .venv
-      - name: install dependencies
-        run: source .venv/bin/activate && python -m pip install --upgrade pip && pip install -r requirements.txt
-      - name: build govuk assets
-        env:
-          FLASK_ENV: "development"
-        run: source .venv/bin/activate && python build.py
-      - name: Deploy to Gov PaaS
-        uses: citizen-of-planet-earth/cf-cli-action@v2
-        with:
-          cf_api:      ${{secrets.CF_API}}
-          cf_org:      ${{secrets.CF_ORG}}
-          cf_space:    ${{secrets.CF_SPACE }}
-          cf_username: ${{secrets.CF_USER}}
-          cf_password: ${{secrets.CF_PASSWORD}}
-          command: push funding-service-design-authenticator-dev -f manifest-dev.yml --var RSA256_PRIVATE_KEY_BASE64="${{secrets.RSA256_PRIVATE_KEY_BASE64}}" --var RSA256_PUBLIC_KEY_BASE64="${{secrets.RSA256_PUBLIC_KEY_BASE64}}"  --var AZURE_AD_CLIENT_ID="${{secrets.AZURE_AD_CLIENT_ID}}"  --var AZURE_AD_TENANT_ID="${{secrets.AZURE_AD_TENANT_ID}}"  --var AZURE_AD_CLIENT_SECRET="${{secrets.AZURE_AD_CLIENT_SECRET}}" --var SECRET_KEY="${{secrets.SECRET_KEY}}" --var SESSION_COOKIE_NAME="${{secrets.SESSION_COOKIE_NAME}}" --var GITHUB_SHA="${{ github.sha }}"
-      - name: Apply network policy for notification service
-        uses: citizen-of-planet-earth/cf-cli-action@v2
-        with:
-          cf_api:      ${{secrets.CF_API}}
-          cf_org:      ${{secrets.CF_ORG}}
-          cf_space:    ${{secrets.CF_SPACE }}
-          cf_username: ${{secrets.CF_USER}}
-          cf_password: ${{secrets.CF_PASSWORD}}
-          command: add-network-policy funding-service-design-authenticator-dev funding-service-design-notification-dev --protocol tcp --port 8080
-
-  security:
-    needs: deploy_dev
-    runs-on: ubuntu-latest
-    environment: Dev
-    steps:
-      - name: checkout code
-        uses: actions/checkout@v2
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.10.1
-      - name: install dependencies
-        run: python -m pip install --upgrade pip && python -m pip install -r requirements-dev.txt
-      - name: Bandit
-        run: bandit -r ./auth ./demo
-      - name: ZAP Scan
-        uses: zaproxy/action-full-scan@v0.3.0
-        with:
-          target: 'https://funding-service-design-authenticator-dev.london.cloudapps.digital/'
-          allow_issue_writing: False
-
-  deploy_test:
-    if: github.ref == 'refs/heads/main'
-    needs: security
-    runs-on: ubuntu-latest
-    environment: test
-    steps:
-      - name: checkout code
-        uses: actions/checkout@v2
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.10.1
-      - name: create python env
-        run: python -m venv .venv
-      - name: install dependencies
-        run: source .venv/bin/activate && python -m pip install --upgrade pip && pip install -r requirements.txt
-      - name: build swagger and govuk assets
-        env:
-          FLASK_ENV: "development"
-        run: source .venv/bin/activate && python build.py
-      - name: Deploy to Gov PaaS
-        uses: citizen-of-planet-earth/cf-cli-action@v2
-        with:
-          cf_api:      ${{secrets.CF_API}}
-          cf_org:      ${{secrets.CF_ORG}}
-          cf_space:    ${{secrets.CF_SPACE }}
-          cf_username: ${{secrets.CF_USER}}
-          cf_password: ${{secrets.CF_PASSWORD}}
-          command: push funding-service-design-authenticator-test -f manifest-test.yml --var RSA256_PRIVATE_KEY_BASE64="${{secrets.RSA256_PRIVATE_KEY_BASE64}}" --var RSA256_PUBLIC_KEY_BASE64="${{secrets.RSA256_PUBLIC_KEY_BASE64}}"  --var AZURE_AD_CLIENT_ID="${{secrets.AZURE_AD_CLIENT_ID}}"  --var AZURE_AD_TENANT_ID="${{secrets.AZURE_AD_TENANT_ID}}"  --var AZURE_AD_CLIENT_SECRET="${{secrets.AZURE_AD_CLIENT_SECRET}}" --var SECRET_KEY="${{secrets.SECRET_KEY}}" --var SESSION_COOKIE_NAME="${{secrets.SESSION_COOKIE_NAME}}" --var GITHUB_SHA="${{ github.sha }}"
-      - name: Apply network policy for notification service
-        uses: citizen-of-planet-earth/cf-cli-action@v2
-        with:
-          cf_api:      ${{secrets.CF_API}}
-          cf_org:      ${{secrets.CF_ORG}}
-          cf_space:    ${{secrets.CF_SPACE }}
-          cf_username: ${{secrets.CF_USER}}
-          cf_password: ${{secrets.CF_PASSWORD}}
-          command: add-network-policy funding-service-design-authenticator-test funding-service-design-notification-test --protocol tcp --port 8080
-
-  run_performance_tests:
-    needs: deploy_test
-    runs-on: ubuntu-latest
-    environment: test
-    steps:
-      - name: checkout code
-        uses: actions/checkout@main
-        with:
-          repository: communitiesuk/funding-service-design-performance-tests
-          path: ./funding-service-design-performance-tests
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.10.1
-      - name: create python env
-        run: python -m venv .venv
-      - name: install dependencies
-        run: source .venv/bin/activate && python -m pip install --upgrade pip && pip install -r ./funding-service-design-performance-tests/requirements.txt
-
-      - name: Run performance tests
-        run: ls && python -m pip install locust && python -m locust
-        working-directory: ./funding-service-design-performance-tests
-      - name: 'Upload Artifact'
-        uses: actions/upload-artifact@v2
-        with:
-          name: performance-test-report
-          path: ./funding-service-design-performance-tests/locust_html_report.html
-          retention-days: 5
+    uses: communitiesuk/funding-design-service-workflows/.github/workflows/deploy.yml@main
+    with:
+      app_name: ${{ github.event.repository.name }}
+      assets_required: true
+      deploy_to_dev: true
+      apply_network_policy: true
+      run_performance_tests: true
+      run_e2e_tests: true
+    secrets:
+      CF_API: ${{secrets.CF_API}}
+      CF_ORG: ${{secrets.CF_ORG}}
+      CF_SPACE: ${{secrets.CF_SPACE}}
+      CF_USER: ${{secrets.CF_USERNAME}}
+      CF_PASSWORD: ${{secrets.CF_PASSWORD}}
+      E2E_PAT: ${{secrets.E2E_PAT}}
+      RSA256_PUBLIC_KEY_BASE64: ${{secrets.RSA256_PUBLIC_KEY_BASE64}}
+      RSA256_PRIVATE_KEY_BASE64: ${{secrets.RSA256_PRIVATE_KEY_BASE64}}
+      AZURE_AD_CLIENT_ID: ${{secrets.AZURE_AD_CLIENT_ID}}
+      AZURE_AD_TENANT_ID: ${{secrets.AZURE_AD_TENANT_ID}}
+      AZURE_AD_CLIENT_SECRET: ${{secrets.AZURE_AD_CLIENT_SECRET}}
+      SECRET_KEY: ${{secrets.SECRET_KEY}}
+      SESSION_COOKIE_NAME: ${{secrets.SESSION_COOKIE_NAME}}

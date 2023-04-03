@@ -4,25 +4,30 @@ from typing import Dict
 
 import connexion
 import prance
-from api.demo.routes import build_auth_code_flow
 from config import Config
 from connexion.resolver import MethodViewResolver
+from flask import current_app
 from flask import Flask
 from flask import request
 from flask_assets import Environment
+from flask_babel import Babel
+from flask_babel import gettext
 from flask_redis import FlaskRedis
 from flask_session import Session
 from flask_talisman import Talisman
 from frontend.assets import compile_static_assets
 from frontend.magic_links.filters import datetime_format
 from fsd_utils import init_sentry
+from fsd_utils import LanguageSelector
 from fsd_utils.healthchecks.checkers import FlaskRunningChecker
 from fsd_utils.healthchecks.checkers import RedisChecker
 from fsd_utils.healthchecks.healthcheck import Healthcheck
+from fsd_utils.locale_selector.get_lang import get_lang
 from fsd_utils.logging import logging
 from jinja2 import ChoiceLoader
 from jinja2 import PackageLoader
 from jinja2 import PrefixLoader
+from models.fund import FundMethods
 
 redis_mlinks = FlaskRedis(config_prefix="REDIS_MLINKS")
 
@@ -39,9 +44,7 @@ def create_app() -> Flask:
 
     # Initialise Connexion Flask App
     connexion_options = {
-        "swagger_path": Config.FLASK_ROOT + "/swagger/dist",
         "swagger_url": "/docs",
-        "swagger_ui_template_arguments": {},
     }
     connexion_app = connexion.FlaskApp(
         "Authenticator",
@@ -68,9 +71,7 @@ def create_app() -> Flask:
     )
     flask_app.jinja_env.trim_blocks = True
     flask_app.jinja_env.lstrip_blocks = True
-    flask_app.jinja_env.globals.update(
-        _build_auth_code_flow=build_auth_code_flow
-    )  # Used in template
+    flask_app.jinja_env.globals["get_lang"] = get_lang
 
     # Initialise logging
     logging.init_app(flask_app)
@@ -95,6 +96,10 @@ def create_app() -> Flask:
 
     flask_app.wsgi_app = ProxyFix(flask_app.wsgi_app, x_proto=1, x_host=1)
 
+    babel = Babel(flask_app)
+    babel.locale_selector_func = get_lang
+    LanguageSelector(flask_app)
+
     # Disable strict talisman on swagger docs pages
     @flask_app.before_request
     def before_request_modifier():
@@ -109,9 +114,6 @@ def create_app() -> Flask:
     def inject_global_constants():
         return dict(
             stage="beta",
-            service_title=(
-                "Apply for funding to save an asset in your community"
-            ),
             service_meta_description=(
                 "Apply for funding to save an asset in your community"
             ),
@@ -126,6 +128,16 @@ def create_app() -> Flask:
             contact_us_url=Config.APPLICANT_FRONTEND_CONTACT_US_URL,
         )
 
+    @flask_app.context_processor
+    def inject_service_name():
+        try:
+            fund_title = FundMethods.get_service_name()
+            return dict(service_title=gettext("Apply for") + " " + fund_title)
+
+        except Exception as e:  # noqa
+            current_app.log_exception(e)
+            return dict(service_title="Access Funding")
+
     with flask_app.app_context():
         from frontend.default.routes import (
             default_bp,
@@ -133,13 +145,15 @@ def create_app() -> Flask:
             internal_server_error,
         )
         from frontend.magic_links.routes import magic_links_bp
-        from api.demo.routes import demo_bp
+        from frontend.sso.routes import sso_bp
+        from frontend.user.routes import user_bp
 
         flask_app.register_error_handler(404, not_found)
         flask_app.register_error_handler(500, internal_server_error)
         flask_app.register_blueprint(default_bp)
         flask_app.register_blueprint(magic_links_bp)
-        flask_app.register_blueprint(demo_bp)
+        flask_app.register_blueprint(sso_bp)
+        flask_app.register_blueprint(user_bp)
         flask_app.jinja_env.filters["datetime_format"] = datetime_format
 
         # Bundle and compile assets

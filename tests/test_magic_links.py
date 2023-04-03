@@ -1,17 +1,23 @@
 """
 Test magic links functionality
 """
+import unittest.mock
 from unittest import mock
 
+import frontend
 import pytest
+from api.session.auth_session import AuthSessionView
+from app import app
 from config import Config
+from frontend.magic_links.forms import EmailForm
+from models.account import AccountMethods
 from models.application import ApplicationMethods
 from security.utils import validate_token
 
 
 @pytest.mark.usefixtures("flask_test_client")
 @pytest.mark.usefixtures("mock_redis_magic_links")
-class TestMagicLinks:
+class TestMagicLinks(AuthSessionView):
 
     created_link_keys = []
     used_link_keys = []
@@ -58,7 +64,6 @@ class TestMagicLinks:
         }
         endpoint = "/service/magic-links/new"
         response = flask_test_client.post(endpoint, data=payload)
-
         # Mock the create_application method,
         # so we can check if it has been called
         create_application_mock = mocker.patch.object(
@@ -67,45 +72,6 @@ class TestMagicLinks:
             new_callable=mock_create_application,
         )
         create_application_mock.assert_not_called()
-        assert response.status_code == 302, response.data
-
-    def test_new_magic_link_creates_application_if_flag_set(
-        self, flask_test_client, mocker, mock_create_application
-    ):
-        """
-        GIVEN a running Flask client, redis instance and
-        an existing h@a.com account in the account_store api
-        WHEN we POST to /magic-links/a@example.com
-        with valid fund_id and round_id params
-        AND Config.CREATE_APPLICATION_ON_ACCOUNT_CREATION is set to True
-        THEN an application is automatically created
-        :param flask_test_client:
-        """
-        # Set Config.CREATE_APPLICATION_ON_ACCOUNT_CREATION
-        # Simply patching it has the effect of it returning True
-        # which is the state/effect we want to produce
-        mocker.patch.object(Config, "CREATE_APPLICATION_ON_ACCOUNT_CREATION")
-        # Mock the create_application method,
-        # so we can check if it has been called
-        create_application_mock = mocker.patch.object(
-            ApplicationMethods,
-            "create_application",
-            new_callable=mock_create_application,
-        )
-        payload = {
-            "email": "new_user@example.com",
-            "redirectUrl": "https://example.com/redirect-url",
-            "fund_id": "47aef2f5-3fcb-4d45-acb5-f0152b5f03c4",
-            "round_id": "c603d114-5364-4474-a0c4-c41cbf4d3bbd",
-        }
-        endpoint = "/service/magic-links/new"
-        response = flask_test_client.post(endpoint, data=payload)
-
-        create_application_mock.assert_called_once_with(
-            "usernew",
-            "47aef2f5-3fcb-4d45-acb5-f0152b5f03c4",
-            "c603d114-5364-4474-a0c4-c41cbf4d3bbd",
-        )
         assert response.status_code == 302, response.data
 
     def test_magic_link_redirects_to_landing(self, flask_test_client):
@@ -252,6 +218,7 @@ class TestMagicLinks:
             endpoint, json=magic_link_create_payload
         )
         magic_link = response.get_json()
+
         link_key = magic_link.get("key")
         self.created_link_keys.append(link_key)
         use_endpoint = f"/magic-links/{link_key}"
@@ -259,6 +226,7 @@ class TestMagicLinks:
 
         # use magic link landing but unauthorised
         landing_response = flask_test_client.get(landing_endpoint)
+
         assert landing_response.status_code == 200
         assert b"How to complete your application" in landing_response.data
         assert b"Continue" in landing_response.data
@@ -326,3 +294,72 @@ class TestMagicLinks:
             next(x for x in get_response.get_json() if x.startswith("link:"))
             is not None
         )
+
+    def test_assessor_roles_is_empty_via_magic_link_auth(self):
+        """
+        GIVEN we are on the production environment
+        i.e. ALLOW_ASSESSMENT_LOGIN_VIA_MAGIC_LINK = False
+        WHEN we go through the authentication flow via magic links
+        THEN the session token should return an empty list of roles.
+
+        Args:
+        mock_account: The mock account role to be tested, with
+        specified parameters such as email, id, subject id,
+        full name, and roles.
+
+        Returns:
+        Empty list of roles
+        """
+        mock_account = unittest.mock.Mock(
+            id="821192fb-15ft-445a-b833-4b311b985d47",
+            email="example@admin.com",
+            azure_ad_subject_id="fg4FtjR5he365ir5h4k34_43ck5454ddsrtDe47",
+            full_name="Joe Smith",
+            roles=["LEAD_ASSESSOR", "ASSESSOR", "COMMENTER"],
+        )
+
+        with app.app_context():
+            with app.test_request_context():
+                session_details = (
+                    self.create_session_details_with_token(  # noqa
+                        mock_account,
+                        is_via_magic_link=True,
+                        timeout_seconds=3600,
+                    )
+                )
+
+                assert session_details.get("roles") == []
+
+    def test_magic_link_route_new(self, flask_test_client):
+
+        # create a MagicMock object for the form used in new():
+        mock_form = mock.MagicMock(spec=EmailForm)
+        mock_form.validate_on_submit.return_value = True
+        mock_form.data = {"email": "example@email.com"}
+
+        # mock get_magic_link() used in new():
+        mock_account = mock.MagicMock(spec=AccountMethods)
+        mock_account.get_magic_link.return_value = True
+
+        # Test post request with fund and round short names:
+        with mock.patch(
+            "frontend.magic_links.routes.EmailForm", return_value=mock_form
+        ):
+            with mock.patch(
+                "frontend.magic_links.routes.AccountMethods",
+                return_value=mock_account,
+            ):
+                response = flask_test_client.post(
+                    "service/magic-links/new?fund=COF&round=R2W3",
+                    follow_redirects=True,
+                )
+
+                # Assert get_magic_link() was called with short_names:
+                frontend.magic_links.routes.AccountMethods.get_magic_link.assert_called_once_with(  # noqa
+                    email="example@email.com",
+                    fund_id=Config.DEFAULT_FUND_ID,
+                    round_id=Config.DEFAULT_ROUND_ID,
+                    fund_short_name="COF",
+                    round_short_name="R2W3",
+                )
+                assert response.status_code == 200

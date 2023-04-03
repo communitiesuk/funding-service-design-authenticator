@@ -1,5 +1,6 @@
 from config import Config
 from flask import Blueprint
+from flask import current_app
 from flask import g
 from flask import redirect
 from flask import render_template
@@ -10,6 +11,7 @@ from fsd_utils.authentication.decorators import login_requested
 from models.account import AccountError
 from models.account import AccountMethods
 from models.data import get_round_data
+from models.fund import FundMethods
 from models.magic_link import MagicLinkError
 from models.magic_link import MagicLinkMethods
 from models.notification import NotificationError
@@ -58,16 +60,24 @@ def landing(link_id):
     round_data = get_round_data(
         Config.DEFAULT_FUND_ID, Config.DEFAULT_ROUND_ID, as_dict=True
     )
+
+    fund_data = FundMethods.get_fund(Config.DEFAULT_FUND_ID)
+    fund_name = fund_data.name
     submission_deadline = round_data.deadline
     link_key = ":".join([Config.MAGIC_LINK_RECORD_PREFIX, link_id])
     link_hash = MagicLinkMethods().redis_mlinks.get(link_key)
     if link_hash or g.is_authenticated:
+        current_app.logger.info("Rendering all questions")
         return render_template(
             "landing.html",
             link_id=link_id,
             submission_deadline=submission_deadline,
+            fund_name=fund_name,
             round_title=round_data.title,
-            all_questions_url=Config.APPLICATION_ALL_QUESTIONS_URL,
+            all_questions_url=Config.APPLICATION_ALL_QUESTIONS_URL.format(
+                fund_short_name=fund_data.short_name,
+                round_short_name=round_data.short_name,
+            ),
         )
     return redirect(url_for("magic_links_bp.invalid", error="Link expired"))
 
@@ -78,32 +88,46 @@ def new():
     Returns a page containing a single question requesting the
     users email address.
     """
+    # TODO remove after R2W3 closes and fs-2505 is complete (ids replaced by short_names) # noqa
     # Default to COF while we only have one fund
+
     fund_id = request.args.get("fund_id", Config.DEFAULT_FUND_ID)
     round_id = request.args.get("round_id", Config.DEFAULT_ROUND_ID)
-    fund_round = False
+    fund_short_name = request.args.get("fund")
+    round_short_name = request.args.get("round")
 
-    if fund_id and round_id:
-        fund_round = True
-
+    fund_round = bool(fund_id and round_id)
     form_data = request.data
     if request.method == "GET":
         form_data = request.args
-
     form = EmailForm(data=form_data)
-
     if form.validate_on_submit():
         try:
             AccountMethods.get_magic_link(
                 email=form.data.get("email"),
-                fund_id=fund_id,
-                round_id=round_id,
+                fund_id=fund_id,  # TODO remove after R2W3 closes and fs-2505 is complete # noqa
+                round_id=round_id,  # TODO remove after R2W3 closes and fs-2505 is complete # noqa
+                fund_short_name=fund_short_name,
+                round_short_name=round_short_name,
             )
-            return redirect(
-                url_for(
-                    "magic_links_bp.check_email", email=form.data.get("email")
+
+            if fund_short_name and round_short_name:
+                return redirect(
+                    url_for(
+                        "magic_links_bp.check_email",
+                        email=form.data.get("email"),
+                        fund=fund_short_name,
+                        round=round_short_name,
+                    )
                 )
-            )
+            else:
+                return redirect(
+                    url_for(
+                        "magic_links_bp.check_email",
+                        email=form.data.get("email"),
+                    )
+                )
+
         except MagicLinkError as e:
             form.email.errors.append(str(e.message))
         except NotificationError as e:
@@ -121,4 +145,7 @@ def check_email():
     inbox for an email with a magic link
     """
 
-    return render_template("check_email.html", email=request.args.get("email"))
+    return render_template(
+        "check_email.html",
+        email=request.args.get("email"),
+    )

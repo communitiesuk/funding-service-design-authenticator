@@ -1,20 +1,36 @@
 {% extends "base.html" %}
+{% set pageHeading %}
+{% if status == "no_token" %}
+    {% trans %}You are not logged in{% endtrans %}
+{% else %}
+    {% trans %}You have been signed out{% endtrans %}
+{% endif %}
+{% endset %}
 {%- from "govuk_frontend_jinja/components/inset-text/macro.html" import govukInsetText -%}
 {%- from "govuk_frontend_jinja/components/button/macro.html" import govukButton -%}
 
 {% block content %}
   <div>
-      <h1 class="govuk-heading-xl">{% if status == "no_token" %}You are not logged in{% else %}You have been signed out{% endif %}</h1>
+      <h1 class="govuk-heading-xl">
+        {{pageHeading}}
+      </h1>
   </div>
 {% if status != "no_token" %}
-    <p class="govuk-body">Your session has {% if status == "expired_token" %}expired{% else %}been closed{% endif %}.</p>
+    <p class="govuk-body">
+        {% trans %}Your session has {% endtrans %}
+        {% if status == "expired_token" %}
+            {% trans %}expired{% endtrans %}
+        {% else %}
+            {% trans %}been closed{% endtrans %}
+        {% endif %}.
+    </p>
 {% endif %}
 
-<p class="govuk-body">To re-access your account, please click below to request a new link.</p>
+<p class="govuk-body">{% trans %}To re-access your account, please click below to request a new link.{% endtrans %}</p>
 
 {{ govukButton({
     "isStartButton": false,
     "href" : new_magic_link_url,
-    "text": "Request a new link"
+    "text": gettext("Request a new link")
 }) }}
 {% endblock %}

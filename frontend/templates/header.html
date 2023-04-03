@@ -28,9 +28,11 @@
     </div>
 </header>
 
-
 <div class="govuk-width-container">
-    {{ govukPhaseBanner({'tag': {'text': 'beta'}, 'html':
-    'This is a new service - your <a href="https://forms.office.com/Pages/ResponsePage.aspx?id=EGg0v32c3kOociSi7zmVqN48ORk8WN5LlJITE3Swt-lURUNCR0dHMjgxWFZOMTMxQzlOTVIxVkQ0Sy4u" class="govuk-link">feedback</a> will help us to improve it.'
+    {{ govukPhaseBanner({
+        'tag': {
+            'text': gettext('beta')
+        },
+        'html': '{}<a href="https://forms.office.com/Pages/ResponsePage.aspx?id=EGg0v32c3kOociSi7zmVqFJBHpeOL2tNnpiwpdL2iElUREIySU9OWTU4R0RTNjhBUDE1Q1VYVFBEMi4u" class="govuk-link">{}</a>{}'.format(gettext('This is a new service - your '), gettext('feedback'), gettext(' will help us to improve it.'))
     })}}
 </div>
