@@ -11,7 +11,6 @@ from fsd_utils import configclass
 
 @configclass
 class TestConfig(Config):
-
     SECRET_KEY = environ.get("SECRET_KEY", "test")
 
     COOKIE_DOMAIN = environ.get("COOKIE_DOMAIN", ".test.fundingservice.co.uk")

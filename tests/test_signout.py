@@ -9,7 +9,6 @@ from security.utils import validate_token
 @pytest.mark.usefixtures("flask_test_client")
 @pytest.mark.usefixtures("mock_redis_magic_links")
 class TestSignout:
-
     created_link_keys = []
     used_link_keys = []
     valid_token = ""

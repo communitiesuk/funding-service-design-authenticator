@@ -79,16 +79,13 @@ def local_api_call(endpoint: str, params: dict = None, method: str = "get"):
         query_params = urllib.parse.urlencode(params)
 
     if method.lower() in ["post", "put"]:
-
         if endpoint in api_data:
             post_dict = api_data.get(endpoint)
             if query_params in post_dict:
-
                 return post_dict.get(query_params)
             else:
                 return post_dict.get("_default")
     else:
-
         if params:
             endpoint = f"{endpoint}?{query_params}"
 
@@ -102,7 +99,6 @@ def get_round_data(
     round_short_name: str = None,
     as_dict=False,
 ):
-
     round_short_name = request.args.get("round")
     fund_short_name = request.args.get("round")
 
@@ -112,7 +108,6 @@ def get_round_data(
         )
     # TODO remove after R2W3 closes and fs-2505 is complete (make round_short_name non-optional) # noqa
     else:
-
         url = Config.GET_ROUND_DATA_FOR_FUND_ENDPOINT.format(
             fund_id=fund_id, round_id=round_id
         )

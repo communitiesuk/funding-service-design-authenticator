@@ -26,7 +26,6 @@ magic_links_bp = Blueprint(
 
 @magic_links_bp.route("/invalid")
 def invalid():
-
     return (
         render_template(
             "invalid.html", new_magic_link_url=url_for("magic_links_bp.new")

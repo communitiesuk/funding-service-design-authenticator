@@ -12,7 +12,6 @@ from security.utils import validate_token
 
 
 class TestSecurityUtils:
-
     tokens = {}
 
     def test_create_token_returns_token(self):

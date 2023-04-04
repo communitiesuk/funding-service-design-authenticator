@@ -4,7 +4,6 @@ from dataclasses import dataclass
 
 @dataclass
 class VcapServices(object):
-
     services: dict
 
     @staticmethod

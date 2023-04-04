@@ -18,7 +18,6 @@ from security.utils import validate_token
 @pytest.mark.usefixtures("flask_test_client")
 @pytest.mark.usefixtures("mock_redis_magic_links")
 class TestMagicLinks(AuthSessionView):
-
     created_link_keys = []
     used_link_keys = []
 
@@ -331,7 +330,6 @@ class TestMagicLinks(AuthSessionView):
                 assert session_details.get("roles") == []
 
     def test_magic_link_route_new(self, flask_test_client):
-
         # create a MagicMock object for the form used in new():
         mock_form = mock.MagicMock(spec=EmailForm)
         mock_form.validate_on_submit.return_value = True

@@ -9,7 +9,6 @@ from fsd_utils import configclass
 
 @configclass
 class ProductionConfig(Config):
-
     # Redis
     REDIS_INSTANCE_NAME = "funding-service-magic-links"
     REDIS_INSTANCE_URI = Config.VCAP_SERVICES.get_service_credentials_value(

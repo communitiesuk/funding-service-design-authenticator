@@ -8,7 +8,6 @@ from config import Config
 
 
 def build_govuk_assets():
-
     # NOTE: When using connexion for our openapi management
     # FLASK_STATIC_URL needs to be "/static"
     # as static_url_path is not directly configurable
@@ -69,7 +68,6 @@ def build_govuk_assets():
     cwd = os.getcwd()
     os.chdir(DIST_PATH)
     for css_file in glob.glob("*.css"):
-
         # Read in the file
         with open(css_file, "r") as file:
             filedata = file.read()

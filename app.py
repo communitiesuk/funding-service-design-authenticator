@@ -39,7 +39,6 @@ def get_bundled_specs(main_file: Path) -> Dict[str, Any]:
 
 
 def create_app() -> Flask:
-
     init_sentry()
 
     # Initialise Connexion Flask App

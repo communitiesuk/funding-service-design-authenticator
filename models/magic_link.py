@@ -217,7 +217,6 @@ class MagicLinkMethods(object):
             self._create_user_record(account, redis_key)
 
             if fund_short_name and round_short_name:
-
                 magic_link_url = (
                     Config.AUTHENTICATOR_HOST
                     + Config.MAGIC_LINK_LANDING_PAGE
