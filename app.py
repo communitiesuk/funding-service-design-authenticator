@@ -6,6 +6,7 @@ import connexion
 import prance
 from config import Config
 from connexion.resolver import MethodViewResolver
+from flask import current_app
 from flask import Flask
 from flask import request
 from flask_assets import Environment
@@ -26,6 +27,7 @@ from fsd_utils.logging import logging
 from jinja2 import ChoiceLoader
 from jinja2 import PackageLoader
 from jinja2 import PrefixLoader
+from models.fund import FundMethods
 
 redis_mlinks = FlaskRedis(config_prefix="REDIS_MLINKS")
 
@@ -112,9 +114,6 @@ def create_app() -> Flask:
     def inject_global_constants():
         return dict(
             stage="beta",
-            service_title=(
-                gettext("Apply for funding to save an asset in your community")
-            ),
             service_meta_description=(
                 "Apply for funding to save an asset in your community"
             ),
@@ -128,6 +127,16 @@ def create_app() -> Flask:
             cookie_policy_url=Config.APPLICANT_FRONTEND_COOKIE_POLICY_URL,
             contact_us_url=Config.APPLICANT_FRONTEND_CONTACT_US_URL,
         )
+
+    @flask_app.context_processor
+    def inject_service_name():
+        try:
+            fund_title = FundMethods.get_service_name()
+            return dict(service_title=gettext("Apply for") + " " + fund_title)
+
+        except Exception as e:  # noqa
+            current_app.log_exception(e)
+            return dict(service_title="Access Funding")
 
     with flask_app.app_context():
         from frontend.default.routes import (

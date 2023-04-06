@@ -1,12 +1,15 @@
 {%- from "govuk_frontend_jinja/components/button/macro.html" import govukButton
--%} {% extends "base.html" %} {% block content %}
+-%}
+{% extends "base.html" %}
+
+{% block content %}
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds govuk-body">
 
     <p class="govuk-caption-l"> {{ fund_name }} {{ round_title }}</p>
     <h1 class="govuk-heading-xl">
-      {% trans %}Apply for funding to save an asset in your community{% endtrans %}
+      {{service_title}}
     </h1>
     <p class="govuk-heading-s">
       {% trans %}Submission deadline:{% endtrans %} <span class="govuk-body">{{ submission_deadline|datetime_format }}</span>
@@ -19,7 +22,6 @@
     }}
 
     <h2 class="govuk-heading-m">{% trans %}How to complete your application{% endtrans %}</h2>
-
     <h3 class="govuk-heading-s">{% trans %}Moving through the form{% endtrans %}</h3>
     <p>{% trans %}This form is split into sections based on how it will be assessed.{% endtrans %}</p>
     <p>{% trans %}You do not have to complete it in order, or all at once.{% endtrans %}</p>
