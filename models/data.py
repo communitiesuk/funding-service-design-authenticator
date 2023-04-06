@@ -122,9 +122,6 @@ def get_round_data(
     }
     response = get_data(endpoint=url, params=params)
 
-    current_app.logger.error(url)
-    current_app.logger.error(response)
-
     if as_dict:
         return Round.from_dict(response)
 
