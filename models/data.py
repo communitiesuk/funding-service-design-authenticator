@@ -104,7 +104,7 @@ def get_round_data(
 ):
 
     round_short_name = request.args.get("round")
-    fund_short_name = request.args.get("round")
+    fund_short_name = request.args.get("fund")
 
     if round_short_name:
         url = (Config.GET_ROUND_DATA_FOR_FUND_ENDPOINT).format(
@@ -121,6 +121,7 @@ def get_round_data(
         "use_short_name": bool(round_short_name),
     }
     response = get_data(endpoint=url, params=params)
+
     if as_dict:
         return Round.from_dict(response)
 
