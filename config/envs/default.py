@@ -117,6 +117,7 @@ class DefaultConfig(object):
     APPLICATION_ENDPOINT = "/applications/{account_id}"
 
     # Notification Service
+    DISABLE_NOTIFICATION_SERVICE = False
     NOTIFICATION_SERVICE_HOST = environ.get("NOTIFICATION_SERVICE_HOST")
     SEND_ENDPOINT = "/send"
 

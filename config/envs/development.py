@@ -76,5 +76,9 @@ class DevelopmentConfig(Config):
         "NOTIFICATION_SERVICE_HOST", "notification_service"
     )
 
+    DISABLE_NOTIFICATION_SERVICE = (
+        False  # Toggle on if you have no notify api key.
+    )
+
     # Security
     Config.TALISMAN_SETTINGS["force_https"] = False
