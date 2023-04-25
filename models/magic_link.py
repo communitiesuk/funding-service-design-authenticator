@@ -193,8 +193,8 @@ class MagicLinkMethods(object):
         """
         current_app.logger.info(f"Creating magic link for {account}")
         self.clear_existing_user_record(account.id)
-        # TODO edit after R2W3 closes and fs-2505 is complete (remove check for fund_short name and round_short_name) # noqa
-        if (fund_short_name and round_short_name) and not redirect_url:
+
+        if not redirect_url:
             redirect_url = (
                 Config.MAGIC_LINK_REDIRECT_URL
                 + "?fund="
@@ -202,9 +202,7 @@ class MagicLinkMethods(object):
                 + "&round="
                 + round_short_name
             )
-        # TODO remove after R2W3 closes and fs-2505 is complete
-        elif not redirect_url:
-            redirect_url = Config.MAGIC_LINK_REDIRECT_URL
+
         new_link_json = self._make_link_json(account, redirect_url)
 
         redis_key, link_key = self._set_unique_keyed_record(

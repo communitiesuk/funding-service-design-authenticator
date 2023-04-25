@@ -5,7 +5,6 @@ import urllib.parse
 import requests
 from config import Config
 from flask import current_app
-from flask import request
 from fsd_utils.locale_selector.get_lang import get_lang
 from models.round import Round
 
@@ -97,34 +96,21 @@ def local_api_call(endpoint: str, params: dict = None, method: str = "get"):
 
 
 def get_round_data(
-    fund_id: str = None,
-    round_id: str = None,
-    round_short_name: str = None,
+    fund: str,
+    round: str,
+    use_short_name: bool = False,
     as_dict=False,
 ):
-
-    round_short_name = request.args.get("round")
-    fund_short_name = request.args.get("fund")
-
-    if round_short_name:
-        url = (Config.GET_ROUND_DATA_FOR_FUND_ENDPOINT).format(
-            fund_id=fund_short_name, round_id=round_short_name
-        )
-    # TODO remove after R2W3 closes and fs-2505 is complete (make round_short_name non-optional) # noqa
-    else:
-
-        url = Config.GET_ROUND_DATA_FOR_FUND_ENDPOINT.format(
-            fund_id=fund_id, round_id=round_id
-        )
+    url = (Config.GET_ROUND_DATA_FOR_FUND_ENDPOINT).format(
+        fund_id=fund, round_id=round
+    )
     params = {
         "language": get_lang(),
-        "use_short_name": bool(round_short_name),
+        "use_short_name": use_short_name,
     }
     response = get_data(endpoint=url, params=params)
-
     if as_dict:
         return Round.from_dict(response)
-
     else:
         return response
 
