@@ -57,11 +57,14 @@ def landing(link_id):
     :param link_id: (str) a unique single use magic link id
     :return: 200 landing page or 302 redirect
     """
+    fund_short_name = request.args.get("fund")
+    round_short_name = request.args.get("round")
+
     round_data = get_round_data(
-        Config.DEFAULT_FUND_ID, Config.DEFAULT_ROUND_ID, as_dict=True
+        fund_short_name, round_short_name, use_short_name=True, as_dict=True
     )
 
-    fund_data = FundMethods.get_fund(Config.DEFAULT_FUND_ID)
+    fund_data = FundMethods.get_fund(fund_short_name, use_short_name=True)
     fund_name = fund_data.name
     submission_deadline = round_data.deadline
     link_key = ":".join([Config.MAGIC_LINK_RECORD_PREFIX, link_id])
