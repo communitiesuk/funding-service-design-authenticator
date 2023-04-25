@@ -2,7 +2,9 @@
 bandit
 dparse>=0.5.2
 black
+debugpy
 deepdiff
+invoke
 pre-commit
 pytest
 pytest-env

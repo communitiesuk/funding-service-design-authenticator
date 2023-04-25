@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-03-29 18:44+0100\n"
+"POT-Creation-Date: 2023-04-20 12:30+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -272,4 +272,29 @@ msgstr ""
 
 #: frontend/templates/header.html:36
 msgid " will help us to improve it."
+msgstr ""
+
+#: frontend/templates/partials/contact_details.html:3
+msgid "Email"
+msgstr ""
+
+#: frontend/templates/partials/contact_details.html:11
+#: frontend/templates/partials/contact_details.html:27
+#: frontend/templates/partials/contact_details.html:37
+msgid "except public holidays"
+msgstr ""
+
+#: frontend/templates/partials/contact_details.html:16
+msgid ""
+"Do not send any applications or attachments by email. We'll only accept "
+"applications\n"
+"            through this service."
+msgstr ""
+
+#: frontend/templates/partials/contact_details.html:21
+msgid "Telephone"
+msgstr ""
+
+#: frontend/templates/partials/contact_details.html:32
+msgid "Textphone"
 msgstr ""
