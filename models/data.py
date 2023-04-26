@@ -109,7 +109,7 @@ def get_round_data(
         "use_short_name": use_short_name,
     }
     response = get_data(endpoint=url, params=params)
-    if as_dict:
+    if as_dict and response:
         return Round.from_dict(response)
     else:
         return response

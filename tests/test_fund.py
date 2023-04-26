@@ -19,7 +19,10 @@ class TestFund:
         "short_name, expected_arg",
         [
             ("COF", {"fund_short_name": "COF"}),
-            (None, {"fund_id": Config.DEFAULT_FUND_ID}),
+            (
+                None,
+                {"fund_id": Config.DEFAULT_FUND_ID, "use_short_name": False},
+            ),
         ],
     )
     def test_get_service_name(

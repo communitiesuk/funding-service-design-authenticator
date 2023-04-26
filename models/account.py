@@ -209,7 +209,7 @@ class AccountMethods(Account):
         if not account:
             account = cls.create_account(email)
         if account:
-            fund = FundMethods.get_fund(fund_short_name, use_short_name=True)
+            fund = FundMethods.get_fund(fund_short_name)
             round_for_fund = get_round_data(
                 fund_short_name,
                 round_short_name,

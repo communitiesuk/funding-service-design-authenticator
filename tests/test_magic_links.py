@@ -45,35 +45,6 @@ class TestMagicLinks(AuthSessionView):
             "accountId"
         )
 
-    def test_new_magic_link_does_not_create_application(
-        self, flask_test_client, mocker, mock_create_application
-    ):
-        """
-        GIVEN a running Flask client, redis instance and
-        an existing h@a.com account in the account_store api
-        WHEN we POST to /service/magic-links/new
-        with valid email, fund_id and round_id params
-        THEN an application is not automatically created
-        :param flask_test_client:
-        """
-        payload = {
-            "email": "new_user@example.com",
-            "redirectUrl": "https://example.com/redirect-url",
-            "fund_id": "47aef2f5-3fcb-4d45-acb5-f0152b5f03c4",
-            "round_id": "c603d114-5364-4474-a0c4-c41cbf4d3bbd",
-        }
-        endpoint = "/service/magic-links/new"
-        response = flask_test_client.post(endpoint, data=payload)
-        # Mock the create_application method,
-        # so we can check if it has been called
-        create_application_mock = mocker.patch.object(
-            ApplicationMethods,
-            "create_application",
-            new_callable=mock_create_application,
-        )
-        create_application_mock.assert_not_called()
-        assert response.status_code == 302, response.data
-
     def test_magic_link_redirects_to_landing(self, flask_test_client):
         """
         GIVEN a running Flask client, redis instance and
@@ -330,7 +301,9 @@ class TestMagicLinks(AuthSessionView):
 
                 assert session_details.get("roles") == []
 
-    def test_magic_link_route_new(self, flask_test_client):
+    def test_magic_link_route_new(
+        self, flask_test_client, mock_create_application, mocker
+    ):
 
         # create a MagicMock object for the form used in new():
         mock_form = mock.MagicMock(spec=EmailForm)
@@ -349,16 +322,22 @@ class TestMagicLinks(AuthSessionView):
                 "frontend.magic_links.routes.AccountMethods",
                 return_value=mock_account,
             ):
+                # Mock the create_application method:
+                create_application_mock = mocker.patch.object(
+                    ApplicationMethods,
+                    "create_application",
+                    new_callable=mock_create_application,
+                )
+                # Make POST request using test client:
                 response = flask_test_client.post(
                     "service/magic-links/new?fund=COF&round=R2W3",
                     follow_redirects=True,
                 )
-
+                # Assert create_application() was not called:
+                create_application_mock.assert_not_called()
                 # Assert get_magic_link() was called with short_names:
                 frontend.magic_links.routes.AccountMethods.get_magic_link.assert_called_once_with(  # noqa
                     email="example@email.com",
-                    fund_id=Config.DEFAULT_FUND_ID,
-                    round_id=Config.DEFAULT_ROUND_ID,
                     fund_short_name="COF",
                     round_short_name="R2W3",
                 )

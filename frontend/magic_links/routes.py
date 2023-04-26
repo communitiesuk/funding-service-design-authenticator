@@ -64,7 +64,7 @@ def landing(link_id):
         fund_short_name, round_short_name, use_short_name=True, as_dict=True
     )
 
-    fund_data = FundMethods.get_fund(fund_short_name, use_short_name=True)
+    fund_data = FundMethods.get_fund(fund_short_name)
     fund_name = fund_data.name
     submission_deadline = round_data.deadline
     link_key = ":".join([Config.MAGIC_LINK_RECORD_PREFIX, link_id])
