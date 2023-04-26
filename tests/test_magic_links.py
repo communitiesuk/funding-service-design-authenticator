@@ -239,27 +239,47 @@ class TestMagicLinks(AuthSessionView):
         link_key = magic_link.get("key")
         self.created_link_keys.append(link_key)
         use_endpoint = f"/magic-links/{link_key}"
-        landing_endpoint = f"/service/magic-links/landing/{link_key}"
-
-        # use magic link landing but unauthorised
-        landing_response = flask_test_client.get(landing_endpoint)
-
-        assert landing_response.status_code == 200
-        assert b"How to complete your application" in landing_response.data
-        assert b"Continue" in landing_response.data
-
-        # use link
-        use_link_response = flask_test_client.get(use_endpoint)
-        assert use_link_response.status_code == 302
-        self.used_link_keys.append(link_key)
-
-        # re-use magic link landing but now authorised (cookie present)
-        second_landing_response = flask_test_client.get(landing_endpoint)
-        assert second_landing_response.status_code == 200
-        assert (
-            b"How to complete your application" in second_landing_response.data
+        landing_endpoint = (
+            f"/service/magic-links/landing/{link_key}?fund=cof&round=r2w3"
         )
-        assert b"Continue" in second_landing_response.data
+
+        with mock.patch(
+            "models.fund.FundMethods.get_fund"
+        ) as mock_get_fund, mock.patch(
+            "frontend.magic_links.routes.get_round_data"
+        ) as mock_get_round_data:
+            # Mock get_fund() called in get_magic_link()
+            mock_fund = mock.MagicMock()
+            mock_fund.configure_mock(name="cof")
+            mock_fund.configure_mock(short_name="cof")
+            mock_get_fund.return_value = mock_fund
+            # Mock get_round_data() called in get_magic_link()
+            mock_round = mock.MagicMock()
+            mock_round.configure_mock(deadline="2023-01-30 00:00:01")
+            mock_round.configure_mock(title="r2w3")
+            mock_round.configure_mock(short_name="r2w3")
+            mock_get_round_data.return_value = mock_round
+
+            # use magic link landing but unauthorised
+            landing_response = flask_test_client.get(landing_endpoint)
+
+            assert landing_response.status_code == 200
+            assert b"How to complete your application" in landing_response.data
+            assert b"Continue" in landing_response.data
+
+            # use link
+            use_link_response = flask_test_client.get(use_endpoint)
+            assert use_link_response.status_code == 302
+            self.used_link_keys.append(link_key)
+
+            # re-use magic link landing but now authorised (cookie present)
+            second_landing_response = flask_test_client.get(landing_endpoint)
+            assert second_landing_response.status_code == 200
+            assert (
+                b"How to complete your application"
+                in second_landing_response.data
+            )
+            assert b"Continue" in second_landing_response.data
 
     def test_reused_magic_link_with_no_session_returns_link_expired(
         self, flask_test_client
