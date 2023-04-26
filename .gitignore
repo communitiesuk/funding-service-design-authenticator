@@ -132,12 +132,9 @@ flask_session
 # IntelliJ
 .idea
 
-# VS Code
-.vscode/settings.json
 
 # Mac files
 .bash_profile
 .DS_Store
 
 html
-.vscode/launch.json
