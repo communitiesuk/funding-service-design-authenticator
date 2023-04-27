@@ -1,4 +1,8 @@
+import json
+import textwrap
+
 from config import Config
+from flask import current_app
 from fsd_utils.config.notify_constants import NotifyConstants
 from models.data import post_data
 
@@ -21,6 +25,21 @@ class Notification(object):
             content: (dict) A dictionary of content to send to
                 fill out the notification template
         """
+
+        if Config.DISABLE_NOTIFICATION_SERVICE:
+            template_msg = textwrap.dedent(
+                f"""
+                Notification service is disabled, details below:
+                - Template type: {template_type}
+                - To email: {to_email}
+                - Content:
+            """
+            )
+            current_app.logger.info(
+                f"{template_msg}{json.dumps(content, indent=4)}"
+            )
+            return True
+
         url = Config.NOTIFICATION_SERVICE_HOST + Config.SEND_ENDPOINT
         params = {
             NotifyConstants.FIELD_TYPE: template_type,

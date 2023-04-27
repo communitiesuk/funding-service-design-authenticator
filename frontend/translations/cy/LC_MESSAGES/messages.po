@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-03-29 18:44+0100\n"
+"POT-Creation-Date: 2023-04-20 12:30+0100\n"
 "PO-Revision-Date: 2022-10-28 12:33+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: cy\n"
@@ -301,6 +301,33 @@ msgstr "adborth"
 #: frontend/templates/header.html:36
 msgid " will help us to improve it."
 msgstr " yn ein cefnogi i'w wella."
+
+#: frontend/templates/partials/contact_details.html:3
+msgid "Email"
+msgstr "Ebost"
+
+#: frontend/templates/partials/contact_details.html:11
+#: frontend/templates/partials/contact_details.html:27
+#: frontend/templates/partials/contact_details.html:37
+msgid "except public holidays"
+msgstr ""
+
+#: frontend/templates/partials/contact_details.html:16
+msgid ""
+"Do not send any applications or attachments by email. We'll only accept "
+"applications\n"
+"            through this service."
+msgstr ""
+"Peidwch ag anfon unrhyw geisadau neu atodiadau dros e-bost. Byddwn yn "
+"derbyn ceisiadau drwy'r gwasanaeth hon yn unig."
+
+#: frontend/templates/partials/contact_details.html:21
+msgid "Telephone"
+msgstr "Ffôn"
+
+#: frontend/templates/partials/contact_details.html:32
+msgid "Textphone"
+msgstr "Ffôn testun"
 
 #~ msgid "Enter an email address in the correct format, like name@example.com"
 #~ msgstr "Rhowch gyfeiriad e-bost yn y fformat cywir, fel enw@enghraifft.com"

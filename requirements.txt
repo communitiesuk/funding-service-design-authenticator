@@ -88,8 +88,6 @@ funding-service-design-utils==1.0.22
     # via -r requirements.in
 govuk-frontend-jinja==2.3.0
     # via -r requirements.in
-greenlet==2.0.0
-    # via sqlalchemy
 gunicorn==20.1.0
     # via funding-service-design-utils
 idna==3.3
