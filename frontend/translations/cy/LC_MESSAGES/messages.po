@@ -310,7 +310,7 @@ msgstr "Ebost"
 #: frontend/templates/partials/contact_details.html:27
 #: frontend/templates/partials/contact_details.html:37
 msgid "except public holidays"
-msgstr ""
+msgstr "Ac eithrio gwyliau cyhoeddus"
 
 #: frontend/templates/partials/contact_details.html:16
 msgid ""
