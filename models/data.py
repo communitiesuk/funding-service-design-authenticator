@@ -98,7 +98,6 @@ def local_api_call(endpoint: str, params: dict = None, method: str = "get"):
 def get_round_data(
     fund: str,
     round: str,
-    use_short_name: bool = False,
     as_dict=False,
 ):
     url = (Config.GET_ROUND_DATA_FOR_FUND_ENDPOINT).format(
@@ -106,7 +105,7 @@ def get_round_data(
     )
     params = {
         "language": get_lang(),
-        "use_short_name": use_short_name,
+        "use_short_name": True,
     }
     response = get_data(endpoint=url, params=params)
     if as_dict and response:

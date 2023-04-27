@@ -213,7 +213,6 @@ class AccountMethods(Account):
             round_for_fund = get_round_data(
                 fund_short_name,
                 round_short_name,
-                use_short_name=True,
                 as_dict=True,
             )
 

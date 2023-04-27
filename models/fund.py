@@ -35,13 +35,13 @@ class Fund:
 
 class FundMethods:
     @staticmethod
-    def get_fund(fund_short_name: str, use_short_name: bool = True) -> Fund:
+    def get_fund(fund_short_name: str) -> Fund:
         url = (
             Config.FUND_STORE_API_HOST + Config.FUND_STORE_FUND_ENDPOINT
         ).format(fund_id=fund_short_name)
         params = {
             "language": get_lang(),
-            "use_short_name": use_short_name,
+            "use_short_name": True,
         }
         response = get_data(endpoint=url, params=params)
         if response and "id" in response:
@@ -52,8 +52,4 @@ class FundMethods:
         short_name = request.args.get("fund")
         if short_name:
             fund_data = FundMethods.get_fund(fund_short_name=short_name)
-        else:
-            fund_data = FundMethods.get_fund(
-                fund_id=Config.DEFAULT_FUND_ID, use_short_name=False
-            )
         return fund_data.fund_title

@@ -61,7 +61,7 @@ def landing(link_id):
     round_short_name = request.args.get("round")
 
     round_data = get_round_data(
-        fund_short_name, round_short_name, use_short_name=True, as_dict=True
+        fund_short_name, round_short_name, as_dict=True
     )
 
     fund_data = FundMethods.get_fund(fund_short_name)
