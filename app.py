@@ -6,7 +6,6 @@ import connexion
 import prance
 from config import Config
 from connexion.resolver import MethodViewResolver
-from flask import current_app
 from flask import Flask
 from flask import request
 from flask_assets import Environment
@@ -130,13 +129,12 @@ def create_app() -> Flask:
 
     @flask_app.context_processor
     def inject_service_name():
-        try:
-            fund_title = FundMethods.get_service_name()
-            return dict(service_title=gettext("Apply for") + " " + fund_title)
-
-        except Exception as e:  # noqa
-            current_app.log_exception(e)
-            return dict(service_title="Access Funding")
+        fund_title = FundMethods.get_service_name()
+        return (
+            dict(service_title=gettext("Apply for") + " " + fund_title)
+            if fund_title
+            else dict(service_title="Access Funding")
+        )
 
     with flask_app.app_context():
         from frontend.default.routes import (
