@@ -57,11 +57,14 @@ def landing(link_id):
     :param link_id: (str) a unique single use magic link id
     :return: 200 landing page or 302 redirect
     """
+    fund_short_name = request.args.get("fund")
+    round_short_name = request.args.get("round")
+
     round_data = get_round_data(
-        Config.DEFAULT_FUND_ID, Config.DEFAULT_ROUND_ID, as_dict=True
+        fund_short_name, round_short_name, as_dict=True
     )
 
-    fund_data = FundMethods.get_fund(Config.DEFAULT_FUND_ID)
+    fund_data = FundMethods.get_fund(fund_short_name)
     fund_name = fund_data.name
     submission_deadline = round_data.deadline
     link_key = ":".join([Config.MAGIC_LINK_RECORD_PREFIX, link_id])
@@ -88,15 +91,10 @@ def new():
     Returns a page containing a single question requesting the
     users email address.
     """
-    # TODO remove after R2W3 closes and fs-2505 is complete (ids replaced by short_names) # noqa
-    # Default to COF while we only have one fund
-
-    fund_id = request.args.get("fund_id", Config.DEFAULT_FUND_ID)
-    round_id = request.args.get("round_id", Config.DEFAULT_ROUND_ID)
     fund_short_name = request.args.get("fund")
     round_short_name = request.args.get("round")
 
-    fund_round = bool(fund_id and round_id)
+    fund_round = bool(fund_short_name and round_short_name)
     form_data = request.data
     if request.method == "GET":
         form_data = request.args
@@ -105,8 +103,6 @@ def new():
         try:
             AccountMethods.get_magic_link(
                 email=form.data.get("email"),
-                fund_id=fund_id,  # TODO remove after R2W3 closes and fs-2505 is complete # noqa
-                round_id=round_id,  # TODO remove after R2W3 closes and fs-2505 is complete # noqa
                 fund_short_name=fund_short_name,
                 round_short_name=round_short_name,
             )

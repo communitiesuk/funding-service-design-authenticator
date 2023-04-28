@@ -59,20 +59,37 @@ class TestMagicLinks(AuthSessionView):
         payload = {
             "email": "new_user@example.com",
             "redirectUrl": "https://example.com/redirect-url",
-            "fund_id": "47aef2f5-3fcb-4d45-acb5-f0152b5f03c4",
-            "round_id": "c603d114-5364-4474-a0c4-c41cbf4d3bbd",
         }
-        endpoint = "/service/magic-links/new"
-        response = flask_test_client.post(endpoint, data=payload)
-        # Mock the create_application method,
-        # so we can check if it has been called
-        create_application_mock = mocker.patch.object(
-            ApplicationMethods,
-            "create_application",
-            new_callable=mock_create_application,
-        )
-        create_application_mock.assert_not_called()
-        assert response.status_code == 302, response.data
+        endpoint = "/service/magic-links/new?fund=cof&round=r2w3"
+
+        with mock.patch(
+            "models.fund.FundMethods.get_fund"
+        ) as mock_get_fund, mock.patch(
+            "models.account.get_round_data"
+        ) as mock_get_round_data:
+            # Mock get_fund() called in get_magic_link()
+            mock_fund = mock.MagicMock()
+            mock_fund.configure_mock(name="cof")
+            mock_get_fund.return_value = mock_fund
+            # Mock get_round_data() called in get_magic_link()
+            mock_round = mock.MagicMock()
+            mock_round.configure_mock(
+                contact_details={"email_address": "new_user@example.com"}
+            )
+            mock_get_round_data.return_value = mock_round
+
+            response = flask_test_client.post(endpoint, data=payload)
+            # Mock the create_application method,
+            # so we can check if it has been called
+            create_application_mock = mocker.patch.object(
+                ApplicationMethods,
+                "create_application",
+                new_callable=mock_create_application,
+            )
+            create_application_mock.assert_not_called()
+            mock_get_fund.assert_called()
+            mock_get_round_data.assert_called()
+            assert response.status_code == 302, response.data
 
     def test_magic_link_redirects_to_landing(self, flask_test_client):
         """
@@ -222,27 +239,47 @@ class TestMagicLinks(AuthSessionView):
         link_key = magic_link.get("key")
         self.created_link_keys.append(link_key)
         use_endpoint = f"/magic-links/{link_key}"
-        landing_endpoint = f"/service/magic-links/landing/{link_key}"
-
-        # use magic link landing but unauthorised
-        landing_response = flask_test_client.get(landing_endpoint)
-
-        assert landing_response.status_code == 200
-        assert b"How to complete your application" in landing_response.data
-        assert b"Continue" in landing_response.data
-
-        # use link
-        use_link_response = flask_test_client.get(use_endpoint)
-        assert use_link_response.status_code == 302
-        self.used_link_keys.append(link_key)
-
-        # re-use magic link landing but now authorised (cookie present)
-        second_landing_response = flask_test_client.get(landing_endpoint)
-        assert second_landing_response.status_code == 200
-        assert (
-            b"How to complete your application" in second_landing_response.data
+        landing_endpoint = (
+            f"/service/magic-links/landing/{link_key}?fund=cof&round=r2w3"
         )
-        assert b"Continue" in second_landing_response.data
+
+        with mock.patch(
+            "models.fund.FundMethods.get_fund"
+        ) as mock_get_fund, mock.patch(
+            "frontend.magic_links.routes.get_round_data"
+        ) as mock_get_round_data:
+            # Mock get_fund() called in get_magic_link()
+            mock_fund = mock.MagicMock()
+            mock_fund.configure_mock(name="cof")
+            mock_fund.configure_mock(short_name="cof")
+            mock_get_fund.return_value = mock_fund
+            # Mock get_round_data() called in get_magic_link()
+            mock_round = mock.MagicMock()
+            mock_round.configure_mock(deadline="2023-01-30 00:00:01")
+            mock_round.configure_mock(title="r2w3")
+            mock_round.configure_mock(short_name="r2w3")
+            mock_get_round_data.return_value = mock_round
+
+            # use magic link landing but unauthorised
+            landing_response = flask_test_client.get(landing_endpoint)
+
+            assert landing_response.status_code == 200
+            assert b"How to complete your application" in landing_response.data
+            assert b"Continue" in landing_response.data
+
+            # use link
+            use_link_response = flask_test_client.get(use_endpoint)
+            assert use_link_response.status_code == 302
+            self.used_link_keys.append(link_key)
+
+            # re-use magic link landing but now authorised (cookie present)
+            second_landing_response = flask_test_client.get(landing_endpoint)
+            assert second_landing_response.status_code == 200
+            assert (
+                b"How to complete your application"
+                in second_landing_response.data
+            )
+            assert b"Continue" in second_landing_response.data
 
     def test_reused_magic_link_with_no_session_returns_link_expired(
         self, flask_test_client
@@ -357,8 +394,6 @@ class TestMagicLinks(AuthSessionView):
                 # Assert get_magic_link() was called with short_names:
                 frontend.magic_links.routes.AccountMethods.get_magic_link.assert_called_once_with(  # noqa
                     email="example@email.com",
-                    fund_id=Config.DEFAULT_FUND_ID,
-                    round_id=Config.DEFAULT_ROUND_ID,
                     fund_short_name="COF",
                     round_short_name="R2W3",
                 )

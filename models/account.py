@@ -193,8 +193,6 @@ class AccountMethods(Account):
     def get_magic_link(
         cls,
         email: str,
-        fund_id: str = None,
-        round_id: str = None,
         fund_short_name: str = None,
         round_short_name: str = None,
     ) -> bool:
@@ -211,41 +209,26 @@ class AccountMethods(Account):
         if not account:
             account = cls.create_account(email)
         if account:
-            if fund_short_name and round_short_name:
-                fund = FundMethods.get_fund(fund_short_name=fund_short_name)
-                round_for_fund = get_round_data(
-                    round_short_name=round_short_name, as_dict=True
-                )
-            # TODO remove after R2W3 closes and fs-2505 is complete
-            else:
-                fund = FundMethods.get_fund(fund_id=fund_id)
-                round_for_fund = get_round_data(
-                    fund_id=fund_id, round_id=round_id, as_dict=True
-                )
+            fund = FundMethods.get_fund(fund_short_name)
+            round_for_fund = get_round_data(
+                fund_short_name,
+                round_short_name,
+                as_dict=True,
+            )
 
-            if fund_short_name and round_short_name:
-                notification_content = {
-                    NotifyConstants.MAGIC_LINK_REQUEST_NEW_LINK_URL_FIELD: Config.AUTHENTICATOR_HOST  # noqa
-                    + Config.NEW_LINK_ENDPOINT
-                    + "?fund="
-                    + fund_short_name
-                    + "&round="
-                    + round_short_name,  # noqa
-                    NotifyConstants.MAGIC_LINK_CONTACT_HELP_EMAIL_FIELD: round_for_fund.contact_details[  # noqa
-                        "email_address"
-                    ],  # noqa
-                    NotifyConstants.MAGIC_LINK_FUND_NAME_FIELD: fund.name,
-                }
-            # TODO remove after R2W3 closes and fs-2505 is complete
-            else:
-                notification_content = {
-                    NotifyConstants.MAGIC_LINK_REQUEST_NEW_LINK_URL_FIELD: Config.AUTHENTICATOR_HOST  # noqa
-                    + Config.NEW_LINK_ENDPOINT,
-                    NotifyConstants.MAGIC_LINK_CONTACT_HELP_EMAIL_FIELD: round_for_fund.contact_details[  # noqa
-                        "email_address"
-                    ],  # noqa
-                    NotifyConstants.MAGIC_LINK_FUND_NAME_FIELD: fund.name,
-                }
+            notification_content = {
+                NotifyConstants.MAGIC_LINK_REQUEST_NEW_LINK_URL_FIELD: Config.AUTHENTICATOR_HOST  # noqa
+                + Config.NEW_LINK_ENDPOINT
+                + "?fund="
+                + fund_short_name
+                + "&round="
+                + round_short_name,  # noqa
+                NotifyConstants.MAGIC_LINK_CONTACT_HELP_EMAIL_FIELD: round_for_fund.contact_details[  # noqa
+                    "email_address"
+                ],  # noqa
+                NotifyConstants.MAGIC_LINK_FUND_NAME_FIELD: fund.name,
+            }
+
             # Create a fresh link
             new_link_json = MagicLinkMethods().create_magic_link(
                 account,

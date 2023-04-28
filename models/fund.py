@@ -35,24 +35,15 @@ class Fund:
 
 class FundMethods:
     @staticmethod
-    def get_fund(fund_id: str = None, fund_short_name: str = None) -> Fund:
-        fund_short_name = request.args.get("fund", fund_short_name)
-        if fund_short_name:
-            url = (
-                Config.FUND_STORE_API_HOST + Config.FUND_STORE_FUND_ENDPOINT
-            ).format(fund_id=fund_short_name)
-        # TODO remove after R2W3 closes and fs-2505 is complete (make fund_short_name non-optional) # noqa
-        else:
-            url = (
-                Config.FUND_STORE_API_HOST + Config.FUND_STORE_FUND_ENDPOINT
-            ).format(fund_id=fund_id)
-
+    def get_fund(fund_short_name: str) -> Fund:
+        url = (
+            Config.FUND_STORE_API_HOST + Config.FUND_STORE_FUND_ENDPOINT
+        ).format(fund_id=fund_short_name)
         params = {
             "language": get_lang(),
-            "use_short_name": bool(fund_short_name),
+            "use_short_name": True,
         }
         response = get_data(endpoint=url, params=params)
-
         if response and "id" in response:
             return Fund.from_json(response)
 
@@ -61,6 +52,4 @@ class FundMethods:
         short_name = request.args.get("fund")
         if short_name:
             fund_data = FundMethods.get_fund(fund_short_name=short_name)
-        else:
-            fund_data = FundMethods.get_fund(fund_id=Config.DEFAULT_FUND_ID)
-        return fund_data.fund_title
+            return fund_data.fund_title
