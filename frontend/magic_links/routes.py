@@ -1,4 +1,5 @@
 from config import Config
+from flask import abort
 from flask import Blueprint
 from flask import current_app
 from flask import g
@@ -65,6 +66,11 @@ def landing(link_id):
     )
 
     fund_data = FundMethods.get_fund(fund_short_name)
+    if not fund_data:
+        current_app.logger.warn(
+            "Fund and round information missing from query string"
+        )
+        return abort(404)
     fund_name = fund_data.name
     submission_deadline = round_data.deadline
     link_key = ":".join([Config.MAGIC_LINK_RECORD_PREFIX, link_id])
