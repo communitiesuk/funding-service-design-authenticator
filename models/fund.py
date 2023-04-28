@@ -52,4 +52,4 @@ class FundMethods:
         short_name = request.args.get("fund")
         if short_name:
             fund_data = FundMethods.get_fund(fund_short_name=short_name)
-        return fund_data.fund_title
+            return fund_data.fund_title
