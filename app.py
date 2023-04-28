@@ -130,10 +130,11 @@ def create_app() -> Flask:
     @flask_app.context_processor
     def inject_service_name():
         fund_title = FundMethods.get_service_name()
-        if fund_title:
-            return dict(service_title=gettext("Apply for") + " " + fund_title)
-        else:
-            return dict(service_title="Access Funding")
+        return (
+            dict(service_title=gettext("Apply for") + " " + fund_title)
+            if fund_title
+            else dict(service_title="Access Funding")
+        )
 
     with flask_app.app_context():
         from frontend.default.routes import (
