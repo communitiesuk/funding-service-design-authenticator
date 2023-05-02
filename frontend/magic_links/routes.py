@@ -97,6 +97,8 @@ def new():
     Returns a page containing a single question requesting the
     users email address.
     """
+
+    # Grabbing fund and round info from query params and validating
     fund_short_name = request.args.get("fund")
     round_short_name = request.args.get("round")
     fund = FundMethods.get_fund(fund_short_name)
