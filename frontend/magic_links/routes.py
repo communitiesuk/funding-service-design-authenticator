@@ -108,6 +108,7 @@ def new():
     if not fund_round:
         abort(404)
 
+    # TODO review this code block with form_data
     form_data = request.data
     if request.method == "GET":
         form_data = request.args
