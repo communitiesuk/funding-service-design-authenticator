@@ -66,17 +66,25 @@ class TestMagicLinks(AuthSessionView):
             "models.fund.FundMethods.get_fund"
         ) as mock_get_fund, mock.patch(
             "models.account.get_round_data"
-        ) as mock_get_round_data:
+        ) as mock_get_round_data_account, mock.patch(
+            "frontend.magic_links.routes.get_round_data"
+        ) as mock_get_round_data_frontend:
             # Mock get_fund() called in get_magic_link()
             mock_fund = mock.MagicMock()
             mock_fund.configure_mock(name="cof")
             mock_get_fund.return_value = mock_fund
             # Mock get_round_data() called in get_magic_link()
-            mock_round = mock.MagicMock()
-            mock_round.configure_mock(
+            mock_round_account = mock.MagicMock()
+            mock_round_account.configure_mock(
                 contact_details={"email_address": "new_user@example.com"}
             )
-            mock_get_round_data.return_value = mock_round
+            mock_get_round_data_frontend.return_value = mock_round_account
+            # Mock get_round_data() called in new()
+            mock_round_frontend = mock.MagicMock()
+            mock_round_frontend.configure_mock(
+                contact_details={"email_address": "new_user@example.com"}
+            )
+            mock_get_round_data_frontend.return_value = mock_round_frontend
 
             response = flask_test_client.post(endpoint, data=payload)
             # Mock the create_application method,
@@ -88,7 +96,8 @@ class TestMagicLinks(AuthSessionView):
             )
             create_application_mock.assert_not_called()
             mock_get_fund.assert_called()
-            mock_get_round_data.assert_called()
+            mock_get_round_data_account.assert_called()
+            mock_get_round_data_frontend.assert_called()
             assert response.status_code == 302, response.data
 
     def test_magic_link_redirects_to_landing(self, flask_test_client):
@@ -386,15 +395,19 @@ class TestMagicLinks(AuthSessionView):
                 "frontend.magic_links.routes.AccountMethods",
                 return_value=mock_account,
             ):
-                response = flask_test_client.post(
-                    "service/magic-links/new?fund=COF&round=R2W3",
-                    follow_redirects=True,
-                )
+                with mock.patch(
+                    "frontend.magic_links.routes.get_round_data",
+                    return_value=mock_account,
+                ):
+                    response = flask_test_client.post(
+                        "service/magic-links/new?fund=COF&round=R2W3",
+                        follow_redirects=True,
+                    )
 
-                # Assert get_magic_link() was called with short_names:
-                frontend.magic_links.routes.AccountMethods.get_magic_link.assert_called_once_with(  # noqa
-                    email="example@email.com",
-                    fund_short_name="COF",
-                    round_short_name="R2W3",
-                )
-                assert response.status_code == 200
+                    # Assert get_magic_link() was called with short_names:
+                    frontend.magic_links.routes.AccountMethods.get_magic_link.assert_called_once_with(  # noqa
+                        email="example@email.com",
+                        fund_short_name="COF",
+                        round_short_name="R2W3",
+                    )
+                    assert response.status_code == 200

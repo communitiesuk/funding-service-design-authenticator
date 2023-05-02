@@ -50,6 +50,6 @@ class FundMethods:
     @staticmethod
     def get_service_name():
         short_name = request.args.get("fund")
-        if short_name:
-            fund_data = FundMethods.get_fund(fund_short_name=short_name)
+        fund_data = FundMethods.get_fund(fund_short_name=short_name)
+        if fund_data:
             return fund_data.fund_title
