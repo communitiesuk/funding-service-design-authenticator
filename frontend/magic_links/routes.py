@@ -149,4 +149,6 @@ def check_email():
     return render_template(
         "check_email.html",
         email=request.args.get("email"),
+        fund=request.args.get("fund"),
+        round=request.args.get("round"),
     )

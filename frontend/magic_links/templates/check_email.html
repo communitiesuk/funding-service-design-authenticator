@@ -39,7 +39,7 @@
               </summary>
               <div class="govuk-details__text">
                 <p class="govuk-body">{% trans %}The email may take a few minutes to arrive.{% endtrans %}</p>
-                <p class="govuk-body">{% trans %}Check your spam or junk folders – if it still has not arrived, you can {% endtrans %}<a href="{{url_for('magic_links_bp.new')}}" class="govuk-link govuk-link--no-visited-state">{% trans %}request a new link{% endtrans %}</a>.</p>
+                <p class="govuk-body">{% trans %}Check your spam or junk folders – if it still has not arrived, you can {% endtrans %}<a href="{{url_for('magic_links_bp.new', fund=fund, round=round)}}" class="govuk-link govuk-link--no-visited-state">{% trans %}request a new link{% endtrans %}</a>.</p>
               </div>
             </details>
 
