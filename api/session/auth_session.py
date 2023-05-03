@@ -85,7 +85,12 @@ class AuthSessionView(MethodView):
         clear_sentry()
 
         # Clear the cookie and redirect to signed out page
-        signed_out_url = url_for("magic_links_bp.signed_out", status=status)
+        signed_out_url = url_for(
+            "magic_links_bp.signed_out",
+            status=status,
+            fund=request.args.get("fund"),
+            round=request.args.get("round"),
+        )
         response = make_response(redirect(signed_out_url), 302)
         response.set_cookie(
             Config.FSD_USER_TOKEN_COOKIE_NAME,

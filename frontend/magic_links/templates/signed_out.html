@@ -30,7 +30,7 @@
 
 {{ govukButton({
     "isStartButton": false,
-    "href" : new_magic_link_url,
+    "href" : url_for('magic_links_bp.new', fund=fund, round=round),
     "text": gettext("Request a new link")
 }) }}
 {% endblock %}

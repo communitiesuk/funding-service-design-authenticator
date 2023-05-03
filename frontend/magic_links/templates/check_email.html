@@ -19,7 +19,7 @@
             <h1 class="govuk-heading-l govuk-!-margin-top-2">{{pageHeading}}</h1>
 
             <p class="govuk-body">{% trans %}No email has been sent.{% endtrans %}</p>
-            <p class="govuk-body">{% trans %}If you need a link to access your applications you can {% endtrans %}<a href="{{url_for('magic_links_bp.new')}}" class="govuk-link govuk-link--no-visited-state">{% trans %}request a new link{% endtrans %}</a>.</p>
+            <p class="govuk-body">{% trans %}If you need a link to access your applications you can {% endtrans %}<a href="{{url_for('magic_links_bp.new', fund=fund, round=round)}}" class="govuk-link govuk-link--no-visited-state">{% trans %}request a new link{% endtrans %}</a>.</p>
 
         {% else %}
             <h1 class="govuk-heading-l govuk-!-margin-top-2">{{pageHeading}}</h1>
