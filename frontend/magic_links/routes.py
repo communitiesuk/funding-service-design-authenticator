@@ -61,16 +61,16 @@ def landing(link_id):
     fund_short_name = request.args.get("fund")
     round_short_name = request.args.get("round")
 
+    fund_data = FundMethods.get_fund(fund_short_name)
     round_data = get_round_data(
         fund_short_name, round_short_name, as_dict=True
     )
-
-    fund_data = FundMethods.get_fund(fund_short_name)
-    if not fund_data:
+    if not bool(fund_data and round_data):
         current_app.logger.warn(
             "Fund and round information missing from query string"
         )
         return abort(404)
+
     fund_name = fund_data.name
     submission_deadline = round_data.deadline
     link_key = ":".join([Config.MAGIC_LINK_RECORD_PREFIX, link_id])
@@ -97,10 +97,18 @@ def new():
     Returns a page containing a single question requesting the
     users email address.
     """
+
+    # Grabbing fund and round info from query params and validating
     fund_short_name = request.args.get("fund")
     round_short_name = request.args.get("round")
+    fund = FundMethods.get_fund(fund_short_name)
+    round = get_round_data(fund_short_name, round_short_name)
 
-    fund_round = bool(fund_short_name and round_short_name)
+    fund_round = bool(fund_short_name and round_short_name and fund and round)
+    if not fund_round:
+        abort(404)
+
+    # TODO review this code block with form_data
     form_data = request.data
     if request.method == "GET":
         form_data = request.args
@@ -112,23 +120,14 @@ def new():
                 fund_short_name=fund_short_name,
                 round_short_name=round_short_name,
             )
-
-            if fund_short_name and round_short_name:
-                return redirect(
-                    url_for(
-                        "magic_links_bp.check_email",
-                        email=form.data.get("email"),
-                        fund=fund_short_name,
-                        round=round_short_name,
-                    )
+            return redirect(
+                url_for(
+                    "magic_links_bp.check_email",
+                    email=form.data.get("email"),
+                    fund=fund_short_name,
+                    round=round_short_name,
                 )
-            else:
-                return redirect(
-                    url_for(
-                        "magic_links_bp.check_email",
-                        email=form.data.get("email"),
-                    )
-                )
+            )
 
         except MagicLinkError as e:
             form.email.errors.append(str(e.message))
