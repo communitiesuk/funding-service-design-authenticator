@@ -156,9 +156,9 @@ class AuthSessionView(MethodView):
         cls,
         account: "Account",
         is_via_magic_link: bool,
+        fund: str,
+        round: str,
         timeout_seconds: int = Config.FSD_SESSION_TIMEOUT_SECONDS,
-        fund: str = None,
-        round: str = round,
     ):
         """
         Creates a signed expiring session token for the given account

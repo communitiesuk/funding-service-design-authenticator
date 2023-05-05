@@ -1,6 +1,8 @@
 """
 Test magic links functionality
 """
+from unittest.mock import patch
+
 import pytest
 from security.utils import create_token
 from security.utils import validate_token
@@ -37,17 +39,26 @@ class TestSignout:
         """
         endpoint = "/sessions/sign-out"
         flask_test_client.set_cookie("/", "fsd_user_token", "invalid_token")
-        response = flask_test_client.get(endpoint)
 
-        assert response.status_code == 302
-        assert (
-            "fsd_user_token=; Expires=Thu, 01 Jan 1970 00:00:00 GMT; Path=/"
-            in response.headers.get("Set-Cookie")
-        )
-        assert (
-            response.location
-            == "/service/magic-links/signed-out/invalid_token"
-        )
+        with patch(
+            "api.session.auth_session.validate_token"
+        ) as mock_validate_token:  # noqa
+            mock_validate_token.return_value = {
+                "fund": "test_fund",
+                "round": "test_round",
+                "accountId": "test_account",
+            }
+            response = flask_test_client.get(endpoint)
+
+            assert response.status_code == 302
+            assert (
+                "fsd_user_token=; Expires=Thu, 01 Jan 1970 00:00:00 GMT; Path=/"  # noqa
+                in response.headers.get("Set-Cookie")
+            )
+            assert (
+                response.location
+                == "/service/magic-links/signed-out/sign_out_request?fund=test_fund&round=test_round"  # noqa
+            )
 
     def test_magic_link_auth_can_be_signed_out(self, flask_test_client):
         """
