@@ -34,8 +34,8 @@ class MagicLinksView(MagicLinkMethods, MethodView):
         :return: 302 Redirect / 404 Error
         """
 
-        fund = request.args.get("fund")
-        round = request.args.get("round")
+        fund_short_name = request.args.get("fund")
+        round_short_name = request.args.get("round")
 
         link_key = ":".join([Config.MAGIC_LINK_RECORD_PREFIX, link_id])
         link_hash = self.redis_mlinks.get(link_key)
@@ -60,7 +60,11 @@ class MagicLinksView(MagicLinkMethods, MethodView):
                     f"non-existent account_id {link.get('accountId')}"
                 )
                 redirect(
-                    url_for("magic_links_bp.invalid", fund=fund, round=round)
+                    url_for(
+                        "magic_links_bp.invalid",
+                        fund=fund_short_name,
+                        round=round_short_name,
+                    )
                 )
 
             # Check link is not expired
@@ -69,13 +73,15 @@ class MagicLinksView(MagicLinkMethods, MethodView):
                     account=account,
                     is_via_magic_link=True,
                     redirect_url=link.get("redirectUrl"),
+                    fund=fund_short_name,
+                    round=round_short_name,
                 )
             return redirect(
                 url_for(
                     "magic_links_bp.invalid",
                     error="Link expired",
-                    fund=fund,
-                    round=round,
+                    fund=fund_short_name,
+                    round=round_short_name,
                 )
             )
 
@@ -94,8 +100,8 @@ class MagicLinksView(MagicLinkMethods, MethodView):
             url_for(
                 "magic_links_bp.invalid",
                 error="Link expired",
-                fund=fund,
-                round=round,
+                fund=fund_short_name,
+                round=round_short_name,
             )
         )
 
