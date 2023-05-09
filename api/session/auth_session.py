@@ -55,6 +55,8 @@ class AuthSessionView(MethodView):
 
         Returns: 302 redirect to signed-out page
         """
+        fund_short_name = None
+        round_short_name = None
         existing_auth_token = request.cookies.get(
             Config.FSD_USER_TOKEN_COOKIE_NAME
         )
@@ -73,6 +75,10 @@ class AuthSessionView(MethodView):
             except jwt.PyJWTError:
                 status = "invalid_token"
 
+            # Create query params for signout url if valid token
+            fund_short_name = valid_token.get("fund")
+            round_short_name = valid_token.get("round")
+
             # If validly issued token, clear the redis store
             # of the account and link record
             if valid_token and isinstance(valid_token, dict):
@@ -88,8 +94,8 @@ class AuthSessionView(MethodView):
         signed_out_url = url_for(
             "magic_links_bp.signed_out",
             status=status,
-            fund=request.args.get("fund"),
-            round=request.args.get("round"),
+            fund=fund_short_name,
+            round=round_short_name,
         )
         response = make_response(redirect(signed_out_url), 302)
         response.set_cookie(
@@ -107,6 +113,8 @@ class AuthSessionView(MethodView):
         redirect_url: str,
         is_via_magic_link: bool,
         timeout_seconds: int = Config.FSD_SESSION_TIMEOUT_SECONDS,
+        fund: str = None,
+        round: str = None,
     ):
         """
         Sets a user session token in the client for a given account_id
@@ -119,7 +127,11 @@ class AuthSessionView(MethodView):
         """
         try:
             session_details = cls.create_session_details_with_token(
-                account, is_via_magic_link, timeout_seconds=timeout_seconds
+                account,
+                is_via_magic_link,
+                timeout_seconds=timeout_seconds,
+                fund=fund,
+                round=round,
             )
             response = make_response(redirect(redirect_url), 302)
             expiry = datetime.now() + timedelta(seconds=timeout_seconds)
@@ -144,6 +156,8 @@ class AuthSessionView(MethodView):
         cls,
         account: "Account",
         is_via_magic_link: bool,
+        fund: str,
+        round: str,
         timeout_seconds: int = Config.FSD_SESSION_TIMEOUT_SECONDS,
     ):
         """
@@ -163,6 +177,8 @@ class AuthSessionView(MethodView):
             else account.roles,
             "iat": int(datetime.now().timestamp()),
             "exp": int(datetime.now().timestamp() + timeout_seconds),
+            "fund": fund,
+            "round": round,
         }
 
         session_details.update({"token": create_token(session_details)})

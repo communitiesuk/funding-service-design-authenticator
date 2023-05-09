@@ -75,6 +75,8 @@ def landing(link_id):
         )
         return abort(404)
 
+    fund_short_name = fund_data.short_name
+    round_short_name = round_data.short_name
     fund_name = fund_data.name
     submission_deadline = round_data.deadline
     link_key = ":".join([Config.MAGIC_LINK_RECORD_PREFIX, link_id])
@@ -87,9 +89,11 @@ def landing(link_id):
             submission_deadline=submission_deadline,
             fund_name=fund_name,
             round_title=round_data.title,
+            fund_short_name=fund_short_name,
+            round_short_name=round_short_name,
             all_questions_url=Config.APPLICATION_ALL_QUESTIONS_URL.format(
-                fund_short_name=fund_data.short_name,
-                round_short_name=round_data.short_name,
+                fund_short_name=fund_short_name,
+                round_short_name=round_short_name,
             ),
         )
     return redirect(
