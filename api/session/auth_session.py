@@ -55,8 +55,8 @@ class AuthSessionView(MethodView):
 
         Returns: 302 redirect to signed-out page
         """
-        fund = None
-        round = None
+        fund_short_name = None
+        round_short_name = None
         existing_auth_token = request.cookies.get(
             Config.FSD_USER_TOKEN_COOKIE_NAME
         )
@@ -76,8 +76,8 @@ class AuthSessionView(MethodView):
                 status = "invalid_token"
 
             # Create query params for signout url if valid token
-            fund = valid_token.get("fund")
-            round = valid_token.get("round")
+            fund_short_name = valid_token.get("fund")
+            round_short_name = valid_token.get("round")
 
             # If validly issued token, clear the redis store
             # of the account and link record
@@ -94,8 +94,8 @@ class AuthSessionView(MethodView):
         signed_out_url = url_for(
             "magic_links_bp.signed_out",
             status=status,
-            fund=fund,
-            round=round,
+            fund=fund_short_name,
+            round=round_short_name,
         )
         response = make_response(redirect(signed_out_url), 302)
         response.set_cookie(
