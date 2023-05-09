@@ -21,15 +21,19 @@ class SupportAvailability:
 @dataclass
 class Round:
     id: str
-    assessment_criteria_weighting: list
     assessment_deadline: str
     deadline: str
     fund_id: str
     opens: str
     title: str
     short_name: str
-    contact_details: ContactDetails
-    support_availability: SupportAvailability
+    prospectus: str
+    instructions: str
+    contact_email: str
+    contact_phone: str
+    contact_textphone: str
+    support_days: str
+    support_times: str
 
     @classmethod
     def from_dict(cls, d: dict):
