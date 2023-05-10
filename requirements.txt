@@ -13,9 +13,7 @@ attrs==21.4.0
 babel==2.10.3
     # via flask-babel
 blinker==1.6.2
-    # via
-    #   flask
-    #   sentry-sdk
+    # via sentry-sdk
 boto3==1.26.131
     # via flipper-client
 botocore==1.29.131
@@ -60,7 +58,7 @@ dnspython==2.2.1
     # via email-validator
 email-validator==1.2.1
     # via -r requirements.in
-flask==2.3.2
+flask==2.2.0
     # via
     #   -r requirements.in
     #   connexion
