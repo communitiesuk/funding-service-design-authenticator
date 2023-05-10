@@ -5,20 +5,6 @@ from dataclasses import dataclass
 
 
 @dataclass
-class ContactDetails:
-    phone: str
-    email_address: str
-    text_phone: str
-
-
-@dataclass
-class SupportAvailability:
-    time: str
-    days: str
-    closed: str
-
-
-@dataclass
 class Round:
     id: str
     assessment_deadline: str
