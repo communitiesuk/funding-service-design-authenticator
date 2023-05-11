@@ -146,7 +146,7 @@ def test_sso_get_token_sets_expected_fsd_user_token_cookie_claims(
         (
             cookie
             for cookie in flask_test_client.cookie_jar
-            if cookie.key == expected_cookie_name
+            if cookie.name == expected_cookie_name
         ),
         None,
     )

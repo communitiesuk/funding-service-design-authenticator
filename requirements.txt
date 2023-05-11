@@ -44,7 +44,7 @@ clickclick==20.10.2
     # via connexion
 commonmark==0.9.1
     # via rich
-connexion==2.14.0
+connexion==2.14.2
     # via -r requirements.in
 cryptography==37.0.2
     # via
@@ -58,7 +58,7 @@ dnspython==2.2.1
     # via email-validator
 email-validator==1.2.1
     # via -r requirements.in
-flask==2.2.0
+flask==2.2.5
     # via
     #   -r requirements.in
     #   connexion
@@ -242,7 +242,7 @@ urllib3==1.26.12
     #   sentry-sdk
 webassets==2.0
     # via flask-assets
-werkzeug==2.3.4
+werkzeug==2.2.3
     # via
     #   connexion
     #   flask

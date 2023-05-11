@@ -10,7 +10,7 @@ requests
 #-----------------------------------
 #   Flask Version
 #-----------------------------------
-Flask==2.2
+Flask==2.2.5
 
 #-----------------------------------
 #   Static Assets
@@ -52,7 +52,7 @@ mako>=1.2.2
 #-----------------------------------
 #   Connexion APIs
 #-----------------------------------
-connexion
+connexion==2.14.2
 swagger-ui-bundle
 openapi-spec-validator
 prance
