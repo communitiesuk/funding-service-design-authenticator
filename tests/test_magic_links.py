@@ -161,7 +161,7 @@ class TestMagicLinks(AuthSessionView):
             (
                 cookie
                 for cookie in flask_test_client.cookie_jar
-                if cookie.name == expected_cookie_name
+                if cookie.key == expected_cookie_name
             ),
             None,
         )
