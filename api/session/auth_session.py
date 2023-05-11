@@ -72,16 +72,17 @@ class AuthSessionView(MethodView):
                     existing_auth_token, options={"verify_exp": False}
                 )
                 status = "expired_token"
-            except jwt.PyJWTError:
+            except jwt.PyJWTError as e:
+                current_app.logger.warn(
+                    f"PyJWTError: {e.__class__.__name__} - {e}"
+                )
                 status = "invalid_token"
 
-            # Create query params for signout url if valid token
-            fund_short_name = valid_token.get("fund")
-            round_short_name = valid_token.get("round")
-
-            # If validly issued token, clear the redis store
-            # of the account and link record
+            # If validly issued token: create query params for signout url,
+            # and clear the redis store of the account and link record
             if valid_token and isinstance(valid_token, dict):
+                fund_short_name = valid_token.get("fund")
+                round_short_name = valid_token.get("round")
                 MagicLinkMethods().clear_existing_user_record(
                     valid_token.get("accountId")
                 )
