@@ -12,10 +12,7 @@ from security.utils import validate_token
 
 
 class TestSecurityUtils:
-
-    tokens = {}
-
-    def test_create_token_returns_token(self):
+    def test_create_token_returns_token_and_token_is_valid(self):
         """
         GIVEN the create_token util
         WHEN we try to create a token
@@ -23,17 +20,9 @@ class TestSecurityUtils:
         """
         payload = {"test": "ok"}
         token = create_token(payload)
-        self.tokens.update({"valid": token})
         assert len(token.split(".")) == 3
 
-    def test_validate_token_on_valid_token_returns_payload(self):
-        """
-        GIVEN the validate_token util
-        WHEN we try to validate a valid token
-        THEN the validate token payload is returned
-        """
-        valid_token = self.tokens.get("valid")
-        validated_claims = validate_token(valid_token)
+        validated_claims = validate_token(token)
         assert validated_claims.get("test") == "ok"
 
     def test_validate_token_on_expired_token_raises_error(self):

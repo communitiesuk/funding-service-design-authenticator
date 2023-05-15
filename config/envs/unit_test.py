@@ -7,6 +7,30 @@ from config.envs.default import DefaultConfig as Config
 from distutils.util import strtobool
 from fsd_utils import configclass
 
+# these are only used for unit tests & development, so it's okay to commit them
+PRIVATE_KEY = """-----BEGIN RSA PRIVATE KEY-----
+MIICWwIBAAKBgHGbtF1yVGW+rCAFOIdakUVwCfuvxHE38lE/i0KWpMwdSHZFFLYn
+HjBVOOh15EiizYza4FTJTMvL2E4QrLpqYj6KE6tvHrhyP/N5fypSzt8vCj9spZ8+
+0kFucW9zyMkPuDisYtmkWGdxBmkd3gtYp3mOI53VVDgKbtoIFU3sIk5NAgMBAAEC
+gYBXIXrgXGocKnNqj3Z+YNifr8EIVhLMXoMrCxgsNssnfKHxiyPKXBAMM6BUsO4n
+Qy1whQGeJVEP0EQSAznmMucrWAYol+ve95LgXtrLEWPtetq/oU/boqcSFIY2jy45
+P0DqJ556D2kCMvYOzY/SnLqVUOM8KNOl5/I2851i1jmIIQJBALEOkKVnNwG4FHPj
+UUbQ/+MjB6rZBS9j5vtpszZvsv9kmgLzI3UNqtv7C0gtCY4Pg20+3Q93bTYLEUtJ
+sIXdxtkCQQCkQwzaPzwx84bRrsOwqQe82VtRSFtcOlz6Rhic+V9WXM+ZjCTCRsqZ
+T6rtcBkmsCIymEIDRbQe/+WJDT5fUuKVAkA0Y9rpFmFwYMesgtbJ3Y3Z58OdCho+
+q5DtU5lzwhl0+I+Zz9fuCt1DukTcVnc9UdnRuYgvy2bFVwEHBgb1lWoBAkAddnVY
+tBzs7LxS4eDxz++2XNo3Qx439bP1pBsIFOaXy//kj7GMMzxlsVd8TS4FtXP81TiJ
+87eyE74tDfYRDQHdAkEAhSbPlRcQSwEom57cFY3tWznRUM3ox+B56txlCjX1JpiX
+XP9m718FpBtSWq+4gs0yAoLujZyK9BoWvEmqrm6O8Q==
+-----END RSA PRIVATE KEY-----"""
+PUBLIC_KEY = """-----BEGIN PUBLIC KEY-----
+MIGeMA0GCSqGSIb3DQEBAQUAA4GMADCBiAKBgHGbtF1yVGW+rCAFOIdakUVwCfuv
+xHE38lE/i0KWpMwdSHZFFLYnHjBVOOh15EiizYza4FTJTMvL2E4QrLpqYj6KE6tv
+HrhyP/N5fypSzt8vCj9spZ8+0kFucW9zyMkPuDisYtmkWGdxBmkd3gtYp3mOI53V
+VDgKbtoIFU3sIk5NAgMBAAE=
+-----END PUBLIC KEY-----
+"""
+
 
 @configclass
 class UnitTestConfig(Config):
@@ -48,15 +72,8 @@ class UnitTestConfig(Config):
         getenv("ALLOW_ASSESSMENT_LOGIN_VIA_MAGIC_LINK", "False")
     )
 
-    # RSA 256 KEYS
-    _test_private_key_path = (
-        Config.FLASK_ROOT + "/tests/keys/rsa256/private.pem"
-    )
-    with open(_test_private_key_path, mode="rb") as private_key_file:
-        RSA256_PRIVATE_KEY = private_key_file.read()
-    _test_public_key_path = Config.FLASK_ROOT + "/tests/keys/rsa256/public.pem"
-    with open(_test_public_key_path, mode="rb") as public_key_file:
-        RSA256_PUBLIC_KEY = public_key_file.read()
+    RSA256_PRIVATE_KEY = PRIVATE_KEY
+    RSA256_PUBLIC_KEY = PUBLIC_KEY
 
     # Redis
     REDIS_MLINKS_URL = "redis://localhost:6379/0"
