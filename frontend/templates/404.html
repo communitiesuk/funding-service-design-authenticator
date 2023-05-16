@@ -12,14 +12,13 @@
             <p class="govuk-body">If you pasted the web address, check you copied the entire address.</p>
             <p class="govuk-body">If the web address is correct or you selected a link or a button, contact
                 the Community Ownership Fund to speak to an adviser.</p>
-            {% if round_data.contact_details["email_address"]|length %}
+            {% if round_data.contact_email|length %}
                 {{ contact_details(
-                            round_data.contact_details.email_address,
-                            round_data.contact_details.phone,
-                            round_data.contact_details.text_phone,
-                            round_data.support_availability.days,
-                            round_data.support_availability.time,
-                            round_data.support_availability.closed
+                            round_data.contact_email,
+                            round_data.contact_phone,
+                            round_data.contact_text_phone,
+                            round_data.support_days,
+                            round_data.support_times
                      )
                 }}
             {%  endif %}

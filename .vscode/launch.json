@@ -35,6 +35,12 @@
                 }
             ],
             "justMyCode": true
+        },
+        {
+            "name": "Debug Unit Test",
+            "type": "python",
+            "purpose": ["debug-test"],
+            "justMyCode": false,
         }
     ]
 }

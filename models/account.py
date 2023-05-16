@@ -223,9 +223,7 @@ class AccountMethods(Account):
                 + fund_short_name
                 + "&round="
                 + round_short_name,  # noqa
-                NotifyConstants.MAGIC_LINK_CONTACT_HELP_EMAIL_FIELD: round_for_fund.contact_details[  # noqa
-                    "email_address"
-                ],  # noqa
+                NotifyConstants.MAGIC_LINK_CONTACT_HELP_EMAIL_FIELD: round_for_fund.contact_email,  # noqa
                 NotifyConstants.MAGIC_LINK_FUND_NAME_FIELD: fund.name,
             }
 
