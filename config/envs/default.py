@@ -245,6 +245,4 @@ class DefaultConfig(object):
         "x_xss_protection": True,
     }
 
-    DEFAULT_FUND_ID = CommonConfig.DEFAULT_FUND_ID
-    DEFAULT_ROUND_ID = CommonConfig.get_default_round_id()
     BABEL_TRANSLATION_DIRECTORIES = "frontend/translations"

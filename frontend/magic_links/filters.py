@@ -5,7 +5,7 @@ from flask_babel import gettext
 
 
 def datetime_format(value: str) -> str:
-    parsed = datetime.strptime(value, "%Y-%m-%d %H:%M:%S")
+    parsed = datetime.strptime(value, "%Y-%m-%dT%H:%M:%S")
     formatted_date = format_datetime(parsed, format="dd MMMM yyyy ")
     formatted_date += gettext("at")
     formatted_date += format_datetime(parsed, format=" HH:mm")

@@ -264,7 +264,7 @@ class TestMagicLinks(AuthSessionView):
             mock_get_fund.return_value = mock_fund
             # Mock get_round_data() called in get_magic_link()
             mock_round = mock.MagicMock()
-            mock_round.configure_mock(deadline="2023-01-30 00:00:01")
+            mock_round.configure_mock(deadline="2023-01-30T00:00:01")
             mock_round.configure_mock(title="r2w3")
             mock_round.configure_mock(short_name="r2w3")
             mock_get_round_data.return_value = mock_round
