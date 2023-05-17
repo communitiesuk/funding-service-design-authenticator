@@ -12,7 +12,7 @@
 {% block content %}
   <div>
       <h1 class="govuk-heading-xl">
-        {{pageHeading}}
+        {{ pageHeading }}
       </h1>
   </div>
 {% if status != "no_token" %}
@@ -38,4 +38,4 @@
 <p class="govuk-body">{% trans %}To re-access your account, please use the link originally provided in the email sent you.{% endtrans %}</p>
 {% endif %}
 
-{% endblock %}
+{% endblock content %}

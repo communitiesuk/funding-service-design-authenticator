@@ -26,3 +26,8 @@ repos:
       - id: reorder-python-imports
         name: Reorder Python imports (src, tests)
         args: ["--application-directories", "src"]
+-   repo: https://github.com/Riverside-Healthcare/djLint
+    rev: v1.24.0
+    hooks:
+      - id: djlint-jinja
+        types_or: ['html', 'jinja']
