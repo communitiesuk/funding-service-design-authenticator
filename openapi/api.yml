@@ -88,6 +88,13 @@ paths:
       summary: Microsoft Authentication Library Login redirect
       description: Redirect to Microsoft Authentication Login Flow
       operationId: api.sso.routes.SsoView.login
+      parameters:
+        - in: query
+          name: return_app
+          description: Optional parameter to specify the return app
+          required: false
+          schema:
+            type: string
       responses:
         302:
           description: SUCCESS - Redirect to Microsoft Authentication Login Flow
@@ -140,6 +147,13 @@ paths:
       summary: Signs out a user
       description: Signs out a user who has authenticated via a magic link
       operationId: api.AuthSessionView.clear_session
+      parameters:
+        - in: query
+          name: return_app
+          description: Optional parameter to specify the return app
+          required: false
+          schema:
+            type: string
       responses:
         302:
           description: SUCCESS - Active user session cleared and redirected to the signed out page
