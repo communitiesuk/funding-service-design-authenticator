@@ -2,7 +2,7 @@
 
 {% from "partials/contact_details.html" import contact_details %}
 
-{% block pageTitle %}Page not found – {{ service_title }}{% endblock %}
+{% block pageTitle %}Page not found – {{ service_title }}{% endblock pageTitle %}
 
 {% block content %}
     <div class="govuk-grid-row">
@@ -21,7 +21,7 @@
                             round_data.support_times
                      )
                 }}
-            {%  endif %}
+            {% endif %}
         </div>
     </div>
-{% endblock %}
+{% endblock content %}

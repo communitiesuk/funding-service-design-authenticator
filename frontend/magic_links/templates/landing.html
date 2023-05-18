@@ -9,7 +9,7 @@
 
     <p class="govuk-caption-l"> {{ fund_name }} {{ round_title }}</p>
     <h1 class="govuk-heading-xl">
-      {{service_title}}
+      {{ service_title }}
     </h1>
     <p class="govuk-heading-s">
       {% trans %}Submission deadline:{% endtrans %} <span class="govuk-body">{{ submission_deadline|datetime_format }}</span>
@@ -34,7 +34,6 @@
       change your responses in sections that are marked as complete.{% endtrans %}
     </p>
 
-
     <h3 class="govuk-heading-s">{% trans %}Saving progress and making changes{% endtrans %}</h3>
     <p>
       {% trans %}Your work will not save automatically. To make sure you do not lose anything, select <strong>Save and
@@ -44,7 +43,6 @@
     <p>
       {% trans %}You can edit your responses as many times as you like before you submit.{% endtrans %}
     </p>
-
 
     <h3 class="govuk-heading-s">{% trans %}Submitting your application{% endtrans %}</h3>
     <p>
@@ -70,4 +68,4 @@
   </div>
 </div>
 
-{% endblock %}
+{% endblock content %}

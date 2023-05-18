@@ -5,7 +5,7 @@
 {% block content %}
   <div>
       {# TODO: Figure out translation for Link expired #}
-      <h1 class="govuk-heading-xl">{{pageHeading}}</h1>
+      <h1 class="govuk-heading-xl">{{ pageHeading }}</h1>
   </div>
 <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" data-module="govuk-error-summary">
   <h2 class="govuk-error-summary__title" id="error-summary-title">
@@ -28,4 +28,4 @@
     "href" : url_for('magic_links_bp.new', fund=fund, round=round),
     "text": gettext("Request a new link")
 }) }}
-{% endblock %}
+{% endblock content %}

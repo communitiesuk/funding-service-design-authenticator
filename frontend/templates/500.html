@@ -1,6 +1,5 @@
 {% extends "base.html" %}
-{% block pageTitle %}Sorry, there is a problem with the service – {{ service_title }}{% endblock %}
-
+{% block pageTitle %}Sorry, there is a problem with the service – {{ service_title }}{% endblock pageTitle %}
 
 {% block content %}
     <div class="govuk-grid-row">
@@ -10,4 +9,4 @@
             <p class="govuk-body"><a class="govuk-link" href="{{ contact_us_url }}">Contact the Community Ownership Fund</a> if you have any questions.</p>
         </div>
     </div>
-{% endblock %}
+{% endblock content %}
