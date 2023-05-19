@@ -1,10 +1,12 @@
 from dataclasses import dataclass
 from typing import List
 
+import config
 from config import Config
 from flask import current_app
 from fsd_utils.authentication.config import azure_ad_role_map
 from fsd_utils.config.notify_constants import NotifyConstants
+from models.data import get_account_data
 from models.data import get_data
 from models.data import get_round_data
 from models.data import post_data
@@ -112,11 +114,13 @@ class AccountMethods(Account):
         cleaned_roles = []
         if isinstance(roles, List):
             cleaned_roles = [azure_ad_role_map[role] for role in roles]
+        if config.FLASK_ENV == "development":
+            account = get_account_data(email)
+            cleaned_roles = account.get("roles")
         if len(cleaned_roles) == 0:
             current_app.logger.error(
                 f"account id: {id} has not been assigned any roles"
             )
-
         params = {
             "email_address": email,
             "azure_ad_subject_id": azure_ad_subject_id,
@@ -235,11 +239,11 @@ class AccountMethods(Account):
             )
             notification_content.update(
                 {
-                    NotifyConstants.MAGIC_LINK_URL_FIELD: new_link_json.get(  # noqa
+                    NotifyConstants.MAGIC_LINK_URL_FIELD: new_link_json.get(
                         "link"
                     )
                 }
-            )
+            )  # noqa
             current_app.logger.debug(
                 f"Magic Link URL: {new_link_json.get('link')}"
             )
