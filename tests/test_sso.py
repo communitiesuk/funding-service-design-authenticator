@@ -21,6 +21,19 @@ def test_sso_login_redirects_to_ms(flask_test_client):
     assert response.location.startswith(expected_redirect) is True
 
 
+def test_sso_login_sets_return_app_in_session(flask_test_client):
+    """
+    GIVEN We have a functioning Authenticator API
+    WHEN a GET request for /sso/login
+    THEN we should be redirected to Microsoft Login
+    """
+    return_app = "post-award-frontend"
+
+    endpoint = f"/sso/login?return_app={return_app}"
+    flask_test_client.get(endpoint)
+    assert session.get("return_app") == return_app
+
+
 def test_sso_logout_redirects_to_ms(flask_test_client):
     """
     GIVEN We have a functioning Authenticator API
@@ -35,6 +48,30 @@ def test_sso_logout_redirects_to_ms(flask_test_client):
 
     assert response.status_code == 302
     assert response.location.startswith(expected_redirect) is True
+
+
+def test_sso_logout_redirect_contains_return_app(
+    flask_test_client, mock_redis_sessions
+):
+    """
+    GIVEN We have a functioning Authenticator API
+    WHEN a GET request for /sso/logout with return_app
+        set
+    THEN we should be redirected to Microsoft Logout
+    AND then be redirected back with the correct
+        query string for that return_app
+    """
+    endpoint = "/sso/logout"
+
+    with flask_test_client.session_transaction() as test_session:
+        test_session["return_app"] = "post-award-frontend"
+
+    expected_post_logout_redirect = "return_app=post-award-frontend"
+
+    response = flask_test_client.get(endpoint)
+
+    assert response.status_code == 302
+    assert response.location.endswith(expected_post_logout_redirect) is True
 
 
 def test_sso_get_token_returns_404(flask_test_client):
@@ -170,6 +207,51 @@ def test_sso_get_token_sets_expected_fsd_user_token_cookie_claims(
     assert credentials.get("fullName") == expected_fsd_user_token_claims.get(
         "fullName"
     )
+
+
+def test_sso_get_token_redirects_to_return_app_login_url(
+    flask_test_client, mock_msal_client_application, mock_redis_sessions
+):
+    """
+    GIVEN We have a functioning Authenticator API
+    WHEN a GET request for /sso/get-token with a valid
+        response from azure_ad via the mock_msal_client_application
+        with a VALID return app set in the session
+    THEN we should receive a 302 redirect response with
+        the correct location to the return_app
+    """
+    endpoint = "/sso/get-token"
+
+    with flask_test_client.session_transaction() as test_session:
+        test_session["return_app"] = "post-award-frontend"
+
+    response = flask_test_client.get(endpoint)
+
+    assert (
+        response.location == "/"
+    )  # post-award-frontend host location set to empty string in default config
+
+
+def test_sso_get_token_400_abort_with_invalid_return_app(
+    flask_test_client, mock_msal_client_application, mock_redis_sessions
+):
+    """
+    GIVEN We have a functioning Authenticator API
+    WHEN a GET request for /sso/get-token with a valid
+        response from azure_ad via the mock_msal_client_application
+        with an INVALID return app set in the session
+    THEN we should receive a 400 response with the correct
+        message
+    """
+    endpoint = "/sso/get-token"
+
+    with flask_test_client.session_transaction() as test_session:
+        test_session["return_app"] = "invalid-return-app"
+
+    response = flask_test_client.get(endpoint)
+
+    assert response.status_code == 400
+    assert response.json["detail"] == "Unknown return app."
 
 
 def test_sso_graphcall_returns_404(flask_test_client, mock_redis_sessions):

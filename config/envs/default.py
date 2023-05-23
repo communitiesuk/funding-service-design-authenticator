@@ -1,6 +1,7 @@
 """Flask configuration."""
 import base64
 import logging
+from collections import namedtuple
 from os import environ
 from os import getenv
 from pathlib import Path
@@ -9,6 +10,10 @@ from config.utils import VcapServices
 from distutils.util import strtobool
 from fsd_utils import CommonConfig
 from fsd_utils import configclass
+from fsd_utils.authentication.config import SupportedApp
+
+
+SafeAppConfig = namedtuple("SafeAppConfig", "login_url logout_endpoint")
 
 
 @configclass
@@ -35,8 +40,8 @@ class DefaultConfig(object):
     # Hostname for this service
     AUTHENTICATOR_HOST = environ.get("AUTHENTICATOR_HOST", "")
     NEW_LINK_ENDPOINT = "/service/magic-links/new"
-    SSO_LOGOUT_ENDPOINT = "/sso/logout"
-    SSO_LOGIN_ENDPOINT = "/sso/login"
+    SSO_LOGOUT_ENDPOINT = "api_sso_routes_SsoView_logout"
+    SSO_LOGIN_ENDPOINT = "api_sso_routes_SsoView_login"
     SSO_POST_SIGN_OUT_URL = (
         AUTHENTICATOR_HOST + "/service/sso/signed-out/signout-request"
     )
@@ -153,6 +158,18 @@ class DefaultConfig(object):
     GET_ROUND_DATA_FOR_FUND_ENDPOINT = (
         FUND_STORE_API_HOST + CommonConfig.ROUND_ENDPOINT
     )
+
+    # Post-award frontend
+    POST_AWARD_FRONTEND_HOST = environ.get("POST_AWARD_FRONTEND_HOST", "")
+    POST_AWARD_FRONTEND_LOGIN_URL = POST_AWARD_FRONTEND_HOST + "/"
+
+    # Safe list of return applications
+    SAFE_RETURN_APPS = {
+        SupportedApp.POST_AWARD_FRONTEND.value: SafeAppConfig(
+            login_url=POST_AWARD_FRONTEND_LOGIN_URL,
+            logout_endpoint="sso_bp.signed_out",
+        )
+    }
 
     """
     Magic Links
