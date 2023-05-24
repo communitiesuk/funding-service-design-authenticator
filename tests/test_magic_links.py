@@ -267,6 +267,7 @@ class TestMagicLinks(AuthSessionView):
             mock_round.configure_mock(deadline="2023-01-30T00:00:01")
             mock_round.configure_mock(title="r2w3")
             mock_round.configure_mock(short_name="r2w3")
+            mock_round.configure_mock(contact_email="test@outlook.com")
             mock_get_round_data.return_value = mock_round
 
             # use magic link landing but unauthorised
@@ -275,6 +276,7 @@ class TestMagicLinks(AuthSessionView):
             assert landing_response.status_code == 200
             assert b"How to complete your application" in landing_response.data
             assert b"Continue" in landing_response.data
+            assert b"mailto:test@outlook.com" in landing_response.data
 
             # use link
             use_link_response = flask_test_client.get(use_endpoint)
