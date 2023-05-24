@@ -26,6 +26,7 @@ applications:
     SENTRY_DSN: https://96b94a5fea854bc99f132ccdebba34eb@o1432034.ingest.sentry.io/4503919190016000
     GITHUB_SHA: ((GITHUB_SHA))
     FUND_STORE_API_HOST: https://funding-service-design-fund-store-test.london.cloudapps.digital
+    POST_AWARD_FRONTEND_HOST: https://find-monitoring-data.test.gids.dev
   services: # eg. Redis
     - funding-service-magic-links-test
     - logit-ssl-drain
