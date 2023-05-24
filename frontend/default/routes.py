@@ -29,7 +29,11 @@ def internal_server_error(error):
     current_app.logger.error(f"Encountered 500: {error}")
     return (
         render_template(
-            "500.html", contact_us_url=Config.APPLICANT_FRONTEND_CONTACT_US_URL
+            "500.html",
+            contact_us_url=Config.APPLICANT_FRONTEND_CONTACT_US_URL.format(
+                fund_short_name=request.args.get("fund"),
+                round_short_name=request.args.get("round"),
+            ),
         ),
         500,
     )
