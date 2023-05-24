@@ -17,6 +17,7 @@ jobs:
       apply_network_policy: true
       run_performance_tests: true
       run_e2e_tests: true
+      include_manifest: true
     secrets:
       CF_API: ${{secrets.CF_API}}
       CF_ORG: ${{secrets.CF_ORG}}
