@@ -30,10 +30,8 @@ def internal_server_error(error):
     return (
         render_template(
             "500.html",
-            contact_us_url=Config.APPLICANT_FRONTEND_CONTACT_US_URL.format(
-                fund_short_name=request.args.get("fund"),
-                round_short_name=request.args.get("round"),
-            ),
+            contact_us_url=Config.APPLICANT_FRONTEND_CONTACT_US_URL
+            + f"?fund={request.args.get('fund', '')}&round={request.args.get('round', '')}",
         ),
         500,
     )
