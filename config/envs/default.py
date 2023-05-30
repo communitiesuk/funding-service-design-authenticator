@@ -137,6 +137,7 @@ class DefaultConfig(object):
         APPLICANT_FRONTEND_HOST + "/cookie_policy"
     )
     APPLICANT_FRONTEND_CONTACT_US_URL = APPLICANT_FRONTEND_HOST + "/contact_us"
+    APPLICANT_FRONTEND_PRIVACY_URL = APPLICANT_FRONTEND_HOST + "/privacy"
     APPLICATION_ALL_QUESTIONS_URL = (
         APPLICANT_FRONTEND_HOST
         + "/all_questions/{fund_short_name}/{round_short_name}"
