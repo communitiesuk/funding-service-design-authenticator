@@ -1,5 +1,5 @@
 """
-Test magic links functionality
+Test session functionality
 """
 from unittest.mock import patch
 
@@ -16,7 +16,9 @@ class TestSignout:
     used_link_keys = []
     valid_token = ""
 
-    def test_signout_checks_for_cookie(self, flask_test_client):
+    def test_signout_checks_for_cookie(
+        self, flask_test_client, mock_redis_sessions
+    ):
         """
         GIVEN a running Flask client
         WHEN we issue a GET to /sessions/sign-out
@@ -29,7 +31,9 @@ class TestSignout:
         assert response.status_code == 302
         assert response.location == "/service/magic-links/signed-out/no_token"
 
-    def test_signout_clears_cookie(self, flask_test_client):
+    def test_signout_clears_cookie(
+        self, flask_test_client, mock_redis_sessions
+    ):
         """
         GIVEN a running Flask client
         WHEN we issue a GET to /sessions/sign-out
@@ -60,7 +64,9 @@ class TestSignout:
                 == "/service/magic-links/signed-out/sign_out_request?fund=test_fund&round=test_round"  # noqa
             )
 
-    def test_magic_link_auth_can_be_signed_out(self, flask_test_client):
+    def test_magic_link_auth_can_be_signed_out(
+        self, flask_test_client, mock_redis_sessions
+    ):
         """
         GIVEN a running Flask client, redis instance and
         and a valid magic link has been clicked and a valid
@@ -199,3 +205,45 @@ class TestSignout:
             """<a href="/sso/logout" role="button" draggable="false" class="govuk-button" data-module="govuk-button">\n  Sign out\n</a>"""  # noqa
             in response.get_data(as_text=True)
         )
+
+    def test_session_sign_out_using_correct_route_with_specified_return_app(
+        self, mock_redis_sessions, flask_test_client
+    ):
+        """
+        GIVEN a running Flask client
+        WHEN we issue a GET to /sessions/sign-out with return_app
+            query param set to a valid value
+        THEN the endpoint modifies the redirect_route to the value
+            specified in the SAFE_RETURN_APPS config
+        :param flask_test_client:
+        """
+        return_app = "post-award-frontend"
+        endpoint = f"/sessions/sign-out?return_app={return_app}"
+
+        response = flask_test_client.get(endpoint)
+
+        assert response.status_code == 302
+        assert (
+            response.location
+            == "/service/sso/signed-out/no_token?return_app=post-award-frontend"
+        )
+
+    def test_session_sign_out_abort_400_if_invalid_return_app_is_set(
+        self, mock_redis_sessions, flask_test_client
+    ):
+        """
+        GIVEN a running Flask client
+        WHEN we issue a GET to /sessions/sign-out with return_app
+            query param set to an invalid value
+        THEN the endpoint returns a 400 error with the correct
+            message
+        :param flask_test_client:
+        """
+
+        return_app = "invalid-return-app"
+        endpoint = f"/sessions/sign-out?return_app={return_app}"
+
+        response = flask_test_client.get(endpoint)
+
+        assert response.status_code == 400
+        assert response.json["detail"] == "Unknown return app."
