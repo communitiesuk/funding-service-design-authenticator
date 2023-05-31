@@ -25,10 +25,12 @@
     <h3 class="govuk-heading-s">{% trans %}Moving through the form{% endtrans %}</h3>
     <p>{% trans %}This form is split into sections based on how it will be assessed.{% endtrans %}</p>
     <p>{% trans %}You do not have to complete it in order, or all at once.{% endtrans %}</p>
+    {% if show_all_questions_link %}
     <p>
       {% trans %}You can preview the{% endtrans %}
       <a href="{{ all_questions_url }}" class="govuk-link">{% trans %}full list of application questions.{% endtrans %}</a>
     </p>
+    {% endif %}
     <p>
       {% trans %}When you have written something in every field in a section, the section will be marked as complete. You can still
       change your responses in sections that are marked as complete.{% endtrans %}
