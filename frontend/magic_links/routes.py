@@ -91,6 +91,14 @@ def landing(link_id):
     link_hash = MagicLinkMethods().redis_mlinks.get(link_key)
     if link_hash or g.is_authenticated:
         current_app.logger.info("Rendering all questions")
+        app_guidance = ""
+        if round_data.application_guidance:
+            app_guidance = round_data.application_guidance.format(
+                all_questions_url=Config.APPLICATION_ALL_QUESTIONS_URL.format(
+                    fund_short_name=fund_short_name,
+                    round_short_name=round_short_name,
+                )
+            )
         return render_template(
             "landing.html",
             link_id=link_id,
@@ -100,12 +108,7 @@ def landing(link_id):
             contact_us_email_address=round_data.contact_email,
             fund_short_name=fund_short_name,
             round_short_name=round_short_name,
-            show_all_questions_link=show_all_questions_link,
-            all_questions_url=Config.APPLICATION_ALL_QUESTIONS_URL.format(
-                fund_short_name=fund_short_name,
-                round_short_name=round_short_name,
-            ),
-            application_guidance=round_data.application_guidance,
+            application_guidance=app_guidance,
         )
     return redirect(
         url_for(
