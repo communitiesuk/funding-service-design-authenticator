@@ -97,7 +97,7 @@ def landing(link_id):
             submission_deadline=submission_deadline,
             fund_name=fund_name,
             round_title=round_data.title,
-            contact_email=round_data.contact_email,
+            contact_us_email_address=round_data.contact_email,
             fund_short_name=fund_short_name,
             round_short_name=round_short_name,
             show_all_questions_link=show_all_questions_link,
@@ -105,6 +105,7 @@ def landing(link_id):
                 fund_short_name=fund_short_name,
                 round_short_name=round_short_name,
             ),
+            application_guidance=round_data.application_guidance,
         )
     return redirect(
         url_for(
