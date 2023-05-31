@@ -1,5 +1,6 @@
 -r requirements.txt
 bandit
+beautifulsoup4
 dparse>=0.5.2
 black
 debugpy
