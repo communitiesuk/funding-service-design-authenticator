@@ -83,7 +83,7 @@ def landing(link_id):
     link_hash = MagicLinkMethods().redis_mlinks.get(link_key)
     if link_hash or g.is_authenticated:
         current_app.logger.info("Rendering all questions")
-        app_guidance = ""
+        app_guidance = None
         if round_data.application_guidance:
             app_guidance = round_data.application_guidance.format(
                 all_questions_url=Config.APPLICATION_ALL_QUESTIONS_URL.format(
