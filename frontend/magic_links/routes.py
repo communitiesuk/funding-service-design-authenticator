@@ -69,14 +69,7 @@ def landing(link_id):
     round_data = get_round_data(
         fund_short_name, round_short_name, as_dict=True
     )
-    # TODO: We should see if hiding all questions will be something used frequently
-    # TODO: in the future and therefore should be a fund store db property.
-    # TODO: Tech debt Ticket for this - https://digital.dclg.gov.uk/jira/browse/FS-2902
-    show_all_questions_link = (
-        False
-        if fund_data.name in ["Night Shelter Transformation Fund"]
-        else True
-    )
+
     if not bool(fund_data and round_data):
         current_app.logger.warn(
             "Fund and round information missing from query string"
@@ -91,20 +84,24 @@ def landing(link_id):
     link_hash = MagicLinkMethods().redis_mlinks.get(link_key)
     if link_hash or g.is_authenticated:
         current_app.logger.info("Rendering all questions")
+        app_guidance = None
+        if round_data.application_guidance:
+            app_guidance = round_data.application_guidance.format(
+                all_questions_url=Config.APPLICATION_ALL_QUESTIONS_URL.format(
+                    fund_short_name=fund_short_name,
+                    round_short_name=round_short_name,
+                )
+            )
         return render_template(
             "landing.html",
             link_id=link_id,
             submission_deadline=submission_deadline,
             fund_name=fund_name,
             round_title=round_data.title,
-            contact_email=round_data.contact_email,
+            contact_us_email_address=round_data.contact_email,
             fund_short_name=fund_short_name,
             round_short_name=round_short_name,
-            show_all_questions_link=show_all_questions_link,
-            all_questions_url=Config.APPLICATION_ALL_QUESTIONS_URL.format(
-                fund_short_name=fund_short_name,
-                round_short_name=round_short_name,
-            ),
+            application_guidance=app_guidance,
         )
     return redirect(
         url_for(

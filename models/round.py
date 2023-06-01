@@ -20,6 +20,7 @@ class Round:
     contact_textphone: str
     support_days: str
     support_times: str
+    application_guidance: str
 
     @classmethod
     def from_dict(cls, d: dict):
