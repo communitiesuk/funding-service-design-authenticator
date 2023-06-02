@@ -131,4 +131,4 @@ def get_round_data_fail_gracefully(fund_id, round_id, use_short_name=False):
         )
     # return valid Round object with no values so we
     # know we've failed and can handle in templates appropriately
-    return Round("", "", "", "", "", "", "", "", "", "", "", "", "", "")
+    return Round("", "", "", "", "", "", "", "", "", "", "", "", "", "", "")

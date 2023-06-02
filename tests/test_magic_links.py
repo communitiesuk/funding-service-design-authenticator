@@ -8,6 +8,7 @@ import frontend
 import pytest
 from api.session.auth_session import AuthSessionView
 from app import app
+from bs4 import BeautifulSoup
 from config import Config
 from frontend.magic_links.forms import EmailForm
 from models.account import AccountMethods
@@ -267,6 +268,7 @@ class TestMagicLinks(AuthSessionView):
             mock_round.configure_mock(deadline="2023-01-30T00:00:01")
             mock_round.configure_mock(title="r2w3")
             mock_round.configure_mock(short_name="r2w3")
+            mock_round.configure_mock(application_guidance="help text here")
             mock_round.configure_mock(contact_email="test@outlook.com")
             mock_get_round_data.return_value = mock_round
 
@@ -274,9 +276,37 @@ class TestMagicLinks(AuthSessionView):
             landing_response = flask_test_client.get(landing_endpoint)
 
             assert landing_response.status_code == 200
-            assert b"How to complete your application" in landing_response.data
-            assert b"Continue" in landing_response.data
-            assert b"mailto:test@outlook.com" in landing_response.data
+            soup = BeautifulSoup(landing_response.data, "html.parser")
+            assert (
+                soup.find("h2", class_="govuk-heading-m").text
+                == "How to complete your application"
+            )
+            assert (
+                soup.find(
+                    "a", class_="govuk-button govuk-button--start"
+                ).text.strip()
+                == "Continue"
+            )
+            assert (
+                len(
+                    soup.find_all(
+                        "a",
+                        class_="govuk-link",
+                        string=lambda text: "test@outlook.com" in text,
+                    )
+                )
+                == 1
+            )
+            assert (
+                len(
+                    soup.find_all(
+                        "a",
+                        class_="govuk-link",
+                        string=lambda text: "privacy notice" in text,
+                    )
+                )
+                == 1
+            )
 
             # use link
             use_link_response = flask_test_client.get(use_endpoint)
@@ -286,11 +316,17 @@ class TestMagicLinks(AuthSessionView):
             # re-use magic link landing but now authorised (cookie present)
             second_landing_response = flask_test_client.get(landing_endpoint)
             assert second_landing_response.status_code == 200
+            soup = BeautifulSoup(second_landing_response.data, "html.parser")
             assert (
-                b"How to complete your application"
-                in second_landing_response.data
+                soup.find("h2", class_="govuk-heading-m").text
+                == "How to complete your application"
             )
-            assert b"Continue" in second_landing_response.data
+            assert (
+                soup.find(
+                    "a", class_="govuk-button govuk-button--start"
+                ).text.strip()
+                == "Continue"
+            )
 
     def test_reused_magic_link_with_no_session_returns_link_expired(
         self, flask_test_client
