@@ -137,11 +137,18 @@ def new():
     form = EmailForm(data=form_data)
     if form.validate_on_submit():
         try:
-            AccountMethods.get_magic_link(
+            created_link = AccountMethods.get_magic_link(
                 email=form.data.get("email"),
                 fund_short_name=fund_short_name,
                 round_short_name=round_short_name,
             )
+
+            if Config.AUTO_REDIRECT_LOGIN:
+                current_app.logger.info(
+                    f"Auto redirecting to magic link:  {created_link}"
+                )
+                return redirect(created_link)
+
             return redirect(
                 url_for(
                     "magic_links_bp.check_email",

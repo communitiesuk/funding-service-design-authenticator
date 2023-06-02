@@ -76,6 +76,8 @@ class DevelopmentConfig(Config):
         "NOTIFICATION_SERVICE_HOST", "notification_service"
     )
 
+    AUTO_REDIRECT_LOGIN = True
+
     DISABLE_NOTIFICATION_SERVICE = (
         False  # Toggle on if you have no notify api key.
     )

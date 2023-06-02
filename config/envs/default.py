@@ -46,6 +46,8 @@ class DefaultConfig(object):
         AUTHENTICATOR_HOST + "/service/sso/signed-out/signout-request"
     )
 
+    AUTO_REDIRECT_LOGIN = False
+
     """
     Azure Configuration
     """
