@@ -128,6 +128,8 @@ def create_app() -> Flask:
             + f"?fund={request.args.get('fund', '')}&round={request.args.get('round', '')}",
             privacy_url=Config.APPLICANT_FRONTEND_PRIVACY_URL
             + f"?fund={request.args.get('fund', '')}&round={request.args.get('round', '')}",
+            feedback_url=Config.APPLICANT_FRONTEND_FEEDBACK_URL
+            + f"?fund={request.args.get('fund', '')}&round={request.args.get('round', '')}",
         )
 
     @flask_app.context_processor
