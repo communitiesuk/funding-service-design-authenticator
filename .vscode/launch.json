@@ -1,46 +1,72 @@
 {
-    // Use IntelliSense to learn about possible attributes.
-    // Hover to view descriptions of existing attributes.
-    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
-    "version": "0.2.0",
-    "configurations": [
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Docker-Runner authenticator",
+      "type": "python",
+      "request": "attach",
+      "connect": {
+        "host": "localhost",
+        "port": 5684
+      },
+      "pathMappings": [
         {
-            "name": "Python: Flask",
-            "type": "python",
-            "request": "launch",
-            "module": "flask",
-            "env": {
-                "FLASK_APP": "app.py",
-                "FLASK_ENV": "development"
-            },
-            "args": [
-                "run",
-                "--no-debugger"
-            ],
-            "jinja": true,
-            "justMyCode": true
-        },
-        {
-            "name": "Docker-Runner authenticator",
-            "type": "python",
-            "request": "attach",
-            "connect": {
-                "host": "localhost",
-                "port": 5684
-            },
-            "pathMappings": [
-                {
-                    "localRoot": "${workspaceFolder}",
-                    "remoteRoot": "."
-                }
-            ],
-            "justMyCode": true
-        },
-        {
-            "name": "Debug Unit Test",
-            "type": "python",
-            "purpose": ["debug-test"],
-            "justMyCode": false,
+          "localRoot": "${workspaceFolder}",
+          "remoteRoot": "."
         }
-    ]
+      ],
+      "justMyCode": true
+    },
+    {
+      "name": "Python: Flask",
+      "type": "python",
+      "request": "launch",
+      "module": "flask",
+      "args": [
+          "run",
+          "--no-debugger"
+      ],
+      "jinja": true,
+      "justMyCode": true
+    },
+    {
+      "name": "Run Tests: All",
+      "type": "python",
+      "request": "launch",
+      "module": "pytest",
+      "console": "integratedTerminal",
+    },
+    {
+      "name": "Run Tests: Current File (debug)",
+      "type": "python",
+      "request": "launch",
+      "module": "pytest",
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}",
+      "args": [
+          "-c",
+          "pytest.ini",
+          "${file}"
+      ],
+      "justMyCode": false
+    },
+    {
+      "name": "Run Tests: Current Function (debug)",
+      "type": "python",
+      "request": "launch",
+      "module": "pytest",
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}",
+      "args": [
+          "-c",
+          "pytest.ini",
+          "-k",
+          "test_route_fund_dashboard_shows_flagged" // modify this accordingly
+      ],
+      "justMyCode": false
+    }
+  ]
 }
