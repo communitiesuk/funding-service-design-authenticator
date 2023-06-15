@@ -253,7 +253,8 @@ class AccountMethods(Account):
                 account.email,
                 notification_content,
             )
-            return True
+
+            return new_link_json.get("link")
         current_app.logger.error(
             f"Could not create an account ({account}) for email '{email}'"
         )

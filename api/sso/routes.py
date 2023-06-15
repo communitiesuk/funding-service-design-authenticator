@@ -1,9 +1,12 @@
 import warnings
+from urllib.parse import urlencode
 
 import msal
 import requests
 from api.session.auth_session import AuthSessionView
 from config import Config
+from flask import abort
+from flask import current_app
 from flask import make_response
 from flask import redirect
 from flask import request
@@ -23,6 +26,13 @@ class SsoView(MethodView):
         session["flow"] = self.build_auth_code_flow(
             scopes=Config.MS_GRAPH_PERMISSIONS_SCOPE
         )
+
+        if return_app := request.args.get("return_app"):
+            session["return_app"] = return_app
+            current_app.logger.debug(
+                f"Setting return app to {return_app} for this session"
+            )
+
         return redirect(session["flow"]["auth_uri"]), 302
 
     def logout(self):
@@ -33,7 +43,11 @@ class SsoView(MethodView):
         :return:
         """
         post_logout_redirect_uri = request.args.get(
-            "post_logout_redirect_uri", Config.SSO_POST_SIGN_OUT_URL
+            "post_logout_redirect_uri",
+            Config.SSO_POST_SIGN_OUT_URL
+            + f"?{urlencode({'return_app': session['return_app']})}"
+            if "return_app" in session
+            else "",
         )
         azure_ad_sign_out_url = (
             Config.AZURE_AD_AUTHORITY
@@ -87,10 +101,25 @@ class SsoView(MethodView):
             roles=session["user"].get("roles"),
         )
 
+        redirect_url = (
+            Config.ASSESSMENT_POST_LOGIN_URL
+        )  # TODO: Remove defaulting to Assessment, instead use return_app
+        if return_app := session.get("return_app"):
+            if safe_app := Config.SAFE_RETURN_APPS.get(return_app):
+                redirect_url = safe_app.login_url
+                current_app.logger.info(
+                    f"Returning to {return_app} @ {redirect_url}"
+                )
+            else:
+                current_app.logger.warning(
+                    f"{return_app} not listed as a safe app."
+                )
+                abort(400, "Unknown return app.")
+
         # Create session token, set cookie and redirect
         return AuthSessionView.create_session_and_redirect(
             account=updated_account,
-            redirect_url=Config.ASSESSMENT_POST_LOGIN_URL,
+            redirect_url=redirect_url,
             is_via_magic_link=False,
             timeout_seconds=Config.FSD_ASSESSMENT_SESSION_TIMEOUT_SECONDS,
         )

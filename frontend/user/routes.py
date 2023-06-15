@@ -3,6 +3,7 @@ from flask import Blueprint
 from flask import g
 from flask import render_template
 from flask import request
+from flask import url_for
 from fsd_utils.authentication.decorators import login_requested
 
 user_bp = Blueprint(
@@ -41,8 +42,8 @@ def user():
             "user.html",
             roles_required=roles_required,
             logged_in_user=logged_in_user,
-            login_url=Config.SSO_LOGIN_ENDPOINT,
-            logout_url=Config.SSO_LOGOUT_ENDPOINT,
+            login_url=url_for(Config.SSO_LOGIN_ENDPOINT),
+            logout_url=url_for(Config.SSO_LOGOUT_ENDPOINT),
             support_mailbox=Config.SUPPORT_MAILBOX_EMAIL,
         ),
         status_code,

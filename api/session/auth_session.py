@@ -6,6 +6,7 @@ import jwt
 from api.responses import error_response
 from api.session.exceptions import SessionCreateError
 from config import Config
+from flask import abort
 from flask import current_app
 from flask import make_response
 from flask import redirect
@@ -91,12 +92,28 @@ class AuthSessionView(MethodView):
         session.clear()
         clear_sentry()
 
+        redirect_route = (  # TODO: Remove defaulting to Magic Links, instead use return_app
+            "magic_links_bp.signed_out"
+        )
+        if return_app := request.args.get("return_app"):
+            if safe_app := Config.SAFE_RETURN_APPS.get(return_app):
+                redirect_route = safe_app.logout_endpoint
+                current_app.logger.info(
+                    f"Returning to {return_app} using {redirect_route}"
+                )
+            else:
+                current_app.logger.warning(
+                    f"{return_app} not listed as a safe app."
+                )
+                abort(400, "Unknown return app.")
+
         # Clear the cookie and redirect to signed out page
         signed_out_url = url_for(
-            "magic_links_bp.signed_out",
+            redirect_route,
             status=status,
             fund=fund_short_name,
             round=round_short_name,
+            return_app=return_app,
         )
         response = make_response(redirect(signed_out_url), 302)
         response.set_cookie(
