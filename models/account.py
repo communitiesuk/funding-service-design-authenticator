@@ -111,6 +111,7 @@ class AccountMethods(Account):
         url = Config.ACCOUNT_STORE_API_HOST + Config.ACCOUNT_ENDPOINT.format(
             account_id=id
         )
+        current_app.logger.info(f"Mapping roles: {roles}")
         cleaned_roles = []
         if isinstance(roles, List):
             cleaned_roles = [azure_ad_role_map[role] for role in roles]
