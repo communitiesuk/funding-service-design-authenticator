@@ -16,6 +16,8 @@ async-timeout==4.0.2
     # via
     #   -r requirements.txt
     #   redis
+atomicwrites==1.4.1
+    # via pytest
 attrs==21.4.0
     # via
     #   -r requirements.txt
@@ -70,6 +72,7 @@ cffi==1.15.1
     # via
     #   -r requirements.txt
     #   cryptography
+    #   trio
 cfgv==3.3.1
     # via pre-commit
 chardet==4.0.0
@@ -91,6 +94,13 @@ clickclick==20.10.2
     # via
     #   -r requirements.txt
     #   connexion
+colorama==0.4.6
+    # via
+    #   -r requirements.txt
+    #   bandit
+    #   build
+    #   click
+    #   pytest
 commonmark==0.9.1
     # via
     #   -r requirements.txt
@@ -180,6 +190,10 @@ gitpython==3.1.27
     # via bandit
 govuk-frontend-jinja==2.3.0
     # via -r requirements.txt
+greenlet==2.0.2
+    # via
+    #   -r requirements.txt
+    #   sqlalchemy
 gunicorn==20.1.0
     # via
     #   -r requirements.txt
