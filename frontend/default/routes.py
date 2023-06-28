@@ -24,7 +24,7 @@ def not_found(error):
     return render_template("404.html", round_data=round_data), 404
 
 
-@default_bp.errorhandler(500)
+# @default_bp.errorhandler(500)
 def internal_server_error(error):
     current_app.logger.error(f"Encountered 500: {error}")
     return (

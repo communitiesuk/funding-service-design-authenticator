@@ -399,7 +399,7 @@ class TestMagicLinks(AuthSessionView):
             email="example@admin.com",
             azure_ad_subject_id="fg4FtjR5he365ir5h4k34_43ck5454ddsrtDe47",
             full_name="Joe Smith",
-            roles=["LEAD_ASSESSOR", "ASSESSOR", "COMMENTER"],
+            roles=["COF_LEAD_ASSESSOR", "COF_ASSESSOR", "COF_COMMENTER"],
         )
 
         with app.app_context():
