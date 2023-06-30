@@ -10,7 +10,7 @@ id_token_claims = {
     "id": 123,
     "sub": "abc",
     "preferred_username": "sso@example.com",
-    "roles": ["LeadAssessor", "Assessor", "Commenter"],
+    "roles": ["COF_Lead_Assessor", "Assessor", "Commenter"],
 }
 
 # Mocked accounts response from msal get_accounts method
@@ -22,7 +22,7 @@ expected_fsd_user_token_claims = {
     "azureAdSubjectId": "abc",
     "email": "sso@example.com",
     "fullName": "Test User SSO",
-    "roles": ["LEAD_ASSESSOR", "ASSESSOR", "COMMENTER"],
+    "roles": ["COF_LEAD_ASSESSOR", "COF_ASSESSOR", "COF_COMMENTER"],
 }
 
 # Role-less fsd-user-token claims

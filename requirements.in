@@ -2,7 +2,7 @@
 #   FSD Utils
 #-----------------------------------
 
-funding-service-design-utils>=2.0.5,<2.1.0
+funding-service-design-utils>=2.0.8,<2.1.0
 
 requests
 
@@ -55,3 +55,8 @@ connexion==2.14.2
 swagger-ui-bundle
 openapi-spec-validator
 prance
+
+#-----------------------------------
+#   Other
+#-----------------------------------
+beautifulsoup4==4.12.2

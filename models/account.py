@@ -113,6 +113,8 @@ class AccountMethods(Account):
         )
         cleaned_roles = []
         if isinstance(roles, List):
+            cleaned_roles = [azure_ad_role_map[role] for role in roles]
+        if config.FLASK_ENV == "development" and not any(cleaned_roles):
             cleaned_roles = [
                 azure_ad_role_map[role]
                 for role in roles

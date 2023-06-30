@@ -155,7 +155,7 @@ class TestSignout:
             "accountId": "test-user",
             "email": "test@example.com",
             "fullName": "Test User",
-            "roles": ["LEAD_ASSESSOR", "ASSESSOR", "COMMENTER"],
+            "roles": ["COF_LEAD_ASSESSOR", "COF_ASSESSOR", "COF_COMMENTER"],
         }
 
         token = create_token(test_payload)
@@ -192,13 +192,13 @@ class TestSignout:
             "accountId": "test-user",
             "email": "test@example.com",
             "fullName": "Test User",
-            "roles": ["LEAD_ASSESSOR", "ASSESSOR", "COMMENTER"],
+            "roles": ["COF_LEAD_ASSESSOR", "COF_ASSESSOR", "COF_COMMENTER"],
         }
 
         token = create_token(test_payload)
         flask_test_client.set_cookie("localhost", "fsd_user_token", token)
 
-        endpoint = "/service/user?roles_required=assessor|commenter"
+        endpoint = "/service/user?roles_required=cof_assessor|cof_commenter"
         response = flask_test_client.get(endpoint)
         assert response.status_code == 200
         assert (
