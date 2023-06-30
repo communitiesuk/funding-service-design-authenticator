@@ -101,7 +101,7 @@ flask-wtf==1.0.0
     # via -r requirements.in
 flipper-client==1.3.2
     # via funding-service-design-utils
-funding-service-design-utils @ git+https://github.com/communitiesuk/funding-service-design-utils.git@tferns-fs-2990
+funding-service-design-utils==2.0.8
     # via -r requirements.in
 govuk-frontend-jinja==2.3.0
     # via -r requirements.in
