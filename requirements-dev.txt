@@ -32,7 +32,9 @@ babel==2.10.3
 bandit==1.7.4
     # via -r requirements-dev.in
 beautifulsoup4==4.12.2
-    # via -r requirements-dev.in
+    # via
+    #   -r requirements-dev.in
+    #   -r requirements.txt
 black==22.10.0
     # via -r requirements-dev.in
 blinker==1.6.2
@@ -450,7 +452,9 @@ sniffio==1.2.0
 sortedcontainers==2.4.0
     # via trio
 soupsieve==2.4.1
-    # via beautifulsoup4
+    # via
+    #   -r requirements.txt
+    #   beautifulsoup4
 sqlalchemy==1.4.42
     # via
     #   -r requirements.txt

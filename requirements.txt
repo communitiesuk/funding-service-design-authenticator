@@ -12,6 +12,8 @@ attrs==21.4.0
     # via jsonschema
 babel==2.10.3
     # via flask-babel
+beautifulsoup4==4.12.2
+    # via -r requirements.in
 blinker==1.6.2
     # via sentry-sdk
 boto3==1.26.131
@@ -227,6 +229,8 @@ six==1.16.0
     #   python-consul
     #   python-dateutil
     #   thrift
+soupsieve==2.4.1
+    # via beautifulsoup4
 sqlalchemy==1.4.42
     # via
     #   -r requirements.in
