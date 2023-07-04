@@ -52,8 +52,11 @@ class SsoView(MethodView):
         azure_ad_sign_out_url = (
             Config.AZURE_AD_AUTHORITY
             + "/oauth2/v2.0/logout"
-            + "?post_logout_redirect_uri="
-            + post_logout_redirect_uri
+            + (
+                "?post_logout_redirect_uri=" + post_logout_redirect_uri
+                if len(post_logout_redirect_uri) != 0
+                else ""
+            )
         )
         session.clear()
         response = make_response(redirect(azure_ad_sign_out_url), 302)
