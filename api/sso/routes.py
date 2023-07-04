@@ -54,7 +54,7 @@ class SsoView(MethodView):
             + "/oauth2/v2.0/logout"
             + (
                 "?post_logout_redirect_uri=" + post_logout_redirect_uri
-                if len(post_logout_redirect_uri) != 0
+                if post_logout_redirect_uri
                 else ""
             )
         )
