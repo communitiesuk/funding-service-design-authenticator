@@ -21,3 +21,10 @@ jobs:
     uses: communitiesuk/funding-service-design-workflows/.github/workflows/tag-to-release.yml@main
     with:
       build_static_assets: true
+  paketo_build:
+    needs: tag-to-release
+    permissions:
+      packages: write
+    uses: ./.github/workflows/package.yml
+    with:
+      version_to_build: ${{ needs.tag-to-release.outputs.new_tag }}

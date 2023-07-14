@@ -31,3 +31,9 @@ jobs:
       AZURE_AD_CLIENT_SECRET: ${{secrets.AZURE_AD_CLIENT_SECRET}}
       SECRET_KEY: ${{secrets.SECRET_KEY}}
       SESSION_COOKIE_NAME: ${{secrets.SESSION_COOKIE_NAME}}
+  paketo_build:
+    permissions:
+      packages: write
+    uses: ./.github/workflows/package.yml
+    with:
+      version_to_build: $(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')

@@ -91,6 +91,54 @@ Then run gunicorn using the following command:
 
     gunicorn wsgi:app -c run/gunicorn/local.py
 
+[200~### Build with Paketo
+
+[Pack](https://buildpacks.io/docs/tools/pack/cli/pack_build/)
+
+[Paketo buildpacks](https://paketo.io/)
+
+```pack build <name your image> --builder paketobuildpacks/builder:base```
+
+Example:
+
+```
+[~/work/repos/funding-service-design-authenticator] pack build paketo-demofsd-app --builder paketobuildpacks/builder:base
+***
+Successfully built image paketo-demofsd-app
+```
+
+You can then use that image with docker to run a container
+
+```
+docker run -d -p 8080:8080 --env PORT=8080 --env FLASK_ENV=dev [envs] paketo-demofsd-app
+```
+
+`envs` needs to include values for each of:
+AUTHENTICATOR_HOST
+ACCOUNT_STORE_API_HOST
+APPLICATION_STORE_API_HOST
+NOTIFICATION_SERVICE_HOST
+APPLICANT_FRONTEND_HOST
+ASSESSMENT_FRONTEND_HOST
+FUND_STORE_API_HOST
+RSA256_PUBLIC_KEY_BASE64
+RSA256_PRIVATE_KEY_BASE64
+AZURE_AD_CLIENT_ID
+AZURE_AD_CLIENT_SECRET
+AZURE_AD_TENANT_ID
+SECRET_KEY
+COOKIE_DOMAIN
+SENTRY_DSN
+GITHUB_SHA
+ALLOW_ASSESSMENT_LOGIN_VIA_MAGIC_LINK
+POST_AWARD_FRONTEND_HOST
+
+```
+docker ps -a
+CONTAINER ID   IMAGE                       COMMAND                  CREATED          STATUS                    PORTS                    NAMES
+42633142c619   paketo-demofsd-app          "/cnb/process/web"       8 seconds ago    Up 7 seconds              0.0.0.0:8080->8080/tcp   peaceful_knuth
+```
+
 # Translations
 
 Updating translations:
