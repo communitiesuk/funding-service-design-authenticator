@@ -61,8 +61,16 @@ class AuthSessionView(MethodView):
         existing_auth_token = request.cookies.get(
             Config.FSD_USER_TOKEN_COOKIE_NAME
         )
+        existing_fund_round_token = request.cookies.get(
+            Config.FSD_FUND_AND_ROUND_COOKIE_NAME
+        )
         status = "no_token"
         valid_token = False
+        if existing_fund_round_token:
+            fund_round_token = validate_token(existing_fund_round_token)
+            fund_short_name = fund_round_token.get("fund")
+            round_short_name = fund_round_token.get("round")
+
         if existing_auth_token:
             # Check if token is valid
             try:
@@ -82,8 +90,6 @@ class AuthSessionView(MethodView):
             # If validly issued token: create query params for signout url,
             # and clear the redis store of the account and link record
             if valid_token and isinstance(valid_token, dict):
-                fund_short_name = valid_token.get("fund")
-                round_short_name = valid_token.get("round")
                 MagicLinkMethods().clear_existing_user_record(
                     valid_token.get("accountId")
                 )
@@ -144,20 +150,44 @@ class AuthSessionView(MethodView):
         :return: 302 redirect
         """
         try:
-            session_details = cls.create_session_details_with_token(
-                account,
-                is_via_magic_link,
-                timeout_seconds=timeout_seconds,
-                fund=fund,
-                round=round,
+            # session details for fsd_user_token
+            fsd_user_token_session_details = (
+                cls.create_session_details_with_token(
+                    account,
+                    is_via_magic_link,
+                    timeout_seconds=timeout_seconds,
+                )
             )
+            # session details for user's fund and round
+            fund_and_round_session_details = (
+                cls.create_session_details_with_fund_and_round(
+                    fund=fund,
+                    round=round,
+                )
+            )
+
             response = make_response(redirect(redirect_url), 302)
-            expiry = datetime.now() + timedelta(seconds=timeout_seconds)
+
+            # fsd_user_token cookie
+            fsd_user_token_expiry = datetime.now() + timedelta(
+                seconds=timeout_seconds
+            )
             response.set_cookie(
                 Config.FSD_USER_TOKEN_COOKIE_NAME,
-                session_details["token"],
+                fsd_user_token_session_details["token"],
                 domain=Config.COOKIE_DOMAIN,
-                expires=expiry,
+                expires=fsd_user_token_expiry,
+                secure=Config.SESSION_COOKIE_SECURE,
+                samesite=Config.FSD_USER_TOKEN_COOKIE_SAMESITE,
+                httponly=Config.SESSION_COOKIE_HTTPONLY,
+            )
+            # user_fund _and_round cookie
+            fund_round_token_expiry = datetime.now() + timedelta(days=365)
+            response.set_cookie(
+                Config.FSD_FUND_AND_ROUND_COOKIE_NAME,
+                fund_and_round_session_details["token"],
+                domain=Config.COOKIE_DOMAIN,
+                expires=fund_round_token_expiry,
                 secure=Config.SESSION_COOKIE_SECURE,
                 samesite=Config.FSD_USER_TOKEN_COOKIE_SAMESITE,
                 httponly=Config.SESSION_COOKIE_HTTPONLY,
@@ -174,8 +204,6 @@ class AuthSessionView(MethodView):
         cls,
         account: "Account",
         is_via_magic_link: bool,
-        fund: str,
-        round: str,
         timeout_seconds: int = Config.FSD_SESSION_TIMEOUT_SECONDS,
     ):
         """
@@ -195,6 +223,25 @@ class AuthSessionView(MethodView):
             else account.roles,
             "iat": int(datetime.now().timestamp()),
             "exp": int(datetime.now().timestamp() + timeout_seconds),
+        }
+
+        session_details.update({"token": create_token(session_details)})
+        session.update(session_details)
+        return session_details
+
+    @classmethod
+    def create_session_details_with_fund_and_round(
+        cls,
+        fund: str,
+        round: str,
+    ):
+        """
+        Creates a signed expiring session token for the given account
+        :param account: The account object for the user to create a token for
+        :param timeout_seconds: The length of the token expiry (or timeout)
+        :return: A dict including the signed session token
+        """
+        session_details = {
             "fund": fund,
             "round": round,
         }
