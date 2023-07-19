@@ -126,7 +126,7 @@ def get_round_data_fail_gracefully(fund_id, round_id, use_short_name=False):
             round_response = get_data(round_request_url, params)
             return Round.from_dict(round_response)
     except:  # noqa
-        current_app.logger.error(
+        current_app.logger.warning(
             f"Call to Fund Store failed GET {round_request_url}"
         )
     # return valid Round object with no values so we
