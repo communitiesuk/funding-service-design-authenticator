@@ -43,6 +43,7 @@ class TestSignout:
         """
         endpoint = "/sessions/sign-out"
         flask_test_client.set_cookie("/", "fsd_user_token", "invalid_token")
+        flask_test_client.set_cookie("/", "user_fund_and_round", "fund_round")
 
         with patch(
             "api.session.auth_session.validate_token"

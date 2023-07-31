@@ -409,8 +409,6 @@ class TestMagicLinks(AuthSessionView):
                         mock_account,
                         is_via_magic_link=True,
                         timeout_seconds=3600,
-                        fund="test_fund",
-                        round="test_round",
                     )
                 )
 
