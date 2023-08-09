@@ -163,7 +163,9 @@ class AccountMethods(Account):
         roles: List[str],
     ):
         # Check to see if account already exists
-        account = AccountMethods.get_account(email=email)
+        account = AccountMethods.get_account(
+            azure_ad_subject_id=azure_ad_subject_id
+        )
 
         # Create account if it doesn't exist
         if not account:
