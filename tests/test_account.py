@@ -61,7 +61,7 @@ def mock_update_account(mocker):
     yield
 
 
-class TestYourClass(object):
+class TestAccountMethods(object):
     def test_create_or_update_existing_account(
         self, mock_get_account, mock_update_account
     ):
