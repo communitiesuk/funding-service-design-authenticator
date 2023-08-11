@@ -114,7 +114,7 @@ class AccountMethods(Account):
         cleaned_roles = []
         if isinstance(roles, List):
             cleaned_roles = [azure_ad_role_map[role] for role in roles]
-        if config.FLASK_ENV == "development":
+        if hasattr(Config, 'USE_PRE_EXISTING_ACCOUNT_ROLES') and Config.USE_PRE_EXISTING_ACCOUNT_ROLES:
             account = get_account_data(email)
             cleaned_roles = account.get("roles")
         if len(cleaned_roles) == 0:
