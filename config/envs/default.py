@@ -181,7 +181,7 @@ class DefaultConfig(object):
         SupportedApp.POST_AWARD_SUBMIT.value: SafeAppConfig(
             login_url=POST_AWARD_SUBMIT_LOGIN_URL,
             logout_endpoint="sso_bp.signed_out",
-        )
+        ),
     }
 
     """
