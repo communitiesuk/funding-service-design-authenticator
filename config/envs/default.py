@@ -168,10 +168,18 @@ class DefaultConfig(object):
     POST_AWARD_FRONTEND_HOST = environ.get("POST_AWARD_FRONTEND_HOST", "")
     POST_AWARD_FRONTEND_LOGIN_URL = POST_AWARD_FRONTEND_HOST + "/"
 
+    # Post-award submit
+    POST_AWARD_SUBMIT_HOST = environ.get("POST_AWARD_SUBMIT_HOST", "")
+    POST_AWARD_SUBMIT_LOGIN_URL = POST_AWARD_SUBMIT_HOST + "/"
+
     # Safe list of return applications
     SAFE_RETURN_APPS = {
         SupportedApp.POST_AWARD_FRONTEND.value: SafeAppConfig(
             login_url=POST_AWARD_FRONTEND_LOGIN_URL,
+            logout_endpoint="sso_bp.signed_out",
+        ),
+        SupportedApp.POST_AWARD_SUBMIT.value: SafeAppConfig(
+            login_url=POST_AWARD_SUBMIT_LOGIN_URL,
             logout_endpoint="sso_bp.signed_out",
         )
     }
