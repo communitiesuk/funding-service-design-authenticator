@@ -62,4 +62,5 @@ jobs:
     uses: communitiesuk/funding-design-service-workflows/.github/workflows/pre-deploy.yml@main
     with:
       postgres_unit_testing: false
+      assets_required: true
 
