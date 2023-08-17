@@ -2,13 +2,31 @@ name: Deploy to Gov PaaS
 
 on:
   workflow_dispatch:
+    inputs:
+      environment:
+        description:  Which AWS Account to use
+        type: choice
+        required: true
+        options:
+        - test
+        - uat
+      copilot:
+        description: Whether to deploy to AWS?
+        type: boolean
+        required: false
+        default: false
+      deploy_to_dev:
+        required: false
+        default: false
+        type: boolean
+        description: Deploy to CloudFoundry dev?
   push:
     paths-ignore:
       - '**/README.md'
 
 jobs:
   test_and_deploy:
-    if: ${{ github.actor != 'dependabot[bot]' }}
+    if: ${{ github.actor != 'dependabot[bot]' && !github.event.inputs.copilot }}
     uses: communitiesuk/funding-design-service-workflows/.github/workflows/deploy.yml@main
     with:
       app_name: ${{ github.event.repository.name }}
@@ -37,3 +55,11 @@ jobs:
     uses: ./.github/workflows/package.yml
     with:
       version_to_build: $(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+  pre_deploy_tests:
+    if: ${{ github.event.inputs.copilot }}
+    secrets:
+      E2E_PAT: ${{secrets.E2E_PAT}}
+    uses: communitiesuk/funding-design-service-workflows/.github/workflows/pre-deploy.yml@main
+    with:
+      postgres_unit_testing: false
+      assets_required: true
