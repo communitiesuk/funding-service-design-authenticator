@@ -63,4 +63,3 @@ jobs:
     with:
       postgres_unit_testing: false
       assets_required: true
-
