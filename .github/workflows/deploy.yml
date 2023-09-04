@@ -27,7 +27,7 @@ on:
 jobs:
   test_and_deploy:
     if: ${{ github.actor != 'dependabot[bot]' && !github.event.inputs.copilot }}
-    uses: communitiesuk/funding-design-service-workflows/.github/workflows/deploy.yml@main
+    uses: communitiesuk/funding-service-design-workflows/.github/workflows/deploy.yml@main
     with:
       app_name: ${{ github.event.repository.name }}
       assets_required: true
@@ -59,7 +59,7 @@ jobs:
     if: ${{ github.event.inputs.copilot }}
     secrets:
       E2E_PAT: ${{secrets.E2E_PAT}}
-    uses: communitiesuk/funding-design-service-workflows/.github/workflows/pre-deploy.yml@main
+    uses: communitiesuk/funding-service-design-workflows/.github/workflows/pre-deploy.yml@main
     with:
       postgres_unit_testing: false
       assets_required: true
