@@ -178,10 +178,12 @@ funding-service-design-utils==2.0.14
     # via -r requirements.txt
 gitdb==4.0.9
     # via gitpython
-gitpython==3.1.27
+gitpython==3.1.34
     # via bandit
 govuk-frontend-jinja==2.3.0
     # via -r requirements.txt
+greenlet==2.0.2
+    # via sqlalchemy
 gunicorn==20.1.0
     # via
     #   -r requirements.txt
@@ -336,7 +338,7 @@ pytest-flask==1.2.0
     # via -r requirements-dev.in
 pytest-html==3.1.1
     # via pytest-selenium
-pytest-metadata==2.0.1
+pytest-metadata==3.0.0
     # via pytest-html
 pytest-mock==3.10.0
     # via -r requirements-dev.in
@@ -401,9 +403,7 @@ ruamel-yaml==0.17.21
     #   -r requirements.txt
     #   prance
 ruamel-yaml-clib==0.2.7
-    # via
-    #   -r requirements.txt
-    #   ruamel-yaml
+    # via -r requirements.txt
 s3transfer==0.6.1
     # via
     #   -r requirements.txt
@@ -466,11 +466,7 @@ toml==0.10.2
     #   dparse
     #   pre-commit
 tomli==2.0.1
-    # via
-    #   black
-    #   build
-    #   pyproject-hooks
-    #   pytest
+    # via pytest
 trio==0.21.0
     # via
     #   selenium
