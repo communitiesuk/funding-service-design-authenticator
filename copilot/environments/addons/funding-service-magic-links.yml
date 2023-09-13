@@ -83,6 +83,8 @@ Outputs:
   RedisEndpoint:
     Description: The endpoint of the redis cluster
     Value: !GetAtt 'Redis.RedisEndpoint.Address'
+    Export:
+      Name: !Sub ${App}-${Env}-RedisEndpoint
   RedisInstanceURI:
     Description: "The URI of the redis cluster."
     Value:
@@ -91,3 +93,5 @@ Outputs:
       - PASSWORD: !Join [ "",  [ '{{resolve:secretsmanager:', !Ref 'RedisSecret', ":SecretString:password}}" ]]
         HOSTNAME: !GetAtt 'Redis.RedisEndpoint.Address'
         PORT: !GetAtt 'Redis.RedisEndpoint.Port'
+    Export:
+      Name: !Sub ${App}-${Env}-RedisInstanceURI
