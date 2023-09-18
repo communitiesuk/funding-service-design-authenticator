@@ -11,7 +11,7 @@ from fsd_utils import configclass
 @configclass
 class UnitTestConfig(Config):
     #  Application Config
-    SECRET_KEY = "dev"
+    SECRET_KEY = "dev"  # pragma: allowlist secret
     COOKIE_DOMAIN = None
 
     # Logging
