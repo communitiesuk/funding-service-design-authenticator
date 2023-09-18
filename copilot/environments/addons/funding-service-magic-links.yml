@@ -88,6 +88,6 @@ Outputs:
     Value:
       !Sub
       - "rediss://:${PASSWORD}@${HOSTNAME}:${PORT}"
-      - PASSWORD: !Join [ "",  [ '{{resolve:secretsmanager:', !Ref 'RedisSecret', ":SecretString:password}}" ]]
+      - PASSWORD: !Join [ "",  [ '{{resolve:secretsmanager:', !Ref 'RedisSecret', ":SecretString:password}}" ]]  # pragma: allowlist secret
         HOSTNAME: !GetAtt 'Redis.RedisEndpoint.Address'
         PORT: !GetAtt 'Redis.RedisEndpoint.Port'

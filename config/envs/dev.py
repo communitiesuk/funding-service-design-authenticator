@@ -9,7 +9,7 @@ from fsd_utils import configclass
 @configclass
 class DevConfig(Config):
     #  Application Config
-    SECRET_KEY = "dev"
+    SECRET_KEY = "dev"  # pragma: allowlist secret
 
     # Logging
     FSD_LOG_LEVEL = logging.INFO

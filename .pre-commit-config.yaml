@@ -31,3 +31,10 @@ repos:
     hooks:
       - id: djlint-jinja
         types_or: ['html', 'jinja']
+- repo: https://github.com/Yelp/detect-secrets
+  rev: v1.4.0
+  hooks:
+  -   id: detect-secrets
+      args: ['--disable-plugin', 'HexHighEntropyString',
+        '--disable-plugin', 'Base64HighEntropyString']
+      exclude: tests/keys/rsa256
