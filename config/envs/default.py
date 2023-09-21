@@ -35,7 +35,7 @@ class DefaultConfig(object):
     STATIC_FOLDER = "static"
     TEMPLATES_FOLDER = "templates"
     ASSETS_DEBUG = False
-    ASSETS_AUTO_BUILD = True
+    ASSETS_AUTO_BUILD = False
 
     # Hostname for this service
     AUTHENTICATOR_HOST = environ.get("AUTHENTICATOR_HOST", "")

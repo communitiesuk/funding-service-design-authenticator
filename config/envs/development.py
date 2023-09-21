@@ -14,7 +14,7 @@ class DevelopmentConfig(Config):
     SESSION_COOKIE_NAME = "session_cookie"
     FLASK_ENV = "development"
     COOKIE_DOMAIN = None
-
+    ASSETS_AUTO_BUILD = True
     # Logging
     FSD_LOG_LEVEL = logging.DEBUG
 
