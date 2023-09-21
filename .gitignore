@@ -137,4 +137,6 @@ flask_session
 .bash_profile
 .DS_Store
 
+# Build output
 html
+app/static/.webassets.manifest
