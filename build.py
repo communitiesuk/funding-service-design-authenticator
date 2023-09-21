@@ -5,9 +5,6 @@ import urllib.request
 import zipfile
 import static_assets
 
-from config import Config
-
-
 def build_govuk_assets(static_dist_root="frontend/static/dist"):
 
     # NOTE: When using connexion for our openapi management
@@ -15,7 +12,6 @@ def build_govuk_assets(static_dist_root="frontend/static/dist"):
     # as static_url_path is not directly configurable
     # with the connexion app constructor connexion.FlaskApp()
     # so the default /static url needs to be used
-    FLASK_STATIC_URL = "/" + Config.STATIC_FOLDER
     DIST_ROOT = "./" + static_dist_root
     GOVUK_DIR = "/govuk-frontend"
     GOVUK_URL = (
@@ -76,7 +72,7 @@ def build_govuk_assets(static_dist_root="frontend/static/dist"):
             filedata = file.read()
 
         # Replace the target string
-        filedata = filedata.replace(ASSETS_DIR, FLASK_STATIC_URL + GOVUK_DIR)
+        filedata = filedata.replace(ASSETS_DIR, ASSETS_DIR + GOVUK_DIR)
 
         # Write the file out again
         with open(css_file, "w") as file:
