@@ -13,6 +13,7 @@ Resources:
     Type: AWS::S3::Bucket
     Properties:
       AccessControl: Private
+      BucketName: !Sub fsd-form-uploads-${Env}
       BucketEncryption:
         ServerSideEncryptionConfiguration:
         - ServerSideEncryptionByDefault:
@@ -52,7 +53,7 @@ Outputs:
     Description: "The name of a user-defined bucket."
     Value: !Ref FormUploadsBucket
     Export:
-      Name: !Sub fsd-form-uploads-${Env}
+      Name: !Sub ${App}-${Env}-FormUploadsBucket
   FormUploadsBucketARN:
     Description: "The ARN of the form-uploads bucket."
     Value: !GetAtt FormUploadsBucket.Arn
