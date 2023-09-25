@@ -1,15 +1,22 @@
 """Compile static assets."""
 from os import path
-from flask_assets import Bundle, Environment
-from flask import Flask
 
-def init_assets(app=None, auto_build=False, static_folder="frontend/static/dist"):
+from flask import Flask
+from flask_assets import Bundle
+from flask_assets import Environment
+
+
+def init_assets(
+    app=None, auto_build=False, static_folder="frontend/static/dist"
+):
     app = app or Flask(__name__)
     app.static_folder = static_folder  # config.Config.STATIC_FOLDER
     # app.static_url_path = config.Config.STATIC_URL_PATH
     with app.app_context():
         env = Environment(app)
-        env.load_path = [path.join(path.dirname(__file__), "frontend/static/src")]
+        env.load_path = [
+            path.join(path.dirname(__file__), "frontend/static/src")
+        ]
         # env.set_directory(env_directory)
         # App Engine doesn't support automatic rebuilding.
         env.auto_build = auto_build

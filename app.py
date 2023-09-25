@@ -5,7 +5,6 @@ from typing import Dict
 import connexion
 import prance
 import static_assets
-
 from config import Config
 from connexion.resolver import MethodViewResolver
 from flask import Flask

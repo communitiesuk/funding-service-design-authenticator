@@ -3,7 +3,9 @@ import os
 import shutil
 import urllib.request
 import zipfile
+
 import static_assets
+
 
 def build_govuk_assets(static_dist_root="frontend/static/dist"):
 
@@ -92,6 +94,7 @@ def build_all(static_dist_root="frontend/static/dist", remove_existing=False):
             shutil.rmtree(relative_dist_root)
     build_govuk_assets(static_dist_root=static_dist_root)
     static_assets.build_bundles(static_folder=static_dist_root)
+
 
 if __name__ == "__main__":
     build_all(remove_existing=True)
