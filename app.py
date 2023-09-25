@@ -4,6 +4,7 @@ from typing import Dict
 
 import connexion
 import prance
+import static_assets
 from config import Config
 from connexion.resolver import MethodViewResolver
 from flask import Flask
@@ -14,7 +15,6 @@ from flask_babel import gettext
 from flask_redis import FlaskRedis
 from flask_session import Session
 from flask_talisman import Talisman
-from frontend.assets import compile_static_assets
 from frontend.magic_links.filters import datetime_format
 from fsd_utils import init_sentry
 from fsd_utils import LanguageSelector
@@ -162,7 +162,12 @@ def create_app() -> Flask:
         # Bundle and compile assets
         assets = Environment()
         assets.init_app(flask_app)
-        compile_static_assets(assets)
+
+        static_assets.init_assets(
+            flask_app,
+            auto_build=Config.ASSETS_AUTO_BUILD,
+            static_folder=Config.STATIC_FOLDER,
+        )
 
         health = Healthcheck(flask_app)
         health.add_check(FlaskRunningChecker())

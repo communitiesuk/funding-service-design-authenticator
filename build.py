@@ -4,18 +4,17 @@ import shutil
 import urllib.request
 import zipfile
 
-from config import Config
+import static_assets
 
 
-def build_govuk_assets():
+def build_govuk_assets(static_dist_root="frontend/static/dist"):
 
     # NOTE: When using connexion for our openapi management
     # FLASK_STATIC_URL needs to be "/static"
     # as static_url_path is not directly configurable
     # with the connexion app constructor connexion.FlaskApp()
     # so the default /static url needs to be used
-    FLASK_STATIC_URL = "/" + Config.STATIC_FOLDER
-    DIST_ROOT = "./frontend/static/dist"
+    DIST_ROOT = "./" + static_dist_root
     GOVUK_DIR = "/govuk-frontend"
     GOVUK_URL = (
         "https://github.com/alphagov/govuk-frontend/"
@@ -75,7 +74,7 @@ def build_govuk_assets():
             filedata = file.read()
 
         # Replace the target string
-        filedata = filedata.replace(ASSETS_DIR, FLASK_STATIC_URL + GOVUK_DIR)
+        filedata = filedata.replace(ASSETS_DIR, ASSETS_DIR + GOVUK_DIR)
 
         # Write the file out again
         with open(css_file, "w") as file:
@@ -88,5 +87,14 @@ def build_govuk_assets():
     os.remove(ZIP_FILE)
 
 
+def build_all(static_dist_root="frontend/static/dist", remove_existing=False):
+    if remove_existing:
+        relative_dist_root = "./" + static_dist_root
+        if os.path.exists(relative_dist_root):
+            shutil.rmtree(relative_dist_root)
+    build_govuk_assets(static_dist_root=static_dist_root)
+    static_assets.build_bundles(static_folder=static_dist_root)
+
+
 if __name__ == "__main__":
-    build_govuk_assets()
+    build_all(remove_existing=True)
