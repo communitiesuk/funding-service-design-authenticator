@@ -71,12 +71,6 @@ class DefaultConfig(object):
     # in the app's registration in the Azure portal.
     AZURE_AD_REDIRECT_URI = AUTHENTICATOR_HOST + AZURE_AD_REDIRECT_PATH
 
-    # You can find more Microsoft Graph API endpoints from Graph Explorer
-    # https://developer.microsoft.com/en-us/graph/graph-explorer
-    MS_GRAPH_ENDPOINT = (  # This resource requires no admin consent
-        "https://graph.microsoft.com/v1.0/users"
-    )
-
     # You can find the proper permission names from this document
     # https://docs.microsoft.com/en-us/graph/permissions-reference
     MS_GRAPH_PERMISSIONS_SCOPE = ["User.ReadBasic.All"]
