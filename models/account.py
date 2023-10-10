@@ -111,13 +111,11 @@ class AccountMethods(Account):
         url = Config.ACCOUNT_STORE_API_HOST + Config.ACCOUNT_ENDPOINT.format(
             account_id=id
         )
-        cleaned_roles = []
-        if isinstance(roles, List):
-            cleaned_roles = [azure_ad_role_map[role] for role in roles]
-        if config.FLASK_ENV == "development":
+
+        if config.FLASK_ENV == "development" and len(roles) == 0:
             account = get_account_data(email)
-            cleaned_roles = account.get("roles")
-        if len(cleaned_roles) == 0:
+            roles = account.get("roles")
+        if len(roles) == 0:
             current_app.logger.error(
                 f"account id: {id} has not been assigned any roles"
             )
@@ -125,7 +123,7 @@ class AccountMethods(Account):
             "email_address": email,
             "azure_ad_subject_id": azure_ad_subject_id,
             "full_name": full_name,
-            "roles": cleaned_roles,
+            "roles": roles,
         }
         response = put_data(url, params)
         if response and "account_id" in response:
