@@ -107,6 +107,8 @@ funding-service-design-utils==2.0.26
     # via -r requirements.in
 govuk-frontend-jinja==2.3.0
     # via -r requirements.in
+greenlet==3.0.0
+    # via sqlalchemy
 gunicorn==20.1.0
     # via funding-service-design-utils
 idna==3.3
@@ -212,8 +214,6 @@ rich==12.4.4
     # via funding-service-design-utils
 ruamel-yaml==0.17.21
     # via prance
-ruamel-yaml-clib==0.2.7
-    # via ruamel-yaml
 s3transfer==0.6.1
     # via boto3
 semver==2.13.0
@@ -242,7 +242,7 @@ swagger-ui-bundle==0.0.9
     # via -r requirements.in
 thrift==0.16.0
     # via flipper-client
-urllib3==1.26.12
+urllib3==1.26.17
     # via
     #   botocore
     #   requests
