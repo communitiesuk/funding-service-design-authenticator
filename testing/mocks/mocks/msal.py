@@ -10,7 +10,7 @@ id_token_claims = {
     "id": 123,
     "sub": "abc",
     "preferred_username": "sso@example.com",
-    "roles": ["COF_Lead_Assessor", "Assessor", "Commenter"],
+    "roles": ["COF_ASSESSOR", "COF_COMMENTER"],
 }
 
 # Mocked accounts response from msal get_accounts method
