@@ -1,12 +1,11 @@
 {
   "account_store/accounts/usersso": {
-    "email_address=sso%40example.com&azure_ad_subject_id=abc&full_name=Test+User+SSO&roles=%5B%27COF_LEAD_ASSESSOR%27%2C+%27COF_ASSESSOR%27%2C+%27COF_COMMENTER%27%5D": {
+    "email_address=sso%40example.com&azure_ad_subject_id=abc&full_name=Test+User+SSO&roles=%5B%27COF_ASSESSOR%27%2C+%27COF_COMMENTER%27%5D": {
       "account_id": "usersso",
       "full_name": "Test User SSO",
       "azure_ad_subject_id": "abc",
       "email_address": "sso@example.com",
       "roles": [
-        "COF_LEAD_ASSESSOR",
         "COF_ASSESSOR",
         "COF_COMMENTER"
       ]
