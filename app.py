@@ -113,12 +113,6 @@ def create_app() -> Flask:
     def inject_global_constants():
         return dict(
             stage="beta",
-            service_meta_description=(
-                "Apply for funding to save an asset in your community"
-            ),
-            service_meta_keywords=(
-                "Apply for funding to save an asset in your community"
-            ),
             service_meta_author=(
                 "Department for Levelling up Housing and Communities"
             ),
@@ -134,11 +128,12 @@ def create_app() -> Flask:
 
     @flask_app.context_processor
     def inject_service_name():
-        fund_title = FundMethods.get_service_name()
-        return (
-            dict(service_title=gettext("Apply for") + " " + fund_title)
+        fund_title, fund_name = FundMethods.get_service_name()
+        return dict(
+            service_title=gettext("Apply for") + " " + fund_title
             if fund_title
-            else dict(service_title="Access Funding")
+            else "Access Funding",
+            fund_name=fund_name,
         )
 
     with flask_app.app_context():
