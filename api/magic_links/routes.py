@@ -92,8 +92,8 @@ class MagicLinksView(MagicLinkMethods, MethodView):
             # then redirect them to the global redirect url
             frontend_account_url = (
                 f"{Config.MAGIC_LINK_REDIRECT_URL}"
-                f"?fund={urllib.parse.quote(fund_short_name)}"
-                f"&round={urllib.parse.quote(round_short_name)}"
+                f"?fund={urllib.parse.quote(fund_short_name) if fund_short_name else ''}"
+                f"&round={urllib.parse.quote(round_short_name) if round_short_name else ''}"
             )
             current_app.logger.warn(
                 f"The magic link with hash: '{link_hash}' has already been"
