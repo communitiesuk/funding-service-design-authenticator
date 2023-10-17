@@ -113,12 +113,6 @@ def create_app() -> Flask:
     def inject_global_constants():
         return dict(
             stage="beta",
-            service_meta_description=(
-                "Apply for funding to save an asset in your community"
-            ),
-            service_meta_keywords=(
-                "Apply for funding to save an asset in your community"
-            ),
             service_meta_author=(
                 "Department for Levelling up Housing and Communities"
             ),
