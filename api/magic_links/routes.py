@@ -1,4 +1,5 @@
 import json
+import urllib.parse
 from datetime import datetime
 
 from api.responses import error_response
@@ -89,13 +90,18 @@ class MagicLinksView(MagicLinkMethods, MethodView):
             # else if no link exists (or it has been used)
             # but the user is already logged in
             # then redirect them to the global redirect url
+            frontend_account_url = (
+                f"{Config.MAGIC_LINK_REDIRECT_URL}"
+                f"?fund={urllib.parse.quote(fund_short_name) if fund_short_name else ''}"
+                f"&round={urllib.parse.quote(round_short_name) if round_short_name else ''}"
+            )
             current_app.logger.warn(
                 f"The magic link with hash: '{link_hash}' has already been"
                 f" used but the user with account_id: '{g.account_id}' is"
                 " logged in, redirecting to"
-                f" '{Config.MAGIC_LINK_REDIRECT_URL}'."
+                f" '{frontend_account_url}'."
             )
-            return redirect(Config.MAGIC_LINK_REDIRECT_URL)
+            return redirect(frontend_account_url)
         return redirect(
             url_for(
                 "magic_links_bp.invalid",
