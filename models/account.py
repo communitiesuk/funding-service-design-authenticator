@@ -111,10 +111,10 @@ class AccountMethods(Account):
             account_id=id
         )
 
-        if config.FLASK_ENV == "development" and roles:
+        if config.FLASK_ENV == "development" and not roles:
             account = get_account_data(email)
             roles = account.get("roles")
-        if roles:
+        if not roles:
             current_app.logger.error(
                 f"account id: {id} has not been assigned any roles"
             )
