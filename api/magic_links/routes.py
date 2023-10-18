@@ -90,10 +90,16 @@ class MagicLinksView(MagicLinkMethods, MethodView):
             # else if no link exists (or it has been used)
             # but the user is already logged in
             # then redirect them to the global redirect url
+            query_params = {
+                "fund": fund_short_name,
+                "round": round_short_name,
+            }
+            query_params = {
+                k: v for k, v in query_params.items() if v is not None
+            }
+            query_string = urllib.parse.urlencode(query_params)
             frontend_account_url = (
-                f"{Config.MAGIC_LINK_REDIRECT_URL}"
-                f"?fund={urllib.parse.quote(fund_short_name) if fund_short_name else ''}"
-                f"&round={urllib.parse.quote(round_short_name) if round_short_name else ''}"
+                f"{Config.MAGIC_LINK_REDIRECT_URL}?{query_string}"
             )
             current_app.logger.warn(
                 f"The magic link with hash: '{link_hash}' has already been"
