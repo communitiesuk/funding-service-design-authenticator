@@ -114,10 +114,6 @@ class AccountMethods(Account):
         if config.FLASK_ENV == "development" and not roles:
             account = get_account_data(email)
             roles = account.get("roles")
-        if not roles:
-            current_app.logger.error(
-                f"account id: {id} has not been assigned any roles"
-            )
         params = {
             "email_address": email,
             "azure_ad_subject_id": azure_ad_subject_id,
