@@ -91,7 +91,7 @@ class AccountMethods(Account):
         email: str,
         azure_ad_subject_id: str,
         full_name: str,
-        roles: List[str],
+        roles: list[str],
     ) -> Account | None:
         """
         Get an account corresponding to an email_address
@@ -111,10 +111,10 @@ class AccountMethods(Account):
             account_id=id
         )
 
-        if config.FLASK_ENV == "development" and len(roles) == 0:
+        if config.FLASK_ENV == "development" and not roles:
             account = get_account_data(email)
             roles = account.get("roles")
-        if len(roles) == 0:
+        if not roles:
             current_app.logger.error(
                 f"account id: {id} has not been assigned any roles"
             )
@@ -122,7 +122,7 @@ class AccountMethods(Account):
             "email_address": email,
             "azure_ad_subject_id": azure_ad_subject_id,
             "full_name": full_name,
-            "roles": roles,
+            "roles": roles or [],
         }
         response = put_data(url, params)
         if response and "account_id" in response:
@@ -157,7 +157,7 @@ class AccountMethods(Account):
         email: str,
         azure_ad_subject_id: str,
         full_name: str,
-        roles: List[str],
+        roles: list[str],
     ):
         # Check to see if account already exists by azure_id or email
         account = AccountMethods.get_account(
