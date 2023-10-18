@@ -101,7 +101,7 @@ class SsoView(MethodView):
             azure_ad_subject_id=session["user"].get("sub"),
             email=session["user"].get("preferred_username"),
             full_name=session["user"].get("name"),
-            roles=session["user"].get("roles"),
+            roles=session["user"].get("roles") or [],
         )
 
         redirect_url = (
