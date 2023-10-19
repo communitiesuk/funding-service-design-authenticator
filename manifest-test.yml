@@ -27,6 +27,7 @@ applications:
     GITHUB_SHA: ((GITHUB_SHA))
     FUND_STORE_API_HOST: https://funding-service-design-fund-store-test.london.cloudapps.digital
     POST_AWARD_FRONTEND_HOST: https://find-monitoring-data.test.gids.dev
+    POST_AWARD_SUBMIT_HOST: https://submit-monitoring-data.test.gids.dev
   services: # eg. Redis
     - funding-service-magic-links-test
     - logit-ssl-drain
