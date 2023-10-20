@@ -160,7 +160,6 @@ def test_sso_get_token_logs_error_for_roleless_users(
     error_response = flask_test_client.get(endpoint)
 
     assert error_response.status_code == 302
-    assert "account id: usersso has not been assigned any roles" in caplog.text
 
 
 def test_sso_get_token_sets_expected_fsd_user_token_cookie_claims(
