@@ -1,0 +1,88 @@
+name: Deploy to Gov PaaS
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description:  Which AWS Account to use
+        type: choice
+        required: true
+        options:
+        - test
+      run_performance_tests:
+        required: false
+        default: false
+        type: boolean
+        description: Run performance tests
+      run_e2e_tests:
+        required: false
+        default: false
+        type: boolean
+        description: Run e2e tests
+  push:
+    paths-ignore:
+      - '**/README.md'
+
+jobs:
+  paketo_build:
+    permissions:
+      packages: write
+    uses: communitiesuk/funding-service-design-workflows/.github/workflows/package.yml@main
+    with:
+      version_to_build: $(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+      owner: ${{ github.repository_owner }}
+      application: funding-service-design-authenticator
+      assets_required: true
+  pre_deploy_tests:
+    secrets:
+      E2E_PAT: ${{secrets.E2E_PAT}}
+    uses: communitiesuk/funding-service-design-workflows/.github/workflows/pre-deploy.yml@main
+    with:
+      postgres_unit_testing: false
+      assets_required: true
+  copilot_build:
+    concurrency: deploy-${{ inputs.environment || 'test' }}
+    permissions:
+      id-token: write # This is required for requesting the JWT
+      contents: read  # This is required for actions/checkout
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment || 'test' }}
+    steps:
+    - name: Git clone the repository
+      uses: actions/checkout@v3
+
+    - name: Get current date
+      id: currentdatetime
+      run: echo "datetime=$(date +'%Y%m%d%H%M%S')" >> $GITHUB_OUTPUT
+
+    - name: configure aws credentials
+      uses: aws-actions/configure-aws-credentials@v2
+      with:
+        role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT }}:role/GithubCopilotDeploy
+        role-session-name: AUTHENTICATOR_COPILOT_${{ steps.currentdatetime.outputs.datetime }}
+        aws-region: eu-west-2
+
+    - name: Install AWS Copilot CLI
+      run: |
+        curl -Lo aws-copilot https://github.com/aws/copilot-cli/releases/latest/download/copilot-linux && chmod +x aws-copilot && sudo mv aws-copilot /usr/local/bin/copilot
+
+    - name: Inject Git SHA into manifest
+      run: |
+        yq -i '.variables.GITHUB_SHA = "${{ github.sha }}"'  copilot/fsd-authenticator/manifest.yml
+
+    - name: Inject replacement image into manifest
+      run: |
+        yq -i '.image.location = "ghcr.io/communitiesuk/funding-service-design-authenticator:${{ github.ref_name }}"'  copilot/fsd-authenticator/manifest.yml
+
+    - name: Copilot deploy
+      run: |
+        copilot deploy --env ${{ inputs.environment || 'test' }}
+  post_deploy_tests:
+    needs: copilot_build
+    secrets:
+      E2E_PAT: ${{secrets.E2E_PAT}}
+    uses: communitiesuk/funding-service-design-workflows/.github/workflows/post-deploy.yml@main
+    with:
+      run_performance_tests: ${{ inputs.run_performance_tests }}
+      run_e2e_tests: ${{ inputs.run_e2e_tests }}
+      app_name: authenticator
