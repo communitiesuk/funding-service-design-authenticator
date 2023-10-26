@@ -38,20 +38,13 @@ class Notification(object):
             current_app.logger.info(
                 f"{template_msg}{json.dumps(content, indent=4)}"
             )
-            return True
 
-        url = Config.NOTIFICATION_SERVICE_HOST + Config.SEND_ENDPOINT
         params = {
             NotifyConstants.FIELD_TYPE: template_type,
             NotifyConstants.FIELD_TO: to_email,
             NotifyConstants.FIELD_CONTENT: content,
         }
-        response = post_data(url, params)
-        if response:
-            return True
-        raise NotificationError(
-            message="Sorry, the notification could not be sent"
-        )
+        # todo(tferns) push_to_notification_queue(params)
 
 
 class NotificationError(Exception):
