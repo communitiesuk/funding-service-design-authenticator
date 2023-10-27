@@ -218,6 +218,7 @@ class DefaultConfig(object):
         "connect-src": "",  # APPLICATION_STORE_API_HOST_PUBLIC,
         "img-src": ["data:", "'self'"],
     }
+    # adding comment
 
     # Swagger Content Security Policy (less secure)
     # - Allow inline scripts for swagger docs (for Talisman Config)
