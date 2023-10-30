@@ -217,6 +217,7 @@ class DefaultConfig(object):
             "'sha256-RgdCrr7A9yqYVstE6QiM/9RNRj4bYipcUa2C2ywQT1A='",
             "https://tagmanager.google.com",
             "https://www.googletagmanager.com",
+            "https://*.google-analytics.com",
         ],
         "connect-src": "",  # APPLICATION_STORE_API_HOST_PUBLIC,
         "img-src": ["data:", "'self'"],
