@@ -219,7 +219,7 @@ class DefaultConfig(object):
             "https://www.googletagmanager.com",
             "https://*.google-analytics.com",
         ],
-         "connect-src": [
+        "connect-src": [
             "'self'",
             "https://*.google-analytics.com",
         ],  # APPLICATION_STORE_API_HOST_PUBLIC,
