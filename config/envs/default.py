@@ -207,7 +207,6 @@ class DefaultConfig(object):
 
     USE_LOCAL_DATA = strtobool(getenv("USE_LOCAL_DATA", "False"))
 
-    # comment
     # Secure (Default) Content Security Policy (for Talisman Config)
     SECURE_CSP = {
         "default-src": "'self'",
