@@ -218,8 +218,12 @@ class DefaultConfig(object):
             "'sha256-z+p4q2n8BOpGMK2/OMOXrTYmjbeEhWQQHC3SF/uMOyg='"
             "https://tagmanager.google.com",
             "https://www.googletagmanager.com",
+            "https://*.google-analytics.com",
         ],
-        "connect-src": "",  # APPLICATION_STORE_API_HOST_PUBLIC,
+        "connect-src": [
+            "'self'",
+            "https://*.google-analytics.com",
+        ],  # APPLICATION_STORE_API_HOST_PUBLIC,
         "img-src": ["data:", "'self'"],
     }
     # adding comment
