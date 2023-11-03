@@ -10,11 +10,11 @@ from fsd_utils import configclass
 @configclass
 class DevelopmentConfig(Config):
     #  Application Config
-    SECRET_KEY = "dev"
+    SECRET_KEY = "dev"  # pragma: allowlist secret
     SESSION_COOKIE_NAME = "session_cookie"
     FLASK_ENV = "development"
     COOKIE_DOMAIN = None
-
+    ASSETS_AUTO_BUILD = True
     # Logging
     FSD_LOG_LEVEL = logging.DEBUG
 

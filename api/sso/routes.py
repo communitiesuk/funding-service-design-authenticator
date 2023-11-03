@@ -138,7 +138,7 @@ class SsoView(MethodView):
         if not token:
             return {"message": "No valid token"}, 404
         graph_data = requests.get(  # Use token to call downstream service
-            Config.MS_GRAPH_ENDPOINT,
+            "https://graph.microsoft.com/v1.0/me",
             headers={"Authorization": "Bearer " + token["access_token"]},
         ).json()
         return graph_data, 200

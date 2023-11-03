@@ -1,0 +1,94 @@
+Parameters:
+  App:
+    Type: String
+    Description: Your application's name.
+  Env:
+    Type: String
+    Description: The environment name your service, job, or workflow is being deployed to.
+
+Resources:
+  # Subnet group to control where the Redis gets placed
+  RedisSubnetGroup:
+    Type: AWS::ElastiCache::SubnetGroup
+    Properties:
+      Description: Group of subnets to place Redis into
+      SubnetIds: !Split [ ',', { 'Fn::ImportValue': !Sub '${App}-${Env}-PrivateSubnets' } ]
+
+  # Security group to add the Redis cluster to the VPC,
+  # and to allow the Fargate containers to talk to Redis on port 6379
+  RedisSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: "Redis Security Group"
+      VpcId:
+        Fn::ImportValue:
+          !Sub '${App}-${Env}-VpcId'
+
+  # Enable ingress from other ECS services created within the environment.
+  RedisIngress:
+    Type: AWS::EC2::SecurityGroupIngress
+    Properties:
+      Description: Ingress from Fargate containers
+      GroupId: !Ref 'RedisSecurityGroup'
+      IpProtocol: tcp
+      FromPort: 6379
+      ToPort: 6379
+      SourceSecurityGroupId:
+        Fn::ImportValue:
+          !Sub '${App}-${Env}-EnvironmentSecurityGroup'
+
+  # Secret Storage of access credentials
+  RedisSecret:
+    Metadata:
+      'aws:copilot:description': 'A Secrets Manager secret to store your DB credentials'
+    Type: AWS::SecretsManager::Secret
+    Properties:
+      Description: !Sub 'Redis main user secret for ${AWS::StackName}'
+      GenerateSecretString:
+        SecretStringTemplate: '{"username": "redis"}'
+        GenerateStringKey: "password"
+        ExcludePunctuation: true
+        IncludeSpace: false
+        PasswordLength: 16
+
+  # Creation of the cluster itself
+  RedisReplicationGroup:
+    Type: AWS::ElastiCache::ReplicationGroup
+    Properties:
+      ReplicationGroupId: !Sub 'funding-service-magic-links-${Env}'
+      ReplicationGroupDescription: !Sub '${Env} Funding Service Magic Links'
+      AutomaticFailoverEnabled: true
+      AtRestEncryptionEnabled: true
+      TransitEncryptionEnabled: true
+      AutoMinorVersionUpgrade: true
+      MultiAZEnabled: true
+      CacheNodeType: cache.m5.large
+      CacheSubnetGroupName: !Ref 'RedisSubnetGroup'
+      SecurityGroupIds:
+        - !GetAtt 'RedisSecurityGroup.GroupId'
+      Engine: redis
+      NumCacheClusters: 2
+
+  # Redis endpoint stored in SSM so that other services can retrieve the endpoint.
+  RedisEndpointAddressParam:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Name: !Sub '/${App}/${Env}/redis'   # Other services can retrieve the endpoint from this path.
+      Type: String
+      Value: !GetAtt 'RedisReplicationGroup.PrimaryEndPoint.Address'
+
+Outputs:
+  RedisEndpoint:
+    Description: The endpoint of the redis cluster
+    Value: !GetAtt 'RedisReplicationGroup.PrimaryEndPoint.Address'
+    Export:
+      Name: !Sub ${App}-${Env}-RedisEndpoint
+  RedisInstanceURI:
+    Description: "The URI of the redis cluster."
+    Value:
+      !Sub
+      - "rediss://${HOSTNAME}:${PORT}"
+      - HOSTNAME: !GetAtt 'RedisReplicationGroup.PrimaryEndPoint.Address'
+        PORT: !GetAtt 'RedisReplicationGroup.PrimaryEndPoint.Port'
+    Export:
+      Name: !Sub ${App}-${Env}-RedisInstanceURI

@@ -32,10 +32,10 @@ class DefaultConfig(object):
     FSD_LOG_LEVEL = logging.WARNING
 
     # Frontend
-    STATIC_FOLDER = "static"
+    STATIC_FOLDER = "frontend/static/dist"
     TEMPLATES_FOLDER = "templates"
     ASSETS_DEBUG = False
-    ASSETS_AUTO_BUILD = True
+    ASSETS_AUTO_BUILD = False
 
     # Hostname for this service
     AUTHENTICATOR_HOST = environ.get("AUTHENTICATOR_HOST", "")
@@ -70,12 +70,6 @@ class DefaultConfig(object):
     # The absolute URL must match the redirect URI you set
     # in the app's registration in the Azure portal.
     AZURE_AD_REDIRECT_URI = AUTHENTICATOR_HOST + AZURE_AD_REDIRECT_PATH
-
-    # You can find more Microsoft Graph API endpoints from Graph Explorer
-    # https://developer.microsoft.com/en-us/graph/graph-explorer
-    MS_GRAPH_ENDPOINT = (  # This resource requires no admin consent
-        "https://graph.microsoft.com/v1.0/users"
-    )
 
     # You can find the proper permission names from this document
     # https://docs.microsoft.com/en-us/graph/permissions-reference
@@ -248,7 +242,7 @@ class DefaultConfig(object):
     ALLOW_FROM = "ALLOW-FROM"
     ONE_YEAR_IN_SECS = 31556926
 
-    FORCE_HTTPS = True
+    FORCE_HTTPS = False
 
     TALISMAN_SETTINGS = {
         "feature_policy": FSD_FEATURE_POLICY,

@@ -6,7 +6,18 @@
         <div class="govuk-grid-column-two-thirds">
             <h1 class="govuk-heading-xl">Sorry, there is a problem with the service</h1>
             <p class="govuk-body">Try again later.</p>
-            <p class="govuk-body"><a class="govuk-link" href="{{ contact_us_url }}">Contact the Community Ownership Fund</a> if you have any questions.</p>
+            {% if contact_us_url and fund_name %}
+                <p class="govuk-body">
+                    <a class="govuk-link" href="{{ contact_us_url }}">
+                        Contact
+                        {% if not fund_name.lower().startswith('the ') %}
+                            the {{ fund_name }}
+                        {% else %}
+                            {{ fund_name }}
+                        {% endif %}
+                    </a> if you have any questions.
+                </p>
+            {% endif %}
         </div>
     </div>
 {% endblock content %}

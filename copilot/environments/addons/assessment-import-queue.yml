@@ -1,0 +1,50 @@
+Parameters:
+  App:
+    Type: String
+    Description: Your application's name.
+  Env:
+    Type: String
+    Description: The environment name your service, job, or workflow is being deployed to.
+  FifoQueueName:
+    Type: String
+    Description: Fifo Queue Name
+    Default: assessment-import-queue
+
+Resources:
+  AssessmentImportQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName: !Sub ${FifoQueueName}-${Env}.fifo
+      FifoQueue: true
+      RedrivePolicy:
+        deadLetterTargetArn: !GetAtt DeadLetterQueue.Arn
+        maxReceiveCount: 3
+  DeadLetterQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      FifoQueue: true
+      QueueName: !Sub ${FifoQueueName}-${Env}-deadletter.fifo
+
+
+
+Outputs:
+  AssessmentImportQueueURL:
+    Description: Queue URL for Fifo queue
+    Value: !Ref AssessmentImportQueue
+    Export:
+      Name: !Sub ${App}-${Env}-AssessmentImportQueueURL
+  AssessmentImportQueueArn:
+    Description: Queue Arn for FIFO queue
+    Value: !GetAtt AssessmentImportQueue.Arn
+    Export:
+      Name: !Sub ${App}-${Env}-AssessmentImportQueueArn
+  DeadLetterQueueURL:
+    Description: "URL of dead-letter queue"
+    Value: !Ref DeadLetterQueue
+    Export:
+      Name: !Sub ${App}-${Env}-DeadLetterQueueURL
+  DeadLetterQueueARN:
+    Description: "ARN of dead-letter queue"
+    Value: !GetAtt DeadLetterQueue.Arn
+    Export:
+      Name: !Sub ${App}-${Env}-DeadLetterQueueARN
