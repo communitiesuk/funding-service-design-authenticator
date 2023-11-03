@@ -40,43 +40,62 @@ jobs:
     with:
       postgres_unit_testing: false
       assets_required: true
-  copilot_build:
-    concurrency: deploy-${{ inputs.environment || 'test' }}
+
+  dev_copilot_deploy:
+    if: inputs.environment == 'dev' || inputs.environment == ''
+    needs: [pre_deploy_tests, paketo_build]
+    concurrency: deploy-dev
+    secrets:
+      AWS_ACCOUNT: ${{ secrets.AWS_ACCOUNT }}
+    uses: ./.github/workflows/environment.yml
     permissions:
       id-token: write # This is required for requesting the JWT
       contents: read  # This is required for actions/checkout
-    runs-on: ubuntu-latest
-    environment: ${{ inputs.environment || 'test' }}
-    steps:
-    - name: Git clone the repository
-      uses: actions/checkout@v3
+    with:
+      workspace: 'dev'
 
-    - name: Get current date
-      id: currentdatetime
-      run: echo "datetime=$(date +'%Y%m%d%H%M%S')" >> $GITHUB_OUTPUT
+  test_copilot_deploy:
+    if: inputs.environment == 'test' || inputs.environment == ''
+    needs: [pre_deploy_tests, paketo_build]
+    concurrency: deploy-test
+    secrets:
+      AWS_ACCOUNT: ${{ secrets.AWS_ACCOUNT }}
+    uses: ./.github/workflows/environment.yml
+    permissions:
+      id-token: write # This is required for requesting the JWT
+      contents: read  # This is required for actions/checkout
+    with:
+      workspace: 'test'
 
-    - name: configure aws credentials
-      uses: aws-actions/configure-aws-credentials@v2
-      with:
-        role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT }}:role/GithubCopilotDeploy
-        role-session-name: AUTHENTICATOR_COPILOT_${{ steps.currentdatetime.outputs.datetime }}
-        aws-region: eu-west-2
+  # Allow the capability to override UAT with another branch, but ideally uat and production should be in sync as much as possible
+  uat_copilot_deploy:
+    if: inputs.environment == 'uat' || inputs.environment == ''
+    needs: [pre_deploy_tests, paketo_build]
+    concurrency: deploy-uat
+    secrets:
+      AWS_ACCOUNT: ${{ secrets.AWS_ACCOUNT }}
+    uses: ./.github/workflows/environment.yml
+    permissions:
+      id-token: write # This is required for requesting the JWT
+      contents: read  # This is required for actions/checkout
+    with:
+      workspace: 'uat'
 
-    - name: Install AWS Copilot CLI
-      run: |
-        curl -Lo aws-copilot https://github.com/aws/copilot-cli/releases/latest/download/copilot-linux && chmod +x aws-copilot && sudo mv aws-copilot /usr/local/bin/copilot
+  # Only run this if the branch being deployed is main
+  production_copilot_deploy:
+    if: (inputs.environment == 'production' || inputs.environment == '') && github.ref == 'refs/heads/main'
+    needs: [pre_deploy_tests, paketo_build]
+    concurrency: deploy-production
+    secrets:
+      AWS_ACCOUNT: ${{ secrets.AWS_ACCOUNT }}
+      RSA256_PUBLIC_KEY_BASE64: ${{ secrets.RSA256_PUBLIC_KEY_BASE64 }}
+    uses: ./.github/workflows/environment.yml
+    permissions:
+      id-token: write # This is required for requesting the JWT
+      contents: read  # This is required for actions/checkout
+    with:
+      workspace: 'production'
 
-    - name: Inject Git SHA into manifest
-      run: |
-        yq -i '.variables.GITHUB_SHA = "${{ github.sha }}"'  copilot/fsd-authenticator/manifest.yml
-
-    - name: Inject replacement image into manifest
-      run: |
-        yq -i '.image.location = "ghcr.io/communitiesuk/funding-service-design-authenticator:${{ github.ref_name }}"'  copilot/fsd-authenticator/manifest.yml
-
-    - name: Copilot deploy
-      run: |
-        copilot deploy --env ${{ inputs.environment || 'test' }}
   post_deploy_tests:
     needs: copilot_build
     secrets:
