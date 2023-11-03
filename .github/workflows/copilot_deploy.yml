@@ -20,8 +20,14 @@ on:
         type: boolean
         description: Run e2e tests
   push:
-    paths-ignore:
-      - '**/README.md'
+    paths:
+      - '!**/README.md'
+      - '**/*.py'
+      - '*.py'
+      - 'requirements-dev.in'
+      - 'requirements-dev.txt'
+      - 'requirements.in'
+      - 'requirements.txt'
 
 jobs:
   paketo_build:
