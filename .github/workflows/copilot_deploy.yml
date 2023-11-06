@@ -96,7 +96,6 @@ jobs:
     concurrency: deploy-production
     secrets:
       AWS_ACCOUNT: ${{ secrets.AWS_ACCOUNT }}
-      RSA256_PUBLIC_KEY_BASE64: ${{ secrets.RSA256_PUBLIC_KEY_BASE64 }}
     uses: ./.github/workflows/environment.yml
     permissions:
       id-token: write # This is required for requesting the JWT
