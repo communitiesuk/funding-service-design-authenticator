@@ -5,6 +5,9 @@ on:
       workspace:
         required: true
         type: string
+    secrets:
+      AWS_ACCOUNT:
+        required: true
 
 jobs:
   copilot_deploy:
