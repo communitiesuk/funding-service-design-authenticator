@@ -56,7 +56,7 @@ jobs:
       run: echo "datetime=$(date +'%Y%m%d%H%M%S')" >> $GITHUB_OUTPUT
 
     - name: configure aws credentials
-      uses: aws-actions/configure-aws-credentials@v2
+      uses: aws-actions/configure-aws-credentials@v4
       with:
         role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT }}:role/GithubCopilotDeploy
         role-session-name: AUTHENTICATOR_COPILOT_${{ steps.currentdatetime.outputs.datetime }}
