@@ -106,11 +106,11 @@ jobs:
 
     - name: Inject Git SHA into manifest
       run: |
-        yq -i '.variables.GITHUB_SHA = "${{ github.sha }}"'  copilot/fsd-notification/manifest.yml
+        yq -i '.variables.GITHUB_SHA = "${{ github.sha }}"'  copilot/fsd-authenticator/manifest.yml
 
     - name: Inject replacement image into manifest
       run: |
-        yq -i '.image.location = "ghcr.io/communitiesuk/funding-service-design-notification:${{ github.ref_name == 'main' && 'latest' || github.ref_name }}"'  copilot/fsd-notification/manifest.yml
+        yq -i '.image.location = "ghcr.io/communitiesuk/funding-service-design-authenticator:${{ github.ref_name == 'main' && 'latest' || github.ref_name }}"'  copilot/fsd-authenticator/manifest.yml
 
     - name: Copilot ${{ matrix.value }} deploy
       id: deploy_build
