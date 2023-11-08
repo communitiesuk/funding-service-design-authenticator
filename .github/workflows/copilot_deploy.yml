@@ -118,7 +118,7 @@ jobs:
         copilot svc deploy --env ${{ matrix.value }} --app pre-award
 
   post_deploy_tests:
-    needs: copilot_build
+    needs: copilot_env_deploy
     if: inputs.environment == 'test' || inputs.environment == 'dev' || inputs.environment == ''
     secrets:
       E2E_PAT: ${{secrets.E2E_PAT}}
