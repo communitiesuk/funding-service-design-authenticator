@@ -113,10 +113,6 @@ debugpy==1.6.7
     # via -r requirements-dev.in
 deepdiff==5.8.1
     # via -r requirements-dev.in
-deprecated==1.2.13
-    # via
-    #   -r requirements.txt
-    #   redis
 distlib==0.3.4
     # via virtualenv
 dnspython==2.2.1
@@ -271,7 +267,6 @@ packaging==21.3
     #   connexion
     #   dparse
     #   pytest
-    #   redis
 pathspec==0.9.0
     # via black
 pbr==5.9.0
@@ -383,7 +378,7 @@ pyyaml==6.0
     #   funding-service-design-utils
     #   openapi-spec-validator
     #   pre-commit
-redis==4.3.4
+redis==4.4.4
     # via
     #   -r requirements.txt
     #   flask-redis
@@ -510,10 +505,6 @@ werkzeug==2.2.3
     #   pytest-flask
 wheel==0.37.1
     # via pip-tools
-wrapt==1.14.1
-    # via
-    #   -r requirements.txt
-    #   deprecated
 wsproto==1.1.0
     # via trio-websocket
 wtforms==3.0.1
