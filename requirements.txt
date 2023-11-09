@@ -56,8 +56,6 @@ cryptography==37.0.2
     #   pyjwt
 cssmin==0.2.0
     # via -r requirements.in
-deprecated==1.2.13
-    # via redis
 dnspython==2.2.1
     # via email-validator
 email-validator==1.2.1
@@ -157,9 +155,7 @@ openapi-schema-validator==0.2.3
 openapi-spec-validator==0.4.0
     # via -r requirements.in
 packaging==21.3
-    # via
-    #   connexion
-    #   redis
+    # via connexion
 prance==0.21.8.0
     # via -r requirements.in
 pycparser==2.21
@@ -198,7 +194,7 @@ pyyaml==6.0
     #   connexion
     #   funding-service-design-utils
     #   openapi-spec-validator
-redis==4.3.4
+redis==4.4.4
     # via
     #   flask-redis
     #   flipper-client
@@ -257,8 +253,6 @@ werkzeug==2.2.3
     # via
     #   connexion
     #   flask
-wrapt==1.14.1
-    # via deprecated
 wtforms==3.0.1
     # via flask-wtf
 
