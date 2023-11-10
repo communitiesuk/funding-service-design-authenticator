@@ -14,4 +14,4 @@ pytest-mock==3.10.0
 pytest-selenium==2.0.1
 pip-tools>=6.13.0
 selenium==4.2.0
-webdriver-manager==3.7.0
+webdriver-manager==4.0.1
