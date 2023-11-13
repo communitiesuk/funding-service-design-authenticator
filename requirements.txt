@@ -56,8 +56,6 @@ cryptography==37.0.2
     #   pyjwt
 cssmin==0.2.0
     # via -r requirements.in
-deprecated==1.2.13
-    # via redis
 dnspython==2.2.1
     # via email-validator
 email-validator==1.2.1
@@ -107,6 +105,8 @@ funding-service-design-utils==2.0.26
     # via -r requirements.in
 govuk-frontend-jinja==2.3.0
     # via -r requirements.in
+greenlet==3.0.1
+    # via sqlalchemy
 gunicorn==20.1.0
     # via funding-service-design-utils
 idna==3.3
@@ -155,16 +155,14 @@ openapi-schema-validator==0.2.3
 openapi-spec-validator==0.4.0
     # via -r requirements.in
 packaging==21.3
-    # via
-    #   connexion
-    #   redis
+    # via connexion
 prance==0.21.8.0
     # via -r requirements.in
 pycparser==2.21
     # via cffi
 pyee==6.0.0
     # via flipper-client
-pygments==2.12.0
+pygments==2.15.0
     # via rich
 pyjwt[crypto]==2.4.0
     # via
@@ -196,7 +194,7 @@ pyyaml==6.0
     #   connexion
     #   funding-service-design-utils
     #   openapi-spec-validator
-redis==4.3.4
+redis==4.4.4
     # via
     #   flask-redis
     #   flipper-client
@@ -219,7 +217,9 @@ s3transfer==0.6.1
 semver==2.13.0
     # via prance
 sentry-sdk[flask]==1.31.0
-    # via funding-service-design-utils
+    # via
+    #   funding-service-design-utils
+    #   sentry-sdk
 six==1.16.0
     # via
     #   flask-talisman
@@ -253,8 +253,6 @@ werkzeug==2.2.3
     # via
     #   connexion
     #   flask
-wrapt==1.14.1
-    # via deprecated
 wtforms==3.0.1
     # via flask-wtf
 
