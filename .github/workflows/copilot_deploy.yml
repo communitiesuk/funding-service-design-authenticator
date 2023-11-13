@@ -8,7 +8,10 @@ on:
         type: choice
         required: true
         options:
+        - dev
         - test
+        - uat
+        - production
       run_performance_tests:
         required: false
         default: false
