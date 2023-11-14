@@ -2,8 +2,10 @@
 Test session functionality
 """
 from unittest.mock import patch
+from unittest.mock import PropertyMock
 
 import pytest
+from config.envs.default import SafeAppConfig
 from security.utils import create_token
 from security.utils import validate_token
 
@@ -11,7 +13,6 @@ from security.utils import validate_token
 @pytest.mark.usefixtures("flask_test_client")
 @pytest.mark.usefixtures("mock_redis_magic_links")
 class TestSignout:
-
     created_link_keys = []
     used_link_keys = []
     valid_token = ""
@@ -208,7 +209,7 @@ class TestSignout:
         )
 
     def test_session_sign_out_using_correct_route_with_specified_return_app(
-        self, mock_redis_sessions, flask_test_client
+        self, flask_test_client, mocker
     ):
         """
         GIVEN a running Flask client
@@ -218,7 +219,19 @@ class TestSignout:
             specified in the SAFE_RETURN_APPS config
         :param flask_test_client:
         """
-        return_app = "post-award-frontend"
+        mocker.patch(
+            "frontend.sso.routes.Config.SAFE_RETURN_APPS",
+            new_callable=PropertyMock,
+            return_value={
+                "test-app": SafeAppConfig(
+                    login_url="testapp.gov.uk/login",
+                    logout_endpoint="sso_bp.signed_out",
+                    service_title="Test Application",
+                )
+            },
+        )
+
+        return_app = "test-app"
         endpoint = f"/sessions/sign-out?return_app={return_app}"
 
         response = flask_test_client.get(endpoint)
@@ -226,11 +239,11 @@ class TestSignout:
         assert response.status_code == 302
         assert (
             response.location
-            == "/service/sso/signed-out/no_token?return_app=post-award-frontend"
+            == "/service/sso/signed-out/no_token?return_app=test-app"
         )
 
     def test_session_sign_out_abort_400_if_invalid_return_app_is_set(
-        self, mock_redis_sessions, flask_test_client
+        self, flask_test_client
     ):
         """
         GIVEN a running Flask client
@@ -240,7 +253,6 @@ class TestSignout:
             message
         :param flask_test_client:
         """
-
         return_app = "invalid-return-app"
         endpoint = f"/sessions/sign-out?return_app={return_app}"
 
