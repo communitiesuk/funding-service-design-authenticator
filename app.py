@@ -129,10 +129,14 @@ def create_app() -> Flask:
     @flask_app.context_processor
     def inject_service_name():
         fund_title, fund_name = FundMethods.get_service_name()
+        if fund_title:
+            service_title = gettext("Apply for") + " " + fund_title
+        elif return_app := request.args.get("return_app"):
+            service_title = Config.SAFE_RETURN_APPS[return_app].service_title
+        else:
+            service_title = "Access Funding"
         return dict(
-            service_title=gettext("Apply for") + " " + fund_title
-            if fund_title
-            else "Access Funding",
+            service_title=service_title,
             fund_name=fund_name,
         )
 
