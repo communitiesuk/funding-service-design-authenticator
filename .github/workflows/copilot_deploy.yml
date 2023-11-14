@@ -1,0 +1,129 @@
+name: Deploy to AWS
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description:  Which AWS Account to use
+        type: choice
+        required: true
+        options:
+        - test
+      run_performance_tests:
+        required: false
+        default: false
+        type: boolean
+        description: Run performance tests
+      run_e2e_tests:
+        required: false
+        default: false
+        type: boolean
+        description: Run e2e tests
+  push:
+    paths-ignore:
+      - '**/README.md'
+
+jobs:
+  tag_version:
+    runs-on: ubuntu-latest
+    outputs:
+      version_to_tag: ${{ steps.authenticator_tagging.outputs.tag_value }}
+    steps:
+      - id: authenticator_tagging
+        run: |
+          echo "tag_value=$(echo '${{ github.ref }}' | sed -e 's,.*/\(.*\),\1,')" >> $GITHUB_OUTPUT
+
+  paketo_build:
+    needs: [ tag_version ]
+    permissions:
+      packages: write
+    uses: communitiesuk/funding-service-design-workflows/.github/workflows/package.yml@main
+    with:
+      version_to_build: $(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+      owner: ${{ github.repository_owner }}
+      application: funding-service-design-authenticator
+      assets_required: true
+
+  pre_deploy_tests:
+    secrets:
+      E2E_PAT: ${{secrets.E2E_PAT}}
+    uses: communitiesuk/funding-service-design-workflows/.github/workflows/pre-deploy.yml@main
+    with:
+      postgres_unit_testing: false
+      assets_required: true
+
+  copilot_environments_workflow_setup:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.copilot_env_matrix.outputs.env_list }}
+    steps:
+      - id: copilot_env_matrix
+        run: |
+          if [ "${{ inputs.environment }}" != '' ]; then
+            echo "env_list=[\"${{ inputs.environment }}\"]" >> $GITHUB_OUTPUT
+          elif [ "${{ github.ref }}" == 'refs/heads/main' ]; then
+            echo "env_list=[\"dev\", \"test\", \"uat\", \"production\"]" >> $GITHUB_OUTPUT
+          else
+            echo "env_list=[\"dev\", \"test\"]" >> $GITHUB_OUTPUT
+          fi
+
+  copilot_env_deploy:
+    concurrency:
+      group: '${{ github.workflow }} @ ${{ github.ref }}'
+      cancel-in-progress: false
+    permissions:
+      id-token: write # This is required for requesting the JWT
+      contents: read  # This is required for actions/checkout
+    needs: [ tag_version, pre_deploy_tests, paketo_build, copilot_environments_workflow_setup ]
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    strategy:
+      max-parallel: 1
+      matrix:
+        value: ${{ fromJSON(needs.copilot_environments_workflow_setup.outputs.matrix) }}
+      fail-fast: false
+    environment: ${{ matrix.value }}
+    steps:
+    - name: Git clone the repository
+      uses: actions/checkout@v4
+
+    - name: Get current date
+      shell: bash
+      id: currentdatetime
+      run: echo "datetime=$(date +'%Y%m%d%H%M%S')" >> $GITHUB_OUTPUT
+
+    - name: configure aws credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT }}:role/GithubCopilotDeploy
+        role-session-name: AUTHENTICATOR_${{ matrix.value }}_COPILOT_${{ steps.currentdatetime.outputs.datetime }}
+        aws-region: eu-west-2
+
+    - name: Install AWS Copilot CLI
+      shell: bash
+      run: |
+        curl -Lo aws-copilot https://github.com/aws/copilot-cli/releases/latest/download/copilot-linux && chmod +x aws-copilot && sudo mv aws-copilot /usr/local/bin/copilot
+
+    - name: Inject Git SHA into manifest
+      run: |
+        yq -i '.variables.GITHUB_SHA = "${{ github.sha }}"'  copilot/fsd-authenticator/manifest.yml
+
+    - name: Inject replacement image into manifest
+      run: |
+        yq -i '.image.location = "ghcr.io/communitiesuk/funding-service-design-authenticator:${{ github.ref_name == 'main' && 'latest' || github.ref_name }}"'  copilot/fsd-authenticator/manifest.yml
+
+    - name: Copilot ${{ matrix.value }} deploy
+      id: deploy_build
+      run: |
+        copilot svc deploy --env ${{ matrix.value }} --app pre-award
+
+  post_deploy_tests:
+    needs: copilot_env_deploy
+    if: inputs.environment == 'test' || inputs.environment == 'dev' || inputs.environment == ''
+    secrets:
+      E2E_PAT: ${{secrets.E2E_PAT}}
+    uses: communitiesuk/funding-service-design-workflows/.github/workflows/post-deploy.yml@main
+    with:
+      run_performance_tests: ${{ inputs.run_performance_tests || false }}
+      run_e2e_tests: ${{ inputs.run_e2e_tests || true }}
+      app_name: authenticator
