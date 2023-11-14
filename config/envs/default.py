@@ -13,7 +13,9 @@ from fsd_utils import configclass
 from fsd_utils.authentication.config import SupportedApp
 
 
-SafeAppConfig = namedtuple("SafeAppConfig", "login_url logout_endpoint")
+SafeAppConfig = namedtuple(
+    "SafeAppConfig", ("login_url", "logout_endpoint", "service_title")
+)
 
 
 @configclass
@@ -171,10 +173,12 @@ class DefaultConfig(object):
         SupportedApp.POST_AWARD_FRONTEND.value: SafeAppConfig(
             login_url=POST_AWARD_FRONTEND_LOGIN_URL,
             logout_endpoint="sso_bp.signed_out",
+            service_title="Find monitoring and evaluation data",
         ),
         SupportedApp.POST_AWARD_SUBMIT.value: SafeAppConfig(
             login_url=POST_AWARD_SUBMIT_LOGIN_URL,
             logout_endpoint="sso_bp.signed_out",
+            service_title="Submit monitoring and evaluation data",
         ),
     }
 

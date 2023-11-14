@@ -5,6 +5,7 @@ from unittest.mock import patch
 from unittest.mock import PropertyMock
 
 import pytest
+from bs4 import BeautifulSoup
 from config.envs.default import SafeAppConfig
 from security.utils import create_token
 from security.utils import validate_token
@@ -260,3 +261,53 @@ class TestSignout:
 
         assert response.status_code == 400
         assert response.json["detail"] == "Unknown return app."
+
+    def test_sign_out_template_service_title_is_dynamic(
+        self, flask_test_client, mocker
+    ):
+        """
+        GIVEN a running Flask client
+        WHEN we issue a GET to /service/sso/signed-out with return_app
+            query param set to a valid value
+        THEN the template should contain the correct service name
+        :param flask_test_client:
+        """
+        mocker.patch(
+            "frontend.sso.routes.Config.SAFE_RETURN_APPS",
+            new_callable=PropertyMock,
+            return_value={
+                "test-app": SafeAppConfig(
+                    login_url="testapp.gov.uk/login",
+                    logout_endpoint="sso_bp.signed_out",
+                    service_title="Test Application",
+                )
+            },
+        )
+
+        return_app = "test-app"
+        endpoint = f"/service/sso/signed-out/no_token?return_app={return_app}"
+
+        response = flask_test_client.get(endpoint)
+
+        page_html = BeautifulSoup(response.data)
+        assert response.status_code == 200
+        assert "Access Funding" not in str(page_html)
+        assert "Test Application" in str(page_html)
+
+    def test_sign_out_template_service_title_defaults_to_access_funding(
+        self,
+        flask_test_client,
+    ):
+        """
+        GIVEN a running Flask client
+        WHEN we issue a GET to /service/sso/signed-out without a return_app being set
+        THEN the template should contain the correct default value "Access Funding"
+        :param flask_test_client:
+        """
+        endpoint = "/service/sso/signed-out/no_token"
+
+        response = flask_test_client.get(endpoint)
+
+        page_html = BeautifulSoup(response.data)
+        assert response.status_code == 200
+        assert "Access Funding" in str(page_html)
