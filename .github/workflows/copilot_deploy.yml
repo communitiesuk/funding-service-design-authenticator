@@ -48,8 +48,6 @@ jobs:
       assets_required: true
 
   pre_deploy_tests:
-    secrets:
-      E2E_PAT: ${{secrets.E2E_PAT}}
     uses: communitiesuk/funding-service-design-workflows/.github/workflows/pre-deploy.yml@main
     with:
       postgres_unit_testing: false
