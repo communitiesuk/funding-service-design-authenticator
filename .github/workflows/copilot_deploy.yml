@@ -148,7 +148,6 @@ jobs:
       contents: read  # This is required for actions/checkout
     needs: [ tag_version, pre_deploy_tests, paketo_build, copilot_environments_workflow_setup ]
     runs-on: ubuntu-latest
-    continue-on-error: true
     environment: dev
     steps:
     - name: Git clone the repository
@@ -217,7 +216,6 @@ jobs:
       contents: read  # This is required for actions/checkout
     needs: [ tag_version, post_dev_deploy_tests, paketo_build, copilot_environments_workflow_setup ]
     runs-on: ubuntu-latest
-    continue-on-error: true
     environment: test
     steps:
     - name: Git clone the repository
@@ -285,7 +283,6 @@ jobs:
       contents: read  # This is required for actions/checkout
     needs: [ tag_version, post_test_deploy_tests, paketo_build, copilot_environments_workflow_setup ]
     runs-on: ubuntu-latest
-    continue-on-error: true
     environment: uat
     steps:
     - name: Git clone the repository
@@ -353,7 +350,6 @@ jobs:
       contents: read  # This is required for actions/checkout
     needs: [ tag_version, post_uat_deploy_tests, paketo_build, copilot_environments_workflow_setup ]
     runs-on: ubuntu-latest
-    continue-on-error: true
     environment: production
     steps:
     - name: Git clone the repository
