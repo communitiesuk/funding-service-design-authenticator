@@ -138,10 +138,10 @@ jobs:
       run: |
         copilot svc deploy --env ${{ matrix.value }} --app pre-award
 
-  sandbox_deploy:
+  dev_deploy:
     if: ${{ needs.copilot_environments_workflow_setup.outputs.pre_matrix != '' && toJson(fromJson(needs.copilot_environments_workflow_setup.outputs.pre_matrix)) != '[]' }}
     concurrency:
-      group: 'fsd-preaward-copilot-sandbox-${{ matrix.value }}'
+      group: 'fsd-preaward-copilot-dev'
       cancel-in-progress: false
     permissions:
       id-token: write # This is required for requesting the JWT
@@ -149,12 +149,7 @@ jobs:
     needs: [ tag_version, pre_deploy_tests, paketo_build, copilot_environments_workflow_setup ]
     runs-on: ubuntu-latest
     continue-on-error: true
-    strategy:
-      max-parallel: 1
-      matrix:
-        value: ${{ fromJSON(needs.copilot_environments_workflow_setup.outputs.pre_matrix) }}
-      fail-fast: false
-    environment: ${{ matrix.value }}
+    environment: dev
     steps:
     - name: Git clone the repository
       uses: actions/checkout@v4
@@ -168,7 +163,7 @@ jobs:
       uses: aws-actions/configure-aws-credentials@v4
       with:
         role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT }}:role/GithubCopilotDeploy
-        role-session-name: AUTHENTICATOR_${{ matrix.value }}_COPILOT_${{ steps.currentdatetime.outputs.datetime }}
+        role-session-name: AUTHENTICATOR_DEV_COPILOT_${{ steps.currentdatetime.outputs.datetime }}
         aws-region: eu-west-2
 
     - name: Install AWS Copilot CLI
@@ -179,7 +174,7 @@ jobs:
     - name: confirm copilot env
       shell: bash
       run: |
-        if [ $(copilot env ls) != "${{ matrix.value }}" ]; then
+        if [ $(copilot env ls) != "dev" ]; then
           echo $(copilot env ls)
           exit 1
         fi
@@ -192,14 +187,85 @@ jobs:
       run: |
         yq -i '.image.location = "ghcr.io/communitiesuk/funding-service-design-authenticator:${{ github.ref_name == 'main' && 'latest' || needs.tag_version.outputs.version_to_tag }}"'  copilot/fsd-authenticator/manifest.yml
 
-    - name: Copilot ${{ matrix.value }} deploy
+    - name: Copilot dev deploy
       id: deploy_build
       run: |
-        copilot svc deploy --env ${{ matrix.value }} --app pre-award
+        copilot svc deploy --env dev --app pre-award
 
-  post_deploy_tests:
-    needs: sandbox_deploy
-    if: inputs.environment == 'test' || inputs.environment == 'dev' || inputs.environment == ''
+  post_dev_deploy_tests:
+    needs: dev_deploy
+    concurrency:
+      group: 'fsd-preaward-test-dev'
+      cancel-in-progress: false
+    secrets:
+      FSD_GH_APP_ID: ${{ secrets.FSD_GH_APP_ID }}
+      FSD_GH_APP_KEY: ${{ secrets.FSD_GH_APP_KEY }}
+    uses: communitiesuk/funding-service-design-workflows/.github/workflows/post-deploy.yml@main
+    with:
+      run_performance_tests: ${{ inputs.run_performance_tests || true }}
+      run_e2e_tests: ${{ inputs.run_e2e_tests || false }}
+      app_name: authenticator
+      environment: dev
+
+  test_deploy:
+    if: ${{ needs.copilot_environments_workflow_setup.outputs.pre_matrix != '' && toJson(fromJson(needs.copilot_environments_workflow_setup.outputs.pre_matrix)) != '[]' }}
+    concurrency:
+      group: 'fsd-preaward-copilot-test'
+      cancel-in-progress: false
+    permissions:
+      id-token: write # This is required for requesting the JWT
+      contents: read  # This is required for actions/checkout
+    needs: [ tag_version, post_dev_deploy_tests, paketo_build, copilot_environments_workflow_setup ]
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    environment: test
+    steps:
+    - name: Git clone the repository
+      uses: actions/checkout@v4
+
+    - name: Get current date
+      shell: bash
+      id: currentdatetime
+      run: echo "datetime=$(date +'%Y%m%d%H%M%S')" >> $GITHUB_OUTPUT
+
+    - name: configure aws credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT }}:role/GithubCopilotDeploy
+        role-session-name: AUTHENTICATOR_TEST_COPILOT_${{ steps.currentdatetime.outputs.datetime }}
+        aws-region: eu-west-2
+
+    - name: Install AWS Copilot CLI
+      shell: bash
+      run: |
+        curl -Lo aws-copilot https://github.com/aws/copilot-cli/releases/latest/download/copilot-linux && chmod +x aws-copilot && sudo mv aws-copilot /usr/local/bin/copilot
+
+    - name: confirm copilot env
+      shell: bash
+      run: |
+        if [ $(copilot env ls) != "test" ]; then
+          echo $(copilot env ls)
+          exit 1
+        fi
+
+    - name: Inject Git SHA into manifest
+      run: |
+        yq -i '.variables.GITHUB_SHA = "${{ github.sha }}"'  copilot/fsd-authenticator/manifest.yml
+
+    - name: Inject replacement image into manifest
+      run: |
+        yq -i '.image.location = "ghcr.io/communitiesuk/funding-service-design-authenticator:${{ github.ref_name == 'main' && 'latest' || needs.tag_version.outputs.version_to_tag }}"'  copilot/fsd-authenticator/manifest.yml
+
+    - name: Copilot test deploy
+      id: deploy_build
+      run: |
+        copilot svc deploy --env test --app pre-award
+
+  post_test_deploy_tests:
+    needs: test_deploy
+    concurrency:
+      group: 'fsd-preaward-test-test'
+      cancel-in-progress: false
     secrets:
       FSD_GH_APP_ID: ${{ secrets.FSD_GH_APP_ID }}
       FSD_GH_APP_KEY: ${{ secrets.FSD_GH_APP_KEY }}
@@ -207,26 +273,20 @@ jobs:
     with:
       run_performance_tests: ${{ inputs.run_performance_tests || false }}
       run_e2e_tests: ${{ inputs.run_e2e_tests || true }}
-      app_name: authenticator
-      environment: ${{ inputs.environment == '' && 'test' || inputs.environment }}
+      environment: test
 
-  release_deploy:
+  uat_deploy:
     if: ${{ needs.copilot_environments_workflow_setup.outputs.post_matrix != '' && toJson(fromJson(needs.copilot_environments_workflow_setup.outputs.post_matrix)) != '[]' }}
     concurrency:
-      group: 'fsd-preaward-copilot-sandbox-${{ matrix.value }}'
+      group: 'fsd-preaward-copilot-uat'
       cancel-in-progress: false
     permissions:
       id-token: write # This is required for requesting the JWT
       contents: read  # This is required for actions/checkout
-    needs: [ tag_version, post_deploy_tests, paketo_build, copilot_environments_workflow_setup ]
+    needs: [ tag_version, post_test_deploy_tests, paketo_build, copilot_environments_workflow_setup ]
     runs-on: ubuntu-latest
     continue-on-error: true
-    strategy:
-      max-parallel: 1
-      matrix:
-        value: ${{ fromJSON(needs.copilot_environments_workflow_setup.outputs.post_matrix) }}
-      fail-fast: false
-    environment: ${{ matrix.value }}
+    environment: uat
     steps:
     - name: Git clone the repository
       uses: actions/checkout@v4
@@ -240,7 +300,7 @@ jobs:
       uses: aws-actions/configure-aws-credentials@v4
       with:
         role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT }}:role/GithubCopilotDeploy
-        role-session-name: AUTHENTICATOR_${{ matrix.value }}_COPILOT_${{ steps.currentdatetime.outputs.datetime }}
+        role-session-name: AUTHENTICATOR_UAT_COPILOT_${{ steps.currentdatetime.outputs.datetime }}
         aws-region: eu-west-2
 
     - name: Install AWS Copilot CLI
@@ -251,7 +311,7 @@ jobs:
     - name: confirm copilot env
       shell: bash
       run: |
-        if [ $(copilot env ls) != "${{ matrix.value }}" ]; then
+        if [ $(copilot env ls) != "uat" ]; then
           echo $(copilot env ls)
           exit 1
         fi
@@ -264,7 +324,75 @@ jobs:
       run: |
         yq -i '.image.location = "ghcr.io/communitiesuk/funding-service-design-authenticator:${{ github.ref_name == 'main' && 'latest' || needs.tag_version.outputs.version_to_tag }}"'  copilot/fsd-authenticator/manifest.yml
 
-    - name: Copilot ${{ matrix.value }} deploy
+    - name: Copilot uat deploy
       id: deploy_build
       run: |
-        copilot svc deploy --env ${{ matrix.value }} --app pre-award
+        copilot svc deploy --env uat --app pre-award
+
+  post_uat_deploy_tests:
+    needs: uat_deploy
+    concurrency:
+      group: 'fsd-preaward-test-uat'
+      cancel-in-progress: false
+    secrets:
+      FSD_GH_APP_ID: ${{ secrets.FSD_GH_APP_ID }}
+      FSD_GH_APP_KEY: ${{ secrets.FSD_GH_APP_KEY }}
+    uses: communitiesuk/funding-service-design-workflows/.github/workflows/post-deploy.yml@main
+    with:
+      run_performance_tests: ${{ inputs.run_performance_tests || false }}
+      run_e2e_tests: ${{ inputs.run_e2e_tests || true }}
+      environment: uat
+
+  production_deploy:
+    if: ${{ needs.copilot_environments_workflow_setup.outputs.post_matrix != '' && toJson(fromJson(needs.copilot_environments_workflow_setup.outputs.post_matrix)) != '[]' }}
+    concurrency:
+      group: 'fsd-preaward-copilot-production'
+      cancel-in-progress: false
+    permissions:
+      id-token: write # This is required for requesting the JWT
+      contents: read  # This is required for actions/checkout
+    needs: [ tag_version, post_uat_deploy_tests, paketo_build, copilot_environments_workflow_setup ]
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    environment: production
+    steps:
+    - name: Git clone the repository
+      uses: actions/checkout@v4
+
+    - name: Get current date
+      shell: bash
+      id: currentdatetime
+      run: echo "datetime=$(date +'%Y%m%d%H%M%S')" >> $GITHUB_OUTPUT
+
+    - name: configure aws credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT }}:role/GithubCopilotDeploy
+        role-session-name: AUTHENTICATOR_PRODUCTION_COPILOT_${{ steps.currentdatetime.outputs.datetime }}
+        aws-region: eu-west-2
+
+    - name: Install AWS Copilot CLI
+      shell: bash
+      run: |
+        curl -Lo aws-copilot https://github.com/aws/copilot-cli/releases/latest/download/copilot-linux && chmod +x aws-copilot && sudo mv aws-copilot /usr/local/bin/copilot
+
+    - name: confirm copilot env
+      shell: bash
+      run: |
+        if [ $(copilot env ls) != "production" ]; then
+          echo $(copilot env ls)
+          exit 1
+        fi
+
+    - name: Inject Git SHA into manifest
+      run: |
+        yq -i '.variables.GITHUB_SHA = "${{ github.sha }}"'  copilot/fsd-authenticator/manifest.yml
+
+    - name: Inject replacement image into manifest
+      run: |
+        yq -i '.image.location = "ghcr.io/communitiesuk/funding-service-design-authenticator:${{ github.ref_name == 'main' && 'latest' || needs.tag_version.outputs.version_to_tag }}"'  copilot/fsd-authenticator/manifest.yml
+
+    - name: Copilot production deploy
+      id: deploy_build
+      run: |
+        copilot svc deploy --env production --app pre-award
