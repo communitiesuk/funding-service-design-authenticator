@@ -204,6 +204,7 @@ jobs:
       run_performance_tests: ${{ inputs.run_performance_tests || true }}
       run_e2e_tests: ${{ inputs.run_e2e_tests || false }}
       environment: dev
+      app_name: authenticator
 
   test_deploy:
     if: ${{ needs.copilot_environments_workflow_setup.outputs.pre_matrix != '' && toJson(fromJson(needs.copilot_environments_workflow_setup.outputs.pre_matrix)) != '[]' }}
@@ -271,6 +272,7 @@ jobs:
       run_performance_tests: ${{ inputs.run_performance_tests || false }}
       run_e2e_tests: ${{ inputs.run_e2e_tests || true }}
       environment: test
+      app_name: authenticator
 
   uat_deploy:
     if: ${{ needs.copilot_environments_workflow_setup.outputs.post_matrix != '' && toJson(fromJson(needs.copilot_environments_workflow_setup.outputs.post_matrix)) != '[]' }}
@@ -338,6 +340,7 @@ jobs:
       run_performance_tests: ${{ inputs.run_performance_tests || false }}
       run_e2e_tests: ${{ inputs.run_e2e_tests || true }}
       environment: uat
+      app_name: authenticator
 
   production_deploy:
     if: ${{ needs.copilot_environments_workflow_setup.outputs.post_matrix != '' && toJson(fromJson(needs.copilot_environments_workflow_setup.outputs.post_matrix)) != '[]' }}
