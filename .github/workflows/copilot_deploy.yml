@@ -203,7 +203,6 @@ jobs:
     with:
       run_performance_tests: ${{ inputs.run_performance_tests || true }}
       run_e2e_tests: ${{ inputs.run_e2e_tests || false }}
-      app_name: authenticator
       environment: dev
 
   test_deploy:
