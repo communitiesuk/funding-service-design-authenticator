@@ -80,6 +80,8 @@ environments:
     variables:
       ALLOW_ASSESSMENT_LOGIN_VIA_MAGIC_LINK: true
   uat:
+    http:
+      alias: ["authenticator.${COPILOT_ENVIRONMENT_NAME}.access-funding.test.levellingup.gov.uk", "authenticatoruat.access-funding.test.levellingup.gov.uk"]
     variables:
       ALLOW_ASSESSMENT_LOGIN_VIA_MAGIC_LINK: true
     count:
@@ -96,6 +98,7 @@ environments:
   production:
     http:
       alias: authenticator.production.access-funding.levellingup.gov.uk
+      # alias: ["authenticator.production.access-funding.levellingup.gov.uk", "authenticator.access-funding.levellingup.gov.uk"] # For go live
     variables:
       ALLOW_ASSESSMENT_LOGIN_VIA_MAGIC_LINK: false
       COOKIE_DOMAIN: ".levellingup.gov.uk"

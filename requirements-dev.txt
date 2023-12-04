@@ -34,7 +34,7 @@ beautifulsoup4==4.12.2
     #   -r requirements-dev.in
     #   -r requirements.txt
     #   funding-service-design-utils
-black==22.10.0
+black==22.12.0
     # via -r requirements-dev.in
 blinker==1.6.2
     # via
@@ -119,7 +119,7 @@ dnspython==2.2.1
     # via
     #   -r requirements.txt
     #   email-validator
-dparse==0.5.2
+dparse==0.6.3
     # via -r requirements-dev.in
 email-validator==1.2.1
     # via -r requirements.txt
@@ -165,7 +165,7 @@ flask-sqlalchemy==3.0.3
     #   funding-service-design-utils
 flask-talisman==0.8.1
     # via -r requirements.txt
-flask-wtf==1.0.0
+flask-wtf==1.2.1
     # via -r requirements.txt
 flipper-client==1.3.2
     # via
@@ -232,7 +232,7 @@ jsonschema==4.6.0
     #   connexion
     #   openapi-schema-validator
     #   openapi-spec-validator
-mako==1.2.2
+mako==1.3.0
     # via
     #   -r requirements.txt
     #   alembic
@@ -384,7 +384,7 @@ redis==4.4.4
     #   -r requirements.txt
     #   flask-redis
     #   flipper-client
-requests==2.28.0
+requests==2.31.0
     # via
     #   -r requirements.txt
     #   connexion
@@ -466,13 +466,12 @@ thrift==0.16.0
     #   -r requirements.txt
     #   flipper-client
 toml==0.10.2
-    # via
-    #   dparse
-    #   pre-commit
+    # via pre-commit
 tomli==2.0.1
     # via
     #   black
     #   build
+    #   dparse
     #   pyproject-hooks
     #   pytest
 trio==0.21.0
