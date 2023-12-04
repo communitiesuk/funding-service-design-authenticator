@@ -11,7 +11,7 @@ on:
         - dev
         - test
         - uat
-        - production
+        - prod
       run_performance_tests:
         required: false
         default: false
@@ -74,7 +74,7 @@ jobs:
             echo "env_list=[\"${{ inputs.environment }}\"]" >> $GITHUB_OUTPUT
           elif [ "${{ github.ref }}" == 'refs/heads/main' ]; then
             echo "pre_deploy_list=[\"dev\", \"test\"]" >> $GITHUB_OUTPUT
-            echo "post_deploy_list=[\"uat\", \"production\"]" >> $GITHUB_OUTPUT
+            echo "post_deploy_list=[\"uat\", \"prod\"]" >> $GITHUB_OUTPUT
           else
             echo "pre_deploy_list=[\"dev\", \"test\"]" >> $GITHUB_OUTPUT
           fi
@@ -342,17 +342,17 @@ jobs:
       environment: uat
       app_name: authenticator
 
-  production_deploy:
+  prod_deploy:
     if: ${{ needs.copilot_environments_workflow_setup.outputs.post_matrix != '' && toJson(fromJson(needs.copilot_environments_workflow_setup.outputs.post_matrix)) != '[]' }}
     concurrency:
-      group: 'fsd-preaward-copilot-production'
+      group: 'fsd-preaward-copilot-prod'
       cancel-in-progress: false
     permissions:
       id-token: write # This is required for requesting the JWT
       contents: read  # This is required for actions/checkout
     needs: [ tag_version, post_uat_deploy_tests, paketo_build, copilot_environments_workflow_setup ]
     runs-on: ubuntu-latest
-    environment: production
+    environment: prod
     steps:
     - name: Git clone the repository
       uses: actions/checkout@v4
@@ -377,7 +377,7 @@ jobs:
     - name: confirm copilot env
       shell: bash
       run: |
-        if [ $(copilot env ls) != "production" ]; then
+        if [ $(copilot env ls) != "prod" ]; then
           echo $(copilot env ls)
           exit 1
         fi
@@ -390,7 +390,7 @@ jobs:
       run: |
         yq -i '.image.location = "ghcr.io/communitiesuk/funding-service-design-authenticator:${{ github.ref_name == 'main' && 'latest' || needs.tag_version.outputs.version_to_tag }}"'  copilot/fsd-authenticator/manifest.yml
 
-    - name: Copilot production deploy
+    - name: Copilot prod deploy
       id: deploy_build
       run: |
-        copilot svc deploy --env production --app pre-award
+        copilot svc deploy --env prod --app pre-award
