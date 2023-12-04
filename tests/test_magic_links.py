@@ -278,7 +278,11 @@ class TestMagicLinks(AuthSessionView):
             assert landing_response.status_code == 200
             soup = BeautifulSoup(landing_response.data, "html.parser")
             assert (
-                soup.find("h2", class_="govuk-heading-m").text
+                soup.find(
+                    "h2",
+                    class_="govuk-heading-m",
+                    string="How to complete your application",
+                ).text
                 == "How to complete your application"
             )
             assert (
