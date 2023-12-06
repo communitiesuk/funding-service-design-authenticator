@@ -46,10 +46,12 @@
                 } if form.email.errors
             }) }}
                 </div>
+                <div data-qa="send_magic_link_request">
                 {{ govukButton({
-              "text": gettext("Continue"),
-              "preventDoubleClick": true,
-            }) }}
+                  "text": gettext("Continue"),
+                  "preventDoubleClick": true,
+                }) }}
+                </div>
             </form>
         </div>
     </div>

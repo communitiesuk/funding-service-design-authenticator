@@ -15,11 +15,13 @@
       {% trans %}Submission deadline:{% endtrans %} <span class="govuk-body">{{ submission_deadline|datetime_format }}</span>
     </p>
 
+    <div data-qa="claim_magic_link">
     {{ govukButton({
       "text":gettext("Continue"),
       "href": url_for('api_MagicLinksView_use', link_id=link_id, fund=fund_short_name, round=round_short_name),
       "isStartButton": true })
     }}
+    </div>
 
     <h2 class="govuk-heading-m">{% trans %}How to complete your application{% endtrans %}</h2>
 
