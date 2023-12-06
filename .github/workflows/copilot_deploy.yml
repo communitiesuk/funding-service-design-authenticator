@@ -89,7 +89,6 @@ jobs:
       contents: read  # This is required for actions/checkout
     needs: [ tag_version, pre_deploy_tests, paketo_build, copilot_environments_workflow_setup ]
     runs-on: ubuntu-latest
-    continue-on-error: true
     strategy:
       max-parallel: 1
       matrix:
