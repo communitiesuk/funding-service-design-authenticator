@@ -110,7 +110,7 @@ def create_app() -> Flask:
             secure_csp = deepcopy(Config.SECURE_CSP)
             # allow inline script related to handling cookies
             secure_csp["script-src"].append(
-                "'sha256-W6+G9WX7ZWCn2Tdi1uHvgAuT45Y2OUJa9kqVxgAM+vM='"
+                "'sha256-qJr6rnZIepboaF/c9sFdugAE+I8xpVXVPeO/lk7/Yj0='"
             )
             talisman.content_security_policy = secure_csp
 
