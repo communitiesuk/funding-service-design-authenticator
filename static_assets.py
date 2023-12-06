@@ -27,10 +27,12 @@ def init_assets(
             "./js/namespaces.js",
             "./js/helpers.js",
             "./js/all.js",
-            "./js/components/*/*.js",
+            "./js/fsd_cookies.js",
+            "./js/components/**/*.js",
             filters="jsmin",
             output="js/main.min.js",
         )
+
         css = Bundle(
             "./scss/*.scss",
             filters="pyscss,cssmin",

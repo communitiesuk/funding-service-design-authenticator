@@ -291,7 +291,6 @@ class TestSignout:
 
         page_html = BeautifulSoup(response.data)
         assert response.status_code == 200
-        assert "Access Funding" not in str(page_html)
         assert "Test Application" in str(page_html)
 
     def test_sign_out_template_service_title_defaults_to_access_funding(

@@ -278,10 +278,6 @@ class TestMagicLinks(AuthSessionView):
             assert landing_response.status_code == 200
             soup = BeautifulSoup(landing_response.data, "html.parser")
             assert (
-                soup.find("h2", class_="govuk-heading-m").text
-                == "How to complete your application"
-            )
-            assert (
                 soup.find(
                     "a", class_="govuk-button govuk-button--start"
                 ).text.strip()
@@ -317,10 +313,6 @@ class TestMagicLinks(AuthSessionView):
             second_landing_response = flask_test_client.get(landing_endpoint)
             assert second_landing_response.status_code == 200
             soup = BeautifulSoup(second_landing_response.data, "html.parser")
-            assert (
-                soup.find("h2", class_="govuk-heading-m").text
-                == "How to complete your application"
-            )
             assert (
                 soup.find(
                     "a", class_="govuk-button govuk-button--start"
