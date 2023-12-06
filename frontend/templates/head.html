@@ -5,7 +5,7 @@
 <!--[if IE 8]><link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='govuk-frontend/govuk-frontend-ie8-4.0.0.min.css') }}" /><![endif]-->
 <!--[if gt IE 8]><!--><link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.min.css') }}" /><!--<![endif]-->
 {% assets "main_js" %}
-    <script nonce="{{ csp_nonce() }}" type="text/javascript" src="{{ ASSET_URL }}" async></script>
+    <script nonce="{{ csp_nonce() }}" type="text/javascript" src="{{ ASSET_URL }}" defer></script>
 {% endassets %}
 
 {% block bodyStart %}
@@ -65,27 +65,31 @@
 {% endblock bodyStart %}
 {# funding-service-design-authenticator/app.py:112 (relative sha256) #}
 <script nonce="{{ csp_nonce() }}">
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments) }
+    function loadSecondScript() {
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments) }
 
-    function initCookieState() {
-        const localConsentMode = readConsentCookie();
+        function initCookieState() {
+            const localConsentMode = readConsentCookie();
 
-        if (!localConsentMode) {
-            gtag('consent', 'default', DEFAULT_CONSENT);
-            unhideCookiesMessage();
-        } else {
-            gtag('consent', 'default', readConsentCookie());
+            if (!localConsentMode) {
+                gtag('consent', 'default', DEFAULT_CONSENT);
+                unhideCookiesMessage();
+            } else {
+                gtag('consent', 'default', readConsentCookie());
+            }
+
+            document.getElementById("accept_cookies_btn").addEventListener("click", acceptCookies);
+            document.getElementById("deny_cookies_btn").addEventListener("click", denyCookies);
+            document.getElementsByName("cookies-hide-btn").forEach(element => {
+                element.addEventListener("click", hideCookiesMessage);
+            });
         }
 
-        document.getElementById("accept_cookies_btn").addEventListener("click", acceptCookies);
-        document.getElementById("deny_cookies_btn").addEventListener("click", denyCookies);
-        document.getElementsByName("cookies-hide-btn").forEach(element => {
-            element.addEventListener("click", hideCookiesMessage);
-        });
+        initCookieState();
     }
 
-    initCookieState();
+    document.addEventListener("DOMContentLoaded", loadSecondScript);
 </script>
 <!-- Google Tag Manager -->
 <script>(function (w, d, s, l, i) {
