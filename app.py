@@ -1,3 +1,4 @@
+from copy import deepcopy
 from pathlib import Path
 from typing import Any
 from typing import Dict
@@ -106,7 +107,12 @@ def create_app() -> Flask:
             talisman.content_security_policy = Config.SWAGGER_CSP
             talisman.content_security_policy_nonce_in = ["None"]
         else:
-            talisman.content_security_policy = Config.SECURE_CSP
+            secure_csp = deepcopy(Config.SECURE_CSP)
+            # allow inline script related to handling cookies
+            secure_csp["script-src"].append(
+                "'sha256-W6+G9WX7ZWCn2Tdi1uHvgAuT45Y2OUJa9kqVxgAM+vM='"
+            )
+            talisman.content_security_policy = secure_csp
 
     # This is silently used by flask in the background.
     @flask_app.context_processor
