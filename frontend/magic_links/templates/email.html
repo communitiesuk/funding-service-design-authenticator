@@ -1,12 +1,17 @@
 {%- from "govuk_frontend_jinja/components/error-summary/macro.html" import govukErrorSummary -%}
 {%- from "govuk_frontend_jinja/components/input/macro.html" import govukInput -%}
 {%- from "govuk_frontend_jinja/components/button/macro.html" import govukButton -%}
+{% from "partials/migration_banner.html" import migration_banner %}
 
 {% extends "base.html" %}
 
 {% set pageHeading %}{% trans %}Email address{% endtrans %}{% endset %}
 
 {% block content %}
+
+{% if migration_banner_enabled %}
+  {{migration_banner()}}
+{% endif %}
 
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
