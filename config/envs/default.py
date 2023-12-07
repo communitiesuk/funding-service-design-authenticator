@@ -283,3 +283,5 @@ class DefaultConfig(object):
     }
 
     BABEL_TRANSLATION_DIRECTORIES = "frontend/translations"
+
+    MIGRATION_BANNER_ENABLED = True

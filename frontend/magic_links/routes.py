@@ -102,6 +102,7 @@ def landing(link_id):
             fund_short_name=fund_short_name,
             round_short_name=round_short_name,
             application_guidance=app_guidance,
+            migration_banner_enabled=Config.MIGRATION_BANNER_ENABLED,
         )
     return redirect(
         url_for(
@@ -155,6 +156,7 @@ def new():
                     email=form.data.get("email"),
                     fund=fund_short_name,
                     round=round_short_name,
+                    migration_banner_enabled=Config.MIGRATION_BANNER_ENABLED,
                 )
             )
 
@@ -165,7 +167,12 @@ def new():
         except AccountError as e:
             form.email.errors.append(str(e.message))
 
-    return render_template("email.html", form=form, fund_round=fund_round)
+    return render_template(
+        "email.html",
+        form=form,
+        fund_round=fund_round,
+        migration_banner_enabled=Config.MIGRATION_BANNER_ENABLED,
+    )
 
 
 @magic_links_bp.route("/check-email", methods=["GET"])
@@ -180,4 +187,5 @@ def check_email():
         email=request.args.get("email"),
         fund=request.args.get("fund"),
         round=request.args.get("round"),
+        migration_banner_enabled=Config.MIGRATION_BANNER_ENABLED,
     )
