@@ -97,8 +97,7 @@ environments:
       response_time: 2s
   prod:
     http:
-      alias: authenticator.prod.access-funding.levellingup.gov.uk
-      # alias: ["authenticator.prod.access-funding.levellingup.gov.uk", "authenticator.access-funding.levellingup.gov.uk"] # For go live
+      alias: ["authenticator.prod.access-funding.levellingup.gov.uk", "authenticator.access-funding.levellingup.gov.uk"]
     variables:
       ALLOW_ASSESSMENT_LOGIN_VIA_MAGIC_LINK: false
       COOKIE_DOMAIN: ".levellingup.gov.uk"
