@@ -284,4 +284,4 @@ class DefaultConfig(object):
 
     BABEL_TRANSLATION_DIRECTORIES = "frontend/translations"
 
-    MIGRATION_BANNER_ENABLED = True
+    MIGRATION_BANNER_ENABLED = getenv("MIGRATION_BANNER_ENABLED", False)
