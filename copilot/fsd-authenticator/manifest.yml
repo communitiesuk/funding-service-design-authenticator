@@ -81,7 +81,7 @@ environments:
       ALLOW_ASSESSMENT_LOGIN_VIA_MAGIC_LINK: true
   uat:
     http:
-      alias: ["authenticator.${COPILOT_ENVIRONMENT_NAME}.access-funding.test.levellingup.gov.uk", "authenticatoruat.access-funding.test.levellingup.gov.uk"]
+      alias: "authenticator.${COPILOT_ENVIRONMENT_NAME}.access-funding.test.levellingup.gov.uk"
     variables:
       ALLOW_ASSESSMENT_LOGIN_VIA_MAGIC_LINK: true
     count:
