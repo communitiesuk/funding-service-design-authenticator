@@ -97,11 +97,8 @@ environments:
       response_time: 2s
   prod:
     http:
-      alias:
-        - name: authenticator.prod.access-funding.levellingup.gov.uk
-          hosted_zone: Z099557827NHZ3U2BZ9FP
-        - name: authenticator.access-funding.levellingup.gov.uk
-          hosted_zone: Z0686469NF3ZJTU9I02M
+      alias: ["authenticator.prod.access-funding.levellingup.gov.uk", "authenticator.access-funding.levellingup.gov.uk"]
+      hosted_zone: Z0686469NF3ZJTU9I02M
     variables:
       ALLOW_ASSESSMENT_LOGIN_VIA_MAGIC_LINK: false
       COOKIE_DOMAIN: ".levellingup.gov.uk"
