@@ -17,7 +17,9 @@ def index():
 
 @default_bp.errorhandler(404)
 def not_found(error):
-    current_app.logger.warning(f"Encountered 404: {error}")
+    current_app.logger.warning(
+        f"Encountered 404 against url {request.path}: {error}"
+    )
     fund_short_name = request.args.get("fund")
     round_short_name = request.args.get("round")
     round_data = get_round_data_fail_gracefully(
