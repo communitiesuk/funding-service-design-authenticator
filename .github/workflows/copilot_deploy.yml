@@ -25,7 +25,14 @@ on:
   push:
     paths:
       - '!**/README.md'
-      - 'app/**'
+      - '!docs/**'
+      - 'api/**'
+      - 'config/**'
+      - 'frontend/**'
+      - 'models/**'
+      - 'openapi/**'
+      - 'run/**'
+      - 'security/**'
       - 'tests/**'
       - 'requirements-dev.in'
       - 'requirements-dev.txt'
