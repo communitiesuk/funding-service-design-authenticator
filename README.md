@@ -4,7 +4,7 @@
 ![Funding Service Design Authenticator Deploy](https://github.com/communitiesuk/funding-service-design-authenticator/actions/workflows/deploy.yml/badge.svg)
 [![CodeQL](https://github.com/communitiesuk/funding-service-design-authenticator/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/communitiesuk/funding-service-design-autheticator/actions/workflows/codeql-analysis.yml)
 
-This is the authenticator for funding service design Access Funding and Assessment. This service provides an API and associated model implementation required for authentication of frontend and assessment.
+This is the authenticator repository for funding service design microservices. This service provides an API and associated model implementation required for authentication of frontend, assessment and other FSD services.
 
 [Developer setup guide](https://github.com/communitiesuk/funding-service-design-workflows/blob/main/readmes/python-repos-setup.md)
 
