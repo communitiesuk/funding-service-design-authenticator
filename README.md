@@ -43,25 +43,25 @@ Paketo is used to build the docker image which gets deployed to our test and pro
 
 For Authenticator,
 `envs` needs to include values for each of:
-AUTHENTICATOR_HOST
-ACCOUNT_STORE_API_HOST
-APPLICATION_STORE_API_HOST
-NOTIFICATION_SERVICE_HOST
-APPLICANT_FRONTEND_HOST
-ASSESSMENT_FRONTEND_HOST
-FUND_STORE_API_HOST
-RSA256_PUBLIC_KEY_BASE64
-RSA256_PRIVATE_KEY_BASE64
-AZURE_AD_CLIENT_ID
-AZURE_AD_CLIENT_SECRET
-AZURE_AD_TENANT_ID
-SECRET_KEY
-COOKIE_DOMAIN
-SENTRY_DSN
-GITHUB_SHA
-ALLOW_ASSESSMENT_LOGIN_VIA_MAGIC_LINK
-POST_AWARD_FRONTEND_HOST
+- `AUTHENTICATOR_HOST`
+- `ACCOUNT_STORE_API_HOST`
+- `APPLICATION_STORE_API_HOST`
+- `NOTIFICATION_SERVICE_HOST`
+- `APPLICANT_FRONTEND_HOST`
+- `ASSESSMENT_FRONTEND_HOST`
+- `FUND_STORE_API_HOST`
+- `RSA256_PUBLIC_KEY_BASE64`
+- `RSA256_PRIVATE_KEY_BASE64`
+- `AZURE_AD_CLIENT_ID`
+- `AZURE_AD_CLIENT_SECRET`
+- `AZURE_AD_TENANT_ID`
+- `SECRET_KEY`
+- `COOKIE_DOMAIN`
+- `SENTRY_DSN`
+- `GITHUB_SHA`
+- `ALLOW_ASSESSMENT_LOGIN_VIA_MAGIC_LINK`
+- `POST_AWARD_FRONTEND_HOST`
 ## Copilot
-Copilot is used for infrastructure deployment. Instructions are available [here](https://github.com/communitiesuk/funding-service-design-workflows/blob/main/readmes/python-repos-copilot.md), with the following values for the fund store:
+Copilot is used for infrastructure deployment. Instructions are available [here](https://github.com/communitiesuk/funding-service-design-workflows/blob/main/readmes/python-repos-copilot.md), with the following values for the authenticator:
 - service-name: fsd-authenticator
 - image-name: funding-service-design-authenticator
