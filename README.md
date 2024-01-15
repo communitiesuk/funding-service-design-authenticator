@@ -9,7 +9,7 @@ This is the authenticator repository for funding service design microservices. T
 [Developer setup guide](https://github.com/communitiesuk/funding-service-design-workflows/blob/main/readmes/python-repos-setup.md)
 
 This service depends on:
-- A redis instance
+- A redis instance for storing magic links
 - [fund-store](https://github.com/communitiesuk/funding-service-design-fund-store)
 - [account-store](https://github.com/communitiesuk/funding-service-design-account-store)
 - [notification](https://github.com/communitiesuk/funding-service-design-notification)
@@ -21,11 +21,7 @@ If you want an overview of how this service functions including architecture and
 
 # Translations
 
-Updating translations:
-
-    pybabel extract -F babel.cfg -k lazy_gettext -o messages.pot .
-    pybabel update -i messages.pot -d frontend/translations
-    pybabel compile -d frontend/translations
+This repo uses pybable for translation. Useful commands contained in [tasks.py](./taskspy), more detail available [here](https://dluhcdigital.atlassian.net/wiki/spaces/FS/pages/79174033/How+to+update+Welsh+translations+in+Access+Funding)
 
 
 # Testing
