@@ -72,7 +72,7 @@ jobs:
       packages: write
     uses: communitiesuk/funding-service-design-workflows/.github/workflows/package.yml@main
     with:
-      version_to_build: ${{ needs.tag_version.outputs.version_to_tag }}
+      version_to_build: sha-${{ github.sha }}
       owner: ${{ github.repository_owner }}
       application: funding-service-design-authenticator
       assets_required: true
