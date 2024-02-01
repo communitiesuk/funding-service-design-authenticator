@@ -110,7 +110,7 @@ jobs:
     secrets:
       AWS_ACCOUNT: ${{ secrets.AWS_ACCOUNT }}
     with:
-      environment: 'test'
+      environment: test
       app_name: authenticator
       version: sha-${{ github.sha }}
 
