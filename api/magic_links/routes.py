@@ -52,14 +52,9 @@ class MagicLinksView(MagicLinkMethods, MethodView):
             self.redis_mlinks.delete(user_key)
 
             # Check account exists
-            account = AccountMethods.get_account(
-                account_id=link.get("accountId")
-            )
+            account = AccountMethods.get_account(account_id=link.get("accountId"))
             if not account:
-                current_app.logger.error(
-                    "Tried to use magic link for "
-                    f"non-existent account_id {link.get('accountId')}"
-                )
+                current_app.logger.error(f"Tried to use magic link for non-existent account_id {link.get('accountId')}")
                 redirect(
                     url_for(
                         "magic_links_bp.invalid",
@@ -94,13 +89,9 @@ class MagicLinksView(MagicLinkMethods, MethodView):
                 "fund": fund_short_name,
                 "round": round_short_name,
             }
-            query_params = {
-                k: v for k, v in query_params.items() if v is not None
-            }
+            query_params = {k: v for k, v in query_params.items() if v is not None}
             query_string = urllib.parse.urlencode(query_params)
-            frontend_account_url = (
-                f"{Config.MAGIC_LINK_REDIRECT_URL}?{query_string}"
-            )
+            frontend_account_url = f"{Config.MAGIC_LINK_REDIRECT_URL}?{query_string}"
             current_app.logger.warn(
                 f"The magic link with hash: '{link_hash}' has already been"
                 f" used but the user with account_id: '{g.account_id}' is"

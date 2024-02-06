@@ -62,9 +62,7 @@ def mock_update_account(mocker):
 
 
 class TestAccountMethods(object):
-    def test_create_or_update_existing_account(
-        self, mock_get_account, mock_update_account
-    ):
+    def test_create_or_update_existing_account(self, mock_get_account, mock_update_account):
         result = AccountMethods.create_or_update_account(
             email="john.Doe@example.com",
             azure_ad_subject_id="test_azure_id",
@@ -78,9 +76,7 @@ class TestAccountMethods(object):
         assert result.azure_ad_subject_id == azure_ad_subject_id
 
     @pytest.mark.new_account(True)
-    def test_create_or_update_new_account(
-        self, mock_get_account, mock_create_account, mock_update_account
-    ):
+    def test_create_or_update_new_account(self, mock_get_account, mock_create_account, mock_update_account):
         result = AccountMethods.create_or_update_account(
             email="john.Doe@example.com",
             azure_ad_subject_id="test_azure_id",

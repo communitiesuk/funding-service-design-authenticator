@@ -14,9 +14,7 @@ def enable_notifications(monkeypatch):
     monkeypatch.setattr(Config, "DISABLE_NOTIFICATION_SERVICE", False)
 
 
-def test_notification_send_disabled(
-    app_context, disable_notifications, caplog
-):
+def test_notification_send_disabled(app_context, disable_notifications, caplog):
     template_type = "welcome"
     to_email = "test@example.com"
     content = {"name": "John"}
@@ -27,9 +25,7 @@ def test_notification_send_disabled(
     assert "Notification service is disabled" in caplog.text
 
 
-def test_notification_send_success(
-    app_context, monkeypatch, enable_notifications
-):
+def test_notification_send_success(app_context, monkeypatch, enable_notifications):
     monkeypatch.setattr("models.notification.post_data", lambda *_: True)
 
     template_type = "welcome"
@@ -48,9 +44,7 @@ def test_notification_send_failure(monkeypatch, enable_notifications):
     to_email = "test@example.com"
     content = {"name": "John"}
 
-    with pytest.raises(
-        NotificationError, match="Sorry, the notification could not be sent"
-    ):
+    with pytest.raises(NotificationError, match="Sorry, the notification could not be sent"):
         Notification.send(template_type, to_email, content)
 
 

@@ -49,10 +49,7 @@ magic_link_routes_and_test_content = {
         {
             "tag": "p",
             "name": None,
-            "contains": (
-                "Check your spam or junk folder – if it still has not arrived,"
-                " you can"
-            ),
+            "contains": "Check your spam or junk folder – if it still has not arrived, you can",
         },
         {
             "tag": "a",
@@ -74,10 +71,7 @@ magic_link_routes_and_test_content = {
         {
             "tag": "p",
             "name": None,
-            "contains": (
-                "If you need a new email with a link to access your"
-                " applications you can"
-            ),
+            "contains": "If you need a new email with a link to access your applications you can",
         },
         {
             "tag": "a",
@@ -94,10 +88,7 @@ magic_link_routes_and_test_content = {
         {
             "tag": "p",
             "id": "email-hint",
-            "contains": (
-                "We’ll use this to confirm your email address and show your"
-                " applications."
-            ),
+            "contains": "We’ll use this to confirm your email address and show your applications.",
         },
         {
             "tag": "button",
@@ -116,10 +107,7 @@ magic_link_routes_and_test_content = {
         },
         {
             "tag": "p",
-            "contains": (
-                "To access your application, you need to request a new link."
-                " The link will work for 24 hours."
-            ),
+            "contains": "To access your application, you need to request a new link. The link will work for 24 hours.",
         },
         {
             "tag": "a",
@@ -134,10 +122,7 @@ magic_link_routes_and_test_content = {
         },
         {
             "tag": "p",
-            "contains": (
-                "To re-access your account, please click below to request a"
-                " new link."
-            ),
+            "contains": "To re-access your account, please click below to request a new link.",
         },
         {
             "tag": "a",
@@ -156,10 +141,7 @@ magic_link_routes_and_test_content = {
         },
         {
             "tag": "p",
-            "contains": (
-                "To re-access your account, please click below to request a"
-                " new link."
-            ),
+            "contains": "To re-access your account, please click below to request a new link.",
         },
         {
             "tag": "a",
@@ -178,10 +160,7 @@ magic_link_routes_and_test_content = {
         },
         {
             "tag": "p",
-            "contains": (
-                "To re-access your account, please click below to request a"
-                " new link."
-            ),
+            "contains": "To re-access your account, please click below to request a new link.",
         },
         {
             "tag": "a",

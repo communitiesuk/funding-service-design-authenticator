@@ -31,8 +31,7 @@ def user():
     if logged_in_user:
         if roles_required:
             if logged_in_user.roles and all(
-                role_required in logged_in_user.roles
-                for role_required in roles_required.upper().split("|")
+                role_required in logged_in_user.roles for role_required in roles_required.upper().split("|")
             ):
                 roles_required = None
             else:

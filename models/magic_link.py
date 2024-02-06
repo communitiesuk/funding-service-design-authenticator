@@ -50,9 +50,7 @@ class MagicLinkMethods(object):
         :return: Json Response
         """
         if not Config.FLASK_ENV == "production":
-            return Response(
-                json.dumps(self.links), mimetype="application/json"
-            )
+            return Response(json.dumps(self.links), mimetype="application/json")
         else:
             return abort(403)
 
@@ -114,9 +112,7 @@ class MagicLinkMethods(object):
         new_link_json.update({"token": create_token(new_link_json)})
         return new_link_json
 
-    def _set_unique_keyed_record(
-        self, value: str, prefix=None, max_tries: int = 6
-    ) -> tuple | None:
+    def _set_unique_keyed_record(self, value: str, prefix=None, max_tries: int = 6) -> tuple | None:
         """
         Attempts up to max_tries to save the record with a unique short key
         that doesn't already exist (and returns None if it fails)
@@ -195,13 +191,7 @@ class MagicLinkMethods(object):
         self.clear_existing_user_record(account.id)
 
         if not redirect_url:
-            redirect_url = (
-                Config.MAGIC_LINK_REDIRECT_URL
-                + "?fund="
-                + fund_short_name
-                + "&round="
-                + round_short_name
-            )
+            redirect_url = Config.MAGIC_LINK_REDIRECT_URL + "?fund=" + fund_short_name + "&round=" + round_short_name
 
         new_link_json = self._make_link_json(account, redirect_url)
 
@@ -227,11 +217,7 @@ class MagicLinkMethods(object):
                 )
 
             else:
-                magic_link_url = (
-                    Config.AUTHENTICATOR_HOST
-                    + Config.MAGIC_LINK_LANDING_PAGE
-                    + link_key
-                )
+                magic_link_url = Config.AUTHENTICATOR_HOST + Config.MAGIC_LINK_LANDING_PAGE + link_key
 
             new_link_json.update(
                 {
@@ -242,7 +228,5 @@ class MagicLinkMethods(object):
             current_app.logger.info(f"Magic link created for {account}")
             return new_link_json
 
-        current_app.logger.error(
-            f"Magic link for account {account} could not be created"
-        )
+        current_app.logger.error(f"Magic link for account {account} could not be created")
         raise MagicLinkError(message="Could not create a magic link")

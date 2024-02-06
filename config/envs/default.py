@@ -13,9 +13,7 @@ from fsd_utils import configclass
 from fsd_utils.authentication.config import SupportedApp
 
 
-SafeAppConfig = namedtuple(
-    "SafeAppConfig", ("login_url", "logout_endpoint", "service_title")
-)
+SafeAppConfig = namedtuple("SafeAppConfig", ("login_url", "logout_endpoint", "service_title"))
 
 
 @configclass
@@ -44,9 +42,7 @@ class DefaultConfig(object):
     NEW_LINK_ENDPOINT = "/service/magic-links/new"
     SSO_LOGOUT_ENDPOINT = "api_sso_routes_SsoView_logout"
     SSO_LOGIN_ENDPOINT = "api_sso_routes_SsoView_login"
-    SSO_POST_SIGN_OUT_URL = (
-        AUTHENTICATOR_HOST + "/service/sso/signed-out/signout-request"
-    )
+    SSO_POST_SIGN_OUT_URL = AUTHENTICATOR_HOST + "/service/sso/signed-out/signout-request"
 
     AUTO_REDIRECT_LOGIN = False
 
@@ -79,9 +75,7 @@ class DefaultConfig(object):
 
     # GOV.UK PaaS
     if environ.get("VCAP_SERVICES"):
-        VCAP_SERVICES = VcapServices.from_env_json(
-            environ.get("VCAP_SERVICES")
-        )
+        VCAP_SERVICES = VcapServices.from_env_json(environ.get("VCAP_SERVICES"))
 
     """
     Session
@@ -103,9 +97,7 @@ class DefaultConfig(object):
     FSD_SESSION_TIMEOUT_SECONDS = CommonConfig.FSD_SESSION_TIMEOUT_SECONDS
     WTF_CSRF_TIME_LIMIT = CommonConfig.WTF_CSRF_TIME_LIMIT
     CREATE_APPLICATION_ON_ACCOUNT_CREATION = False
-    ALLOW_ASSESSMENT_LOGIN_VIA_MAGIC_LINK = strtobool(
-        getenv("ALLOW_ASSESSMENT_LOGIN_VIA_MAGIC_LINK", "True")
-    )
+    ALLOW_ASSESSMENT_LOGIN_VIA_MAGIC_LINK = strtobool(getenv("ALLOW_ASSESSMENT_LOGIN_VIA_MAGIC_LINK", "True"))
 
     """
     APIs Config: contains api hosts (set in manifest.yml)
@@ -126,39 +118,24 @@ class DefaultConfig(object):
     SEND_ENDPOINT = "/send"
 
     # Applicant Frontend
-    APPLICANT_FRONTEND_HOST = environ.get(
-        "APPLICANT_FRONTEND_HOST", "frontend"
-    )
-    APPLICANT_FRONTEND_ACCESSIBILITY_STATEMENT_URL = (
-        APPLICANT_FRONTEND_HOST + "/accessibility_statement"
-    )
-    APPLICANT_FRONTEND_COOKIE_POLICY_URL = (
-        APPLICANT_FRONTEND_HOST + "/cookie_policy"
-    )
+    APPLICANT_FRONTEND_HOST = environ.get("APPLICANT_FRONTEND_HOST", "frontend")
+    APPLICANT_FRONTEND_ACCESSIBILITY_STATEMENT_URL = APPLICANT_FRONTEND_HOST + "/accessibility_statement"
+    APPLICANT_FRONTEND_COOKIE_POLICY_URL = APPLICANT_FRONTEND_HOST + "/cookie_policy"
     APPLICANT_FRONTEND_CONTACT_US_URL = APPLICANT_FRONTEND_HOST + "/contact_us"
     APPLICANT_FRONTEND_PRIVACY_URL = APPLICANT_FRONTEND_HOST + "/privacy"
     APPLICANT_FRONTEND_FEEDBACK_URL = APPLICANT_FRONTEND_HOST + "/feedback"
-    APPLICATION_ALL_QUESTIONS_URL = (
-        APPLICANT_FRONTEND_HOST
-        + "/all_questions/{fund_short_name}/{round_short_name}"
-    )
+    APPLICATION_ALL_QUESTIONS_URL = APPLICANT_FRONTEND_HOST + "/all_questions/{fund_short_name}/{round_short_name}"
 
     # Assessment Frontend
     ASSESSMENT_FRONTEND_HOST = environ.get("ASSESSMENT_FRONTEND_HOST", "")
-    ASSESSMENT_POST_LOGIN_URL = (
-        ASSESSMENT_FRONTEND_HOST + "/assess/assessor_dashboard"
-    )
-    FSD_ASSESSMENT_SESSION_TIMEOUT_SECONDS = (
-        CommonConfig.FSD_SESSION_TIMEOUT_SECONDS
-    )
+    ASSESSMENT_POST_LOGIN_URL = ASSESSMENT_FRONTEND_HOST + "/assess/assessor_dashboard"
+    FSD_ASSESSMENT_SESSION_TIMEOUT_SECONDS = CommonConfig.FSD_SESSION_TIMEOUT_SECONDS
 
     # Fund store service
     FUND_STORE_API_HOST = CommonConfig.FUND_STORE_API_HOST
     FUND_STORE_FUND_ENDPOINT = CommonConfig.FUND_ENDPOINT
 
-    GET_ROUND_DATA_FOR_FUND_ENDPOINT = (
-        FUND_STORE_API_HOST + CommonConfig.ROUND_ENDPOINT
-    )
+    GET_ROUND_DATA_FOR_FUND_ENDPOINT = FUND_STORE_API_HOST + CommonConfig.ROUND_ENDPOINT
 
     # Post-award frontend
     POST_AWARD_FRONTEND_HOST = environ.get("POST_AWARD_FRONTEND_HOST", "")
@@ -202,9 +179,7 @@ class DefaultConfig(object):
     # RSA 256 KEYS
     RSA256_PRIVATE_KEY_BASE64 = environ.get("RSA256_PRIVATE_KEY_BASE64")
     if RSA256_PRIVATE_KEY_BASE64:
-        RSA256_PRIVATE_KEY = base64.b64decode(
-            RSA256_PRIVATE_KEY_BASE64
-        ).decode()
+        RSA256_PRIVATE_KEY = base64.b64decode(RSA256_PRIVATE_KEY_BASE64).decode()
     RSA256_PUBLIC_KEY_BASE64 = environ.get("RSA256_PUBLIC_KEY_BASE64")
     if RSA256_PUBLIC_KEY_BASE64:
         RSA256_PUBLIC_KEY = base64.b64decode(RSA256_PUBLIC_KEY_BASE64).decode()

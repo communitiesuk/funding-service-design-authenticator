@@ -8,9 +8,7 @@ from models.fund import FundMethods
 class TestFund:
     def testGetFund(self, app_context):
         fund = FundMethods.get_fund(fund_short_name="COF")
-        assert (
-            DefaultConfig.FUND_ID_COF == fund.identifier
-        ), "Unexpected fund ID"
+        assert DefaultConfig.FUND_ID_COF == fund.identifier, "Unexpected fund ID"
         assert "Community Ownership Fund" == fund.name, "Unexpected fund name"
 
     def test_get_service_name(self, app_context, mocker):
@@ -23,10 +21,7 @@ class TestFund:
                 "name": "Community Ownership Fund",
                 "fund_title": "funding to save an asset in your community",
                 "short_name": "COF",
-                "description": (
-                    "The Community Ownership Fund is a £150 million fund over"
-                    " 4 years to...."
-                ),
+                "description": "The Community Ownership Fund is a £150 million fund over 4 years to....",
             }
         )
         # Mock request object with query parameters
@@ -54,10 +49,9 @@ class TestFund:
 
             # Check that the get_data function was called
             mock_get_data.assert_called_once_with(
-                endpoint=(
-                    DefaultConfig.FUND_STORE_API_HOST
-                    + DefaultConfig.FUND_STORE_FUND_ENDPOINT
-                ).format(fund_id="TF"),
+                endpoint=(DefaultConfig.FUND_STORE_API_HOST + DefaultConfig.FUND_STORE_FUND_ENDPOINT).format(
+                    fund_id="TF"
+                ),
                 params={"language": "en", "use_short_name": True},
             )
 
@@ -75,10 +69,9 @@ class TestFund:
 
             # Check that the get_data function was called
             mock_get_data.assert_called_once_with(
-                endpoint=(
-                    DefaultConfig.FUND_STORE_API_HOST
-                    + DefaultConfig.FUND_STORE_FUND_ENDPOINT
-                ).format(fund_id="TF"),
+                endpoint=(DefaultConfig.FUND_STORE_API_HOST + DefaultConfig.FUND_STORE_FUND_ENDPOINT).format(
+                    fund_id="TF"
+                ),
                 params={"language": "en", "use_short_name": True},
             )
 

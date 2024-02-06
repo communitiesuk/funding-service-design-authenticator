@@ -35,9 +35,7 @@ class Notification(object):
                 - Content:
             """
             )
-            current_app.logger.info(
-                f"{template_msg}{json.dumps(content, indent=4)}"
-            )
+            current_app.logger.info(f"{template_msg}{json.dumps(content, indent=4)}")
             return True
 
         url = Config.NOTIFICATION_SERVICE_HOST + Config.SEND_ENDPOINT
@@ -49,9 +47,7 @@ class Notification(object):
         response = post_data(url, params)
         if response:
             return True
-        raise NotificationError(
-            message="Sorry, the notification could not be sent"
-        )
+        raise NotificationError(message="Sorry, the notification could not be sent")
 
 
 class NotificationError(Exception):

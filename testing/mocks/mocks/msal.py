@@ -51,9 +51,7 @@ class Account(dict):
 
 
 class ConfidentialClientApplication(object):
-    def acquire_token_by_auth_code_flow(
-        self, auth_code_flow, auth_response, scopes=None, **kwargs
-    ):
+    def acquire_token_by_auth_code_flow(self, auth_code_flow, auth_response, scopes=None, **kwargs):
         return {
             "id_token": 1,
             "access_token": 2,
@@ -76,9 +74,7 @@ class ConfidentialClientApplication(object):
 
 
 class HijackedConfidentialClientApplication(ConfidentialClientApplication):
-    def acquire_token_by_auth_code_flow(
-        self, auth_code_flow, auth_response, scopes=None, **kwargs
-    ):
+    def acquire_token_by_auth_code_flow(self, auth_code_flow, auth_response, scopes=None, **kwargs):
         return {
             "id_token": 1,
             "access_token": 2,
@@ -87,9 +83,7 @@ class HijackedConfidentialClientApplication(ConfidentialClientApplication):
 
 
 class RolelessConfidentialClientApplication(ConfidentialClientApplication):
-    def acquire_token_by_auth_code_flow(
-        self, auth_code_flow, auth_response, scopes=None, **kwargs
-    ):
+    def acquire_token_by_auth_code_flow(self, auth_code_flow, auth_response, scopes=None, **kwargs):
         return {
             "id_token": 1,
             "access_token": 2,

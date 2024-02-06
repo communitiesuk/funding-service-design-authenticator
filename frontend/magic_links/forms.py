@@ -15,12 +15,7 @@ class EmailForm(FlaskForm):
     email = EmailField(
         "",
         validators=[
-            DataRequired(
-                lazy_gettext(
-                    "Enter an email address in the correct format, like"
-                    " name@example.com"
-                )
-            ),
+            DataRequired(lazy_gettext("Enter an email address in the correct format, like name@example.com")),
             Email(),
         ],
     )
@@ -31,9 +26,7 @@ class EmailForm(FlaskForm):
     @property
     def error_list(self):
         error_list = []
-        csrf_error_message = gettext(
-            "Session expired, please refresh page to continue."
-        )
+        csrf_error_message = gettext("Session expired, please refresh page to continue.")
         for key, error in self.errors.items():
             if error[0] != "The CSRF token has expired":
                 error_list.append({"text": error[0], "href": "#" + key})

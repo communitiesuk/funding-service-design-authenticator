@@ -48,10 +48,7 @@ class ApplicationMethods(Application):
             List of Applications
         """
 
-        url = (
-            Config.APPLICATION_STORE_API_HOST
-            + Config.APPLICATION_STORE_APPLICATION_ENDPOINT
-        )
+        url = Config.APPLICATION_STORE_API_HOST + Config.APPLICATION_STORE_APPLICATION_ENDPOINT
         params = {"application_id": application_id}
         response = get_data(url, params)
 
@@ -59,9 +56,7 @@ class ApplicationMethods(Application):
             return Application.from_json(response)
 
     @staticmethod
-    def get_applications(
-        account_id: str, **kwargs
-    ) -> List[Application] | None:
+    def get_applications(account_id: str, **kwargs) -> List[Application] | None:
         """
         Get applications from the application store matching given params.
 
@@ -74,19 +69,14 @@ class ApplicationMethods(Application):
         if account_id is None:
             raise TypeError("Requires an account_id")
 
-        url = (
-            Config.APPLICATION_STORE_API_HOST
-            + Config.APPLICATION_STORE_APPLICATIONS_ENDPOINT
-        )
+        url = Config.APPLICATION_STORE_API_HOST + Config.APPLICATION_STORE_APPLICATIONS_ENDPOINT
         response = get_data(url, kwargs)
 
         if response:
             return [Application.from_json(item) for item in response]
 
     @staticmethod
-    def create_application(
-        account_id: str, fund_id: str, round_id: str
-    ) -> Application | None:
+    def create_application(account_id: str, fund_id: str, round_id: str) -> Application | None:
         """
         Create an application corresponding to a
         given email_address, fund_id and round_id

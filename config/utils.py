@@ -22,8 +22,6 @@ class VcapServices(object):
             raise Exception(f"Service name '{name}' not found")
         raise Exception(f"Service group '{group_key}' not found")
 
-    def get_service_credentials_value(
-        self, group_key: str, name: str, key: str
-    ):
+    def get_service_credentials_value(self, group_key: str, name: str, key: str):
         service = self.get_service_by_name(group_key, name)
         return service.get("credentials").get(key)

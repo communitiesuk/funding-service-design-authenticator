@@ -23,15 +23,11 @@ class SsoView(MethodView):
         Redirects to the Azure AD auth uri
         :return: 302 redirect to Microsoft Login
         """
-        session["flow"] = self.build_auth_code_flow(
-            scopes=Config.MS_GRAPH_PERMISSIONS_SCOPE
-        )
+        session["flow"] = self.build_auth_code_flow(scopes=Config.MS_GRAPH_PERMISSIONS_SCOPE)
 
         if return_app := request.args.get("return_app"):
             session["return_app"] = return_app
-            current_app.logger.debug(
-                f"Setting return app to {return_app} for this session"
-            )
+            current_app.logger.debug(f"Setting return app to {return_app} for this session")
 
         return redirect(session["flow"]["auth_uri"]), 302
 
@@ -44,19 +40,14 @@ class SsoView(MethodView):
         """
         post_logout_redirect_uri = request.args.get(
             "post_logout_redirect_uri",
-            Config.SSO_POST_SIGN_OUT_URL
-            + f"?{urlencode({'return_app': session['return_app']})}"
+            Config.SSO_POST_SIGN_OUT_URL + f"?{urlencode({'return_app': session['return_app']})}"
             if "return_app" in session
             else "",
         )
         azure_ad_sign_out_url = (
             Config.AZURE_AD_AUTHORITY
             + "/oauth2/v2.0/logout"
-            + (
-                "?post_logout_redirect_uri=" + post_logout_redirect_uri
-                if post_logout_redirect_uri
-                else ""
-            )
+            + ("?post_logout_redirect_uri=" + post_logout_redirect_uri if post_logout_redirect_uri else "")
         )
         session.clear()
         response = make_response(redirect(azure_ad_sign_out_url), 302)
@@ -82,9 +73,7 @@ class SsoView(MethodView):
         """
         try:
             cache = self._load_cache()
-            result = self._build_msal_app(
-                cache=cache
-            ).acquire_token_by_auth_code_flow(
+            result = self._build_msal_app(cache=cache).acquire_token_by_auth_code_flow(
                 session.get("flow", {}), request.args
             )
             if "error" in result:
@@ -104,19 +93,13 @@ class SsoView(MethodView):
             roles=session["user"].get("roles") or [],
         )
 
-        redirect_url = (
-            Config.ASSESSMENT_POST_LOGIN_URL
-        )  # TODO: Remove defaulting to Assessment, instead use return_app
+        redirect_url = Config.ASSESSMENT_POST_LOGIN_URL  # TODO: Remove defaulting to Assessment, instead use return_app
         if return_app := session.get("return_app"):
             if safe_app := Config.SAFE_RETURN_APPS.get(return_app):
                 redirect_url = safe_app.login_url
-                current_app.logger.info(
-                    f"Returning to {return_app} @ {redirect_url}"
-                )
+                current_app.logger.info(f"Returning to {return_app} @ {redirect_url}")
             else:
-                current_app.logger.warning(
-                    f"{return_app} not listed as a safe app."
-                )
+                current_app.logger.warning(f"{return_app} not listed as a safe app.")
                 abort(400, "Unknown return app.")
 
         # Create session token, set cookie and redirect
@@ -165,16 +148,12 @@ class SsoView(MethodView):
         )
 
     def build_auth_code_flow(self, authority=None, scopes=None):
-        return self._build_msal_app(
-            authority=authority
-        ).initiate_auth_code_flow(
+        return self._build_msal_app(authority=authority).initiate_auth_code_flow(
             scopes or [], redirect_uri=Config.AZURE_AD_REDIRECT_URI
         )
 
     def _get_token_from_cache(self, scope=None):
-        cache = (
-            self._load_cache()
-        )  # This web app maintains one cache per session
+        cache = self._load_cache()  # This web app maintains one cache per session
         cca = self._build_msal_app(cache=cache)
         accounts = cca.get_accounts()
         if accounts:  # So all account(s) belong to the current signed-in user

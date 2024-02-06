@@ -42,13 +42,9 @@ class TestMagicLinks(AuthSessionView):
         self.created_link_keys.append(magic_link.get("key"))
 
         assert response.status_code == 201
-        assert magic_link.get("accountId") == expected_link_attributes.get(
-            "accountId"
-        )
+        assert magic_link.get("accountId") == expected_link_attributes.get("accountId")
 
-    def test_new_magic_link_does_not_create_application(
-        self, flask_test_client, mocker, mock_create_application
-    ):
+    def test_new_magic_link_does_not_create_application(self, flask_test_client, mocker, mock_create_application):
         """
         GIVEN a running Flask client, redis instance and
         an existing h@a.com account in the account_store api
@@ -63,9 +59,7 @@ class TestMagicLinks(AuthSessionView):
         }
         endpoint = "/service/magic-links/new?fund=cof&round=r2w3"
 
-        with mock.patch(
-            "models.fund.FundMethods.get_fund"
-        ) as mock_get_fund, mock.patch(
+        with mock.patch("models.fund.FundMethods.get_fund") as mock_get_fund, mock.patch(
             "models.account.get_round_data"
         ) as mock_get_round_data_account, mock.patch(
             "frontend.magic_links.routes.get_round_data"
@@ -76,15 +70,11 @@ class TestMagicLinks(AuthSessionView):
             mock_get_fund.return_value = mock_fund
             # Mock get_round_data() called in get_magic_link()
             mock_round_account = mock.MagicMock()
-            mock_round_account.configure_mock(
-                contact_details={"email_address": "new_user@example.com"}
-            )
+            mock_round_account.configure_mock(contact_details={"email_address": "new_user@example.com"})
             mock_get_round_data_frontend.return_value = mock_round_account
             # Mock get_round_data() called in new()
             mock_round_frontend = mock.MagicMock()
-            mock_round_frontend.configure_mock(
-                contact_details={"email_address": "new_user@example.com"}
-            )
+            mock_round_frontend.configure_mock(contact_details={"email_address": "new_user@example.com"})
             mock_get_round_data_frontend.return_value = mock_round_frontend
 
             response = flask_test_client.post(endpoint, data=payload)
@@ -149,9 +139,7 @@ class TestMagicLinks(AuthSessionView):
             "redirectUrl": "https://example.com/redirect-url",
         }
         endpoint = "/magic-links"
-        response = flask_test_client.post(
-            endpoint, json=magic_link_create_payload
-        )
+        response = flask_test_client.post(endpoint, json=magic_link_create_payload)
         magic_link = response.get_json()
         link_key = magic_link.get("key")
         self.created_link_keys.append(link_key)
@@ -159,19 +147,14 @@ class TestMagicLinks(AuthSessionView):
         flask_test_client.get(use_endpoint)
         self.used_link_keys.append(link_key)
         auth_cookie = next(
-            (
-                cookie
-                for cookie in flask_test_client.cookie_jar
-                if cookie.name == expected_cookie_name
-            ),
+            (cookie for cookie in flask_test_client.cookie_jar if cookie.name == expected_cookie_name),
             None,
         )
 
         # Check auth token cookie is set and is valid
-        assert auth_cookie is not None, (
-            f"Auth cookie '{expected_cookie_name}' was expected to be set, but"
-            " could not be found"
-        )
+        assert (
+            auth_cookie is not None
+        ), f"Auth cookie '{expected_cookie_name}' was expected to be set, but could not be found"
         self.valid_token = auth_cookie.value
         credentials = validate_token(self.valid_token)
         assert credentials.get("accountId") == expected_account_id
@@ -191,9 +174,7 @@ class TestMagicLinks(AuthSessionView):
 
         assert response.status_code == 302
 
-    def test_reused_magic_link_redirects_for_active_session(
-        self, flask_test_client
-    ):
+    def test_reused_magic_link_redirects_for_active_session(self, flask_test_client):
         """
         GIVEN a running Flask client, redis instance and
         a used magic link with an active session (cookie)
@@ -207,9 +188,7 @@ class TestMagicLinks(AuthSessionView):
             "redirectUrl": "https://example.com/redirect-url",
         }
         endpoint = "/magic-links"
-        response = flask_test_client.post(
-            endpoint, json=magic_link_create_payload
-        )
+        response = flask_test_client.post(endpoint, json=magic_link_create_payload)
         magic_link = response.get_json()
         link_key = magic_link.get("key")
         self.created_link_keys.append(link_key)
@@ -225,9 +204,7 @@ class TestMagicLinks(AuthSessionView):
         second_response = flask_test_client.get(reuse_endpoint)
         assert second_response.status_code == 302
 
-    def test_reused_magic_link_with_active_session_shows_landing(
-        self, flask_test_client
-    ):
+    def test_reused_magic_link_with_active_session_shows_landing(self, flask_test_client):
         """
         GIVEN a running Flask client, redis instance and
         a used magic link with an active session (cookie)
@@ -241,21 +218,15 @@ class TestMagicLinks(AuthSessionView):
             "redirectUrl": "https://example.com/redirect-url",
         }
         endpoint = "/magic-links"
-        response = flask_test_client.post(
-            endpoint, json=magic_link_create_payload
-        )
+        response = flask_test_client.post(endpoint, json=magic_link_create_payload)
         magic_link = response.get_json()
 
         link_key = magic_link.get("key")
         self.created_link_keys.append(link_key)
         use_endpoint = f"/magic-links/{link_key}"
-        landing_endpoint = (
-            f"/service/magic-links/landing/{link_key}?fund=cof&round=r2w3"
-        )
+        landing_endpoint = f"/service/magic-links/landing/{link_key}?fund=cof&round=r2w3"
 
-        with mock.patch(
-            "models.fund.FundMethods.get_fund"
-        ) as mock_get_fund, mock.patch(
+        with mock.patch("models.fund.FundMethods.get_fund") as mock_get_fund, mock.patch(
             "frontend.magic_links.routes.get_round_data"
         ) as mock_get_round_data:
             # Mock get_fund() called in get_magic_link()
@@ -277,12 +248,7 @@ class TestMagicLinks(AuthSessionView):
 
             assert landing_response.status_code == 200
             soup = BeautifulSoup(landing_response.data, "html.parser")
-            assert (
-                soup.find(
-                    "a", class_="govuk-button govuk-button--start"
-                ).text.strip()
-                == "Continue"
-            )
+            assert soup.find("a", class_="govuk-button govuk-button--start").text.strip() == "Continue"
             assert (
                 len(
                     soup.find_all(
@@ -313,16 +279,9 @@ class TestMagicLinks(AuthSessionView):
             second_landing_response = flask_test_client.get(landing_endpoint)
             assert second_landing_response.status_code == 200
             soup = BeautifulSoup(second_landing_response.data, "html.parser")
-            assert (
-                soup.find(
-                    "a", class_="govuk-button govuk-button--start"
-                ).text.strip()
-                == "Continue"
-            )
+            assert soup.find("a", class_="govuk-button govuk-button--start").text.strip() == "Continue"
 
-    def test_reused_magic_link_with_no_session_returns_link_expired(
-        self, flask_test_client
-    ):
+    def test_reused_magic_link_with_no_session_returns_link_expired(self, flask_test_client):
         """
         GIVEN a running Flask client, redis instance and
         a used magic link with no session
@@ -354,9 +313,7 @@ class TestMagicLinks(AuthSessionView):
         assert b"Request a new link" in response.data
 
     @mock.patch.object(Config, "FLASK_ENV", "production")
-    def test_search_magic_link_forbidden_on_production(
-        self, flask_test_client
-    ):
+    def test_search_magic_link_forbidden_on_production(self, flask_test_client):
         use_endpoint = "/magic-links"
         response = flask_test_client.get(use_endpoint, follow_redirects=True)
         assert response.status_code == 403
@@ -366,10 +323,7 @@ class TestMagicLinks(AuthSessionView):
         get_response = flask_test_client.get(endpoint)
         assert get_response.status_code == 200
         assert "account:usernew" in get_response.get_json()
-        assert (
-            next(x for x in get_response.get_json() if x.startswith("link:"))
-            is not None
-        )
+        assert next(x for x in get_response.get_json() if x.startswith("link:")) is not None
 
     def test_assessor_roles_is_empty_via_magic_link_auth(self):
         """
@@ -396,12 +350,10 @@ class TestMagicLinks(AuthSessionView):
 
         with app.app_context():
             with app.test_request_context():
-                session_details = (
-                    self.create_session_details_with_token(  # noqa
-                        mock_account,
-                        is_via_magic_link=True,
-                        timeout_seconds=3600,
-                    )
+                session_details = self.create_session_details_with_token(  # noqa
+                    mock_account,
+                    is_via_magic_link=True,
+                    timeout_seconds=3600,
                 )
 
                 assert session_details.get("roles") == []
@@ -418,9 +370,7 @@ class TestMagicLinks(AuthSessionView):
         mock_account.get_magic_link.return_value = True
 
         # Test post request with fund and round short names:
-        with mock.patch(
-            "frontend.magic_links.routes.EmailForm", return_value=mock_form
-        ):
+        with mock.patch("frontend.magic_links.routes.EmailForm", return_value=mock_form):
             with mock.patch(
                 "frontend.magic_links.routes.AccountMethods",
                 return_value=mock_account,
