@@ -1,6 +1,3 @@
-from typing import List
-from typing import Optional
-
 import pytest
 
 # Abbreviated sample claims that appear on the
