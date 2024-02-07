@@ -64,9 +64,7 @@ def create_app() -> Flask:
     flask_app.jinja_loader = ChoiceLoader(
         [
             PackageLoader("frontend"),
-            PrefixLoader(
-                {"govuk_frontend_jinja": PackageLoader("govuk_frontend_jinja")}
-            ),
+            PrefixLoader({"govuk_frontend_jinja": PackageLoader("govuk_frontend_jinja")}),
         ]
     )
     flask_app.jinja_env.trim_blocks = True
@@ -109,9 +107,7 @@ def create_app() -> Flask:
         else:
             secure_csp = deepcopy(Config.SECURE_CSP)
             # allow inline script related to handling cookies
-            secure_csp["script-src"].append(
-                "'sha256-qJr6rnZIepboaF/c9sFdugAE+I8xpVXVPeO/lk7/Yj0='"
-            )
+            secure_csp["script-src"].append("'sha256-qJr6rnZIepboaF/c9sFdugAE+I8xpVXVPeO/lk7/Yj0='")
             talisman.content_security_policy = secure_csp
 
     # This is silently used by flask in the background.
@@ -119,9 +115,7 @@ def create_app() -> Flask:
     def inject_global_constants():
         return dict(
             stage="beta",
-            service_meta_author=(
-                "Department for Levelling up Housing and Communities"
-            ),
+            service_meta_author="Department for Levelling up Housing and Communities",
             accessibility_statement_url=Config.APPLICANT_FRONTEND_ACCESSIBILITY_STATEMENT_URL,  # noqa
             cookie_policy_url=Config.APPLICANT_FRONTEND_COOKIE_POLICY_URL,
             contact_us_url=Config.APPLICANT_FRONTEND_CONTACT_US_URL

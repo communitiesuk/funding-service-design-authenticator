@@ -58,12 +58,8 @@ class AuthSessionView(MethodView):
         """
         fund_short_name = None
         round_short_name = None
-        existing_auth_token = request.cookies.get(
-            Config.FSD_USER_TOKEN_COOKIE_NAME
-        )
-        existing_fund_round_token = request.cookies.get(
-            Config.FSD_FUND_AND_ROUND_COOKIE_NAME
-        )
+        existing_auth_token = request.cookies.get(Config.FSD_USER_TOKEN_COOKIE_NAME)
+        existing_fund_round_token = request.cookies.get(Config.FSD_FUND_AND_ROUND_COOKIE_NAME)
         status = "no_token"
         valid_token = False
         if existing_fund_round_token:
@@ -77,40 +73,28 @@ class AuthSessionView(MethodView):
                 valid_token = validate_token(existing_auth_token)
                 status = "sign_out_request"
             except jwt.ExpiredSignatureError:
-                valid_token = decode_with_options(
-                    existing_auth_token, options={"verify_exp": False}
-                )
+                valid_token = decode_with_options(existing_auth_token, options={"verify_exp": False})
                 status = "expired_token"
             except jwt.PyJWTError as e:
-                current_app.logger.warn(
-                    f"PyJWTError: {e.__class__.__name__} - {e}"
-                )
+                current_app.logger.warn(f"PyJWTError: {e.__class__.__name__} - {e}")
                 status = "invalid_token"
 
             # If validly issued token: create query params for signout url,
             # and clear the redis store of the account and link record
             if valid_token and isinstance(valid_token, dict):
-                MagicLinkMethods().clear_existing_user_record(
-                    valid_token.get("accountId")
-                )
+                MagicLinkMethods().clear_existing_user_record(valid_token.get("accountId"))
 
         # Clear the session
         session.clear()
         clear_sentry()
 
-        redirect_route = (  # TODO: Remove defaulting to Magic Links, instead use return_app
-            "magic_links_bp.signed_out"
-        )
+        redirect_route = "magic_links_bp.signed_out"  # TODO: Remove defaulting to Magic Links, instead use return_app
         if return_app := request.args.get("return_app"):
             if safe_app := Config.SAFE_RETURN_APPS.get(return_app):
                 redirect_route = safe_app.logout_endpoint
-                current_app.logger.info(
-                    f"Returning to {return_app} using {redirect_route}"
-                )
+                current_app.logger.info(f"Returning to {return_app} using {redirect_route}")
             else:
-                current_app.logger.warning(
-                    f"{return_app} not listed as a safe app."
-                )
+                current_app.logger.warning(f"{return_app} not listed as a safe app.")
                 abort(400, "Unknown return app.")
 
         # Clear the cookie and redirect to signed out page
@@ -151,27 +135,21 @@ class AuthSessionView(MethodView):
         """
         try:
             # session details for fsd_user_token
-            fsd_user_token_session_details = (
-                cls.create_session_details_with_token(
-                    account,
-                    is_via_magic_link,
-                    timeout_seconds=timeout_seconds,
-                )
+            fsd_user_token_session_details = cls.create_session_details_with_token(
+                account,
+                is_via_magic_link,
+                timeout_seconds=timeout_seconds,
             )
             # session details for user's fund and round
-            fund_and_round_session_details = (
-                cls.create_session_details_with_fund_and_round(
-                    fund=fund,
-                    round=round,
-                )
+            fund_and_round_session_details = cls.create_session_details_with_fund_and_round(
+                fund=fund,
+                round=round,
             )
 
             response = make_response(redirect(redirect_url), 302)
 
             # fsd_user_token cookie
-            fsd_user_token_expiry = datetime.now() + timedelta(
-                seconds=timeout_seconds
-            )
+            fsd_user_token_expiry = datetime.now() + timedelta(seconds=timeout_seconds)
             response.set_cookie(
                 Config.FSD_USER_TOKEN_COOKIE_NAME,
                 fsd_user_token_session_details["token"],
@@ -192,9 +170,7 @@ class AuthSessionView(MethodView):
                 samesite=Config.FSD_USER_TOKEN_COOKIE_SAMESITE,
                 httponly=Config.SESSION_COOKIE_HTTPONLY,
             )
-            current_app.logger.info(
-                f"User logged in to account : {account.id}"
-            )
+            current_app.logger.info(f"User logged in to account : {account.id}")
             return response
         except SessionCreateError as e:
             error_response(404, str(e))
@@ -217,10 +193,7 @@ class AuthSessionView(MethodView):
             "azureAdSubjectId": account.azure_ad_subject_id,
             "email": account.email,
             "fullName": account.full_name,
-            "roles": []
-            if is_via_magic_link
-            and not Config.ALLOW_ASSESSMENT_LOGIN_VIA_MAGIC_LINK
-            else account.roles,
+            "roles": [] if is_via_magic_link and not Config.ALLOW_ASSESSMENT_LOGIN_VIA_MAGIC_LINK else account.roles,
             "iat": int(datetime.now().timestamp()),
             "exp": int(datetime.now().timestamp() + timeout_seconds),
         }

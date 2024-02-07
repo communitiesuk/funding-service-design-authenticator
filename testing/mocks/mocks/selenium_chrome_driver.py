@@ -26,9 +26,7 @@ def selenium_chrome_driver(request, live_server):
     chrome_options.add_argument("--headless")
     # TODO: set chrome_options.binary_location = ...
     #  (if setting to run in container or on GitHub)
-    chrome_driver = webdriver.Chrome(
-        service=service_object, options=chrome_options
-    )
+    chrome_driver = webdriver.Chrome(service=service_object, options=chrome_options)
     request.cls.driver = chrome_driver
     yield
     request.cls.driver.close()

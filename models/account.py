@@ -48,9 +48,7 @@ class AccountError(Exception):
 
 class AccountMethods(Account):
     @staticmethod
-    def get_account(
-        email: str = None, account_id: str = None, azure_ad_subject_id=None
-    ) -> Account | None:
+    def get_account(email: str = None, account_id: str = None, azure_ad_subject_id=None) -> Account | None:
         """
         Get an account from the account store using either
         an email address or account_id.
@@ -70,9 +68,7 @@ class AccountMethods(Account):
             Account object or None
         """
         if email is account_id is azure_ad_subject_id is None:
-            raise TypeError(
-                "Requires an email address, azure_ad_subject_id or account_id"
-            )
+            raise TypeError("Requires an email address, azure_ad_subject_id or account_id")
 
         url = Config.ACCOUNT_STORE_API_HOST + Config.ACCOUNTS_ENDPOINT
         params = {
@@ -107,9 +103,7 @@ class AccountMethods(Account):
         Returns:
             Account object or None
         """
-        url = Config.ACCOUNT_STORE_API_HOST + Config.ACCOUNT_ENDPOINT.format(
-            account_id=id
-        )
+        url = Config.ACCOUNT_STORE_API_HOST + Config.ACCOUNT_ENDPOINT.format(account_id=id)
 
         if config.FLASK_ENV == "development" and not roles:
             account = get_account_data(email)
@@ -143,9 +137,7 @@ class AccountMethods(Account):
 
         if response and "account_id" in response:
             return Account.from_json(response)
-        raise AccountError(
-            message=f"Could not create account for email '{email}'"
-        )
+        raise AccountError(message=f"Could not create account for email '{email}'")
 
     @classmethod
     def create_or_update_account(
@@ -156,18 +148,15 @@ class AccountMethods(Account):
         roles: list[str],
     ):
         # Check to see if account already exists by azure_id or email
-        account = AccountMethods.get_account(
-            azure_ad_subject_id=azure_ad_subject_id
-        ) or AccountMethods.get_account(email=email)
+        account = AccountMethods.get_account(azure_ad_subject_id=azure_ad_subject_id) or AccountMethods.get_account(
+            email=email
+        )
 
         # Create account if it doesn't exist
         if not account:
             account = AccountMethods.create_account(email=email)
 
-        if (
-            account.azure_ad_subject_id
-            and account.azure_ad_subject_id != azure_ad_subject_id
-        ):
+        if account.azure_ad_subject_id and account.azure_ad_subject_id != azure_ad_subject_id:
             raise AccountError(
                 message=(
                     f"Cannot update account id: {account.id} - attempting to"
@@ -232,16 +221,8 @@ class AccountMethods(Account):
                 fund_short_name=fund_short_name if fund_short_name else "",
                 round_short_name=round_short_name if round_short_name else "",
             )
-            notification_content.update(
-                {
-                    NotifyConstants.MAGIC_LINK_URL_FIELD: new_link_json.get(
-                        "link"
-                    )
-                }
-            )  # noqa
-            current_app.logger.debug(
-                f"Magic Link URL: {new_link_json.get('link')}"
-            )
+            notification_content.update({NotifyConstants.MAGIC_LINK_URL_FIELD: new_link_json.get("link")})  # noqa
+            current_app.logger.debug(f"Magic Link URL: {new_link_json.get('link')}")
             # Send notification
             Notification.send(
                 NotifyConstants.TEMPLATE_TYPE_MAGIC_LINK,
@@ -250,12 +231,5 @@ class AccountMethods(Account):
             )
 
             return new_link_json.get("link")
-        current_app.logger.error(
-            f"Could not create an account ({account}) for email '{email}'"
-        )
-        raise AccountError(
-            message=(
-                "Sorry, we couldn't create an account for this email, please"
-                " contact support"
-            )
-        )
+        current_app.logger.error(f"Could not create an account ({account}) for email '{email}'")
+        raise AccountError(message="Sorry, we couldn't create an account for this email, please contact support")

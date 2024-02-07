@@ -6,5 +6,9 @@ authors = ["Version One"]
 license = "MIT License"
 
 [tool.black]
-line-length = 79
+line-length = 120
 experimental-string-processing = 1
+
+[tool.flake8]
+max-line-length = 120
+count = true

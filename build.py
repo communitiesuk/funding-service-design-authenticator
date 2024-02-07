@@ -16,10 +16,7 @@ def build_govuk_assets(static_dist_root="frontend/static/dist"):
     # so the default /static url needs to be used
     DIST_ROOT = "./" + static_dist_root
     GOVUK_DIR = "/govuk-frontend"
-    GOVUK_URL = (
-        "https://github.com/alphagov/govuk-frontend/"
-        "releases/download/v4.0.0/release-v4.0.0.zip"
-    )
+    GOVUK_URL = "https://github.com/alphagov/govuk-frontend/releases/download/v4.0.0/release-v4.0.0.zip"
     ZIP_FILE = "./govuk_frontend.zip"
     DIST_PATH = DIST_ROOT + GOVUK_DIR
     ASSETS_DIR = "/assets"
@@ -27,10 +24,7 @@ def build_govuk_assets(static_dist_root="frontend/static/dist"):
 
     # Checks if GovUK Frontend Assets already built
     if os.path.exists(DIST_PATH):
-        print(
-            "GovUK Frontend assets already built."
-            "If you require a rebuild manually run build.build_govuk_assets"
-        )
+        print("GovUK Frontend assets already built.If you require a rebuild manually run build.build_govuk_assets")
         return True
 
     # Download zips from GOVUK_URL

@@ -36,9 +36,7 @@ class Fund:
 class FundMethods:
     @staticmethod
     def get_fund(fund_short_name: str) -> Fund:
-        url = (
-            Config.FUND_STORE_API_HOST + Config.FUND_STORE_FUND_ENDPOINT
-        ).format(fund_id=fund_short_name)
+        url = (Config.FUND_STORE_API_HOST + Config.FUND_STORE_FUND_ENDPOINT).format(fund_id=fund_short_name)
         params = {
             "language": get_lang(),
             "use_short_name": True,

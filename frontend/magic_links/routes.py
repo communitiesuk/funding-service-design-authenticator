@@ -66,14 +66,10 @@ def landing(link_id):
     round_short_name = request.args.get("round")
 
     fund_data = FundMethods.get_fund(fund_short_name)
-    round_data = get_round_data(
-        fund_short_name, round_short_name, as_dict=True
-    )
+    round_data = get_round_data(fund_short_name, round_short_name, as_dict=True)
 
     if not bool(fund_data and round_data):
-        current_app.logger.warn(
-            "Fund and round information missing from query string"
-        )
+        current_app.logger.warn("Fund and round information missing from query string")
         return abort(404)
 
     fund_short_name = fund_data.short_name
@@ -145,9 +141,7 @@ def new():
             )
 
             if Config.AUTO_REDIRECT_LOGIN:
-                current_app.logger.info(
-                    f"Auto redirecting to magic link:  {created_link}"
-                )
+                current_app.logger.info(f"Auto redirecting to magic link:  {created_link}")
                 return redirect(created_link)
 
             return redirect(
