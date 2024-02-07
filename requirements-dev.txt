@@ -179,7 +179,7 @@ funding-service-design-utils==2.0.26
     # via -r requirements.txt
 gitdb==4.0.9
     # via gitpython
-gitpython==3.1.37
+gitpython==3.1.41
     # via bandit
 govuk-frontend-jinja==2.3.0
     # via -r requirements.txt
@@ -313,6 +313,7 @@ pyjwt[crypto]==2.4.0
     #   -r requirements.txt
     #   funding-service-design-utils
     #   msal
+    #   pyjwt
 pyopenssl==22.0.0
     # via urllib3
 pyparsing==3.0.9
@@ -432,6 +433,7 @@ sentry-sdk[flask]==1.31.0
     # via
     #   -r requirements.txt
     #   funding-service-design-utils
+    #   sentry-sdk
 six==1.16.0
     # via
     #   -r requirements.txt
