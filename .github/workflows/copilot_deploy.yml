@@ -122,6 +122,7 @@ jobs:
 
   post_test_deploy_tests:
     needs: test_deploy
+    if: ${{ always() && contains(fromJSON(needs.setup.outputs.jobs_to_run), 'test') && (! contains(needs.*.result, 'failure') ) && (! contains(needs.*.result, 'cancelled') )}}
     concurrency:
       group: 'fsd-preaward-test'
       cancel-in-progress: false
@@ -149,6 +150,7 @@ jobs:
 
   post_uat_deploy_tests:
     needs: uat_deploy
+    if: ${{ always() && contains(fromJSON(needs.setup.outputs.jobs_to_run), 'uat') && (! contains(needs.*.result, 'failure') ) && (! contains(needs.*.result, 'cancelled') )}}
     concurrency:
       group: 'fsd-preaward-uat'
       cancel-in-progress: false
