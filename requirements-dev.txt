@@ -27,8 +27,6 @@ babel==2.10.3
     # via
     #   -r requirements.txt
     #   flask-babel
-bandit==1.7.4
-    # via -r requirements-dev.in
 beautifulsoup4==4.12.2
     # via
     #   -r requirements-dev.in
@@ -177,10 +175,6 @@ flipper-client==1.3.2
     #   funding-service-design-utils
 funding-service-design-utils==2.0.26
     # via -r requirements.txt
-gitdb==4.0.9
-    # via gitpython
-gitpython==3.1.37
-    # via bandit
 govuk-frontend-jinja==2.3.0
     # via -r requirements.txt
 greenlet==3.0.1
@@ -381,8 +375,7 @@ pytz==2022.1
     #   funding-service-design-utils
 pyyaml==6.0
     # via
-    #   -r requirements.txt
-    #   bandit
+    #   -r requirements.txt   
     #   clickclick
     #   connexion
     #   funding-service-design-utils
@@ -463,8 +456,6 @@ sqlalchemy-utils==0.41.1
     # via
     #   -r requirements.txt
     #   funding-service-design-utils
-stevedore==3.5.0
-    # via bandit
 swagger-ui-bundle==0.0.9
     # via -r requirements.txt
 tenacity==6.3.1
