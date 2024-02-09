@@ -1,0 +1,89 @@
+{%- from "govuk_frontend_jinja/components/button/macro.html" import govukButton
+-%}
+{% from "partials/migration_banner.html" import migration_banner %}
+{% extends "base.html" %}
+
+{% block content %}
+
+{% if migration_banner_enabled %}
+  {{ migration_banner() }}
+{% endif %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds govuk-body">
+
+    <p class="govuk-caption-l"> {{ fund_name }} - {{ round_title }}</p>
+    <h1 class="govuk-heading-xl">
+      {% trans %}Express an interest in applying for the {% endtrans %} {{ fund_name }}
+    </h1>
+
+    <div data-qa="claim_magic_link">
+    {{ govukButton({
+      "text":gettext("Continue"),
+      "href": url_for('api_MagicLinksView_use', link_id=link_id, fund=fund_short_name, round=round_short_name),
+      "isStartButton": true })
+    }}
+    </div>
+
+    <p class="govuk-body">
+        {% trans %}You must complete this Expression of Interest (EOI) form if you are interested in applying for the Community Ownership Fund.{% endtrans %}
+        <a href="{{ round_prospectus }}">{% trans %} Read the fund's prospectus before you start.{% endtrans %}</a>
+    </p>
+
+    <h3 class="govuk-heading govuk-heading-s">
+        {% trans %}What this process involves{% endtrans %}
+    </h3>
+
+    <p class="govuk-body">
+        {% trans %}We will ask for some basic information about your organisation and your project. This should take approximately 15 minutes to complete.{% endtrans %}
+    </p>
+
+    <p class="govuk-body">
+        {% trans %}You will receive instant results showing whether your project may be suitable for COF funding. You will also receive an email with guidance on any additional requirements you must meet before applying.{% endtrans %}
+    </p>
+
+    <p class="govuk-body">
+        {% trans %}Meeting the requirements at EOI stage does not guarantee you are eligible for funding. Your full application to COF will be subject to further gateway, eligibility, and due diligence checks, as set out in our explanatory note on decision making.{% endtrans %}
+    </p>
+
+    <h3 class="govuk-heading govuk-heading-s">
+        {% trans %}How we'll use your data{% endtrans %}
+    </h3>
+
+    <p class="govuk-body">
+        {% trans %}Some of the answers you submit will be assessed automatically to show whether you are suitable for COF.{% endtrans %}
+    </p>
+
+    <p class="govuk-body">
+        {% trans %}We also store this data so we can refer to it if you complete a COF application.{% endtrans %}
+    </p>
+
+    <p class="govuk-body">
+        {% trans %}By completing this form, you also consent to share your data with our development support provider, who may direct you to relevant information and support. They will also use your answers to determine whether you may be eligible for in-depth support with your COF application.{% endtrans %}
+    </p>
+
+    <p class="govuk-body">
+        <a href="{{ privacy_url }}">
+        {% trans %}Read our privacy notice for more information.{% endtrans %}
+        </a>
+    </p>
+
+    <h2 class="govuk-heading-m">
+        {% trans %}Get help{% endtrans %}
+    </h2>
+    <p>
+        {% trans %}If you have any questions about the form or the fund, email us at{% endtrans %} <a
+            class="govuk-link" href="mailto:{{ contact_us_email_address }}">{{ contact_us_email_address }}</a>.
+    </p>
+    <p>{% trans %}Do not send any applications or attachments by email. We'll only accept applications through this service.{% endtrans %}</p>
+
+    <h2 class="govuk-heading-m">
+        {% trans %}How we'll use your information{% endtrans %}
+    </h2>
+    <p>
+        {% trans %}Read how we'll use the information from your application in our{% endtrans %} <a class="govuk-link" href="{{ privacy_url }}">{% trans %}privacy notice{% endtrans %}</a>.
+    </p>
+  </div>
+</div>
+
+{% endblock content %}
