@@ -375,7 +375,7 @@ pytz==2022.1
     #   funding-service-design-utils
 pyyaml==6.0
     # via
-    #   -r requirements.txt   
+    #   -r requirements.txt
     #   clickclick
     #   connexion
     #   funding-service-design-utils
