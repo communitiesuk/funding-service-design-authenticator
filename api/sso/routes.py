@@ -40,9 +40,11 @@ class SsoView(MethodView):
         """
         post_logout_redirect_uri = request.args.get(
             "post_logout_redirect_uri",
-            Config.SSO_POST_SIGN_OUT_URL + f"?{urlencode({'return_app': session['return_app']})}"
-            if "return_app" in session
-            else "",
+            (
+                Config.SSO_POST_SIGN_OUT_URL + f"?{urlencode({'return_app': session['return_app']})}"
+                if "return_app" in session
+                else ""
+            ),
         )
         azure_ad_sign_out_url = (
             Config.AZURE_AD_AUTHORITY

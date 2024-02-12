@@ -16,17 +16,19 @@ def mock_get_account(mocker, request):
 
     mocker.patch(
         "models.account.AccountMethods.get_account",
-        return_value=Account.from_json(
-            {
-                "account_id": id,
-                "email_address": email,
-                "full_name": full_name,
-                "azure_ad_subject_id": azure_ad_subject_id,
-                "roles": roles,
-            }
-        )
-        if not new_account
-        else None,
+        return_value=(
+            Account.from_json(
+                {
+                    "account_id": id,
+                    "email_address": email,
+                    "full_name": full_name,
+                    "azure_ad_subject_id": azure_ad_subject_id,
+                    "roles": roles,
+                }
+            )
+            if not new_account
+            else None
+        ),
     )
     yield
 
