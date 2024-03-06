@@ -8,48 +8,40 @@
 
 {% set pageHeading %}{% trans %}Email address{% endtrans %}{% endset %}
 
-{% set emailText %}
-    <p>We’ll email you a link to start a new application, or continue any applications you have in progress.</p>
-    <p>The link will work once and stop working after 24 hours.</p>
-    <p>If you want to return to an application, you must use the email you started the application with.</p>
-    {% if fund_short_name|upper in ("COF-EOI",) %}
-        <p>Use the email address you would like your outcome email sent to</p>
-    {% endif %}
-{% endset %}
-
 {% block content %}
 
 {% if migration_banner_enabled %}
-  {{ migration_banner() }}
+{{ migration_banner() }}
 {% endif %}
 
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-            {% if form.errors %}
-                {{ govukErrorSummary({
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        {% if form.errors %}
+        {{ govukErrorSummary({
         "titleText": gettext("There is a problem"),
         "errorList": form.error_list
-      }) }}
-            {% endif %}
+        }) }}
+        {% endif %}
 
-            {% if fund_short_name|upper in ("COF-EOI",) %}
-                {{ govukNotificationBanner({
-                    'html': '<p class="govuk-body">You must use the same email address when you submit a full application to Community Ownership Fund</p>'
-                })}}
-            {% endif %}
-            <form action="" class="form" method="post">
-                <div class="govuk-form-group">
-                    <h1 class="govuk-label-wrapper"><label class="govuk-label govuk-label--l" for="email">
+        {% if fund_short_name|upper in ("COF-EOI",) %}
+        {{ govukNotificationBanner({
+            'html': gettext('You must use the same email address when you submit a full application to Community Ownership Fund')
+        })}}
+        {% endif %}
+        <form action="" class="form" method="post">
+            <div class="govuk-form-group">
+                <h1 class="govuk-label-wrapper"><label class="govuk-label govuk-label--l" for="email">
                         {{ pageHeading }}
                     </label>
-                    </h1>
-                    {{ form.hidden_tag() }}
-                    {{ govukInput({
+                </h1>
+                {{ form.hidden_tag() }}
+                {{ govukInput({
                 'label': None,
                 'hint': {
-                    'html':
-                        gettext(emailText)
-
+                'html': 
+                gettext("<p>We'll email you a link to start a new application, or continue any applications you have in progress.</p>
+<p>The link will work once and stop working after 24 hours.</p>
+<p>If you want to return to an application, you must use the email you started the application with.</p>") + (gettext('<p>Use the email address you would like your outcome email sent to.</p>') if fund_short_name|upper in ("COF-EOI",) else "")
                 },
                 'id': form.email.id,
                 'name': form.email.name,
@@ -59,22 +51,22 @@
                 "spellcheck": false,
                 'classes': form.email.classes,
                 'errorMessage': {
-                    'text': form.email.errors.0
+                'text': form.email.errors.0
                 } if form.email.errors
-            }) }}
-                </div>
-                <div data-qa="send_magic_link_request">
-                {{ govukButton({
-                  "text": gettext("Continue"),
-                  "preventDoubleClick": true,
                 }) }}
-                </div>
-            </form>
-        </div>
+            </div>
+            <div data-qa="send_magic_link_request">
+                {{ govukButton({
+                "text": gettext("Continue"),
+                "preventDoubleClick": true,
+                }) }}
+            </div>
+        </form>
     </div>
+</div>
 
-    <form method="post">
-        {{ form.hidden_tag() }}
-    </form>
+<form method="post">
+    {{ form.hidden_tag() }}
+</form>
 
 {% endblock content %}
