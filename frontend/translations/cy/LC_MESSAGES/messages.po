@@ -468,4 +468,3 @@ msgstr "Ffôn testun"
 
 #~ msgid " will help us to improve it."
 #~ msgstr " yn ein cefnogi i'w wella."
-

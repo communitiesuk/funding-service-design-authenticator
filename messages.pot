@@ -384,4 +384,3 @@ msgstr ""
 #: frontend/templates/partials/contact_details.html:32
 msgid "Textphone"
 msgstr ""
-
