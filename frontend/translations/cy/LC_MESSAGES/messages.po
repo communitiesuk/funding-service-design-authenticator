@@ -381,15 +381,15 @@ msgstr "Rydych chi wedi cael eich allgofnodi"
 
 #: frontend/magic_links/templates/signed_out.html:20
 msgid "Your session has "
-msgstr ""
+msgstr "Mae eich sesiwn wedi "
 
 #: frontend/magic_links/templates/signed_out.html:22
 msgid "expired"
-msgstr ""
+msgstr "darfod"
 
 #: frontend/magic_links/templates/signed_out.html:24
 msgid "been closed"
-msgstr ""
+msgstr "cau"
 
 #: frontend/magic_links/templates/signed_out.html:30
 msgid "To re-access your account, please click below to request a new link."
