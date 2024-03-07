@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-03-06 11:33+0000\n"
+"POT-Creation-Date: 2024-03-07 12:24+0000\n"
 "PO-Revision-Date: 2022-10-28 12:33+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: cy\n"
@@ -92,7 +92,12 @@ msgstr "Cyfeiriad e-bost"
 msgid "There is a problem"
 msgstr "Mae problem"
 
-#: frontend/magic_links/templates/email.html:28
+#: frontend/magic_links/templates/email.html:30
+msgid "Important"
+msgstr "Pwysig"
+
+#: frontend/magic_links/templates/email.html:34
+#: frontend/magic_links/templates/email.html:38
 msgid ""
 "You must use the same email address when you submit a full application to"
 " Community Ownership Fund"
@@ -100,7 +105,7 @@ msgstr ""
 "Mae'n rhaid i chi ddefnyddio'r un cyfeiriad e-bost pan fyddwch yn "
 "cyflwyno cais llawn i'r Gronfa Perchnogaeth Gymunedol"
 
-#: frontend/magic_links/templates/email.html:42
+#: frontend/magic_links/templates/email.html:52
 msgid ""
 "<p>We'll email you a link to start a new application, or continue any "
 "applications you have in progress.</p>\n"
@@ -114,13 +119,13 @@ msgstr ""
 "mynd yn ôl at gais, rhaid i chi ddefnyddio'r e-bost y dechreuoch y cais "
 "gydag ef.</p>"
 
-#: frontend/magic_links/templates/email.html:44
+#: frontend/magic_links/templates/email.html:54
 msgid "<p>Use the email address you would like your outcome email sent to.</p>"
 msgstr ""
 "<p>Defnyddiwch y cyfeiriad e-bost yr hoffech i'ch canlyniad gael ei anfon"
 " iddo.</p>"
 
-#: frontend/magic_links/templates/email.html:60
+#: frontend/magic_links/templates/email.html:70
 #: frontend/magic_links/templates/landing.html:25
 #: frontend/magic_links/templates/landing_eoi.html:22
 msgid "Continue"
@@ -372,7 +377,7 @@ msgstr ""
 
 #: frontend/magic_links/templates/signed_out.html:6
 msgid "You have been signed out"
-msgstr ""
+msgstr "Rydych chi wedi cael eich allgofnodi"
 
 #: frontend/magic_links/templates/signed_out.html:20
 msgid "Your session has "
@@ -388,7 +393,7 @@ msgstr ""
 
 #: frontend/magic_links/templates/signed_out.html:30
 msgid "To re-access your account, please click below to request a new link."
-msgstr ""
+msgstr "I ail-gyrchu eich cyfrif, cliciwch isod i ofyn am ddolen newydd."
 
 #: frontend/magic_links/templates/signed_out.html:38
 msgid ""

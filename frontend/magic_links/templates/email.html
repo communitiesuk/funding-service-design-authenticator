@@ -24,9 +24,16 @@
         {% endif %}
 
         {% if fund_short_name|upper in ("COF-EOI",) %}
-        {{ govukNotificationBanner({
-            'html': gettext('You must use the same email address when you submit a full application to Community Ownership Fund')
-        })}}
+        <div class="govuk-notification-banner" role="region" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
+            <div class="govuk-notification-banner__header">
+              <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
+                {{ gettext("Important") }}
+              </h2>
+            </div>
+            <div class="govuk-notification-banner__content">
+                {% trans %}You must use the same email address when you submit a full application to Community Ownership Fund{% endtrans %}
+            </div>
+          </div>
         {% endif %}
         <form action="" class="form" method="post">
             <div class="govuk-form-group">
