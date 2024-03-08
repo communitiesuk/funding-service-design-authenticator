@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-03-06 11:33+0000\n"
+"POT-Creation-Date: 2024-03-07 12:24+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -88,13 +88,18 @@ msgstr ""
 msgid "There is a problem"
 msgstr ""
 
-#: frontend/magic_links/templates/email.html:28
+#: frontend/magic_links/templates/email.html:30
+msgid "Important"
+msgstr ""
+
+#: frontend/magic_links/templates/email.html:34
+#: frontend/magic_links/templates/email.html:38
 msgid ""
 "You must use the same email address when you submit a full application to"
 " Community Ownership Fund"
 msgstr ""
 
-#: frontend/magic_links/templates/email.html:42
+#: frontend/magic_links/templates/email.html:52
 msgid ""
 "<p>We'll email you a link to start a new application, or continue any "
 "applications you have in progress.</p>\n"
@@ -103,11 +108,11 @@ msgid ""
 "started the application with.</p>"
 msgstr ""
 
-#: frontend/magic_links/templates/email.html:44
+#: frontend/magic_links/templates/email.html:54
 msgid "<p>Use the email address you would like your outcome email sent to.</p>"
 msgstr ""
 
-#: frontend/magic_links/templates/email.html:60
+#: frontend/magic_links/templates/email.html:70
 #: frontend/magic_links/templates/landing.html:25
 #: frontend/magic_links/templates/landing_eoi.html:22
 msgid "Continue"
