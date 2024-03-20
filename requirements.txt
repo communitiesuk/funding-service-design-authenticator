@@ -90,7 +90,7 @@ flask-redis==0.4.0
     #   funding-service-design-utils
 flask-session==0.4.0
     # via -r requirements.in
-flask-sqlalchemy==3.0.3
+flask-sqlalchemy==3.1.1
     # via
     #   -r requirements.in
     #   flask-migrate
@@ -217,9 +217,7 @@ s3transfer==0.6.1
 semver==2.13.0
     # via prance
 sentry-sdk[flask]==1.31.0
-    # via
-    #   funding-service-design-utils
-    #   sentry-sdk
+    # via funding-service-design-utils
 six==1.16.0
     # via
     #   flask-talisman
@@ -230,7 +228,7 @@ six==1.16.0
     #   thrift
 soupsieve==2.4.1
     # via beautifulsoup4
-sqlalchemy==1.4.42
+sqlalchemy==2.0.28
     # via
     #   -r requirements.in
     #   alembic
@@ -242,6 +240,8 @@ swagger-ui-bundle==0.0.9
     # via -r requirements.in
 thrift==0.16.0
     # via flipper-client
+typing-extensions==4.10.0
+    # via sqlalchemy
 urllib3==1.26.18
     # via
     #   botocore
