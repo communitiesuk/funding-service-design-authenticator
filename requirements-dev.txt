@@ -148,7 +148,7 @@ flask-babel==2.0.0
     # via
     #   -r requirements.txt
     #   funding-service-design-utils
-flask-compress==1.10.1
+flask-compress==1.14
     # via -r requirements.txt
 flask-migrate==3.1.0
     # via
@@ -270,8 +270,6 @@ packaging==21.3
     #   webdriver-manager
 pathspec==0.9.0
     # via black
-pbr==5.9.0
-    # via stevedore
 pip-tools==6.13.0
     # via -r requirements-dev.in
 platformdirs==2.5.2
@@ -436,8 +434,6 @@ six==1.16.0
     #   tenacity
     #   thrift
     #   virtualenv
-smmap==5.0.0
-    # via gitdb
 sniffio==1.2.0
     # via trio
 sortedcontainers==2.4.0
