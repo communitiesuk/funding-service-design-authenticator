@@ -48,21 +48,9 @@ on:
 
 jobs:
   setup:
-    runs-on: ubuntu-latest
-    outputs:
-      jobs_to_run: ${{ steps.determine-jobs.outputs.job_list }}
-    steps:
-      - id: determine-jobs
-        run: |
-          if [ "${{ inputs.environment }}" != '' ]; then
-            export jobs='["${{ inputs.environment }}"]'
-          elif [ "${{ github.ref }}" == 'refs/heads/main' ]; then
-            export jobs='["dev", "test", "uat", "prod"]'
-          else
-            export jobs='["dev", "test"]'
-          fi
-          echo "job_list=$(jq -cn --argjson keys "$jobs" '$keys')" >> $GITHUB_OUTPUT
-          cat $GITHUB_OUTPUT
+    uses: communitiesuk/funding-service-design-workflows/.github/workflows/determine-jobs.yml@main
+    with:
+      environment: ${{ inputs.environment }}
 
   pre_deploy_tests:
     uses: communitiesuk/funding-service-design-workflows/.github/workflows/pre-deploy.yml@main
