@@ -241,6 +241,7 @@ class TestMagicLinks(AuthSessionView):
             mock_round.configure_mock(short_name="r2w3")
             mock_round.configure_mock(application_guidance="help text here")
             mock_round.configure_mock(contact_email="test@outlook.com")
+            mock_round.configure_mock(is_expression_of_interest=False)
             mock_get_round_data.return_value = mock_round
 
             # use magic link landing but unauthorised
