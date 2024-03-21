@@ -21,6 +21,7 @@ class Round:
     support_days: str = ""
     support_times: str = ""
     application_guidance: str = ""
+    is_expression_of_interest: bool = False
 
     @classmethod
     def from_dict(cls, d: dict):
