@@ -90,7 +90,7 @@ def landing(link_id):
             )
         round_prospectus = round_data.prospectus if round_data.prospectus else None
         return render_template(
-            "landing_eoi.html" if fund_short_name in ("COF-EOI",) else "landing.html",
+            "landing_eoi.html" if round_data.is_expression_of_interest else "landing.html",
             link_id=link_id,
             submission_deadline=submission_deadline,
             fund_name=fund_name,
@@ -169,6 +169,7 @@ def new():
         fund_round=fund_round,
         fund_short_name=fund_short_name,
         migration_banner_enabled=Config.MIGRATION_BANNER_ENABLED,
+        is_expression_of_interest=round.is_expression_of_interest,
     )
 
 
