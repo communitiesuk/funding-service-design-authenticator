@@ -66,7 +66,7 @@ def landing(link_id):
     round_short_name = request.args.get("round")
 
     fund_data = FundMethods.get_fund(fund_short_name)
-    round_data = get_round_data(fund_short_name, round_short_name, as_dict=True)
+    round_data = get_round_data(fund_short_name, round_short_name)
 
     if not bool(fund_data and round_data):
         current_app.logger.warn("Fund and round information missing from query string")

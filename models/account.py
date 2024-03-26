@@ -201,7 +201,6 @@ class AccountMethods(Account):
             round_for_fund = get_round_data(
                 fund_short_name,
                 round_short_name,
-                as_dict=True,
             )
 
             notification_content = {
