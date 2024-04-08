@@ -65,8 +65,8 @@ certifi==2023.7.22
     # via
     #   -r requirements.txt
     #   requests
+    #   selenium
     #   sentry-sdk
-    #   urllib3
 cffi==1.15.1
     # via
     #   -r requirements.txt
@@ -103,8 +103,6 @@ cryptography==37.0.2
     #   -r requirements.txt
     #   msal
     #   pyjwt
-    #   pyopenssl
-    #   urllib3
 cssmin==0.2.0
     # via -r requirements.txt
 debugpy==1.6.7
@@ -193,7 +191,6 @@ idna==3.3
     #   email-validator
     #   requests
     #   trio
-    #   urllib3
 inflection==0.5.1
     # via
     #   -r requirements.txt
@@ -303,8 +300,6 @@ pyjwt[crypto]==2.4.0
     #   -r requirements.txt
     #   funding-service-design-utils
     #   msal
-pyopenssl==22.0.0
-    # via urllib3
 pyparsing==3.0.9
     # via
     #   -r requirements.txt
@@ -409,7 +404,7 @@ s3transfer==0.6.1
     # via
     #   -r requirements.txt
     #   boto3
-selenium==4.2.0
+selenium==4.19.0
     # via
     #   -r requirements-dev.in
     #   pytest-selenium
@@ -477,16 +472,15 @@ trio-websocket==0.9.2
 typing-extensions==4.10.0
     # via
     #   -r requirements.txt
+    #   selenium
     #   sqlalchemy
-urllib3[secure,socks]==1.26.18
+urllib3[socks]==1.26.18
     # via
     #   -r requirements.txt
     #   botocore
     #   requests
     #   selenium
     #   sentry-sdk
-urllib3-secure-extra==0.1.0
-    # via urllib3
 virtualenv==20.15.0
     # via pre-commit
 webassets==2.0
