@@ -113,7 +113,7 @@ deepdiff==5.8.1
     # via -r requirements-dev.in
 distlib==0.3.4
     # via virtualenv
-dnspython==2.2.1
+dnspython==2.6.1
     # via
     #   -r requirements.txt
     #   email-validator
@@ -178,7 +178,9 @@ funding-service-design-utils==2.0.26
 govuk-frontend-jinja==2.3.0
     # via -r requirements.txt
 greenlet==3.0.3
-    # via sqlalchemy
+    # via
+    #   -r requirements.txt
+    #   sqlalchemy
 gunicorn==20.1.0
     # via
     #   -r requirements.txt
