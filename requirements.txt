@@ -102,9 +102,11 @@ funding-service-design-utils==2.0.26
     # via -r requirements.in
 govuk-frontend-jinja==2.3.0
     # via -r requirements.in
+greenlet==3.0.3
+    # via sqlalchemy
 gunicorn==20.1.0
     # via funding-service-design-utils
-idna==3.3
+idna==3.7
     # via
     #   email-validator
     #   requests

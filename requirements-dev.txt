@@ -178,7 +178,9 @@ funding-service-design-utils==2.0.26
 govuk-frontend-jinja==2.3.0
     # via -r requirements.txt
 greenlet==3.0.3
-    # via sqlalchemy
+    # via
+    #   -r requirements.txt
+    #   sqlalchemy
 gunicorn==20.1.0
     # via
     #   -r requirements.txt
@@ -187,7 +189,7 @@ h11==0.13.0
     # via wsproto
 identify==2.5.1
     # via pre-commit
-idna==3.3
+idna==3.7
     # via
     #   -r requirements.txt
     #   email-validator
