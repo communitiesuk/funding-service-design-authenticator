@@ -17,7 +17,7 @@ class TestConfig(Config):
     COOKIE_DOMAIN = environ.get("COOKIE_DOMAIN", ".test.fundingservice.co.uk")
 
     # Redis
-    REDIS_INSTANCE_NAME = "funding-service-magic-links-test"
+    REDIS_INSTANCE_NAME = "pre-award-redis-test"
 
     if not hasattr(Config, "VCAP_SERVICES"):
         REDIS_INSTANCE_URI = getenv("REDIS_INSTANCE_URI", "redis://localhost:6379")

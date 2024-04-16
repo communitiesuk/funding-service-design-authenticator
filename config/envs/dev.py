@@ -16,7 +16,7 @@ class DevConfig(Config):
     FSD_LOG_LEVEL = logging.INFO
 
     # Redis
-    REDIS_INSTANCE_NAME = "funding-service-magic-links-dev"
+    REDIS_INSTANCE_NAME = "pre-award-redis-dev"
 
     if not hasattr(Config, "VCAP_SERVICES"):
         REDIS_INSTANCE_URI = getenv("REDIS_INSTANCE_URI", "redis://localhost:6379")
