@@ -1,6 +1,6 @@
 {% extends "govuk_frontend_jinja/template.html" %}
 
-{% set assetPath = '/static/govuk-frontend' %}
+{% set assetPath = url_for('static', filename='').rstrip('/') %}
 
 {% block pageTitle %}{{ [pageHeading, service_title]|join(' - ') if pageHeading else service_title }}{% endblock pageTitle %}
 
@@ -18,14 +18,15 @@
 
 {% block bodyEnd %}
   <!--[if gt IE 8]><!-->
-    <script nonce="{{ csp_nonce() }}" type="module" src="{{ url_for('static', filename='govuk-frontend-5.3.0.min.js') }}"></script>
-    <script type="module">
-      import { initAll } from "{{ url_for('static', filename='govuk-frontend-5.3.0.min.js') }}"
-      window.addEventListener('load', (event) => {
+    <script nonce="{{ csp_nonce() }}" src="{{ url_for('static', filename='govuk-frontend/govuk-frontend-4.0.0.min.js') }}"> </script>
+  <script nonce="{{ csp_nonce() }}">
+
+    window.addEventListener('load', (event) => {
+
         window.GOVUKFrontend.initAll();
         AuthenticatorFrontend.initAll();
-      });
-    </script>
+    });
+  </script>
   <!--<![endif]-->
     <!-- Google Tag Manager (noscript) -->
     <noscript>
