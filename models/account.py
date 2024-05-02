@@ -161,8 +161,8 @@ class AccountMethods(Account):
                 message=(
                     f"Cannot update account id: {account.id} - attempting to"
                     " update existing azure_ad_subject_id from"
-                    f" { account.azure_ad_subject_id } to"
-                    f" { azure_ad_subject_id} which is not allowed."
+                    f" {account.azure_ad_subject_id} to"
+                    f" {azure_ad_subject_id} which is not allowed."
                 )
             )
 
