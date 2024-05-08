@@ -101,6 +101,7 @@ def landing(link_id):
             application_guidance=app_guidance,
             round_prospectus=round_prospectus,
             migration_banner_enabled=Config.MIGRATION_BANNER_ENABLED,
+            link_to_contact_us_page=round_data.reference_contact_page_over_email,
         )
     return redirect(
         url_for(

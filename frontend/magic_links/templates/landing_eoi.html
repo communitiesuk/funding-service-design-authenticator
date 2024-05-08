@@ -73,8 +73,12 @@
         {% trans %}Get help{% endtrans %}
     </h2>
     <p>
-        {% trans %}If you have any questions about the form or the fund, {% endtrans %} <a
-            class="govuk-link" href="mailto:{{ contact_us_email_address }}">{% trans %}contact us{% endtrans %}</a>.
+        {% if link_to_contact_us_page %}
+            If you have questions about the form or the fund, <a class="govuk-link" href="{{ contact_us_url }}">contact us.</a>
+        {% else %}
+        {% trans %}If you have any questions about the form or the fund, email us at{% endtrans %} <a
+            class="govuk-link" href="mailto:{{ contact_us_email_address }}">{{ contact_us_email_address }}</a>.
+        {% endif %}
     </p>
     <p>{% trans %}Do not send any applications or attachments by email. We'll only accept applications through this service.{% endtrans %}</p>
   </div>
