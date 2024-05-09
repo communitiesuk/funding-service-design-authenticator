@@ -22,6 +22,7 @@ class Round:
     support_times: str = ""
     application_guidance: str = ""
     is_expression_of_interest: bool = False
+    reference_contact_page_over_email: bool = False
 
     @classmethod
     def from_dict(cls, d: dict):
