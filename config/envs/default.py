@@ -145,6 +145,10 @@ class DefaultConfig(object):
     POST_AWARD_SUBMIT_HOST = environ.get("POST_AWARD_SUBMIT_HOST", "")
     POST_AWARD_SUBMIT_LOGIN_URL = POST_AWARD_SUBMIT_HOST + "/"
 
+    # Post-award admin
+    POST_AWARD_ADMIN_HOST = environ.get("POST_AWARD_ADMIN_HOST", "")
+    POST_AWARD_ADMIN_LOGIN_URL = POST_AWARD_ADMIN_HOST + "/"
+
     # Safe list of return applications
     SAFE_RETURN_APPS = {
         SupportedApp.POST_AWARD_FRONTEND.value: SafeAppConfig(
@@ -156,6 +160,11 @@ class DefaultConfig(object):
             login_url=POST_AWARD_SUBMIT_LOGIN_URL,
             logout_endpoint="sso_bp.signed_out",
             service_title="Submit monitoring and evaluation data",
+        ),
+        SupportedApp.POST_AWARD_ADMIN.value: SafeAppConfig(
+            login_url=POST_AWARD_ADMIN_LOGIN_URL,
+            logout_endpoint="sso_bp.signed_out",
+            service_title="Post Award administration",
         ),
     }
 
