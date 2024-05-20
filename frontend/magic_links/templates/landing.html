@@ -73,7 +73,11 @@
     </h2>
     <p>
         {% if link_to_contact_us_page %}
-            If you have questions about the form or the fund, <a class="govuk-link" href="{{ contact_us_url }}">contact us.</a>
+            {% if round_short_name == "R4W2" %}
+                If you need help, <a class="govuk-link" href="{{ contact_us_url }}">contact us.</a>
+            {% else %}
+                If you have questions about the form or the fund, <a class="govuk-link" href="{{ contact_us_url }}">contact us.</a>
+            {% endif %}
         {% else %}
         {% trans %}If you have any questions about the form or the fund, email us at{% endtrans %} <a
             class="govuk-link" href="mailto:{{ contact_us_email_address }}">{{ contact_us_email_address }}</a>.
