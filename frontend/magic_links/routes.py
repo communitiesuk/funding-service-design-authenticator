@@ -78,6 +78,11 @@ def landing(link_id):
     submission_deadline = round_data.deadline
     link_key = ":".join([Config.MAGIC_LINK_RECORD_PREFIX, link_id])
     link_hash = MagicLinkMethods().redis_mlinks.get(link_key)
+
+    show_contact_us = False
+    if round_data.short_name == "R4W2" or fund_short_name == "cof-eoi":
+        show_contact_us = True
+
     if link_hash or g.is_authenticated:
         current_app.logger.info("Rendering all questions")
         app_guidance = None
@@ -102,6 +107,7 @@ def landing(link_id):
             round_prospectus=round_prospectus,
             migration_banner_enabled=Config.MIGRATION_BANNER_ENABLED,
             link_to_contact_us_page=round_data.reference_contact_page_over_email,
+            show_contact_us=show_contact_us,
         )
     return redirect(
         url_for(
