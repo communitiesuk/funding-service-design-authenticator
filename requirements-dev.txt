@@ -98,7 +98,7 @@ commonmark==0.9.1
     #   rich
 connexion==2.14.2
     # via -r requirements.txt
-cryptography==42.0.2
+cryptography==42.0.4
     # via
     #   -r requirements.txt
     #   msal
@@ -280,8 +280,6 @@ prance==0.21.8.0
     # via -r requirements.txt
 pre-commit==2.19.0
     # via -r requirements-dev.in
-py==1.11.0
-    # via pytest
 pycodestyle==2.11.1
     # via flake8
 pycparser==2.21
@@ -501,7 +499,7 @@ werkzeug==2.2.3
     #   connexion
     #   flask
     #   pytest-flask
-wheel==0.37.1
+wheel==0.38.1
     # via pip-tools
 wsproto==1.1.0
     # via trio-websocket
