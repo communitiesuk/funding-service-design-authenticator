@@ -501,7 +501,7 @@ werkzeug==2.2.3
     #   connexion
     #   flask
     #   pytest-flask
-wheel==0.37.1
+wheel==0.38.1
     # via pip-tools
 wsproto==1.1.0
     # via trio-websocket
