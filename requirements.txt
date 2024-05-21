@@ -102,6 +102,8 @@ funding-service-design-utils==2.0.26
     # via -r requirements.in
 govuk-frontend-jinja==2.3.0
     # via -r requirements.in
+greenlet==3.0.3
+    # via sqlalchemy
 gunicorn==20.1.0
     # via funding-service-design-utils
 idna==3.3
@@ -191,7 +193,7 @@ redis==4.4.4
     # via
     #   flask-redis
     #   flipper-client
-requests==2.31.0
+requests==2.32.0
     # via
     #   -r requirements.in
     #   connexion
