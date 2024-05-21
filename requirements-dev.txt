@@ -98,7 +98,7 @@ commonmark==0.9.1
     #   rich
 connexion==2.14.2
     # via -r requirements.txt
-cryptography==37.0.2
+cryptography==42.0.2
     # via
     #   -r requirements.txt
     #   msal
@@ -113,7 +113,7 @@ deepdiff==5.8.1
     # via -r requirements-dev.in
 distlib==0.3.4
     # via virtualenv
-dnspython==2.2.1
+dnspython==2.6.1
     # via
     #   -r requirements.txt
     #   email-validator
@@ -187,7 +187,7 @@ h11==0.13.0
     # via wsproto
 identify==2.5.1
     # via pre-commit
-idna==3.3
+idna==3.7
     # via
     #   -r requirements.txt
     #   email-validator
@@ -208,7 +208,7 @@ itsdangerous==2.1.2
     #   connexion
     #   flask
     #   flask-wtf
-jinja2==3.1.2
+jinja2==3.1.4
     # via
     #   -r requirements.txt
     #   flask
@@ -242,7 +242,7 @@ markupsafe==2.1.1
     #   wtforms
 mccabe==0.7.0
     # via flake8
-msal==1.18.0
+msal==1.28.0
     # via -r requirements.txt
 mypy-extensions==0.4.3
     # via black
@@ -382,7 +382,7 @@ redis==4.4.4
     #   -r requirements.txt
     #   flask-redis
     #   flipper-client
-requests==2.31.0
+requests==2.32.0
     # via
     #   -r requirements.txt
     #   connexion
