@@ -21,7 +21,6 @@ attrs==21.4.0
     #   -r requirements.txt
     #   jsonschema
     #   outcome
-    #   pytest
     #   trio
 babel==2.10.3
     # via
@@ -121,6 +120,8 @@ dparse==0.6.3
     # via -r requirements-dev.in
 email-validator==1.2.1
     # via -r requirements.txt
+exceptiongroup==1.2.1
+    # via pytest
 filelock==3.7.1
     # via virtualenv
 flake8==7.0.0
@@ -317,7 +318,7 @@ pyscss==1.4.0
     # via -r requirements.txt
 pysocks==1.7.1
     # via urllib3
-pytest==7.1.2
+pytest==7.4.4
     # via
     #   -r requirements-dev.in
     #   pytest-base-url
