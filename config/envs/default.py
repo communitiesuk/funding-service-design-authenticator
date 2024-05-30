@@ -114,8 +114,6 @@ class DefaultConfig(object):
 
     # Notification Service
     DISABLE_NOTIFICATION_SERVICE = False
-    NOTIFICATION_SERVICE_HOST = environ.get("NOTIFICATION_SERVICE_HOST")
-    SEND_ENDPOINT = "/send"
 
     # Applicant Frontend
     APPLICANT_FRONTEND_HOST = environ.get("APPLICANT_FRONTEND_HOST", "frontend")
@@ -260,3 +258,22 @@ class DefaultConfig(object):
     BABEL_TRANSLATION_DIRECTORIES = "frontend/translations"
 
     MIGRATION_BANNER_ENABLED = getenv("MIGRATION_BANNER_ENABLED", False)
+
+    # ---------------
+    # AWS Overall Config
+    # ---------------
+    AWS_ACCESS_KEY_ID = AWS_SQS_ACCESS_KEY_ID = environ.get("AWS_ACCESS_KEY_ID")
+    AWS_SECRET_ACCESS_KEY = AWS_SQS_SECRET_ACCESS_KEY = environ.get("AWS_SECRET_ACCESS_KEY")
+    AWS_REGION = AWS_SQS_REGION = environ.get("AWS_REGION")
+    AWS_ENDPOINT_OVERRIDE = environ.get("AWS_ENDPOINT_OVERRIDE")
+
+    # ---------------
+    # S3 Config
+    # ---------------
+    AWS_MSG_BUCKET_NAME = environ.get("AWS_MSG_BUCKET_NAME")
+
+    # ---------------
+    # SQS Config
+    # ---------------
+    AWS_SQS_NOTIF_APP_PRIMARY_QUEUE_URL = environ.get("AWS_SQS_NOTIF_APP_PRIMARY_QUEUE_URL")
+    AWS_SQS_NOTIF_APP_SECONDARY_QUEUE_URL = environ.get("AWS_SQS_NOTIF_APP_SECONDARY_QUEUE_URL")

@@ -62,7 +62,6 @@ class UnitTestConfig(Config):
     # APIs
     APPLICATION_STORE_API_HOST = "application_store"
     ACCOUNT_STORE_API_HOST = "account_store"
-    NOTIFICATION_SERVICE_HOST = "notification_service"
 
     # Security
     Config.TALISMAN_SETTINGS["force_https"] = False
@@ -75,3 +74,8 @@ class UnitTestConfig(Config):
     # Assessment Frontend
     ASSESSMENT_FRONTEND_HOST = ""
     ASSESSMENT_POST_LOGIN_URL = ""
+
+    # ---------------
+    # S3 Config
+    # ---------------
+    AWS_MSG_BUCKET_NAME = "fsd-notification-bucket"

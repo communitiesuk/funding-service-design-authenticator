@@ -1,7 +1,13 @@
+from unittest import mock
+from unittest.mock import MagicMock
+
+import boto3
 import pytest
+from fsd_utils.services.aws_extended_client import SQSExtendedClient
 from models.notification import Config
 from models.notification import Notification
 from models.notification import NotificationError
+from moto import mock_aws
 
 
 @pytest.fixture
@@ -25,27 +31,49 @@ def test_notification_send_disabled(app_context, disable_notifications, caplog):
     assert "Notification service is disabled" in caplog.text
 
 
+@mock_aws
 def test_notification_send_success(app_context, monkeypatch, enable_notifications):
-    monkeypatch.setattr("models.notification.post_data", lambda *_: True)
+    with mock.patch("models.notification.Notification._get_sqs_client") as mock_get_sqs_client:
+        template_type = "welcome"
+        template_type = "welcome"
+        to_email = "test@example.com"
+        content = {"name": "John"}
+        sqs_extended_client = SQSExtendedClient(
+            aws_access_key_id=Config.AWS_ACCESS_KEY_ID,
+            aws_secret_access_key=Config.AWS_SECRET_ACCESS_KEY,
+            region_name=Config.AWS_REGION,
+            large_payload_support=Config.AWS_MSG_BUCKET_NAME,
+            always_through_s3=True,
+            delete_payload_from_s3=True,
+            logger=MagicMock(),
+        )
+        s3_connection = boto3.client(
+            "s3", region_name="us-east-1", aws_access_key_id="test_accesstoken", aws_secret_access_key="secret_key"
+        )
+        sqs_connection = boto3.client(
+            "sqs", region_name="us-east-1", aws_access_key_id="test_accesstoken", aws_secret_access_key="secret_key"
+        )
+        s3_connection.create_bucket(Bucket=Config.AWS_MSG_BUCKET_NAME)
+        queue_response = sqs_connection.create_queue(QueueName="notif-queue.fifo", Attributes={"FifoQueue": "true"})
+        sqs_extended_client.sqs_client = sqs_connection
+        sqs_extended_client.s3_client = s3_connection
+        Config.AWS_SQS_NOTIF_APP_PRIMARY_QUEUE_URL = queue_response["QueueUrl"]
+        mock_get_sqs_client.return_value = sqs_extended_client
+        result = Notification.send(template_type, to_email, content)
+        assert result is True
 
-    template_type = "welcome"
-    to_email = "test@example.com"
-    content = {"name": "John"}
 
-    result = Notification.send(template_type, to_email, content)
-
-    assert result is True
-
-
-def test_notification_send_failure(monkeypatch, enable_notifications):
-    monkeypatch.setattr("models.notification.post_data", lambda *_: False)
-
-    template_type = "welcome"
-    to_email = "test@example.com"
-    content = {"name": "John"}
-
-    with pytest.raises(NotificationError, match="Sorry, the notification could not be sent"):
-        Notification.send(template_type, to_email, content)
+@mock_aws
+def test_notification_send_failure(app_context, monkeypatch, enable_notifications):
+    with mock.patch("models.notification.Notification._get_sqs_client") as mock_get_sqs_client:
+        template_type = "welcome"
+        to_email = "test@example.com"
+        content = {"name": "John"}
+        sqs_extended_client = MagicMock()
+        mock_get_sqs_client.return_value = sqs_extended_client
+        sqs_extended_client.submit_single_message.side_effect = Exception("SQS Error")
+        with pytest.raises(NotificationError, match="Sorry, the notification could not be sent"):
+            Notification.send(template_type, to_email, content)
 
 
 def test_notification_error_custom_message():

@@ -64,7 +64,6 @@ class DevelopmentConfig(Config):
     # APIs
     APPLICATION_STORE_API_HOST = getenv("APPLICATION_STORE_API_HOST", "application_store")
     ACCOUNT_STORE_API_HOST = getenv("ACCOUNT_STORE_API_HOST", "account_store")
-    NOTIFICATION_SERVICE_HOST = getenv("NOTIFICATION_SERVICE_HOST", "notification_service")
 
     AUTO_REDIRECT_LOGIN = True
 
