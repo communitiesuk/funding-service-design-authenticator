@@ -74,7 +74,7 @@
     </h2>
     <p>
         {% if link_to_contact_us_page %}
-            If you need help, <a class="govuk-link" href="{{ contact_us_url }}">contact us.</a>
+        {% trans %}If you need help,{% endtrans %} <a class="govuk-link" href="{{ contact_us_url }}">{% trans %}contact us.{% endtrans %}</a>
         {% else %}
         {% trans %}If you have any questions about the form or the fund, email us at{% endtrans %} <a
             class="govuk-link" href="mailto:{{ contact_us_email_address }}">{{ contact_us_email_address }}</a>.

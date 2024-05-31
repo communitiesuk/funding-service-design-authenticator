@@ -74,7 +74,7 @@
     <p>
         {% if link_to_contact_us_page %}
             {% if show_contact_us %}
-                If you need help, <a class="govuk-link" href="{{ contact_us_url }}">contact us.</a>
+            {% trans %}If you need help,{% endtrans %} <a class="govuk-link" href="{{ contact_us_url }}">{% trans %}contact us.{% endtrans %}</a>
             {% else %}
                 If you have questions about the form or the fund, <a class="govuk-link" href="{{ contact_us_url }}">contact us.</a>
             {% endif %}

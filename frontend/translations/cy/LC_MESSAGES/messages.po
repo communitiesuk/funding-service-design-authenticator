@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-03-07 12:24+0000\n"
+"POT-Creation-Date: 2024-05-31 11:25+0100\n"
 "PO-Revision-Date: 2022-10-28 12:33+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: cy\n"
@@ -17,7 +17,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.10.3\n"
+"Generated-By: Babel 2.13.1\n"
 
 #: app.py:133
 msgid "Apply for"
@@ -97,7 +97,6 @@ msgid "Important"
 msgstr "Pwysig"
 
 #: frontend/magic_links/templates/email.html:34
-#: frontend/magic_links/templates/email.html:38
 msgid ""
 "You must use the same email address when you submit a full application to"
 " Community Ownership Fund"
@@ -105,7 +104,7 @@ msgstr ""
 "Mae'n rhaid i chi ddefnyddio'r un cyfeiriad e-bost pan fyddwch yn "
 "cyflwyno cais llawn i'r Gronfa Perchnogaeth Gymunedol"
 
-#: frontend/magic_links/templates/email.html:52
+#: frontend/magic_links/templates/email.html:49
 msgid ""
 "<p>We'll email you a link to start a new application, or continue any "
 "applications you have in progress.</p>\n"
@@ -119,13 +118,13 @@ msgstr ""
 "mynd yn ôl at gais, rhaid i chi ddefnyddio'r e-bost y dechreuoch y cais "
 "gydag ef.</p>"
 
-#: frontend/magic_links/templates/email.html:54
+#: frontend/magic_links/templates/email.html:51
 msgid "<p>Use the email address you would like your outcome email sent to.</p>"
 msgstr ""
 "<p>Defnyddiwch y cyfeiriad e-bost yr hoffech i'ch canlyniad gael ei anfon"
 " iddo.</p>"
 
-#: frontend/magic_links/templates/email.html:70
+#: frontend/magic_links/templates/email.html:67
 #: frontend/magic_links/templates/landing.html:25
 #: frontend/magic_links/templates/landing_eoi.html:22
 msgid "Continue"
@@ -169,31 +168,29 @@ msgid "You do not have to complete it in order, or all at once."
 msgstr "Nid oes rhaid i chi ei llenwi mewn trefn, na'r cyfan ar unwaith."
 
 #: frontend/magic_links/templates/landing.html:45
-#, fuzzy
 msgid ""
 "When you have written something in every field in a section, the section "
 "will be marked as complete. You can still change your responses in "
 "sections that are marked as complete."
 msgstr ""
-"Pan fyddwch wedi ysgrifennu rhywbeth ym mhob maes mewn adran, cofnodir yr"
-" adran fel un gyflawn. Gallwch newid eich\n"
-"      ymatebion o hyd mewn adrannau sydd wedi'u cofnodi fel rhai cyflawn."
+"Pan fyddwch chi wedi ysgrifennu rhywbeth ym mhob maes mewn adran, bydd yr"
+" adran yn cael ei marcio'n orffenedig. Gallwch newid eich ymatebion o hyd"
+" mewn adrannau sydd wedi cael eu marcio'n orffenedig."
 
 #: frontend/magic_links/templates/landing.html:49
 msgid "Saving progress and making changes"
 msgstr "Cadw cynnydd a gwneud newidiadau"
 
 #: frontend/magic_links/templates/landing.html:52
-#, fuzzy
 msgid ""
 "Your work will not save automatically. To make sure you do not lose "
 "anything, select Save and continue regularly, and always before you go "
 "back or close your internet browser window."
 msgstr ""
-"Ni fydd eich gwaith yn cael ei gadw'n awtomatig. I wneud yn siŵr nad "
-"ydych chi'n colli unrhyw beth, dewiswch <strong>Cadw a \n"
-"        pharhau</strong> yn rheolaidd, a bob amser cyn i chi fynd yn ôl "
-"neu gau eich ffenestr porwr rhyngrwyd."
+"Ni chaiff eich gwaith ei gadw'n awtomatig. I wneud yn siŵr nad ydych yn "
+"colli unrhyw beth, cliciwch ar Cadw a pharhau yn rheolaidd, a chofiwch "
+"wneud hyn bob tro cyn i chi fynd yn ôl neu cyn i chi gau ffenestr eich "
+"porwr gwe."
 
 #: frontend/magic_links/templates/landing.html:55
 msgid "If you need to edit or revisit any sections, use the browser back button."
@@ -212,37 +209,46 @@ msgid "Submitting your application"
 msgstr "Cyflwyno'ch cais"
 
 #: frontend/magic_links/templates/landing.html:65
-#, fuzzy
 msgid ""
 "When you have completed all sections, you'll be able to submit your "
 "application."
 msgstr ""
-"Pan fyddwch wedi llenwi'r holl adrannau, byddwch yn gallu cyflwyno'ch "
-"cais."
+"Pan fyddwch chi wedi cwblhau pob adran, byddwch chi'n gallu cyflwyno eich"
+" cais."
 
 #: frontend/magic_links/templates/landing.html:68
-#, fuzzy
 msgid ""
 "Once you have submitted your application, you'll not be able to edit, add"
 " or change any sections."
 msgstr ""
-"Wedi i chi gyflwyno'ch cais, ni fyddwch yn gallu golygu, ychwanegu\n"
-"      na newid unrhyw adrannau."
+"Ar ôl i chi gyflwyno eich cais, ni fyddwch chi'n gallu golygu, ychwanegu "
+"na newid unrhyw adrannau."
 
 #: frontend/magic_links/templates/landing.html:72
 #: frontend/magic_links/templates/landing_eoi.html:73
 msgid "Get help"
 msgstr "Cael help"
 
-#: frontend/magic_links/templates/landing.html:75
+#: frontend/magic_links/templates/landing.html:77
+#: frontend/magic_links/templates/landing_eoi.html:77
+msgid "If you need help,"
+msgstr "Os oes angen help arnoch chi,"
+
+#: frontend/magic_links/templates/landing.html:77
+#: frontend/magic_links/templates/landing_eoi.html:77
+msgid "contact us."
+msgstr "cysylltwch â ni."
+
+#: frontend/magic_links/templates/landing.html:82
+#: frontend/magic_links/templates/landing_eoi.html:79
 #, fuzzy
 msgid "If you have any questions about the form or the fund, email us at"
 msgstr ""
 "Os oes gennych unrhyw gwestiynau ynglŷn â'r ffurflen neu'r gronfa, "
 "anfonwch e-bost atom yn"
 
-#: frontend/magic_links/templates/landing.html:78
-#: frontend/magic_links/templates/landing_eoi.html:79
+#: frontend/magic_links/templates/landing.html:86
+#: frontend/magic_links/templates/landing_eoi.html:83
 msgid ""
 "Do not send any applications or attachments by email. We'll only accept "
 "applications through this service."
@@ -250,17 +256,17 @@ msgstr ""
 "Peidiwch ag anfon unrhyw geisiadau nac atodiadau drwy e-bost. Dim ond "
 "drwy'r gwasanaeth hwn y byddwn yn derbyn ceisiadau."
 
-#: frontend/magic_links/templates/landing.html:81
+#: frontend/magic_links/templates/landing.html:89
 msgid "How we'll use your information"
 msgstr "Sut byddwn ni'n defnyddio'ch gwybodaeth"
 
-#: frontend/magic_links/templates/landing.html:84
+#: frontend/magic_links/templates/landing.html:92
 msgid "Read how we'll use the information from your application in our"
 msgstr ""
 "Darllenwch sut byddwn ni'n defnyddio'r wybodaeth o'ch cais yn ein "
 "hysbysiad preifatrwydd"
 
-#: frontend/magic_links/templates/landing.html:84
+#: frontend/magic_links/templates/landing.html:92
 msgid "privacy notice"
 msgstr "hysbysiad preifatrwydd"
 
@@ -355,22 +361,6 @@ msgstr ""
 msgid "Read our privacy notice for more information."
 msgstr "Darllenwch ein hysbysiad preifatrwydd am ragor o wybodaeth."
 
-#: frontend/magic_links/templates/landing_eoi.html:76
-msgid "If you have any questions about the form or the fund, "
-msgstr "Os oes gennych unrhyw gwestiynau am y ffurflen neu'r gronfa, "
-
-#: frontend/magic_links/templates/landing_eoi.html:77
-msgid "contact us"
-msgstr "cysylltwch â ni"
-
-#: frontend/magic_links/templates/magic_link.html:8
-msgid "We've emailed you a link to sign in"
-msgstr ""
-
-#: frontend/magic_links/templates/magic_link.html:9
-msgid "Check your email and follow the link to continue your application"
-msgstr ""
-
 #: frontend/magic_links/templates/signed_out.html:4
 msgid "You are not logged in"
 msgstr ""
@@ -422,9 +412,8 @@ msgid "beta"
 msgstr "beta"
 
 #: frontend/templates/header.html:36
-#, fuzzy
 msgid "This is a new service."
-msgstr "Mae hyn yn wasanaeth newydd - bydd eich "
+msgstr "Gwasanaeth newydd yw hwn."
 
 #: frontend/templates/partials/contact_details.html:3
 msgid "Email"
@@ -473,3 +462,15 @@ msgstr "Ffôn testun"
 
 #~ msgid " will help us to improve it."
 #~ msgstr " yn ein cefnogi i'w wella."
+
+#~ msgid "If you have any questions about the form or the fund, "
+#~ msgstr "Os oes gennych unrhyw gwestiynau am y ffurflen neu'r gronfa, "
+
+#~ msgid "contact us"
+#~ msgstr "cysylltwch â ni"
+
+#~ msgid "We've emailed you a link to sign in"
+#~ msgstr ""
+
+#~ msgid "Check your email and follow the link to continue your application"
+#~ msgstr ""
