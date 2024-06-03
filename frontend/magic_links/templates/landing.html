@@ -76,7 +76,7 @@
             {% if show_contact_us %}
             {% trans %}If you need help,{% endtrans %} <a class="govuk-link" href="{{ contact_us_url }}">{% trans %}contact us.{% endtrans %}</a>
             {% else %}
-                If you have questions about the form or the fund, <a class="govuk-link" href="{{ contact_us_url }}">contact us.</a>
+            {% trans %}If you have questions about the form or the fund,{% endtrans %} <a class="govuk-link" href="{{ contact_us_url }}">{% trans %}contact us.{% endtrans %}</a>
             {% endif %}
         {% else %}
         {% trans %}If you have any questions about the form or the fund, email us at{% endtrans %} <a

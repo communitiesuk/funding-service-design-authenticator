@@ -235,6 +235,7 @@ msgid "If you need help,"
 msgstr "Os oes angen help arnoch chi,"
 
 #: frontend/magic_links/templates/landing.html:77
+#: frontend/magic_links/templates/landing.html:79
 #: frontend/magic_links/templates/landing_eoi.html:77
 msgid "contact us."
 msgstr "cysylltwch â ni."
@@ -246,6 +247,11 @@ msgid "If you have any questions about the form or the fund, email us at"
 msgstr ""
 "Os oes gennych unrhyw gwestiynau ynglŷn â'r ffurflen neu'r gronfa, "
 "anfonwch e-bost atom yn"
+
+#: frontend/magic_links/templates/landing_eoi.html:79
+msgid "If you have any questions about the form or the fund,"
+msgstr ""
+"Os oes gennych unrhyw gwestiynau ynglŷn â'r ffurflen neu'r gronfa,"
 
 #: frontend/magic_links/templates/landing.html:86
 #: frontend/magic_links/templates/landing_eoi.html:83
