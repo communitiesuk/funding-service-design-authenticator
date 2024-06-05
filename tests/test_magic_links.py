@@ -19,7 +19,6 @@ from security.utils import validate_token
 @pytest.mark.usefixtures("flask_test_client")
 @pytest.mark.usefixtures("mock_redis_magic_links")
 class TestMagicLinks(AuthSessionView):
-
     created_link_keys = []
     used_link_keys = []
 
@@ -63,7 +62,9 @@ class TestMagicLinks(AuthSessionView):
             "models.account.get_round_data"
         ) as mock_get_round_data_account, mock.patch(
             "frontend.magic_links.routes.get_round_data"
-        ) as mock_get_round_data_frontend:
+        ) as mock_get_round_data_frontend, mock.patch(
+            "models.notification.Notification.send"
+        ) as mock_send:
             # Mock get_fund() called in get_magic_link()
             mock_fund = mock.MagicMock()
             mock_fund.configure_mock(name="cof")
@@ -72,6 +73,7 @@ class TestMagicLinks(AuthSessionView):
             mock_round_account = mock.MagicMock()
             mock_round_account.configure_mock(contact_details={"email_address": "new_user@example.com"})
             mock_get_round_data_frontend.return_value = mock_round_account
+            mock_send.return_value = True
             # Mock get_round_data() called in new()
             mock_round_frontend = mock.MagicMock()
             mock_round_frontend.configure_mock(contact_details={"email_address": "new_user@example.com"})
@@ -361,7 +363,6 @@ class TestMagicLinks(AuthSessionView):
                 assert session_details.get("roles") == []
 
     def test_magic_link_route_new(self, flask_test_client):
-
         # create a MagicMock object for the form used in new():
         mock_form = mock.MagicMock(spec=EmailForm)
         mock_form.validate_on_submit.return_value = True

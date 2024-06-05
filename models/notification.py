@@ -1,10 +1,13 @@
 import json
 import textwrap
+from uuid import uuid4
 
 from config import Config
 from flask import current_app
 from fsd_utils.config.notify_constants import NotifyConstants
-from models.data import post_data
+
+NOTIFICATION_CONST = "notification"
+NOTIFICATION_S3_KEY_CONST = "auth/notification"
 
 
 class Notification(object):
@@ -38,16 +41,38 @@ class Notification(object):
             current_app.logger.info(f"{template_msg}{json.dumps(content, indent=4)}")
             return True
 
-        url = Config.NOTIFICATION_SERVICE_HOST + Config.SEND_ENDPOINT
         params = {
             NotifyConstants.FIELD_TYPE: template_type,
             NotifyConstants.FIELD_TO: to_email,
             NotifyConstants.FIELD_CONTENT: content,
         }
-        response = post_data(url, params)
-        if response:
+        try:
+            sqs_extended_client = Notification._get_sqs_client()
+            message_id = sqs_extended_client.submit_single_message(
+                queue_url=Config.AWS_SQS_NOTIF_APP_PRIMARY_QUEUE_URL,
+                message=json.dumps(params),
+                message_group_id=NOTIFICATION_CONST,
+                message_deduplication_id=str(uuid4()),  # ensures message uniqueness
+                extra_attributes={
+                    "S3Key": {
+                        "StringValue": NOTIFICATION_S3_KEY_CONST,
+                        "DataType": "String",
+                    },
+                },
+            )
+            current_app.logger.info(f"Message sent to SQS queue and message id is [{message_id}]")
             return True
-        raise NotificationError(message="Sorry, the notification could not be sent")
+        except Exception as e:
+            current_app.logger.error("An error occurred while sending message")
+            current_app.logger.error(e)
+            raise NotificationError(message="Sorry, the notification could not be sent")
+
+    @staticmethod
+    def _get_sqs_client():
+        sqs_extended_client = current_app.extensions["sqs_extended_client"]
+        if sqs_extended_client is not None:
+            return sqs_extended_client
+        current_app.logger.error("An error occurred while sending message since client is not available")
 
 
 class NotificationError(Exception):
