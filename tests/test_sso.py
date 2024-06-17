@@ -128,8 +128,7 @@ def test_sso_get_token_prevents_overwrite_of_existing_azure_subject_id(flask_tes
     assert (
         "Cannot update account id: usersso - "
         "attempting to update existing azure_ad_subject_id "
-        "from abc to xyx which is not allowed."
-        in caplog.text
+        "from abc to xyx which is not allowed." in caplog.text
     )
 
 
