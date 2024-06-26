@@ -98,7 +98,7 @@ commonmark==0.9.1
     #   rich
 connexion==2.14.2
     # via -r requirements.txt
-cryptography==42.0.4
+cryptography==39.0.2
     # via
     #   -r requirements.txt
     #   msal
@@ -158,7 +158,7 @@ flask-redis==0.4.0
     # via
     #   -r requirements.txt
     #   funding-service-design-utils
-flask-session==0.4.0
+flask-session==0.8.0
     # via -r requirements.txt
 flask-sqlalchemy==3.1.1
     # via
@@ -178,7 +178,9 @@ funding-service-design-utils==2.0.52
 govuk-frontend-jinja==2.3.0
     # via -r requirements.txt
 greenlet==3.0.3
-    # via sqlalchemy
+    # via
+    #   -r requirements.txt
+    #   sqlalchemy
 gunicorn==20.1.0
     # via
     #   -r requirements.txt
@@ -242,8 +244,12 @@ markupsafe==2.1.1
     #   wtforms
 mccabe==0.7.0
     # via flake8
-msal==1.28.0
+msal==1.18.0
     # via -r requirements.txt
+msgspec==0.18.6
+    # via
+    #   -r requirements.txt
+    #   flask-session
 mypy-extensions==0.4.3
     # via black
 nodeenv==1.7.0
@@ -280,6 +286,8 @@ prance==0.21.8.0
     # via -r requirements.txt
 pre-commit==2.19.0
     # via -r requirements-dev.in
+py==1.11.0
+    # via pytest
 pycodestyle==2.11.1
     # via flake8
 pycparser==2.21
