@@ -6,7 +6,7 @@ from os import environ
 from os import getenv
 from pathlib import Path
 
-from config.utils import VcapServices
+import redis
 from distutils.util import strtobool
 from fsd_utils import CommonConfig
 from fsd_utils import configclass
@@ -72,10 +72,6 @@ class DefaultConfig(object):
     # You can find the proper permission names from this document
     # https://docs.microsoft.com/en-us/graph/permissions-reference
     MS_GRAPH_PERMISSIONS_SCOPE = ["User.ReadBasic.All"]
-
-    # GOV.UK PaaS
-    if environ.get("VCAP_SERVICES"):
-        VCAP_SERVICES = VcapServices.from_env_json(environ.get("VCAP_SERVICES"))
 
     """
     Session
@@ -277,3 +273,9 @@ class DefaultConfig(object):
     # ---------------
     AWS_SQS_NOTIF_APP_PRIMARY_QUEUE_URL = environ.get("AWS_SQS_NOTIF_APP_PRIMARY_QUEUE_URL")
     AWS_SQS_NOTIF_APP_SECONDARY_QUEUE_URL = environ.get("AWS_SQS_NOTIF_APP_SECONDARY_QUEUE_URL")
+
+    # Redis
+    REDIS_INSTANCE_URI = getenv("REDIS_INSTANCE_URI", "redis://localhost:6379")
+    REDIS_MLINKS_URL = REDIS_INSTANCE_URI + "/0"
+    REDIS_SESSIONS_URL = REDIS_INSTANCE_URI + "/1"
+    SESSION_REDIS = redis.from_url(REDIS_SESSIONS_URL)
