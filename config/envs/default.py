@@ -6,7 +6,6 @@ from os import environ
 from os import getenv
 from pathlib import Path
 
-from config.utils import VcapServices
 from distutils.util import strtobool
 from fsd_utils import CommonConfig
 from fsd_utils import configclass
@@ -72,10 +71,6 @@ class DefaultConfig(object):
     # You can find the proper permission names from this document
     # https://docs.microsoft.com/en-us/graph/permissions-reference
     MS_GRAPH_PERMISSIONS_SCOPE = ["User.ReadBasic.All"]
-
-    # GOV.UK PaaS
-    if environ.get("VCAP_SERVICES"):
-        VCAP_SERVICES = VcapServices.from_env_json(environ.get("VCAP_SERVICES"))
 
     """
     Session
