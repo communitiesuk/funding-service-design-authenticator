@@ -6,6 +6,7 @@ from os import environ
 from os import getenv
 from pathlib import Path
 
+import redis
 from distutils.util import strtobool
 from fsd_utils import CommonConfig
 from fsd_utils import configclass
@@ -272,3 +273,9 @@ class DefaultConfig(object):
     # ---------------
     AWS_SQS_NOTIF_APP_PRIMARY_QUEUE_URL = environ.get("AWS_SQS_NOTIF_APP_PRIMARY_QUEUE_URL")
     AWS_SQS_NOTIF_APP_SECONDARY_QUEUE_URL = environ.get("AWS_SQS_NOTIF_APP_SECONDARY_QUEUE_URL")
+
+    # Redis
+    REDIS_INSTANCE_URI = getenv("REDIS_INSTANCE_URI", "redis://localhost:6379")
+    REDIS_MLINKS_URL = REDIS_INSTANCE_URI + "/0"
+    REDIS_SESSIONS_URL = REDIS_INSTANCE_URI + "/1"
+    SESSION_REDIS = redis.from_url(REDIS_SESSIONS_URL)
