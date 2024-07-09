@@ -260,7 +260,7 @@ class DefaultConfig(object):
     # ---------------
     AWS_ACCESS_KEY_ID = AWS_SQS_ACCESS_KEY_ID = environ.get("AWS_ACCESS_KEY_ID")
     AWS_SECRET_ACCESS_KEY = AWS_SQS_SECRET_ACCESS_KEY = environ.get("AWS_SECRET_ACCESS_KEY")
-    AWS_REGION = AWS_SQS_REGION = environ.get("AWS_REGION")
+    AWS_REGION = AWS_SQS_REGION = environ.get("AWS_REGION", "eu-west-2")
     AWS_ENDPOINT_OVERRIDE = environ.get("AWS_ENDPOINT_OVERRIDE")
 
     # ---------------
