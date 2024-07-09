@@ -56,6 +56,7 @@ class AuthSessionView(MethodView):
 
         Returns: 302 redirect to signed-out page
         """
+        return_path = request.args.get("return_path")
         fund_short_name = None
         round_short_name = None
         existing_auth_token = request.cookies.get(Config.FSD_USER_TOKEN_COOKIE_NAME)
@@ -104,6 +105,7 @@ class AuthSessionView(MethodView):
             fund=fund_short_name,
             round=round_short_name,
             return_app=return_app,
+            return_path=return_path,
         )
         response = make_response(redirect(signed_out_url), 302)
         response.set_cookie(
