@@ -1,24 +1,16 @@
-from datetime import datetime
-from datetime import timedelta
+from datetime import datetime, timedelta
 from typing import TYPE_CHECKING
 
 import jwt
+from flask import abort, current_app, make_response, redirect, request, session, url_for
+from flask.views import MethodView
+from fsd_utils import clear_sentry
+
 from api.responses import error_response
 from api.session.exceptions import SessionCreateError
 from config import Config
-from flask import abort
-from flask import current_app
-from flask import make_response
-from flask import redirect
-from flask import request
-from flask import session
-from flask import url_for
-from flask.views import MethodView
-from fsd_utils import clear_sentry
 from models.magic_link import MagicLinkMethods
-from security.utils import create_token
-from security.utils import decode_with_options
-from security.utils import validate_token
+from security.utils import create_token, decode_with_options, validate_token
 
 if TYPE_CHECKING:
     from models.account import Account as Account
@@ -193,7 +185,7 @@ class AuthSessionView(MethodView):
             "azureAdSubjectId": account.azure_ad_subject_id,
             "email": account.email,
             "fullName": account.full_name,
-            "roles": [] if is_via_magic_link and not Config.ALLOW_ASSESSMENT_LOGIN_VIA_MAGIC_LINK else account.roles,
+            "roles": account.roles,
             "iat": int(datetime.now().timestamp()),
             "exp": int(datetime.now().timestamp() + timeout_seconds),
         }

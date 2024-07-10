@@ -1,20 +1,21 @@
-from config import Config
-from flask import abort
-from flask import Blueprint
-from flask import current_app
-from flask import g
-from flask import redirect
-from flask import render_template
-from flask import request
-from flask import url_for
-from frontend.magic_links.forms import EmailForm
+from flask import (
+    Blueprint,
+    abort,
+    current_app,
+    g,
+    redirect,
+    render_template,
+    request,
+    url_for,
+)
 from fsd_utils.authentication.decorators import login_requested
-from models.account import AccountError
-from models.account import AccountMethods
+
+from config import Config
+from frontend.magic_links.forms import EmailForm
+from models.account import AccountError, AccountMethods
 from models.data import get_round_data
 from models.fund import FundMethods
-from models.magic_link import MagicLinkError
-from models.magic_link import MagicLinkMethods
+from models.magic_link import MagicLinkError, MagicLinkMethods
 from models.notification import NotificationError
 
 magic_links_bp = Blueprint(
@@ -27,7 +28,6 @@ magic_links_bp = Blueprint(
 
 @magic_links_bp.route("/invalid")
 def invalid():
-
     return (
         render_template(
             "invalid.html",
@@ -64,6 +64,15 @@ def landing(link_id):
     """
     fund_short_name = request.args.get("fund")
     round_short_name = request.args.get("round")
+    roles = request.args.get("roles")
+
+    print("\n", "roles", roles, "\n")
+    if roles:
+        return render_template(
+            "landing_role.html",
+            link_id=link_id,
+            roles=roles,
+        )
 
     fund_data = FundMethods.get_fund(fund_short_name)
     round_data = get_round_data(fund_short_name, round_short_name)
@@ -122,11 +131,13 @@ def new():
     # Grabbing fund and round info from query params and validating
     fund_short_name = request.args.get("fund")
     round_short_name = request.args.get("round")
+    roles = request.args.get("roles")
+
     fund = FundMethods.get_fund(fund_short_name)
     round = get_round_data(fund_short_name, round_short_name)
 
     fund_round = bool(fund_short_name and round_short_name and fund and round)
-    if not fund_round:
+    if not fund_round and not roles:
         abort(404)
 
     # TODO review this code block with form_data
@@ -140,6 +151,7 @@ def new():
                 email=form.data.get("email"),
                 fund_short_name=fund_short_name,
                 round_short_name=round_short_name,
+                roles=roles,
             )
 
             if Config.AUTO_REDIRECT_LOGIN:
@@ -169,7 +181,6 @@ def new():
         fund_round=fund_round,
         fund_short_name=fund_short_name,
         migration_banner_enabled=Config.MIGRATION_BANNER_ENABLED,
-        is_expression_of_interest=round.is_expression_of_interest,
     )
 
 

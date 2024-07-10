@@ -2,20 +2,15 @@ import json
 import urllib.parse
 from datetime import datetime
 
-from api.responses import error_response
-from api.responses import magic_link_201_response
-from api.session.auth_session import AuthSessionView
-from config import Config
-from flask import current_app
-from flask import g
-from flask import redirect
-from flask import request
-from flask import url_for
+from flask import current_app, g, redirect, request, url_for
 from flask.views import MethodView
 from fsd_utils.authentication.decorators import login_requested
+
+from api.responses import error_response, magic_link_201_response
+from api.session.auth_session import AuthSessionView
+from config import Config
 from models.account import AccountMethods
-from models.magic_link import MagicLinkError
-from models.magic_link import MagicLinkMethods
+from models.magic_link import MagicLinkError, MagicLinkMethods
 
 
 class MagicLinksView(MagicLinkMethods, MethodView):
@@ -37,6 +32,7 @@ class MagicLinksView(MagicLinkMethods, MethodView):
 
         fund_short_name = request.args.get("fund")
         round_short_name = request.args.get("round")
+        roles = request.args.get("roles")
 
         link_key = ":".join([Config.MAGIC_LINK_RECORD_PREFIX, link_id])
         link_hash = self.redis_mlinks.get(link_key)
@@ -53,6 +49,7 @@ class MagicLinksView(MagicLinkMethods, MethodView):
 
             # Check account exists
             account = AccountMethods.get_account(account_id=link.get("accountId"))
+            account.roles = roles.split(",") if roles else []
             if not account:
                 current_app.logger.error(f"Tried to use magic link for non-existent account_id {link.get('accountId')}")
                 redirect(

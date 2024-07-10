@@ -1,15 +1,12 @@
 from dataclasses import dataclass
 from typing import List
 
-import config
-from config import Config
 from flask import current_app
 from fsd_utils.config.notify_constants import NotifyConstants
-from models.data import get_account_data
-from models.data import get_data
-from models.data import get_round_data
-from models.data import post_data
-from models.data import put_data
+
+import config
+from config import Config
+from models.data import get_account_data, get_data, get_round_data, post_data, put_data
 from models.fund import FundMethods
 from models.magic_link import MagicLinkMethods
 from models.notification import Notification
@@ -183,6 +180,7 @@ class AccountMethods(Account):
         email: str,
         fund_short_name: str = None,
         round_short_name: str = None,
+        roles: list = [],
     ) -> bool:
         """
         Create a new magic link for a user
@@ -197,28 +195,36 @@ class AccountMethods(Account):
         if not account:
             account = cls.create_account(email)
         if account:
-            fund = FundMethods.get_fund(fund_short_name)
-            round_for_fund = get_round_data(
-                fund_short_name,
-                round_short_name,
-            )
+            if fund_short_name and round_short_name:
+                fund = FundMethods.get_fund(fund_short_name)
+                round_for_fund = get_round_data(
+                    fund_short_name,
+                    round_short_name,
+                )
 
-            notification_content = {
-                NotifyConstants.MAGIC_LINK_REQUEST_NEW_LINK_URL_FIELD: Config.AUTHENTICATOR_HOST  # noqa
-                + Config.NEW_LINK_ENDPOINT
-                + "?fund="
-                + fund_short_name
-                + "&round="
-                + round_short_name,  # noqa
-                NotifyConstants.MAGIC_LINK_CONTACT_HELP_EMAIL_FIELD: round_for_fund.contact_email,  # noqa
-                NotifyConstants.MAGIC_LINK_FUND_NAME_FIELD: fund.name,
-            }
+                notification_content = {
+                    NotifyConstants.MAGIC_LINK_REQUEST_NEW_LINK_URL_FIELD: Config.AUTHENTICATOR_HOST  # noqa
+                    + Config.NEW_LINK_ENDPOINT
+                    + "?fund="
+                    + fund_short_name
+                    + "&round="
+                    + round_short_name,  # noqa
+                    NotifyConstants.MAGIC_LINK_CONTACT_HELP_EMAIL_FIELD: round_for_fund.contact_email,  # noqa
+                    NotifyConstants.MAGIC_LINK_FUND_NAME_FIELD: fund.name,
+                }
+            if roles:
+                notification_content = {
+                    NotifyConstants.MAGIC_LINK_REQUEST_NEW_LINK_URL_FIELD: (
+                        f"{Config.AUTHENTICATOR_HOST}{Config.NEW_LINK_ENDPOINT}?roles={roles}"
+                    ),
+                }
 
             # Create a fresh link
             new_link_json = MagicLinkMethods().create_magic_link(
                 account,
                 fund_short_name=fund_short_name if fund_short_name else "",
                 round_short_name=round_short_name if round_short_name else "",
+                roles=roles,
             )
             notification_content.update({NotifyConstants.MAGIC_LINK_URL_FIELD: new_link_json.get("link")})  # noqa
             current_app.logger.debug(f"Magic Link URL: {new_link_json.get('link')}")

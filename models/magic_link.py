@@ -4,16 +4,13 @@ import json
 import random
 import string
 from dataclasses import dataclass
-from datetime import datetime
-from datetime import timedelta
-from typing import List
-from typing import TYPE_CHECKING
+from datetime import datetime, timedelta
+from typing import TYPE_CHECKING, List
+
+from flask import Response, abort, current_app
+from flask_redis import FlaskRedis
 
 from config import Config
-from flask import abort
-from flask import current_app
-from flask import Response
-from flask_redis import FlaskRedis
 from security.utils import create_token
 
 if TYPE_CHECKING:
@@ -179,6 +176,7 @@ class MagicLinkMethods(object):
         redirect_url: str = None,
         fund_short_name: str = None,
         round_short_name: str = None,
+        roles: list = [],
     ) -> dict:
         """
         Creates a new magic link for an account, with an optional redirect_url
@@ -191,7 +189,12 @@ class MagicLinkMethods(object):
         self.clear_existing_user_record(account.id)
 
         if not redirect_url:
-            redirect_url = Config.MAGIC_LINK_REDIRECT_URL + "?fund=" + fund_short_name + "&round=" + round_short_name
+            if fund_short_name and round_short_name:
+                redirect_url = (
+                    Config.MAGIC_LINK_REDIRECT_URL + "?fund=" + fund_short_name + "&round=" + round_short_name
+                )
+            else:
+                redirect_url = Config.MAGIC_LINK_REDIRECT_URL + f"?roles={roles}"
 
         new_link_json = self._make_link_json(account, redirect_url)
 
@@ -205,7 +208,6 @@ class MagicLinkMethods(object):
             self._create_user_record(account, redis_key)
 
             if fund_short_name and round_short_name:
-
                 magic_link_url = (
                     Config.AUTHENTICATOR_HOST
                     + Config.MAGIC_LINK_LANDING_PAGE
@@ -215,7 +217,8 @@ class MagicLinkMethods(object):
                     + "&round="
                     + round_short_name
                 )
-
+            elif roles:
+                magic_link_url = f"{Config.AUTHENTICATOR_HOST}{Config.MAGIC_LINK_LANDING_PAGE}{link_key}?roles={roles}"
             else:
                 magic_link_url = Config.AUTHENTICATOR_HOST + Config.MAGIC_LINK_LANDING_PAGE + link_key
 
