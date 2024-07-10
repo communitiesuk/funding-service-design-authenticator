@@ -4,8 +4,10 @@ from os import getenv
 
 import redis
 from config.envs.default import DefaultConfig as Config
+from config.envs.default import SafeAppConfig
 from distutils.util import strtobool
 from fsd_utils import configclass
+from fsd_utils.authentication.config import SupportedApp
 
 
 @configclass
@@ -79,3 +81,18 @@ class UnitTestConfig(Config):
     # S3 Config
     # ---------------
     AWS_MSG_BUCKET_NAME = "fsd-notification-bucket"
+
+    POST_AWARD_FRONTEND_HOST = "http://post-award-frontend"
+
+    SAFE_RETURN_APPS = {
+        SupportedApp.POST_AWARD_FRONTEND.value: SafeAppConfig(
+            login_url=POST_AWARD_FRONTEND_HOST + "/",
+            logout_endpoint="sso_bp.signed_out",
+            service_title="Find monitoring and evaluation data",
+        ),
+        SupportedApp.POST_AWARD_SUBMIT.value: SafeAppConfig(
+            login_url="http://submit/",
+            logout_endpoint="sso_bp.signed_out",
+            service_title="Submit monitoring and evaluation data",
+        ),
+    }
