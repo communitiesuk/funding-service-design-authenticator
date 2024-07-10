@@ -1,11 +1,12 @@
 import pytest
 from models.account import Account
 from models.account import AccountMethods
+from models.fund import Fund
+from models.round import Round
 
-
-id = "test_id"
-email = "john@example.com"
-full_name = "John Doe"
+test_user_id = "test_id"
+test_user_email = "john@example.com"
+test_user_full_name = "John Doe"
 azure_ad_subject_id = "test_azure_id"
 roles = []
 
@@ -18,9 +19,9 @@ def mock_get_account(mocker, request):
         "models.account.AccountMethods.get_account",
         return_value=Account.from_json(
             {
-                "account_id": id,
-                "email_address": email,
-                "full_name": full_name,
+                "account_id": test_user_id,
+                "email_address": test_user_email,
+                "full_name": test_user_full_name,
                 "azure_ad_subject_id": azure_ad_subject_id,
                 "roles": roles,
             }
@@ -37,8 +38,8 @@ def mock_create_account(mocker):
     mocker.patch(
         "models.account.post_data",
         return_value={
-            "account_id": id,
-            "email_address": email,
+            "account_id": test_user_id,
+            "email_address": test_user_email,
             "azure_ad_subject_id": azure_ad_subject_id,
         },
     )
@@ -51,9 +52,9 @@ def mock_update_account(mocker):
     mocker.patch(
         "models.account.put_data",
         return_value={
-            "account_id": id,
+            "account_id": test_user_id,
             "email_address": "john.Doe@example.com",
-            "full_name": full_name,
+            "full_name": test_user_full_name,
             "azure_ad_subject_id": azure_ad_subject_id,
             "roles": ["COF_Lead_Assessor", "NSTF_Lead_Assessor"],
         },
@@ -69,9 +70,9 @@ class TestAccountMethods(object):
             full_name="John Doe",
             roles=["COF_Lead_Assessor", "NSTF_Lead_Assessor"],
         )
-        assert result.id == id
+        assert result.id == test_user_id
         assert result.email == "john.Doe@example.com"
-        assert result.full_name == full_name
+        assert result.full_name == test_user_full_name
         assert result.roles == ["COF_Lead_Assessor", "NSTF_Lead_Assessor"]
         assert result.azure_ad_subject_id == azure_ad_subject_id
 
@@ -83,9 +84,9 @@ class TestAccountMethods(object):
             full_name="John Doe",
             roles=["COF_Lead_Assessor", "NSTF_Lead_Assessor"],
         )
-        assert result.id == id
+        assert result.id == test_user_id
         assert result.email == "john.Doe@example.com"
-        assert result.full_name == full_name
+        assert result.full_name == test_user_full_name
         assert result.roles == ["COF_Lead_Assessor", "NSTF_Lead_Assessor"]
         assert result.azure_ad_subject_id == azure_ad_subject_id
 
@@ -94,3 +95,20 @@ class TestAccountMethods(object):
             email="john@example.com",
         )
         assert result.email == "john@example.com"
+
+    def test_create_magic_link(self, mocker, mock_get_account, flask_test_client):
+        mocker.patch(
+            "models.account.FundMethods.get_fund",
+            return_value=Fund(
+                name="test fund",
+                fund_title="hello",
+                short_name="COF",
+                identifier="asdfasdf",
+                description="asdfasdfasdf",
+            ),
+        )
+        mocker.patch("models.account.get_round_data", return_value=Round(contact_email="asdf@asdf.com"))
+        mocker.patch("models.account.Notification.send", return_value=True)
+
+        result = AccountMethods.get_magic_link(email=test_user_email, fund_short_name="COF", round_short_name="R1W1")
+        assert result.endswith("?fund=COF&round=R1W1")

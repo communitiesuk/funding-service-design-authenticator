@@ -44,9 +44,7 @@ def create_app() -> Flask:
     init_sentry()
 
     # Initialise Connexion Flask App
-    connexion_options = {
-        "swagger_url": "/docs",
-    }
+    connexion_options = Config.CONNEXION_OPTIONS
     connexion_app = connexion.FlaskApp(
         "Authenticator",
         specification_dir="/openapi/",

@@ -44,7 +44,6 @@ msal==1.18.0
 #   Connexion APIs
 #-----------------------------------
 connexion==2.14.2
-swagger-ui-bundle
 openapi-spec-validator
 prance
 

@@ -279,3 +279,6 @@ class DefaultConfig(object):
     REDIS_MLINKS_URL = REDIS_INSTANCE_URI + "/0"
     REDIS_SESSIONS_URL = REDIS_INSTANCE_URI + "/1"
     SESSION_REDIS = redis.from_url(REDIS_SESSIONS_URL)
+
+    # Connexion
+    CONNEXION_OPTIONS = {}
