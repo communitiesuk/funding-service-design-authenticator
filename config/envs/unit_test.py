@@ -86,7 +86,7 @@ class UnitTestConfig(Config):
 
     SAFE_RETURN_APPS = {
         SupportedApp.POST_AWARD_FRONTEND.value: SafeAppConfig(
-            login_url=POST_AWARD_FRONTEND_HOST + "/",
+            login_url=POST_AWARD_FRONTEND_HOST + "/login",
             logout_endpoint="sso_bp.signed_out",
             service_title="Find monitoring and evaluation data",
         ),

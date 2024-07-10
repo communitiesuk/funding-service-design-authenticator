@@ -209,10 +209,10 @@ def test_sso_get_token_redirects_to_return_app_login_url(
 
     response = flask_test_client.get(endpoint)
 
-    assert response.location == "http://post-award-frontend/"
+    assert response.location == "http://post-award-frontend/login"
 
 
-def test_sso_get_token_redirects_to_return_app_login_url_with_request_path(
+def test_sso_get_token_redirects_to_return_app_host_with_request_path(
     flask_test_client, mock_msal_client_application, mock_redis_sessions
 ):
     """
@@ -231,7 +231,7 @@ def test_sso_get_token_redirects_to_return_app_login_url_with_request_path(
 
     response = flask_test_client.get(endpoint)
 
-    assert response.location == "http://post-award-frontend//foo"
+    assert response.location == "http://post-award-frontend/foo"
 
 
 def test_sso_get_token_400_abort_with_invalid_return_app(
