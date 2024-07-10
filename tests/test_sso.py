@@ -34,6 +34,14 @@ def test_sso_login_sets_return_app_in_session(flask_test_client):
     assert session.get("return_app") == return_app
 
 
+def test_sso_login_sets_return_path_in_session(flask_test_client):
+    return_app = "post-award-frontend"
+
+    endpoint = f"/sso/login?return_app={return_app}&return_path=/foo"
+    flask_test_client.get(endpoint)
+    assert session.get("return_path") == "/foo"
+
+
 def test_sso_logout_redirects_to_ms(flask_test_client):
     """
     GIVEN We have a functioning Authenticator API
