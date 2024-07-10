@@ -1,12 +1,11 @@
 """Flask Local Development Environment Configuration."""
-
 import logging
-from os import environ, getenv
+from os import environ
+from os import getenv
 
 import redis
-from fsd_utils import configclass
-
 from config.envs.default import DefaultConfig as Config
+from fsd_utils import configclass
 
 
 @configclass

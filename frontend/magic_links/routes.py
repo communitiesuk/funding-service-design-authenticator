@@ -1,21 +1,20 @@
-from flask import (
-    Blueprint,
-    abort,
-    current_app,
-    g,
-    redirect,
-    render_template,
-    request,
-    url_for,
-)
-from fsd_utils.authentication.decorators import login_requested
-
 from config import Config
+from flask import abort
+from flask import Blueprint
+from flask import current_app
+from flask import g
+from flask import redirect
+from flask import render_template
+from flask import request
+from flask import url_for
 from frontend.magic_links.forms import EmailForm
-from models.account import AccountError, AccountMethods
+from fsd_utils.authentication.decorators import login_requested
+from models.account import AccountError
+from models.account import AccountMethods
 from models.data import get_round_data
 from models.fund import FundMethods
-from models.magic_link import MagicLinkError, MagicLinkMethods
+from models.magic_link import MagicLinkError
+from models.magic_link import MagicLinkMethods
 from models.notification import NotificationError
 
 magic_links_bp = Blueprint(

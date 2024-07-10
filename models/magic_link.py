@@ -4,13 +4,16 @@ import json
 import random
 import string
 from dataclasses import dataclass
-from datetime import datetime, timedelta
-from typing import TYPE_CHECKING, List
-
-from flask import Response, abort, current_app
-from flask_redis import FlaskRedis
+from datetime import datetime
+from datetime import timedelta
+from typing import List
+from typing import TYPE_CHECKING
 
 from config import Config
+from flask import abort
+from flask import current_app
+from flask import Response
+from flask_redis import FlaskRedis
 from security.utils import create_token
 
 if TYPE_CHECKING:

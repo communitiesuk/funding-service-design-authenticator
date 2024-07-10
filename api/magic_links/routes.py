@@ -2,15 +2,20 @@ import json
 import urllib.parse
 from datetime import datetime
 
-from flask import current_app, g, redirect, request, url_for
-from flask.views import MethodView
-from fsd_utils.authentication.decorators import login_requested
-
-from api.responses import error_response, magic_link_201_response
+from api.responses import error_response
+from api.responses import magic_link_201_response
 from api.session.auth_session import AuthSessionView
 from config import Config
+from flask import current_app
+from flask import g
+from flask import redirect
+from flask import request
+from flask import url_for
+from flask.views import MethodView
+from fsd_utils.authentication.decorators import login_requested
 from models.account import AccountMethods
-from models.magic_link import MagicLinkError, MagicLinkMethods
+from models.magic_link import MagicLinkError
+from models.magic_link import MagicLinkMethods
 
 
 class MagicLinksView(MagicLinkMethods, MethodView):

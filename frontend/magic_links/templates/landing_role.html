@@ -18,11 +18,11 @@
     </h1>
 
     <div data-qa="claim_magic_link">
-        {{  
+        {{
             govukButton({
                 "text":gettext("Continue"),
                 "href": url_for('api_MagicLinksView_use', link_id=link_id, roles=roles),
-                "isStartButton": true 
+                "isStartButton": true
             })
         }}
     </div>
