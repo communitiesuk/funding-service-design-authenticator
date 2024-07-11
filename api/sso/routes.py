@@ -99,7 +99,7 @@ class SsoView(MethodView):
         if return_app := session.get("return_app"):
             if safe_app := Config.SAFE_RETURN_APPS.get(return_app):
                 if return_path := session.get("return_path"):
-                    redirect_url = self._get_hostname_from_url(safe_app.login_url) + return_path
+                    redirect_url = self._get_origin_from_url(safe_app.login_url) + return_path
                 else:
                     redirect_url = safe_app.login_url
 
@@ -154,7 +154,7 @@ class SsoView(MethodView):
         )
 
     @staticmethod
-    def _get_hostname_from_url(url):
+    def _get_origin_from_url(url):
         parsed_uri = urlparse(url)
         return f"{parsed_uri.scheme}://{parsed_uri.netloc}"
 
