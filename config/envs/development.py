@@ -71,3 +71,8 @@ class DevelopmentConfig(Config):
 
     # Security
     Config.TALISMAN_SETTINGS["force_https"] = False
+
+    # Connexion
+    CONNEXION_OPTIONS = {
+        "swagger_url": "/docs",
+    }

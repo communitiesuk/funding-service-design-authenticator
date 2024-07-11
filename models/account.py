@@ -183,7 +183,7 @@ class AccountMethods(Account):
         email: str,
         fund_short_name: str = None,
         round_short_name: str = None,
-    ) -> bool:
+    ) -> str:
         """
         Create a new magic link for a user
         and send it in a notification
@@ -191,7 +191,7 @@ class AccountMethods(Account):
         :param email: The user's account email address
         :param fund_id: The fund id
         :param round_id: The round id
-        :return: True if successfully created
+        :return: The authenticator url to use the magic link (landing page)
         """
         account = cls.get_account(email)
         if not account:

@@ -60,7 +60,7 @@ class TestSignout:
                 == "/service/magic-links/signed-out/sign_out_request?fund=test_fund&round=test_round"  # noqa
             )
 
-    def test_magic_link_auth_can_be_signed_out(self, flask_test_client, mock_redis_sessions):
+    def test_magic_link_auth_can_be_signed_out(self, mocker, flask_test_client, mock_redis_sessions, create_magic_link):
         """
         GIVEN a running Flask client, redis instance and
         and a valid magic link has been clicked and a valid
@@ -71,17 +71,9 @@ class TestSignout:
         """
         expected_account_id = "usera"
         expected_cookie_name = "fsd_user_token"
-        magic_link_create_payload = {
-            "email": "a@example.com",
-            "redirectUrl": "https://example.com/redirect-url",
-        }
-        endpoint = "/magic-links"
-        response = flask_test_client.post(endpoint, json=magic_link_create_payload)
-        magic_link = response.get_json()
-        link_key = magic_link.get("key")
+        link_key = create_magic_link
         self.created_link_keys.append(link_key)
         use_endpoint = f"/magic-links/{link_key}"
-        flask_test_client.get(use_endpoint)
         flask_test_client.get(use_endpoint)
         self.used_link_keys.append(link_key)
         auth_cookie = next(

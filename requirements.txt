@@ -228,8 +228,6 @@ sqlalchemy==2.0.28
     #   sqlalchemy-utils
 sqlalchemy-utils==0.41.1
     # via funding-service-design-utils
-swagger-ui-bundle==0.0.9
-    # via -r requirements.in
 thrift==0.16.0
     # via flipper-client
 typing-extensions==4.10.0
