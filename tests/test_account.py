@@ -96,7 +96,7 @@ class TestAccountMethods(object):
         )
         assert result.email == "john@example.com"
 
-    def test_create_magic_link(self, mocker, mock_get_account, flask_test_client):
+    def test_create_magic_link(self, mocker, mock_get_account, flask_test_client, mock_redis_magic_links):
         mocker.patch(
             "models.account.FundMethods.get_fund",
             return_value=Fund(
