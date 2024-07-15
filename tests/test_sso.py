@@ -34,6 +34,14 @@ def test_sso_login_sets_return_app_in_session(flask_test_client):
     assert session.get("return_app") == return_app
 
 
+def test_sso_login_sets_return_path_in_session(flask_test_client):
+    return_app = "post-award-frontend"
+
+    endpoint = f"/sso/login?return_app={return_app}&return_path=/foo"
+    flask_test_client.get(endpoint)
+    assert session.get("return_path") == "/foo"
+
+
 def test_sso_logout_redirects_to_ms(flask_test_client):
     """
     GIVEN We have a functioning Authenticator API
@@ -201,7 +209,29 @@ def test_sso_get_token_redirects_to_return_app_login_url(
 
     response = flask_test_client.get(endpoint)
 
-    assert response.location == "/"  # post-award-frontend host location set to empty string in default config
+    assert response.location == "http://post-award-frontend/login"
+
+
+def test_sso_get_token_redirects_to_return_app_host_with_request_path(
+    flask_test_client, mock_msal_client_application, mock_redis_sessions
+):
+    """
+    GIVEN We have a functioning Authenticator API
+    WHEN a GET request for /sso/get-token with a valid
+        response from azure_ad via the mock_msal_client_application
+        with a VALID return app set in the session
+    THEN we should receive a 302 redirect response with
+        the correct location to the return_app
+    """
+    endpoint = "/sso/get-token"
+
+    with flask_test_client.session_transaction() as test_session:
+        test_session["return_app"] = "post-award-frontend"
+        test_session["return_path"] = "/foo"
+
+    response = flask_test_client.get(endpoint)
+
+    assert response.location == "http://post-award-frontend/foo"
 
 
 def test_sso_get_token_400_abort_with_invalid_return_app(

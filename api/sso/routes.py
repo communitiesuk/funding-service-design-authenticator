@@ -1,5 +1,6 @@
 import warnings
 from urllib.parse import urlencode
+from urllib.parse import urlparse
 
 import msal
 import requests
@@ -27,6 +28,7 @@ class SsoView(MethodView):
 
         if return_app := request.args.get("return_app"):
             session["return_app"] = return_app
+            session["return_path"] = request.args.get("return_path")
             current_app.logger.debug(f"Setting return app to {return_app} for this session")
 
         return redirect(session["flow"]["auth_uri"]), 302
@@ -96,7 +98,11 @@ class SsoView(MethodView):
         redirect_url = Config.ASSESSMENT_POST_LOGIN_URL  # TODO: Remove defaulting to Assessment, instead use return_app
         if return_app := session.get("return_app"):
             if safe_app := Config.SAFE_RETURN_APPS.get(return_app):
-                redirect_url = safe_app.login_url
+                if return_path := session.get("return_path"):
+                    redirect_url = self._get_origin_from_url(safe_app.login_url) + return_path
+                else:
+                    redirect_url = safe_app.login_url
+
                 current_app.logger.info(f"Returning to {return_app} @ {redirect_url}")
             else:
                 current_app.logger.warning(f"{return_app} not listed as a safe app.")
@@ -146,6 +152,11 @@ class SsoView(MethodView):
             client_credential=Config.AZURE_AD_CLIENT_SECRET,
             token_cache=cache,
         )
+
+    @staticmethod
+    def _get_origin_from_url(url):
+        parsed_uri = urlparse(url)
+        return f"{parsed_uri.scheme}://{parsed_uri.netloc}"
 
     def build_auth_code_flow(self, authority=None, scopes=None):
         return self._build_msal_app(authority=authority).initiate_auth_code_flow(

@@ -263,3 +263,10 @@ class TestSignout:
         page_html = BeautifulSoup(response.data)
         assert response.status_code == 200
         assert "Access Funding" in str(page_html)
+
+    def test_signout_retains_return_path(self, flask_test_client, mock_redis_sessions):
+        endpoint = "/sessions/sign-out?return_app=post-award-frontend&return_path=/foo"
+        response = flask_test_client.get(endpoint)
+
+        assert response.status_code == 302
+        assert response.location == "/service/sso/signed-out/no_token?return_app=post-award-frontend&return_path=%2Ffoo"
