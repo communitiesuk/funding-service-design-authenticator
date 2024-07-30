@@ -61,7 +61,6 @@
     "short_name": "COF",
     "description": "The Community Ownership Fund is a £150 million fund over 4 years to...."
   },
-
   "__COMMENT TWO__": "below endpoint is to test with the fund short name only",
   "fund_store/funds/COF?language=en&use_short_name=True": {
     "id": "47aef2f5-3fcb-4d45-acb5-f0152b5f03c4",
@@ -72,7 +71,6 @@
   },
   "fund_store/funds/47aef2f5-3fcb-4d45-acb5-f0152b5f03c4/rounds/c603d114-5364-4474-a0c4-c41cbf4d3bbd?language=en&use_short_name=False": {
         "id": "c603d114-5364-4474-a0c4-c41cbf4d3bbd",
-
         "title": "Round 2 Window 2",
         "short_name": "R2W2",
         "fund_id": "47aef2f5-3fcb-4d45-acb5-f0152b5f03c4",
@@ -101,6 +99,40 @@
         "opens": "2022-09-01 00:00:01",
         "deadline": "2023-01-30 00:00:01",
         "assessment_deadline": "2023-03-20 00:00:01",
+        "contact_details": {
+            "phone": "",
+            "email_address": "COF@levellingup.gov.uk",
+            "text_phone": ""
+        },
+        "support_availability": {
+            "time": "9am to 5pm",
+            "days": "Monday to Friday",
+            "closed": "Easter Sunday, Christmas Day, Boxing Day and New Year’s Day"
+        }
+    },
+  "fund_store/funds/bb2afd03-0986-4095-8043-a9e64a23bc19?language=en&use_short_name=True": {
+    "id": "bb2afd03-0986-4095-8043-a9e64a23bc19",
+    "name": "Post Award - end-to-end browser testing",
+    "title":"funding to save an asset in your community",
+    "short_name": "post-award-e2e-tests",
+    "description": ""
+  },
+  "fund_store/funds/post-award-e2e-tests?language=en&use_short_name=True": {
+    "id": "bb2afd03-0986-4095-8043-a9e64a23bc19",
+    "name": "Post Award - end-to-end browser testing",
+    "title":"funding to keep your service healthy",
+    "short_name": "post-award-e2e-tests",
+    "description": ""
+  },
+  "fund_store/funds/post-award-e2e-tests/rounds/r1w1?language=en&use_short_name=True": {
+        "id": "4cd3e134-2c23-448f-8d7f-0e12c73d0144",
+        "title": "Round 1 Window 1",
+        "short_name": "r1w1",
+        "fund_id": "bb2afd03-0986-4095-8043-a9e64a23bc19",
+        "assessment_criteria_weighting": [],
+        "opens": "2022-09-01T00:00:01",
+        "deadline": "2023-01-30T00:00:01",
+        "assessment_deadline": "2023-03-20T00:00:01",
         "contact_details": {
             "phone": "",
             "email_address": "COF@levellingup.gov.uk",
