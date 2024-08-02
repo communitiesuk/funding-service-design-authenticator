@@ -1,15 +1,12 @@
 from dataclasses import dataclass
 from typing import List
 
-import config
-from config import Config
 from flask import current_app
 from fsd_utils.config.notify_constants import NotifyConstants
-from models.data import get_account_data
-from models.data import get_data
-from models.data import get_round_data
-from models.data import post_data
-from models.data import put_data
+
+import config
+from config import Config
+from models.data import get_account_data, get_data, get_round_data, post_data, put_data
 from models.fund import FundMethods
 from models.magic_link import MagicLinkMethods
 from models.notification import Notification
