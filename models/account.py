@@ -166,6 +166,12 @@ class AccountMethods(Account):
                 )
             )
 
+        # Update AD roles with current system roles user currently has
+        current_roles = account.roles or []
+        for system_role in Config.SYSTEM_ROLES:
+            if system_role in current_roles:
+                roles.append(system_role)
+
         # Update account with the latest roles, email and name
         account = AccountMethods.update_account(
             id=account.id,

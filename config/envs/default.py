@@ -73,6 +73,9 @@ class DefaultConfig(object):
     # https://docs.microsoft.com/en-us/graph/permissions-reference
     MS_GRAPH_PERMISSIONS_SCOPE = ["User.ReadBasic.All"]
 
+    # Custom roles
+    SYSTEM_ROLES = ["OFFICER_151"]
+
     """
     Session
     """

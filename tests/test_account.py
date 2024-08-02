@@ -14,6 +14,7 @@ roles = []
 @pytest.fixture(scope="function")
 def mock_get_account(mocker, request):
     new_account = request.node.get_closest_marker("new_account")
+    test_roles = request.node.get_closest_marker("roles")
 
     mocker.patch(
         "models.account.AccountMethods.get_account",
@@ -23,7 +24,7 @@ def mock_get_account(mocker, request):
                 "email_address": test_user_email,
                 "full_name": test_user_full_name,
                 "azure_ad_subject_id": azure_ad_subject_id,
-                "roles": roles,
+                "roles": test_roles.args[0] if test_roles else roles,
             }
         )
         if not new_account
@@ -48,8 +49,7 @@ def mock_create_account(mocker):
 
 @pytest.fixture(scope="function")
 def mock_update_account(mocker):
-
-    mocker.patch(
+    mock_update_account = mocker.patch(
         "models.account.put_data",
         return_value={
             "account_id": test_user_id,
@@ -59,7 +59,7 @@ def mock_update_account(mocker):
             "roles": ["COF_Lead_Assessor", "NSTF_Lead_Assessor"],
         },
     )
-    yield
+    yield mock_update_account
 
 
 class TestAccountMethods(object):
@@ -75,6 +75,23 @@ class TestAccountMethods(object):
         assert result.full_name == test_user_full_name
         assert result.roles == ["COF_Lead_Assessor", "NSTF_Lead_Assessor"]
         assert result.azure_ad_subject_id == azure_ad_subject_id
+
+    @pytest.mark.roles(["COF_Lead_Assessor", "OFFICER_151"])
+    def test_create_or_update_existing_account_keeps_system_role(self, mock_get_account, mock_update_account):
+        AccountMethods.create_or_update_account(
+            email="john.Doe@example.com",
+            azure_ad_subject_id="test_azure_id",
+            full_name="John Doe",
+            roles=["COF_Lead_Assessor"],
+        )
+
+        assert mock_update_account.called
+
+        # Get the actual call arguments
+        call_args = mock_update_account.call_args[0]
+
+        # Verify specific arguments
+        assert call_args[1]["roles"] == ["COF_Lead_Assessor", "OFFICER_151"]
 
     @pytest.mark.new_account(True)
     def test_create_or_update_new_account(self, mock_get_account, mock_create_account, mock_update_account):
