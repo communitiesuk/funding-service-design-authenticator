@@ -13,7 +13,7 @@ class DevelopmentConfig(Config):
     SECRET_KEY = "dev"  # pragma: allowlist secret
     SESSION_COOKIE_NAME = "session_cookie"
     FLASK_ENV = "development"
-    COOKIE_DOMAIN = None
+    COOKIE_DOMAIN = getenv("COOKIE_DOMAIN", None)
     ASSETS_AUTO_BUILD = True
     # Logging
     FSD_LOG_LEVEL = logging.DEBUG
