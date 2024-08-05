@@ -42,10 +42,12 @@ boto3==1.26.140
     # via
     #   -r requirements.txt
     #   flipper-client
+    #   moto
 botocore==1.29.140
     # via
     #   -r requirements.txt
     #   boto3
+    #   moto
     #   s3transfer
 brotli==1.0.9
     # via
@@ -101,6 +103,7 @@ connexion==2.14.2
 cryptography==42.0.4
     # via
     #   -r requirements.txt
+    #   moto
     #   msal
     #   pyjwt
     #   pyopenssl
@@ -177,8 +180,6 @@ funding-service-design-utils==2.0.52
     # via -r requirements.txt
 govuk-frontend-jinja==2.3.0
     # via -r requirements.txt
-greenlet==3.0.3
-    # via sqlalchemy
 gunicorn==20.1.0
     # via
     #   -r requirements.txt
@@ -214,6 +215,7 @@ jinja2==3.1.4
     #   flask
     #   flask-babel
     #   govuk-frontend-jinja
+    #   moto
     #   swagger-ui-bundle
 jmespath==1.0.1
     # via
@@ -242,6 +244,8 @@ markupsafe==2.1.1
     #   wtforms
 mccabe==0.7.0
     # via flake8
+moto==5.0.12
+    # via -r requirements-dev.in
 msal==1.28.0
     # via -r requirements.txt
 mypy-extensions==0.4.3
@@ -280,6 +284,8 @@ prance==0.21.8.0
     # via -r requirements.txt
 pre-commit==2.19.0
     # via -r requirements-dev.in
+py==1.11.0
+    # via pytest
 pycodestyle==2.11.1
     # via flake8
 pycparser==2.21
@@ -328,7 +334,6 @@ pytest==7.1.2
     #   pytest-mock
     #   pytest-selenium
     #   pytest-variables
-moto[s3,sqs]==5.0.7
 pytest-base-url==2.0.0
     # via pytest-selenium
 pytest-env==0.6.2
@@ -353,6 +358,7 @@ python-dateutil==2.8.2
     # via
     #   -r requirements.txt
     #   botocore
+    #   moto
 python-dotenv==0.20.0
     # via
     #   -r requirements.txt
@@ -376,6 +382,7 @@ pyyaml==6.0
     #   funding-service-design-utils
     #   openapi-spec-validator
     #   pre-commit
+    #   responses
 redis==4.4.4
     # via
     #   -r requirements.txt
@@ -386,12 +393,16 @@ requests==2.32.0
     #   -r requirements.txt
     #   connexion
     #   funding-service-design-utils
+    #   moto
     #   msal
     #   prance
     #   pytest-base-url
     #   pytest-selenium
     #   python-consul
+    #   responses
     #   webdriver-manager
+responses==0.25.3
+    # via moto
 rich==12.4.4
     # via
     #   -r requirements.txt
@@ -450,7 +461,7 @@ sqlalchemy-utils==0.41.1
     #   -r requirements.txt
     #   funding-service-design-utils
 swagger-ui-bundle==0.0.9
-    # via -r requirements.txt
+    # via -r requirements-dev.in
 tenacity==6.3.1
     # via pytest-selenium
 thrift==0.16.0
@@ -482,6 +493,7 @@ urllib3[secure,socks]==1.26.18
     #   -r requirements.txt
     #   botocore
     #   requests
+    #   responses
     #   selenium
     #   sentry-sdk
 urllib3-secure-extra==0.1.0
@@ -499,6 +511,7 @@ werkzeug==2.2.3
     #   -r requirements.txt
     #   connexion
     #   flask
+    #   moto
     #   pytest-flask
 wheel==0.38.1
     # via pip-tools
@@ -508,6 +521,8 @@ wtforms==3.0.1
     # via
     #   -r requirements.txt
     #   flask-wtf
+xmltodict==0.13.0
+    # via moto
 
 # The following packages are considered to be unsafe in a requirements file:
 # pip

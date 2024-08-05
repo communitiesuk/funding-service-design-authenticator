@@ -16,3 +16,4 @@ selenium==4.2.0
 webdriver-manager==4.0.1
 Flake8-pyproject
 swagger-ui-bundle
+moto
