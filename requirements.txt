@@ -120,7 +120,6 @@ jinja2==3.1.4
     #   flask
     #   flask-babel
     #   govuk-frontend-jinja
-    #   swagger-ui-bundle
 jmespath==1.0.1
     # via
     #   boto3
