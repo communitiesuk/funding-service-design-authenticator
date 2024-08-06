@@ -159,7 +159,7 @@ flask-redis==0.4.0
     # via
     #   -r requirements.txt
     #   funding-service-design-utils
-flask-session==0.4.0
+flask-session==0.8.0
     # via -r requirements.txt
 flask-sqlalchemy==3.1.1
     # via
@@ -178,6 +178,10 @@ funding-service-design-utils==2.0.52
     # via -r requirements.txt
 govuk-frontend-jinja==2.3.0
     # via -r requirements.txt
+greenlet==3.0.3
+    # via
+    #   -r requirements.txt
+    #   sqlalchemy
 gunicorn==20.1.0
     # via
     #   -r requirements.txt
@@ -245,6 +249,10 @@ moto==5.0.12
     # via -r requirements-dev.in
 msal==1.28.0
     # via -r requirements.txt
+msgspec==0.18.6
+    # via
+    #   -r requirements.txt
+    #   flask-session
 mypy-extensions==0.4.3
     # via black
 nodeenv==1.7.0
