@@ -179,7 +179,9 @@ funding-service-design-utils==2.0.52
 govuk-frontend-jinja==2.3.0
     # via -r requirements.txt
 greenlet==3.0.3
-    # via sqlalchemy
+    # via
+    #   -r requirements.txt
+    #   sqlalchemy
 gunicorn==20.1.0
     # via
     #   -r requirements.txt
@@ -489,7 +491,7 @@ typing-extensions==4.10.0
     #   -r requirements.txt
     #   selenium
     #   sqlalchemy
-urllib3[socks]==1.26.18
+urllib3[socks]==1.26.19
     # via
     #   -r requirements.txt
     #   botocore
