@@ -31,7 +31,7 @@ email-validator==1.2.1
 #   Redis / Session Management
 #-----------------------------------
 flask-redis==0.4.0
-Flask-Session==0.4.0
+Flask-Session==0.8.0
 flask-talisman==0.8.1
 PyJWT==2.4.0
 

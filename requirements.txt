@@ -86,7 +86,7 @@ flask-redis==0.4.0
     # via
     #   -r requirements.in
     #   funding-service-design-utils
-flask-session==0.4.0
+flask-session==0.8.0
     # via -r requirements.in
 flask-sqlalchemy==3.1.1
     # via
@@ -102,6 +102,8 @@ funding-service-design-utils==2.0.52
     # via -r requirements.in
 govuk-frontend-jinja==2.3.0
     # via -r requirements.in
+greenlet==3.0.3
+    # via sqlalchemy
 gunicorn==20.1.0
     # via funding-service-design-utils
 idna==3.7
@@ -142,6 +144,8 @@ markupsafe==2.1.1
     #   wtforms
 msal==1.28.0
     # via -r requirements.in
+msgspec==0.18.6
+    # via flask-session
 openapi-schema-validator==0.2.3
     # via openapi-spec-validator
 openapi-spec-validator==0.4.0
