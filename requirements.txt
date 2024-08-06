@@ -92,7 +92,7 @@ flask-sqlalchemy==3.1.1
     # via
     #   flask-migrate
     #   funding-service-design-utils
-flask-talisman==0.8.1
+flask-talisman==1.1.0
     # via -r requirements.in
 flask-wtf==1.2.1
     # via -r requirements.in
@@ -102,6 +102,8 @@ funding-service-design-utils==2.0.52
     # via -r requirements.in
 govuk-frontend-jinja==2.3.0
     # via -r requirements.in
+greenlet==3.0.3
+    # via sqlalchemy
 gunicorn==20.1.0
     # via funding-service-design-utils
 idna==3.7
@@ -212,7 +214,6 @@ sentry-sdk[flask]==1.31.0
     # via funding-service-design-utils
 six==1.16.0
     # via
-    #   flask-talisman
     #   prance
     #   pyscss
     #   python-consul
