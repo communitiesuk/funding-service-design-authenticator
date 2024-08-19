@@ -12,5 +12,5 @@ from app import app
     ],
 )
 def test_datetime_format(input_date, expected):
-    with app.test_request_context():
+    with app.app.test_request_context():
         assert filters.datetime_format(input_date) == expected

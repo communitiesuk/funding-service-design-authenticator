@@ -1,1 +1,1 @@
-web: gunicorn wsgi:app -c run/gunicorn/devtest.py --timeout 180 --workers 3
+web: gunicorn --worker-class uvicorn.workers.UvicornWorker -c run/gunicorn/devtest.py wsgi:app

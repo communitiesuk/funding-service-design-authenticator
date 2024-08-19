@@ -8,8 +8,8 @@ import connexion
 import prance
 import static_assets
 from config import Config
-from connexion.resolver import MethodViewResolver
-from flask import Flask
+from connexion import FlaskApp
+from connexion.resolver import MethodResolver
 from flask import request
 from flask_assets import Environment
 from flask_babel import Babel
@@ -40,21 +40,20 @@ def get_bundled_specs(main_file: Path) -> Dict[str, Any]:
     return parser.specification
 
 
-def create_app() -> Flask:
+def create_app(config_name=None) -> FlaskApp:
     init_sentry()
 
     # Initialise Connexion Flask App
-    connexion_options = Config.CONNEXION_OPTIONS
-    connexion_app = connexion.FlaskApp(
-        "Authenticator",
-        specification_dir="/openapi/",
-        options=connexion_options,
-    )
-    connexion_app.add_api(
-        get_bundled_specs(Config.FLASK_ROOT + "/openapi/api.yml"),
-        validate_responses=True,
-        resolver=MethodViewResolver("api"),
-    )
+    connexion_app = connexion.App("Authenticator", specification_dir="/openapi")
+    if config_name != "no_ui":
+        connexion_app.add_api(
+            get_bundled_specs(Config.FLASK_ROOT + "/openapi/api.yml"),
+            validate_responses=True,
+            resolver=MethodResolver("api"),
+        )
+
+    # Can we use session middleware to make sessions work in test?
+    # connexion_app.add_middleware(SessionMiddleware, )
 
     # Configure Flask App
     flask_app = connexion_app.app
@@ -102,7 +101,7 @@ def create_app() -> Flask:
     # Disable strict talisman on swagger docs pages
     @flask_app.before_request
     def before_request_modifier():
-        if request.path.startswith("/docs"):
+        if request.path.startswith("/ui"):
             talisman.content_security_policy = Config.SWAGGER_CSP
             talisman.content_security_policy_nonce_in = ["None"]
         else:
@@ -173,7 +172,7 @@ def create_app() -> Flask:
         health.add_check(FlaskRunningChecker())
         health.add_check(RedisChecker(redis_mlinks))
 
-        return flask_app
+        return connexion_app
 
 
 def create_sqs_extended_client(flask_app):
@@ -203,3 +202,4 @@ def create_sqs_extended_client(flask_app):
 
 
 app = create_app()
+application = app.app

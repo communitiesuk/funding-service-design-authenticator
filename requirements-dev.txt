@@ -4,103 +4,113 @@
 #
 #    pip-compile requirements-dev.in
 #
-alembic==1.8.0
+a2wsgi==1.10.7
+    # via
+    #   -r requirements.txt
+    #   connexion
+alembic==1.13.2
     # via
     #   -r requirements.txt
     #   flask-migrate
-async-generator==1.10
+anyio==4.4.0
     # via
-    #   trio
-    #   trio-websocket
-async-timeout==4.0.2
+    #   -r requirements.txt
+    #   httpx
+    #   starlette
+    #   watchfiles
+asgiref==3.8.1
+    # via
+    #   -r requirements.txt
+    #   connexion
+    #   flask
+async-timeout==4.0.3
     # via
     #   -r requirements.txt
     #   redis
-attrs==21.4.0
+attrs==24.2.0
     # via
     #   -r requirements.txt
     #   jsonschema
     #   outcome
-    #   pytest
+    #   referencing
     #   trio
-babel==2.10.3
+babel==2.15.0
     # via
     #   -r requirements.txt
     #   flask-babel
-beautifulsoup4==4.12.2
+beautifulsoup4==4.12.3
     # via
     #   -r requirements-dev.in
     #   -r requirements.txt
     #   funding-service-design-utils
-black==22.12.0
+black==24.8.0
     # via -r requirements-dev.in
-blinker==1.6.2
+blinker==1.8.2
     # via
     #   -r requirements.txt
+    #   flask
     #   sentry-sdk
-boto3==1.26.140
+boto3==1.34.156
     # via
     #   -r requirements.txt
     #   flipper-client
     #   moto
-botocore==1.29.140
+botocore==1.34.156
     # via
     #   -r requirements.txt
     #   boto3
     #   moto
     #   s3transfer
-brotli==1.0.9
+brotli==1.1.0
     # via
     #   -r requirements.txt
     #   flask-compress
 build==1.2.1
     # via pip-tools
-cachelib==0.9.0
+cachelib==0.13.0
     # via
     #   -r requirements.txt
     #   flask-session
-cachetools==5.3.0
+cachetools==5.4.0
     # via
     #   -r requirements.txt
     #   flipper-client
-certifi==2023.7.22
+certifi==2024.7.4
     # via
     #   -r requirements.txt
+    #   httpcore
+    #   httpx
     #   requests
     #   selenium
     #   sentry-sdk
-cffi==1.15.1
+cffi==1.17.0
     # via
     #   -r requirements.txt
     #   cryptography
-cfgv==3.3.1
+cfgv==3.4.0
     # via pre-commit
-chardet==4.0.0
+chardet==5.2.0
     # via
     #   -r requirements.txt
     #   prance
-charset-normalizer==2.0.12
+charset-normalizer==3.3.2
     # via
     #   -r requirements.txt
     #   requests
-click==8.1.3
+click==8.1.7
     # via
     #   -r requirements.txt
     #   black
-    #   clickclick
     #   flask
     #   pip-tools
-clickclick==20.10.2
-    # via
-    #   -r requirements.txt
-    #   connexion
+    #   uvicorn
 commonmark==0.9.1
     # via
     #   -r requirements.txt
     #   rich
-connexion==2.14.2
+connexion[flask,swagger-ui,uvicorn]==3.1.0
     # via -r requirements.txt
-cryptography==42.0.4
+cryptography==43.0.0
     # via
     #   -r requirements.txt
     #   moto
@@ -108,11 +118,11 @@ cryptography==42.0.4
     #   pyjwt
 cssmin==0.2.0
     # via -r requirements.txt
-debugpy==1.6.7
+debugpy==1.8.5
     # via -r requirements-dev.in
-deepdiff==5.8.1
+deepdiff==7.0.1
     # via -r requirements-dev.in
-distlib==0.3.4
+distlib==0.3.8
     # via virtualenv
 dnspython==2.6.1
     # via
@@ -120,15 +130,22 @@ dnspython==2.6.1
     #   email-validator
 dparse==0.6.3
     # via -r requirements-dev.in
-email-validator==1.2.1
+email-validator==2.2.0
     # via -r requirements.txt
-filelock==3.7.1
+exceptiongroup==1.2.2
+    # via
+    #   -r requirements.txt
+    #   anyio
+    #   pytest
+    #   trio
+    #   trio-websocket
+filelock==3.15.4
     # via virtualenv
-flake8==7.0.0
+flake8==7.1.1
     # via flake8-pyproject
 flake8-pyproject==1.2.3
     # via -r requirements-dev.in
-flask==2.2.5
+flask[async]==3.0.3
     # via
     #   -r requirements.txt
     #   connexion
@@ -143,15 +160,15 @@ flask==2.2.5
     #   funding-service-design-utils
     #   pytest-flask
     #   sentry-sdk
-flask-assets==2.0
+flask-assets==2.1.0
     # via -r requirements.txt
-flask-babel==2.0.0
+flask-babel==4.0.0
     # via
     #   -r requirements.txt
     #   funding-service-design-utils
-flask-compress==1.14
+flask-compress==1.15
     # via -r requirements.txt
-flask-migrate==3.1.0
+flask-migrate==4.0.7
     # via
     #   -r requirements.txt
     #   funding-service-design-utils
@@ -159,14 +176,14 @@ flask-redis==0.4.0
     # via
     #   -r requirements.txt
     #   funding-service-design-utils
-flask-session==0.4.0
+flask-session==0.8.0
     # via -r requirements.txt
 flask-sqlalchemy==3.1.1
     # via
     #   -r requirements.txt
     #   flask-migrate
     #   funding-service-design-utils
-flask-talisman==0.8.1
+flask-talisman==1.1.0
     # via -r requirements.txt
 flask-wtf==1.2.1
     # via -r requirements.txt
@@ -174,47 +191,66 @@ flipper-client==1.3.2
     # via
     #   -r requirements.txt
     #   funding-service-design-utils
-funding-service-design-utils==2.0.52
+funding-service-design-utils==4.0.0
     # via -r requirements.txt
-govuk-frontend-jinja==2.3.0
+govuk-frontend-jinja==3.1.0
     # via -r requirements.txt
-greenlet==3.0.3
-    # via sqlalchemy
-gunicorn==20.1.0
+gunicorn==22.0.0
     # via
     #   -r requirements.txt
     #   funding-service-design-utils
-h11==0.13.0
-    # via wsproto
-identify==2.5.1
+h11==0.14.0
+    # via
+    #   -r requirements.txt
+    #   httpcore
+    #   uvicorn
+    #   wsproto
+httpcore==1.0.5
+    # via
+    #   -r requirements.txt
+    #   httpx
+httptools==0.6.1
+    # via
+    #   -r requirements.txt
+    #   uvicorn
+httpx==0.27.0
+    # via
+    #   -r requirements.txt
+    #   connexion
+identify==2.6.0
     # via pre-commit
 idna==3.7
     # via
     #   -r requirements.txt
+    #   anyio
     #   email-validator
+    #   httpx
     #   requests
     #   trio
+importlib-metadata==8.2.0
+    # via build
 inflection==0.5.1
     # via
     #   -r requirements.txt
     #   connexion
-iniconfig==1.1.1
+iniconfig==2.0.0
     # via pytest
-invoke==2.0.0
+invoke==2.2.0
     # via -r requirements-dev.in
-itsdangerous==2.1.2
+itsdangerous==2.2.0
     # via
     #   -r requirements.txt
-    #   connexion
     #   flask
     #   flask-wtf
 jinja2==3.1.4
     # via
     #   -r requirements.txt
+    #   connexion
     #   flask
     #   flask-babel
     #   govuk-frontend-jinja
     #   moto
+    #   pytest-html
     #   swagger-ui-bundle
 jmespath==1.0.1
     # via
@@ -223,17 +259,30 @@ jmespath==1.0.1
     #   botocore
 jsmin==3.0.1
     # via -r requirements.txt
-jsonschema==4.6.0
+jsonschema==4.23.0
     # via
     #   -r requirements.txt
     #   connexion
     #   openapi-schema-validator
     #   openapi-spec-validator
-mako==1.3.0
+jsonschema-path==0.3.3
+    # via
+    #   -r requirements.txt
+    #   openapi-spec-validator
+jsonschema-specifications==2023.12.1
+    # via
+    #   -r requirements.txt
+    #   jsonschema
+    #   openapi-schema-validator
+lazy-object-proxy==1.10.0
+    # via
+    #   -r requirements.txt
+    #   openapi-spec-validator
+mako==1.3.5
     # via
     #   -r requirements.txt
     #   alembic
-markupsafe==2.1.1
+markupsafe==2.1.5
     # via
     #   -r requirements.txt
     #   jinja2
@@ -245,49 +294,57 @@ mccabe==0.7.0
     # via flake8
 moto==5.0.12
     # via -r requirements-dev.in
-msal==1.28.0
+msal==1.30.0
     # via -r requirements.txt
-mypy-extensions==0.4.3
+msgspec==0.18.6
+    # via
+    #   -r requirements.txt
+    #   flask-session
+mypy-extensions==1.0.0
     # via black
-nodeenv==1.7.0
+nodeenv==1.9.1
     # via pre-commit
-openapi-schema-validator==0.2.3
+openapi-schema-validator==0.6.2
     # via
     #   -r requirements.txt
     #   openapi-spec-validator
-openapi-spec-validator==0.4.0
+openapi-spec-validator==0.7.1
     # via -r requirements.txt
 ordered-set==4.1.0
     # via deepdiff
-outcome==1.2.0
+outcome==1.3.0.post0
     # via trio
-packaging==21.3
+packaging==24.1
     # via
     #   -r requirements.txt
+    #   black
     #   build
-    #   connexion
     #   dparse
+    #   gunicorn
+    #   prance
     #   pytest
     #   webdriver-manager
-pathspec==0.9.0
+pathable==0.4.3
+    # via
+    #   -r requirements.txt
+    #   jsonschema-path
+pathspec==0.12.1
     # via black
 pip-tools==7.4.1
     # via -r requirements-dev.in
-platformdirs==2.5.2
+platformdirs==4.2.2
     # via
     #   black
     #   virtualenv
-pluggy==1.0.0
+pluggy==1.5.0
     # via pytest
-prance==0.21.8.0
+prance==23.6.21.0
     # via -r requirements.txt
-pre-commit==2.19.0
+pre-commit==3.8.0
     # via -r requirements-dev.in
-py==1.11.0
-    # via pytest
-pycodestyle==2.11.1
+pycodestyle==2.12.1
     # via flake8
-pycparser==2.21
+pycparser==2.22
     # via
     #   -r requirements.txt
     #   cffi
@@ -297,32 +354,24 @@ pyee==6.0.0
     #   flipper-client
 pyflakes==3.2.0
     # via flake8
-pygments==2.15.0
+pygments==2.18.0
     # via
     #   -r requirements.txt
     #   rich
-pyjwt[crypto]==2.4.0
+pyjwt[crypto]==2.9.0
     # via
     #   -r requirements.txt
     #   funding-service-design-utils
     #   msal
-pyparsing==3.0.9
-    # via
-    #   -r requirements.txt
-    #   packaging
-pyproject-hooks==1.0.0
+pyproject-hooks==1.1.0
     # via
     #   build
     #   pip-tools
-pyrsistent==0.18.1
-    # via
-    #   -r requirements.txt
-    #   jsonschema
 pyscss==1.4.0
     # via -r requirements.txt
 pysocks==1.7.1
     # via urllib3
-pytest==7.1.2
+pytest==8.3.2
     # via
     #   -r requirements-dev.in
     #   pytest-base-url
@@ -333,27 +382,27 @@ pytest==7.1.2
     #   pytest-mock
     #   pytest-selenium
     #   pytest-variables
-pytest-base-url==2.0.0
+pytest-base-url==2.1.0
     # via pytest-selenium
-pytest-env==0.6.2
+pytest-env==1.1.3
     # via -r requirements-dev.in
 pytest-flask==1.3.0
     # via -r requirements-dev.in
-pytest-html==3.1.1
+pytest-html==4.1.1
     # via pytest-selenium
-pytest-metadata==2.0.1
+pytest-metadata==3.1.1
     # via pytest-html
-pytest-mock==3.10.0
+pytest-mock==3.14.0
     # via -r requirements-dev.in
-pytest-selenium==2.0.1
+pytest-selenium==4.1.0
     # via -r requirements-dev.in
-pytest-variables==2.0.0
+pytest-variables==3.1.0
     # via pytest-selenium
 python-consul==1.1.0
     # via
     #   -r requirements.txt
     #   flipper-client
-python-dateutil==2.8.2
+python-dateutil==2.9.0.post0
     # via
     #   -r requirements.txt
     #   botocore
@@ -362,36 +411,47 @@ python-dotenv==0.20.0
     # via
     #   -r requirements.txt
     #   funding-service-design-utils
+    #   uvicorn
     #   webdriver-manager
-python-json-logger==2.0.2
+python-json-logger==2.0.7
     # via
     #   -r requirements.txt
     #   funding-service-design-utils
-pytz==2022.1
+python-multipart==0.0.9
     # via
     #   -r requirements.txt
-    #   babel
+    #   connexion
+pytz==2024.1
+    # via
+    #   -r requirements.txt
     #   flask-babel
     #   funding-service-design-utils
-pyyaml==6.0
+pyyaml==6.0.2
     # via
     #   -r requirements.txt
-    #   clickclick
     #   connexion
     #   funding-service-design-utils
-    #   openapi-spec-validator
+    #   jsonschema-path
     #   pre-commit
     #   responses
-redis==4.4.4
+    #   uvicorn
+redis==4.6.0
     # via
     #   -r requirements.txt
     #   flask-redis
     #   flipper-client
-requests==2.32.0
+referencing==0.35.1
+    # via
+    #   -r requirements.txt
+    #   jsonschema
+    #   jsonschema-path
+    #   jsonschema-specifications
+requests==2.32.3
     # via
     #   -r requirements.txt
     #   connexion
     #   funding-service-design-utils
+    #   jsonschema-path
     #   moto
     #   msal
     #   prance
@@ -402,19 +462,28 @@ requests==2.32.0
     #   webdriver-manager
 responses==0.25.3
     # via moto
-rich==12.4.4
+rfc3339-validator==0.1.4
+    # via
+    #   -r requirements.txt
+    #   openapi-schema-validator
+rich==12.6.0
     # via
     #   -r requirements.txt
     #   funding-service-design-utils
-ruamel-yaml==0.17.21
+rpds-py==0.20.0
+    # via
+    #   -r requirements.txt
+    #   jsonschema
+    #   referencing
+ruamel-yaml==0.18.6
     # via
     #   -r requirements.txt
     #   prance
-ruamel-yaml-clib==0.2.7
+ruamel-yaml-clib==0.2.8
     # via
     #   -r requirements.txt
     #   ruamel-yaml
-s3transfer==0.6.1
+s3transfer==0.10.2
     # via
     #   -r requirements.txt
     #   boto3
@@ -422,53 +491,56 @@ selenium==4.23.1
     # via
     #   -r requirements-dev.in
     #   pytest-selenium
-semver==2.13.0
-    # via
-    #   -r requirements.txt
-    #   prance
-sentry-sdk[flask]==1.31.0
+sentry-sdk[flask]==2.12.0
     # via
     #   -r requirements.txt
     #   funding-service-design-utils
 six==1.16.0
     # via
     #   -r requirements.txt
-    #   flask-talisman
     #   prance
     #   pyscss
     #   python-consul
     #   python-dateutil
-    #   tenacity
+    #   rfc3339-validator
     #   thrift
-    #   virtualenv
-sniffio==1.2.0
-    # via trio
+sniffio==1.3.1
+    # via
+    #   -r requirements.txt
+    #   anyio
+    #   httpx
+    #   trio
 sortedcontainers==2.4.0
     # via trio
-soupsieve==2.4.1
+soupsieve==2.5
     # via
     #   -r requirements.txt
     #   beautifulsoup4
-sqlalchemy==2.0.28
+sqlalchemy==2.0.32
     # via
     #   -r requirements.txt
     #   alembic
     #   flask-sqlalchemy
     #   sqlalchemy-utils
-sqlalchemy-utils==0.41.1
+sqlalchemy-utils==0.41.2
     # via
     #   -r requirements.txt
     #   funding-service-design-utils
-swagger-ui-bundle==0.0.9
-    # via -r requirements-dev.in
-tenacity==6.3.1
+starlette==0.38.2
+    # via
+    #   -r requirements.txt
+    #   connexion
+swagger-ui-bundle==1.1.0
+    # via
+    #   -r requirements-dev.in
+    #   -r requirements.txt
+    #   connexion
+tenacity==9.0.0
     # via pytest-selenium
-thrift==0.16.0
+thrift==0.20.0
     # via
     #   -r requirements.txt
     #   flipper-client
-toml==0.10.2
-    # via pre-commit
 tomli==2.0.1
     # via
     #   black
@@ -476,20 +548,27 @@ tomli==2.0.1
     #   dparse
     #   flake8-pyproject
     #   pip-tools
-    #   pyproject-hooks
     #   pytest
-trio==0.21.0
+    #   pytest-env
+trio==0.26.2
     # via
     #   selenium
     #   trio-websocket
-trio-websocket==0.9.2
+trio-websocket==0.11.1
     # via selenium
-typing-extensions==4.10.0
+typing-extensions==4.12.2
     # via
     #   -r requirements.txt
+    #   a2wsgi
+    #   alembic
+    #   anyio
+    #   asgiref
+    #   black
+    #   connexion
     #   selenium
     #   sqlalchemy
-urllib3[socks]==1.26.18
+    #   uvicorn
+urllib3[socks]==2.2.2
     # via
     #   -r requirements.txt
     #   botocore
@@ -497,33 +576,55 @@ urllib3[socks]==1.26.18
     #   responses
     #   selenium
     #   sentry-sdk
-virtualenv==20.15.0
+uvicorn[standard]==0.30.5
+    # via
+    #   -r requirements.txt
+    #   connexion
+uvloop==0.19.0
+    # via
+    #   -r requirements.txt
+    #   uvicorn
+virtualenv==20.26.3
     # via pre-commit
+watchfiles==0.23.0
+    # via
+    #   -r requirements.txt
+    #   uvicorn
 webassets==2.0
     # via
     #   -r requirements.txt
     #   flask-assets
-webdriver-manager==4.0.1
+webdriver-manager==4.0.2
     # via -r requirements-dev.in
 websocket-client==1.8.0
     # via selenium
-werkzeug==2.2.3
+websockets==12.0
+    # via
+    #   -r requirements.txt
+    #   uvicorn
+werkzeug==3.0.3
     # via
     #   -r requirements.txt
     #   connexion
     #   flask
     #   moto
     #   pytest-flask
-wheel==0.38.1
+wheel==0.44.0
     # via pip-tools
-wsproto==1.1.0
+wsproto==1.2.0
     # via trio-websocket
-wtforms==3.0.1
+wtforms==3.1.2
     # via
     #   -r requirements.txt
     #   flask-wtf
 xmltodict==0.13.0
     # via moto
+zipp==3.19.2
+    # via importlib-metadata
+zstandard==0.23.0
+    # via
+    #   -r requirements.txt
+    #   flask-compress
 
 # The following packages are considered to be unsafe in a requirements file:
 # pip

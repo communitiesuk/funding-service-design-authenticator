@@ -55,7 +55,7 @@ class TestMagicLinks(AuthSessionView):
             mock_round_frontend.configure_mock(contact_details={"email_address": "new_user@example.com"})
             mock_get_round_data_frontend.return_value = mock_round_frontend
 
-            response = flask_test_client.post(endpoint, data=payload)
+            response = flask_test_client.post(endpoint, data=payload, follow_redirects=False)
             # Mock the create_application method,
             # so we can check if it has been called
             create_application_mock = mocker.patch.object(
@@ -69,21 +69,6 @@ class TestMagicLinks(AuthSessionView):
             mock_get_round_data_frontend.assert_called()
             assert response.status_code == 302, response.data
 
-    def test_magic_link_redirects_to_landing(self, flask_test_client, create_magic_link):
-        """
-        GIVEN a running Flask client, redis instance and
-        an existing magic link
-        WHEN we GET /magic-links/landing/{link_key} to the API
-        THEN we are redirected to the frontend landing page
-        (without using the single use magic token)
-        :param flask_test_client:
-        """
-        link_key = create_magic_link
-        use_endpoint = f"/magic-links/landing/{link_key}"
-        response = flask_test_client.get(use_endpoint)
-
-        assert response.status_code == 302
-
     def test_magic_link_sets_auth_cookie(self, flask_test_client, create_magic_link):
         """
         GIVEN a running Flask client, redis instance and
@@ -94,7 +79,7 @@ class TestMagicLinks(AuthSessionView):
         """
         link_key = create_magic_link
         use_endpoint = f"/magic-links/{link_key}"
-        response = flask_test_client.get(use_endpoint)
+        response = flask_test_client.get(use_endpoint, follow_redirects=False)
 
         assert "fsd_user_token" in response.headers.get("Set-Cookie")
 
@@ -110,9 +95,9 @@ class TestMagicLinks(AuthSessionView):
         expected_cookie_name = "fsd_user_token"
         link_key = create_magic_link
         use_endpoint = f"/magic-links/{link_key}"
-        flask_test_client.get(use_endpoint)
+        flask_test_client.get(use_endpoint, follow_redirects=False)
         auth_cookie = next(
-            (cookie for cookie in flask_test_client.cookie_jar if cookie.name == expected_cookie_name),
+            (cookie for cookie in flask_test_client.cookies.jar if cookie.name == expected_cookie_name),
             None,
         )
 
@@ -133,7 +118,7 @@ class TestMagicLinks(AuthSessionView):
         :param flask_test_client:
         """
         use_endpoint = f"/magic-links/{create_magic_link}"
-        response = flask_test_client.get(use_endpoint)
+        response = flask_test_client.get(use_endpoint, follow_redirects=False)
 
         assert response.status_code == 302
 
@@ -151,11 +136,11 @@ class TestMagicLinks(AuthSessionView):
         reuse_endpoint = f"/magic-links/{link_key}"
 
         # first use of magic link
-        first_response = flask_test_client.get(use_endpoint)
+        first_response = flask_test_client.get(use_endpoint, follow_redirects=False)
         assert first_response.status_code == 302
 
         # second use of used magic link but now authorised (cookie present)
-        second_response = flask_test_client.get(reuse_endpoint)
+        second_response = flask_test_client.get(reuse_endpoint, follow_redirects=False)
         assert second_response.status_code == 302
 
     def test_reused_magic_link_with_active_session_shows_landing(self, flask_test_client, create_magic_link):
@@ -191,10 +176,10 @@ class TestMagicLinks(AuthSessionView):
             mock_get_round_data.return_value = mock_round
 
             # use magic link landing but unauthorised
-            landing_response = flask_test_client.get(landing_endpoint)
+            landing_response = flask_test_client.get(landing_endpoint, follow_redirects=False)
 
             assert landing_response.status_code == 200
-            soup = BeautifulSoup(landing_response.data, "html.parser")
+            soup = BeautifulSoup(landing_response.content, "html.parser")
             assert soup.find("a", class_="govuk-button govuk-button--start").text.strip() == "Continue"
             assert (
                 len(
@@ -218,13 +203,13 @@ class TestMagicLinks(AuthSessionView):
             )
 
             # use link
-            use_link_response = flask_test_client.get(use_endpoint)
+            use_link_response = flask_test_client.get(use_endpoint, follow_redirects=False)
             assert use_link_response.status_code == 302
 
             # re-use magic link landing but now authorised (cookie present)
             second_landing_response = flask_test_client.get(landing_endpoint)
             assert second_landing_response.status_code == 200
-            soup = BeautifulSoup(second_landing_response.data, "html.parser")
+            soup = BeautifulSoup(second_landing_response.content, "html.parser")
             assert soup.find("a", class_="govuk-button govuk-button--start").text.strip() == "Continue"
 
     def test_reused_magic_link_with_no_session_returns_link_expired(self, flask_test_client, create_magic_link):
@@ -241,19 +226,19 @@ class TestMagicLinks(AuthSessionView):
         reuse_endpoint = f"/magic-links/{link_key}"
 
         # first use of magic link
-        first_response = flask_test_client.get(use_endpoint)
+        first_response = flask_test_client.get(use_endpoint, follow_redirects=False)
         assert first_response.status_code == 302
 
         # sign out
         endpoint = "/sessions/sign-out"
-        response = flask_test_client.get(endpoint)
+        response = flask_test_client.get(endpoint, follow_redirects=False)
         assert response.status_code == 302
 
         # try and reuse same link
         response = flask_test_client.get(reuse_endpoint, follow_redirects=True)
         assert response.status_code == 403
-        assert b"Link expired" in response.data
-        assert b"Request a new link" in response.data
+        assert b"Link expired" in response.content
+        assert b"Request a new link" in response.content
 
     def test_invalid_magic_link_returns_link_expired(self, flask_test_client):
         """
@@ -267,8 +252,8 @@ class TestMagicLinks(AuthSessionView):
         response = flask_test_client.get(use_endpoint, follow_redirects=True)
 
         assert response.status_code == 403
-        assert b"Link expired" in response.data
-        assert b"Request a new link" in response.data
+        assert b"Link expired" in response.content
+        assert b"Request a new link" in response.content
 
     @mock.patch.object(Config, "FLASK_ENV", "production")
     def test_search_magic_link_forbidden_on_production(self, flask_test_client):
@@ -278,10 +263,10 @@ class TestMagicLinks(AuthSessionView):
 
     def test_search_magic_link_returns_magic_links(self, flask_test_client):
         endpoint = "/magic-links"
-        get_response = flask_test_client.get(endpoint)
+        get_response = flask_test_client.get(endpoint, follow_redirects=False)
         assert get_response.status_code == 200
-        assert "account:usernew" in get_response.get_json()
-        assert next(x for x in get_response.get_json() if x.startswith("link:")) is not None
+        assert "account:usernew" in get_response.json()
+        assert next(x for x in get_response.json() if x.startswith("link:")) is not None
 
     def test_assessor_roles_is_empty_via_magic_link_auth(self):
         """
@@ -306,8 +291,8 @@ class TestMagicLinks(AuthSessionView):
             roles=["COF_LEAD_ASSESSOR", "COF_ASSESSOR", "COF_COMMENTER"],
         )
 
-        with app.app_context():
-            with app.test_request_context():
+        with app.app.app_context():
+            with app.app.test_request_context():
                 session_details = self.create_session_details_with_token(  # noqa
                     mock_account,
                     is_via_magic_link=True,

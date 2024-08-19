@@ -26,10 +26,10 @@ class TestSignout:
         :param flask_test_client:
         """
         endpoint = "/sessions/sign-out"
-        response = flask_test_client.get(endpoint)
+        response = flask_test_client.get(endpoint, follow_redirects=False)
 
         assert response.status_code == 302
-        assert response.location == "/service/magic-links/signed-out/no_token"
+        assert response.headers.get("location") == "/service/magic-links/signed-out/no_token"
 
     def test_signout_clears_cookie(self, flask_test_client, mock_redis_sessions):
         """
@@ -40,8 +40,8 @@ class TestSignout:
         :param flask_test_client:
         """
         endpoint = "/sessions/sign-out"
-        flask_test_client.set_cookie("/", "fsd_user_token", "invalid_token")
-        flask_test_client.set_cookie("/", "user_fund_and_round", "fund_round")
+        cookies = "fsd_user_token=invalid_token; user_fund_and_round=fund_round"
+        headers = {"Cookie": cookies}
 
         with patch("api.session.auth_session.validate_token") as mock_validate_token:  # noqa
             mock_validate_token.return_value = {
@@ -49,14 +49,14 @@ class TestSignout:
                 "round": "test_round",
                 "accountId": "test_account",
             }
-            response = flask_test_client.get(endpoint)
+            response = flask_test_client.get(endpoint, headers=headers, follow_redirects=False)
 
             assert response.status_code == 302
             assert "fsd_user_token=; Expires=Thu, 01 Jan 1970 00:00:00 GMT; Path=/" in response.headers.get(  # noqa
                 "Set-Cookie"
             )
             assert (
-                response.location
+                response.headers.get("location")
                 == "/service/magic-links/signed-out/sign_out_request?fund=test_fund&round=test_round"  # noqa
             )
 
@@ -74,10 +74,10 @@ class TestSignout:
         link_key = create_magic_link
         self.created_link_keys.append(link_key)
         use_endpoint = f"/magic-links/{link_key}"
-        flask_test_client.get(use_endpoint)
+        flask_test_client.get(use_endpoint, follow_redirects=False)
         self.used_link_keys.append(link_key)
         auth_cookie = next(
-            (cookie for cookie in flask_test_client.cookie_jar if cookie.name == expected_cookie_name),
+            (cookie for cookie in flask_test_client.cookies.jar if cookie.name == expected_cookie_name),
             None,
         )
 
@@ -91,10 +91,10 @@ class TestSignout:
 
         # Check user can sign out
         endpoint = "/sessions/sign-out"
-        response = flask_test_client.get(endpoint)
+        response = flask_test_client.get(endpoint, follow_redirects=False)
         assert response.status_code == 302
         assert "fsd_user_token=; Expires=Thu, 01 Jan 1970 00:00:00 GMT; Path=/" in response.headers.get("Set-Cookie")
-        assert response.location == "/service/magic-links/signed-out/sign_out_request"
+        response.headers.get("location") == "/service/magic-links/signed-out/sign_out_request"
 
     def test_user_page_for_logged_out_user(self, flask_test_client):
         """
@@ -106,10 +106,10 @@ class TestSignout:
         endpoint = "/service/user"
         response = flask_test_client.get(endpoint)
         assert response.status_code == 200
-        assert """<p class="govuk-body">You are not logged in.</p>""" in response.get_data(as_text=True)
+        assert """<p class="govuk-body">You are not logged in.</p>""" in response.text
         assert (
             """<a href="/sso/login" role="button" draggable="false" class="govuk-button" data-module="govuk-button">\n  Sign in\n</a>"""  # noqa
-            in response.get_data(as_text=True)
+            in response.text
         )
 
     def test_user_page_with_missing_roles(self, flask_test_client):
@@ -129,19 +129,21 @@ class TestSignout:
         }
 
         token = create_token(test_payload)
-        flask_test_client.set_cookie("localhost", "fsd_user_token", token)
+
+        cookies = f"fsd_user_token={token}"
+        headers = {"Cookie": cookies}
 
         endpoint = "/service/user?roles_required=ultimate_assessor|mega_assessor"
-        response = flask_test_client.get(endpoint)
+        response = flask_test_client.get(endpoint, headers=headers, follow_redirects=False)
         assert response.status_code == 403
         assert (
             """<p class="govuk-body">You do not have access as your account does not have the right permissions set up."""  # noqa
-            in response.get_data(as_text=True)
+            in response.text
         )
-        assert """<p class="govuk-body">Please email the support mailbox""" in response.get_data(as_text=True)  # noqa
+        assert """<p class="govuk-body">Please email the support mailbox""" in response.text  # noqa
         assert (
             """<a href="/sso/login" role="button" draggable="false" class="govuk-button" data-module="govuk-button">\n  Sign in\n</a>"""  # noqa
-            not in response.get_data(as_text=True)
+            not in response.text
         )
 
     def test_user_page_with_correct_roles(self, flask_test_client):
@@ -161,14 +163,16 @@ class TestSignout:
         }
 
         token = create_token(test_payload)
-        flask_test_client.set_cookie("localhost", "fsd_user_token", token)
+
+        cookies = f"fsd_user_token={token}"
+        headers = {"Cookie": cookies}
 
         endpoint = "/service/user?roles_required=cof_assessor|cof_commenter"
-        response = flask_test_client.get(endpoint)
+        response = flask_test_client.get(endpoint, headers=headers, follow_redirects=False)
         assert response.status_code == 200
         assert (
             """<a href="/sso/logout" role="button" draggable="false" class="govuk-button" data-module="govuk-button">\n  Sign out\n</a>"""  # noqa
-            in response.get_data(as_text=True)
+            in response.text
         )
 
     def test_session_sign_out_using_correct_route_with_specified_return_app(self, flask_test_client, mocker):
@@ -195,10 +199,10 @@ class TestSignout:
         return_app = "test-app"
         endpoint = f"/sessions/sign-out?return_app={return_app}"
 
-        response = flask_test_client.get(endpoint)
+        response = flask_test_client.get(endpoint, follow_redirects=False)
 
         assert response.status_code == 302
-        assert response.location == "/service/sso/signed-out/no_token?return_app=test-app"
+        assert response.headers.get("location") == "/service/sso/signed-out/no_token?return_app=test-app"
 
     def test_session_sign_out_abort_400_if_invalid_return_app_is_set(self, flask_test_client):
         """
@@ -212,10 +216,10 @@ class TestSignout:
         return_app = "invalid-return-app"
         endpoint = f"/sessions/sign-out?return_app={return_app}"
 
-        response = flask_test_client.get(endpoint)
+        response = flask_test_client.get(endpoint, follow_redirects=False)
 
         assert response.status_code == 400
-        assert response.json["detail"] == "Unknown return app."
+        assert response.json()["detail"] == "Unknown return app."
 
     def test_sign_out_template_service_title_is_dynamic(self, flask_test_client, mocker):
         """
@@ -242,7 +246,7 @@ class TestSignout:
 
         response = flask_test_client.get(endpoint)
 
-        page_html = BeautifulSoup(response.data)
+        page_html = BeautifulSoup(response.content)
         assert response.status_code == 200
         assert "Test Application" in str(page_html)
 
@@ -260,13 +264,16 @@ class TestSignout:
 
         response = flask_test_client.get(endpoint)
 
-        page_html = BeautifulSoup(response.data)
+        page_html = BeautifulSoup(response.content)
         assert response.status_code == 200
         assert "Access Funding" in str(page_html)
 
     def test_signout_retains_return_path(self, flask_test_client, mock_redis_sessions):
         endpoint = "/sessions/sign-out?return_app=post-award-frontend&return_path=/foo"
-        response = flask_test_client.get(endpoint)
+        response = flask_test_client.get(endpoint, follow_redirects=False)
 
         assert response.status_code == 302
-        assert response.location == "/service/sso/signed-out/no_token?return_app=post-award-frontend&return_path=%2Ffoo"
+        assert (
+            response.headers.get("location")
+            == "/service/sso/signed-out/no_token?return_app=post-award-frontend&return_path=/foo"
+        )

@@ -54,8 +54,8 @@ class SsoView(MethodView):
         session.clear()
         response = make_response(redirect(azure_ad_sign_out_url), 302)
         response.set_cookie(
-            Config.FSD_USER_TOKEN_COOKIE_NAME,
-            "",
+            key=Config.FSD_USER_TOKEN_COOKIE_NAME,
+            value="",
             domain=Config.COOKIE_DOMAIN,
             expires=0,
         )

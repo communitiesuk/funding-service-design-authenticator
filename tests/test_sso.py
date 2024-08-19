@@ -1,3 +1,4 @@
+from app import create_app
 from flask import session
 from fsd_utils.authentication.utils import validate_token_rs256
 from testing.mocks.mocks.msal import ConfidentialClientApplication
@@ -15,10 +16,10 @@ def test_sso_login_redirects_to_ms(flask_test_client):
     """
     endpoint = "/sso/login"
     expected_redirect = "https://login.microsoftonline.com/"
-    response = flask_test_client.get(endpoint)
+    response = flask_test_client.get(endpoint, follow_redirects=False)
 
     assert response.status_code == 302
-    assert response.location.startswith(expected_redirect) is True
+    assert response.headers.get("location").startswith(expected_redirect) is True
 
 
 def test_sso_login_sets_return_app_in_session(flask_test_client):
@@ -38,7 +39,7 @@ def test_sso_login_sets_return_path_in_session(flask_test_client):
     return_app = "post-award-frontend"
 
     endpoint = f"/sso/login?return_app={return_app}&return_path=/foo"
-    flask_test_client.get(endpoint)
+    flask_test_client.get(endpoint, follow_redirects=False)
     assert session.get("return_path") == "/foo"
 
 
@@ -50,10 +51,10 @@ def test_sso_logout_redirects_to_ms(flask_test_client):
     """
     endpoint = "/sso/logout"
     expected_redirect = "https://login.microsoftonline.com/organizations/oauth2/v2.0/logout"
-    response = flask_test_client.get(endpoint)
+    response = flask_test_client.get(endpoint, follow_redirects=False)
 
     assert response.status_code == 302
-    assert response.location.startswith(expected_redirect) is True
+    assert response.headers.get("location").startswith(expected_redirect) is True
 
 
 def test_sso_logout_redirect_contains_return_app(flask_test_client, mock_redis_sessions):
@@ -67,15 +68,15 @@ def test_sso_logout_redirect_contains_return_app(flask_test_client, mock_redis_s
     """
     endpoint = "/sso/logout"
 
-    with flask_test_client.session_transaction() as test_session:
+    with create_app(config_name="test").app.test_client().session_transaction() as test_session:
         test_session["return_app"] = "post-award-frontend"
 
-    expected_post_logout_redirect = "return_app=post-award-frontend"
+        expected_post_logout_redirect = "return_app=post-award-frontend"
 
-    response = flask_test_client.get(endpoint)
+        response = flask_test_client.get(endpoint, follow_redirects=False)
 
     assert response.status_code == 302
-    assert response.location.endswith(expected_post_logout_redirect) is True
+    assert response.headers.get("location").endswith(expected_post_logout_redirect) is True
 
 
 def test_sso_get_token_returns_404(flask_test_client):
@@ -88,7 +89,7 @@ def test_sso_get_token_returns_404(flask_test_client):
     response = flask_test_client.get(endpoint)
 
     assert response.status_code == 404
-    assert response.get_json()["message"] == "No valid token"
+    assert response.json()["message"] == "No valid token"
 
 
 def test_sso_get_token_sets_session_and_redirects(flask_test_client, mock_msal_client_application):
@@ -100,7 +101,7 @@ def test_sso_get_token_sets_session_and_redirects(flask_test_client, mock_msal_c
         the correct claims in the session
     """
     endpoint = "/sso/get-token"
-    response = flask_test_client.get(endpoint)
+    response = flask_test_client.get(endpoint, follow_redirects=False)
 
     assert response.status_code == 302
     assert session.get("user") == id_token_claims
@@ -155,7 +156,7 @@ def test_sso_get_token_logs_error_for_roleless_users(flask_test_client, mocker, 
     )
 
     endpoint = "/sso/get-token"
-    error_response = flask_test_client.get(endpoint)
+    error_response = flask_test_client.get(endpoint, follow_redirects=False)
 
     assert error_response.status_code == 302
 
@@ -172,23 +173,24 @@ def test_sso_get_token_sets_expected_fsd_user_token_cookie_claims(flask_test_cli
     endpoint = "/sso/get-token"
     expected_cookie_name = "fsd_user_token"
 
-    response = flask_test_client.get(endpoint)
-    assert response.status_code == 302
-    auth_cookie = next(
-        (cookie for cookie in flask_test_client.cookie_jar if cookie.name == expected_cookie_name),
-        None,
-    )
+    with create_app().app.test_request_context():
+        response = flask_test_client.get(endpoint, follow_redirects=False)
+        assert response.status_code == 302
+        auth_cookie = next(
+            (cookie for cookie in flask_test_client.cookies.jar if cookie.name == expected_cookie_name),
+            None,
+        )
 
-    # Check auth token cookie is set and is valid
-    assert (
-        auth_cookie is not None
-    ), f"Auth cookie '{expected_cookie_name}' was expected to be set, but could not be found"
-    valid_token = auth_cookie.value
-    credentials = validate_token_rs256(valid_token)
-    assert credentials.get("accountId") == expected_fsd_user_token_claims.get("accountId")
-    assert credentials.get("azureAdSubjectId") == expected_fsd_user_token_claims.get("azureAdSubjectId")
-    assert credentials.get("email") == expected_fsd_user_token_claims.get("email")
-    assert credentials.get("fullName") == expected_fsd_user_token_claims.get("fullName")
+        # Check auth token cookie is set and is valid
+        assert (
+            auth_cookie is not None
+        ), f"Auth cookie '{expected_cookie_name}' was expected to be set, but could not be found"
+        valid_token = auth_cookie.value
+        credentials = validate_token_rs256(valid_token)
+        assert credentials.get("accountId") == expected_fsd_user_token_claims.get("accountId")
+        assert credentials.get("azureAdSubjectId") == expected_fsd_user_token_claims.get("azureAdSubjectId")
+        assert credentials.get("email") == expected_fsd_user_token_claims.get("email")
+        assert credentials.get("fullName") == expected_fsd_user_token_claims.get("fullName")
 
 
 def test_sso_get_token_redirects_to_return_app_login_url(
@@ -231,7 +233,7 @@ def test_sso_get_token_redirects_to_return_app_host_with_request_path(
 
     response = flask_test_client.get(endpoint)
 
-    assert response.location == "http://post-award-frontend/foo"
+    assert response.headers.get("location") == "http://post-award-frontend/foo"
 
 
 def test_sso_get_token_400_abort_with_invalid_return_app(
@@ -250,6 +252,9 @@ def test_sso_get_token_400_abort_with_invalid_return_app(
     with flask_test_client.session_transaction() as test_session:
         test_session["return_app"] = "invalid-return-app"
 
+    # Simulate setting a session cookie
+    flask_test_client.cookie_jar.set("session", "encoded_session_data", domain="localhost", path="/")
+
     response = flask_test_client.get(endpoint)
 
     assert response.status_code == 400
@@ -266,4 +271,4 @@ def test_sso_graphcall_returns_404(flask_test_client, mock_redis_sessions):
     response = flask_test_client.get(endpoint)
 
     assert response.status_code == 404
-    assert response.get_json()["message"] == "No valid token"
+    assert response.json()["message"] == "No valid token"

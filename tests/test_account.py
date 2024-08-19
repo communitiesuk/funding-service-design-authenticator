@@ -1,4 +1,5 @@
 import pytest
+from app import create_app
 from models.account import Account
 from models.account import AccountMethods
 from models.fund import Fund
@@ -110,5 +111,8 @@ class TestAccountMethods(object):
         mocker.patch("models.account.get_round_data", return_value=Round(contact_email="asdf@asdf.com"))
         mocker.patch("models.account.Notification.send", return_value=True)
 
-        result = AccountMethods.get_magic_link(email=test_user_email, fund_short_name="COF", round_short_name="R1W1")
+        with create_app().app.app_context():
+            result = AccountMethods.get_magic_link(
+                email=test_user_email, fund_short_name="COF", round_short_name="R1W1"
+            )
         assert result.endswith("?fund=COF&round=R1W1")

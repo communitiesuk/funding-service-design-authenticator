@@ -1,8 +1,16 @@
-from unittest import mock
-
 import pytest
 from app import create_app
-from config import Config
+
+
+@pytest.fixture(scope="session")
+def app():
+    """
+    Creates the test client we will be using to test the responses
+    from our app, this is a test fixture.
+    :return: A flask test client.
+    """
+    app = create_app()
+    yield app.app
 
 
 @pytest.mark.app(debug=False)
@@ -19,20 +27,14 @@ class TestHealthchecks:
             "version": "abc123",
         }
         assert response.status_code == 200, "Unexpected response code"
-        assert response.json == expected_dict, "Unexpected json body"
+        assert response.json() == expected_dict, "Unexpected json body"
 
-    @mock.patch.object(Config, "CONNEXION_OPTIONS", {})
-    def test_swagger_ui_not_published(self):
-        with create_app().app_context() as app_context:
-            with app_context.app.test_client() as test_client:
-                use_endpoint = "/docs"
-                response = test_client.get(use_endpoint, follow_redirects=True)
-                assert response.status_code == 404
+    def test_swagger_ui_not_published(self, flask_test_client_no_ui):
+        use_endpoint = "/ui"
+        response = flask_test_client_no_ui.get(use_endpoint, follow_redirects=True)
+        assert response.status_code == 404
 
-    @mock.patch.object(Config, "CONNEXION_OPTIONS", {"swagger_url": "/docs"})
-    def test_swagger_ui_is_published(self):
-        with create_app().app_context() as app_context:
-            with app_context.app.test_client() as test_client:
-                use_endpoint = "/docs"
-                response = test_client.get(use_endpoint, follow_redirects=True)
-                assert response.status_code == 200
+    def test_swagger_ui_is_published(self, flask_test_client):
+        use_endpoint = "/ui"
+        response = flask_test_client.get(use_endpoint, follow_redirects=True)
+        assert response.status_code == 200

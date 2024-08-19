@@ -11,46 +11,16 @@ tags:
   - name: sessions
     description: Session operations
 paths:
-  /magic-links:
+  /sso/logout:
     get:
       tags:
-        - magic links
-      summary: Search magic link
-      description: List all magic links
-      operationId: api.MagicLinksView.search
-      responses:
-        200:
-          description: SUCCESS - A list of magic link keys
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  type: string
-
-  '/magic-links/{link_id}':
-    get:
-      tags:
-        - magic links
-      summary: Use a magic link
-      description: Check if link is valid and redirect to url
-      operationId: api.MagicLinksView.use
+        - sso
+      summary: Microsoft Authentication Library Logout redirect
+      description: Redirect to Microsoft Authentication Logout Flow
+      operationId: api.sso.routes.SsoView.logout
       responses:
         302:
-          description: SUCCESS - Redirect valid magic link to requested redirectUrl
-        404:
-          description: ERROR - Magic link expired or invalid
-          content:
-            application/json:
-              schema:
-                $ref: 'components.yml#/components/schemas/GeneralError'
-      parameters:
-        - name: link_id
-          in: path
-          required: true
-          schema:
-            type: string
-            format: path
+          description: SUCCESS - Redirect to Microsoft Authentication Logout Flow
 
   /sso/login:
     get:
@@ -69,16 +39,52 @@ paths:
       responses:
         302:
           description: SUCCESS - Redirect to Microsoft Authentication Login Flow
-  /sso/logout:
+
+  '/magic-links/{link_id}':
     get:
       tags:
-        - sso
-      summary: Microsoft Authentication Library Logout redirect
-      description: Redirect to Microsoft Authentication Logout Flow
-      operationId: api.sso.routes.SsoView.logout
+        - magic links
+      summary: Use a magic link
+      description: Check if link is valid and redirect to url
+      operationId: api.MagicLinksView.use
       responses:
         302:
-          description: SUCCESS - Redirect to Microsoft Authentication Logout Flow
+          description: SUCCESS - Redirect valid magic link to requested redirectUrl
+          content:
+            text/html:
+              schema:
+                type: string
+        404:
+          description: ERROR - Magic link expired or invalid
+          content:
+            application/json:
+              schema:
+                $ref: 'components.yml#/components/schemas/GeneralError'
+      parameters:
+        - name: link_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: path
+
+  /magic-links:
+    get:
+      tags:
+        - magic links
+      summary: Search magic link
+      description: List all magic links
+      operationId: api.MagicLinksView.search
+      responses:
+        200:
+          description: SUCCESS - A list of magic link keys
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+
   /sso/graph-call:
     get:
       tags:

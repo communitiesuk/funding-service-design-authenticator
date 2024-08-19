@@ -8,8 +8,9 @@ session_data = {}
 
 class RedisSessions(object):
     @staticmethod
-    def set(key, val):
-        session_data[key] = val
+    def set(self, name=None, ex=None, value=None):
+        session_data[name] = value
+        return 1
 
     def setex(self, name=None, time=None, value=None):
         session_data[name] = value
