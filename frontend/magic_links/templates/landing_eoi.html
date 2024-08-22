@@ -20,7 +20,7 @@
     <div data-qa="claim_magic_link">
     {{ govukButton({
       "text":gettext("Continue"),
-      "href": url_for('api_MagicLinksView_use', link_id=link_id, fund=fund_short_name, round=round_short_name),
+      "href": url_for('/.api_MagicLinksView_use', link_id=link_id, fund=fund_short_name, round=round_short_name),
       "isStartButton": true })
     }}
     </div>
