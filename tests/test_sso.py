@@ -1,3 +1,4 @@
+import pytest
 from flask import session
 from fsd_utils.authentication.utils import validate_token_rs256
 from testing.mocks.mocks.msal import ConfidentialClientApplication
@@ -78,6 +79,7 @@ def test_sso_logout_redirect_contains_return_app(flask_test_client, mock_redis_s
     assert response.location.endswith(expected_post_logout_redirect) is True
 
 
+@pytest.mark.filterwarnings("ignore:Value Error on get_token route:UserWarning")
 def test_sso_get_token_returns_404(flask_test_client):
     """
     GIVEN We have a functioning Authenticator API
@@ -85,6 +87,7 @@ def test_sso_get_token_returns_404(flask_test_client):
     THEN we should receive a 404 "No valid token" message
     """
     endpoint = "/sso/get-token"
+
     response = flask_test_client.get(endpoint)
 
     assert response.status_code == 404

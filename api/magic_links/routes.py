@@ -89,7 +89,7 @@ class MagicLinksView(MagicLinkMethods, MethodView):
             query_params = {k: v for k, v in query_params.items() if v is not None}
             query_string = urllib.parse.urlencode(query_params)
             frontend_account_url = f"{Config.MAGIC_LINK_REDIRECT_URL}?{query_string}"
-            current_app.logger.warn(
+            current_app.logger.warning(
                 f"The magic link with hash: '{link_hash}' has already been"
                 f" used but the user with account_id: '{g.account_id}' is"
                 " logged in, redirecting to"
