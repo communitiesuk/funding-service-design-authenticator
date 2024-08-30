@@ -69,7 +69,7 @@ def landing(link_id):
     round_data = get_round_data(fund_short_name, round_short_name)
 
     if not bool(fund_data and round_data):
-        current_app.logger.warn("Fund and round information missing from query string")
+        current_app.logger.warning("Fund and round information missing from query string")
         return abort(404)
 
     fund_short_name = fund_data.short_name

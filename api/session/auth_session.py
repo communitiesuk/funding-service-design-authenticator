@@ -77,7 +77,7 @@ class AuthSessionView(MethodView):
                 valid_token = decode_with_options(existing_auth_token, options={"verify_exp": False})
                 status = "expired_token"
             except jwt.PyJWTError as e:
-                current_app.logger.warn(f"PyJWTError: {e.__class__.__name__} - {e}")
+                current_app.logger.warning(f"PyJWTError: {e.__class__.__name__} - {e}")
                 status = "invalid_token"
 
             # If validly issued token: create query params for signout url,

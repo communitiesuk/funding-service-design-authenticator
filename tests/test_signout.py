@@ -242,7 +242,7 @@ class TestSignout:
 
         response = flask_test_client.get(endpoint)
 
-        page_html = BeautifulSoup(response.data)
+        page_html = BeautifulSoup(response.data, "html.parser")
         assert response.status_code == 200
         assert "Test Application" in str(page_html)
 
@@ -260,7 +260,7 @@ class TestSignout:
 
         response = flask_test_client.get(endpoint)
 
-        page_html = BeautifulSoup(response.data)
+        page_html = BeautifulSoup(response.data, "html.parser")
         assert response.status_code == 200
         assert "Access Funding" in str(page_html)
 
