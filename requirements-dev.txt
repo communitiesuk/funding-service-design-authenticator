@@ -100,7 +100,7 @@ commonmark==0.9.1
     #   rich
 connexion==2.14.2
     # via -r requirements.txt
-cryptography==42.0.4
+cryptography==43.0.1
     # via
     #   -r requirements.txt
     #   moto
@@ -179,7 +179,9 @@ funding-service-design-utils==2.0.52
 govuk-frontend-jinja==2.3.0
     # via -r requirements.txt
 greenlet==3.0.3
-    # via sqlalchemy
+    # via
+    #   -r requirements.txt
+    #   sqlalchemy
 gunicorn==20.1.0
     # via
     #   -r requirements.txt
