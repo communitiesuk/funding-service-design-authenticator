@@ -246,7 +246,7 @@ class TestMagicLinks(AuthSessionView):
 
         # sign out
         endpoint = "/sessions/sign-out"
-        response = flask_test_client.get(endpoint)
+        response = flask_test_client.post(endpoint)
         assert response.status_code == 302
 
         # try and reuse same link

@@ -51,7 +51,7 @@ def test_sso_logout_redirects_to_ms(flask_test_client):
     """
     endpoint = "/sso/logout"
     expected_redirect = "https://login.microsoftonline.com/organizations/oauth2/v2.0/logout"
-    response = flask_test_client.get(endpoint)
+    response = flask_test_client.post(endpoint)
 
     assert response.status_code == 302
     assert response.location.startswith(expected_redirect) is True
@@ -73,7 +73,7 @@ def test_sso_logout_redirect_contains_return_app(flask_test_client, mock_redis_s
 
     expected_post_logout_redirect = "return_app=post-award-frontend"
 
-    response = flask_test_client.get(endpoint)
+    response = flask_test_client.post(endpoint)
 
     assert response.status_code == 302
     assert response.location.endswith(expected_post_logout_redirect) is True

@@ -70,7 +70,7 @@ paths:
         302:
           description: SUCCESS - Redirect to Microsoft Authentication Login Flow
   /sso/logout:
-    get:
+    post:
       tags:
         - sso
       summary: Microsoft Authentication Library Logout redirect
@@ -112,19 +112,26 @@ paths:
         404:
           description: ERROR - User session could not be found
   /sessions/sign-out:
-    get:
+    post:
       tags:
         - sessions
       summary: Signs out a user
       description: Signs out a user who has authenticated via a magic link
       operationId: api.AuthSessionView.clear_session
-      parameters:
-        - in: query
-          name: return_app
-          description: Optional parameter to specify the return app
-          required: false
-          schema:
-            type: string
+      requestBody:
+        description: The return app and return path
+        required: false
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                return_app:
+                  type: string
+                  description: Optional parameter to specify the return app
+                return_path:
+                  type: string
+                  description: Optional parameter to specify the return path
       responses:
         302:
           description: SUCCESS - Active user session cleared and redirected to the signed out page

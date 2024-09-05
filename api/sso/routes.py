@@ -40,7 +40,7 @@ class SsoView(MethodView):
         Azure AD logout endpoint to logout from our tenants web session too
         :return:
         """
-        post_logout_redirect_uri = request.args.get(
+        post_logout_redirect_uri = request.form.get(
             "post_logout_redirect_uri",
             Config.SSO_POST_SIGN_OUT_URL + f"?{urlencode({'return_app': session['return_app']})}"
             if "return_app" in session
