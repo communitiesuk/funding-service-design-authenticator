@@ -35,7 +35,6 @@ class SsoView(MethodView):
 
     def logout(post_logout_redirect_uri=None):
         """
-        /sso/logout endpoint
         Clears the user session then redirects to
         Azure AD logout endpoint to logout from our tenants web session too
         :return:
@@ -64,6 +63,7 @@ class SsoView(MethodView):
 
     # Deprecation warning (Use logout_post instead)
     def logout_get(self):
+        """GET /sso/logout endpoint"""
         post_logout_redirect_uri = request.args.get(
             "post_logout_redirect_uri",
             Config.SSO_POST_SIGN_OUT_URL + f"?{urlencode({'return_app': session['return_app']})}"
@@ -73,6 +73,7 @@ class SsoView(MethodView):
         return SsoView.logout(post_logout_redirect_uri)
 
     def logout_post(self):
+        """POST /sso/logout endpoint"""
         post_logout_redirect_uri = request.form.get(
             "post_logout_redirect_uri",
             Config.SSO_POST_SIGN_OUT_URL + f"?{urlencode({'return_app': session['return_app']})}"
