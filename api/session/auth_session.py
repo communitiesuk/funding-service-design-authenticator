@@ -48,7 +48,7 @@ class AuthSessionView(MethodView):
 
     def clear_session(return_app=None, return_path=None):
         """
-        GET /sessions/sign-out endpoint
+        /sessions/sign-out endpoint
         Clears the user session (signing them out)
         Also deletes an existing jwt auth cookie and removes the corresponding
         link records from redis
