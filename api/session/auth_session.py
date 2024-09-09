@@ -46,9 +46,7 @@ class AuthSessionView(MethodView):
                 error_response(404, "Session token expired or invalid")
         error_response(404, "No session token found")
 
-    # Deprecation warning (Use clear_session_post instead)
-    @staticmethod
-    def clear_session_get():
+    def clear_session(return_app=None, return_path=None):
         """
         GET /sessions/sign-out endpoint
         Clears the user session (signing them out)
@@ -57,7 +55,6 @@ class AuthSessionView(MethodView):
 
         Returns: 302 redirect to signed-out page
         """
-        return_path = request.args.get("return_path")
         fund_short_name = None
         round_short_name = None
         existing_auth_token = request.cookies.get(Config.FSD_USER_TOKEN_COOKIE_NAME)
@@ -91,7 +88,7 @@ class AuthSessionView(MethodView):
         clear_sentry()
 
         redirect_route = "magic_links_bp.signed_out"  # TODO: Remove defaulting to Magic Links, instead use return_app
-        if return_app := request.args.get("return_app"):
+        if return_app:
             if safe_app := Config.SAFE_RETURN_APPS.get(return_app):
                 redirect_route = safe_app.logout_endpoint
                 current_app.logger.info(f"Returning to {return_app} using {redirect_route}")
@@ -116,76 +113,19 @@ class AuthSessionView(MethodView):
             expires=0,
         )
         return response
+
+    # Deprecation warning (Use clear_session_post instead)
+    @staticmethod
+    def clear_session_get():
+        return_app = request.args.get("return_app")
+        return_path = request.args.get("return_path")
+        return AuthSessionView.clear_session(return_app, return_path)
 
     @staticmethod
     def clear_session_post():
-        """
-        POST /sessions/sign-out endpoint
-        Clears the user session (signing them out)
-        Also deletes an existing jwt auth cookie and removes the corresponding
-        link records from redis
-
-        Returns: 302 redirect to signed-out page
-        """
+        return_app = request.form.get("return_app")
         return_path = request.form.get("return_path")
-        fund_short_name = None
-        round_short_name = None
-        existing_auth_token = request.cookies.get(Config.FSD_USER_TOKEN_COOKIE_NAME)
-        existing_fund_round_token = request.cookies.get(Config.FSD_FUND_AND_ROUND_COOKIE_NAME)
-        status = "no_token"
-        valid_token = False
-        if existing_fund_round_token:
-            fund_round_token = validate_token(existing_fund_round_token)
-            fund_short_name = fund_round_token.get("fund")
-            round_short_name = fund_round_token.get("round")
-
-        if existing_auth_token:
-            # Check if token is valid
-            try:
-                valid_token = validate_token(existing_auth_token)
-                status = "sign_out_request"
-            except jwt.ExpiredSignatureError:
-                valid_token = decode_with_options(existing_auth_token, options={"verify_exp": False})
-                status = "expired_token"
-            except jwt.PyJWTError as e:
-                current_app.logger.warning(f"PyJWTError: {e.__class__.__name__} - {e}")
-                status = "invalid_token"
-
-            # If validly issued token: create query params for signout url,
-            # and clear the redis store of the account and link record
-            if valid_token and isinstance(valid_token, dict):
-                MagicLinkMethods().clear_existing_user_record(valid_token.get("accountId"))
-
-        # Clear the session
-        session.clear()
-        clear_sentry()
-
-        redirect_route = "magic_links_bp.signed_out"  # TODO: Remove defaulting to Magic Links, instead use return_app
-        if return_app := request.form.get("return_app"):
-            if safe_app := Config.SAFE_RETURN_APPS.get(return_app):
-                redirect_route = safe_app.logout_endpoint
-                current_app.logger.info(f"Returning to {return_app} using {redirect_route}")
-            else:
-                current_app.logger.warning(f"{return_app} not listed as a safe app.")
-                abort(400, "Unknown return app.")
-
-        # Clear the cookie and redirect to signed out page
-        signed_out_url = url_for(
-            redirect_route,
-            status=status,
-            fund=fund_short_name,
-            round=round_short_name,
-            return_app=return_app,
-            return_path=return_path,
-        )
-        response = make_response(redirect(signed_out_url), 302)
-        response.set_cookie(
-            Config.FSD_USER_TOKEN_COOKIE_NAME,
-            "",
-            domain=Config.COOKIE_DOMAIN,
-            expires=0,
-        )
-        return response
+        return AuthSessionView.clear_session(return_app, return_path)
 
     @classmethod
     def create_session_and_redirect(
