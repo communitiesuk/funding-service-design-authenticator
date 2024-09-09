@@ -26,10 +26,16 @@ class TestSignout:
         :param flask_test_client:
         """
         endpoint = "/sessions/sign-out"
-        response = flask_test_client.get(endpoint)
 
-        assert response.status_code == 302
-        assert response.location == "/service/magic-links/signed-out/no_token"
+        # Test GET request
+        response_get = flask_test_client.get(endpoint)
+        assert response_get.status_code == 302
+        assert response_get.location == "/service/magic-links/signed-out/no_token"
+
+        # Test POST request
+        response_post = flask_test_client.post(endpoint)
+        assert response_post.status_code == 302
+        assert response_post.location == "/service/magic-links/signed-out/no_token"
 
     def test_signout_clears_cookie(self, flask_test_client, mock_redis_sessions):
         """
@@ -60,7 +66,20 @@ class TestSignout:
                 == "/service/magic-links/signed-out/sign_out_request?fund=test_fund&round=test_round"  # noqa
             )
 
-    def test_magic_link_auth_can_be_signed_out(self, mocker, flask_test_client, mock_redis_sessions, create_magic_link):
+            response = flask_test_client.post(endpoint)
+
+            assert response.status_code == 302
+            assert "fsd_user_token=; Expires=Thu, 01 Jan 1970 00:00:00 GMT; Path=/" in response.headers.get(  # noqa
+                "Set-Cookie"
+            )
+            assert (
+                response.location
+                == "/service/magic-links/signed-out/sign_out_request?fund=test_fund&round=test_round"  # noqa
+            )
+
+    def test_magic_link_auth_can_be_signed_out_with_get(
+        self, mocker, flask_test_client, mock_redis_sessions, create_magic_link
+    ):
         """
         GIVEN a running Flask client, redis instance and
         and a valid magic link has been clicked and a valid
@@ -92,6 +111,44 @@ class TestSignout:
         # Check user can sign out
         endpoint = "/sessions/sign-out"
         response = flask_test_client.get(endpoint)
+        assert response.status_code == 302
+        assert "fsd_user_token=; Expires=Thu, 01 Jan 1970 00:00:00 GMT; Path=/" in response.headers.get("Set-Cookie")
+        assert response.location == "/service/magic-links/signed-out/sign_out_request"
+
+    def test_magic_link_auth_can_be_signed_out_with_post(
+        self, mocker, flask_test_client, mock_redis_sessions, create_magic_link
+    ):
+        """
+        GIVEN a running Flask client, redis instance and
+        and a valid magic link has been clicked and a valid
+        jwt auth token set
+        WHEN we issue a post to /sessions/sign-out
+        THEN the token is cleared and the user signed out
+        :param flask_test_client:
+        """
+        expected_account_id = "usera"
+        expected_cookie_name = "fsd_user_token"
+        link_key = create_magic_link
+        self.created_link_keys.append(link_key)
+        use_endpoint = f"/magic-links/{link_key}"
+        flask_test_client.get(use_endpoint)
+        self.used_link_keys.append(link_key)
+        auth_cookie = next(
+            (cookie for cookie in flask_test_client.cookie_jar if cookie.name == expected_cookie_name),
+            None,
+        )
+
+        # Check auth token cookie is set and is valid
+        assert (
+            auth_cookie is not None
+        ), f"Auth cookie '{expected_cookie_name}' was expected to be set, but could not be found"
+        self.valid_token = auth_cookie.value
+        credentials = validate_token(self.valid_token)
+        assert credentials.get("accountId") == expected_account_id
+
+        # Check user can sign out
+        endpoint = "/sessions/sign-out"
+        response = flask_test_client.post(endpoint)
         assert response.status_code == 302
         assert "fsd_user_token=; Expires=Thu, 01 Jan 1970 00:00:00 GMT; Path=/" in response.headers.get("Set-Cookie")
         assert response.location == "/service/magic-links/signed-out/sign_out_request"
@@ -193,9 +250,15 @@ class TestSignout:
         )
 
         return_app = "test-app"
+        data = {"return_app": return_app}
         endpoint = f"/sessions/sign-out?return_app={return_app}"
 
         response = flask_test_client.get(endpoint)
+
+        assert response.status_code == 302
+        assert response.location == "/service/sso/signed-out/no_token?return_app=test-app"
+
+        response = flask_test_client.post(endpoint, data=data)
 
         assert response.status_code == 302
         assert response.location == "/service/sso/signed-out/no_token?return_app=test-app"
@@ -210,9 +273,15 @@ class TestSignout:
         :param flask_test_client:
         """
         return_app = "invalid-return-app"
+        data = {"return_app": return_app}
         endpoint = f"/sessions/sign-out?return_app={return_app}"
 
         response = flask_test_client.get(endpoint)
+
+        assert response.status_code == 400
+        assert response.json["detail"] == "Unknown return app."
+
+        response = flask_test_client.post(endpoint, data=data)
 
         assert response.status_code == 400
         assert response.json["detail"] == "Unknown return app."
@@ -267,6 +336,13 @@ class TestSignout:
     def test_signout_retains_return_path(self, flask_test_client, mock_redis_sessions):
         endpoint = "/sessions/sign-out?return_app=post-award-frontend&return_path=/foo"
         response = flask_test_client.get(endpoint)
+
+        assert response.status_code == 302
+        assert response.location == "/service/sso/signed-out/no_token?return_app=post-award-frontend&return_path=%2Ffoo"
+
+        data = {"return_app": "post-award-frontend", "return_path": "/foo"}
+        endpoint = "/sessions/sign-out"
+        response = flask_test_client.post(endpoint, data=data)
 
         assert response.status_code == 302
         assert response.location == "/service/sso/signed-out/no_token?return_app=post-award-frontend&return_path=%2Ffoo"
