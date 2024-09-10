@@ -75,7 +75,16 @@ paths:
         - sso
       summary: Microsoft Authentication Library Logout redirect
       description: Redirect to Microsoft Authentication Logout Flow
-      operationId: api.sso.routes.SsoView.logout
+      operationId: api.sso.routes.SsoView.logout_get
+      responses:
+        302:
+          description: SUCCESS - Redirect to Microsoft Authentication Logout Flow
+    post:
+      tags:
+        - sso
+      summary: Microsoft Authentication Library Logout redirect
+      description: Redirect to Microsoft Authentication Logout Flow
+      operationId: api.sso.routes.SsoView.logout_post
       responses:
         302:
           description: SUCCESS - Redirect to Microsoft Authentication Logout Flow
@@ -117,7 +126,7 @@ paths:
         - sessions
       summary: Signs out a user
       description: Signs out a user who has authenticated via a magic link
-      operationId: api.AuthSessionView.clear_session
+      operationId: api.AuthSessionView.clear_session_get
       parameters:
         - in: query
           name: return_app
@@ -125,6 +134,29 @@ paths:
           required: false
           schema:
             type: string
+      responses:
+        302:
+          description: SUCCESS - Active user session cleared and redirected to the signed out page
+    post:
+      tags:
+        - sessions
+      summary: Signs out a user
+      description: Signs out a user who has authenticated via a magic link
+      operationId: api.AuthSessionView.clear_session_post
+      requestBody:
+        description: The return app and return path
+        required: false
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                return_app:
+                  type: string
+                  description: Optional parameter to specify the return app
+                return_path:
+                  type: string
+                  description: Optional parameter to specify the return path
       responses:
         302:
           description: SUCCESS - Active user session cleared and redirected to the signed out page

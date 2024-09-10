@@ -40,7 +40,7 @@ class DefaultConfig(object):
     # Hostname for this service
     AUTHENTICATOR_HOST = environ.get("AUTHENTICATOR_HOST", "")
     NEW_LINK_ENDPOINT = "/service/magic-links/new"
-    SSO_LOGOUT_ENDPOINT = "api_sso_routes_SsoView_logout"
+    SSO_LOGOUT_ENDPOINT = "api_sso_routes_SsoView_logout_get"
     SSO_LOGIN_ENDPOINT = "api_sso_routes_SsoView_login"
     SSO_POST_SIGN_OUT_URL = AUTHENTICATOR_HOST + "/service/sso/signed-out/signout-request"
 

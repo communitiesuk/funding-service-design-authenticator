@@ -43,7 +43,8 @@ def test_sso_login_sets_return_path_in_session(flask_test_client):
     assert session.get("return_path") == "/foo"
 
 
-def test_sso_logout_redirects_to_ms(flask_test_client):
+# TODO: Remove this test if logout_get and /sso/logout get request is removed
+def test_get_sso_logout_redirects_to_ms(flask_test_client):
     """
     GIVEN We have a functioning Authenticator API
     WHEN a GET request for /sso/logout
@@ -57,7 +58,8 @@ def test_sso_logout_redirects_to_ms(flask_test_client):
     assert response.location.startswith(expected_redirect) is True
 
 
-def test_sso_logout_redirect_contains_return_app(flask_test_client, mock_redis_sessions):
+# TODO: Remove this test if logout_get and /sso/logout get request is removed
+def test_get_sso_logout_redirect_contains_return_app(flask_test_client, mock_redis_sessions):
     """
     GIVEN We have a functioning Authenticator API
     WHEN a GET request for /sso/logout with return_app
@@ -74,6 +76,42 @@ def test_sso_logout_redirect_contains_return_app(flask_test_client, mock_redis_s
     expected_post_logout_redirect = "return_app=post-award-frontend"
 
     response = flask_test_client.get(endpoint)
+
+    assert response.status_code == 302
+    assert response.location.endswith(expected_post_logout_redirect) is True
+
+
+def test_sso_logout_redirects_to_ms(flask_test_client):
+    """
+    GIVEN We have a functioning Authenticator API
+    WHEN a POST request for /sso/logout
+    THEN we should be redirected to Microsoft Logout
+    """
+    endpoint = "/sso/logout"
+    expected_redirect = "https://login.microsoftonline.com/organizations/oauth2/v2.0/logout"
+    response = flask_test_client.post(endpoint)
+
+    assert response.status_code == 302
+    assert response.location.startswith(expected_redirect) is True
+
+
+def test_sso_logout_redirect_contains_return_app(flask_test_client, mock_redis_sessions):
+    """
+    GIVEN We have a functioning Authenticator API
+    WHEN a POST request for /sso/logout with return_app
+        set
+    THEN we should be redirected to Microsoft Logout
+    AND then be redirected back with the correct
+        query string for that return_app
+    """
+    endpoint = "/sso/logout"
+
+    with flask_test_client.session_transaction() as test_session:
+        test_session["return_app"] = "post-award-frontend"
+
+    expected_post_logout_redirect = "return_app=post-award-frontend"
+
+    response = flask_test_client.post(endpoint)
 
     assert response.status_code == 302
     assert response.location.endswith(expected_post_logout_redirect) is True

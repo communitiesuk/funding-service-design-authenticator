@@ -33,34 +33,54 @@ class SsoView(MethodView):
 
         return redirect(session["flow"]["auth_uri"]), 302
 
-    def logout(self):
+    def logout(post_logout_redirect_uri=None):
         """
-        GET /sso/logout endpoint
         Clears the user session then redirects to
         Azure AD logout endpoint to logout from our tenants web session too
         :return:
         """
-        post_logout_redirect_uri = request.args.get(
-            "post_logout_redirect_uri",
-            Config.SSO_POST_SIGN_OUT_URL + f"?{urlencode({'return_app': session['return_app']})}"
-            if "return_app" in session
-            else "",
-        )
         azure_ad_sign_out_url = (
             Config.AZURE_AD_AUTHORITY
             + "/oauth2/v2.0/logout"
             + ("?post_logout_redirect_uri=" + post_logout_redirect_uri if post_logout_redirect_uri else "")
         )
+
+        # Clear session
         session.clear()
         response = make_response(redirect(azure_ad_sign_out_url), 302)
+
+        # Clear the JWT cookie
         response.set_cookie(
             Config.FSD_USER_TOKEN_COOKIE_NAME,
             "",
             domain=Config.COOKIE_DOMAIN,
             expires=0,
         )
+
+        # Clear any additional session state (e.g., Sentry)
         clear_sentry()
         return response
+
+    # Deprecation warning (Use logout_post instead)
+    def logout_get(self):
+        """GET /sso/logout endpoint"""
+        post_logout_redirect_uri = request.args.get(
+            "post_logout_redirect_uri",
+            Config.SSO_POST_SIGN_OUT_URL + f"?{urlencode({'return_app': session['return_app']})}"
+            if "return_app" in session
+            else "",
+        )
+        return SsoView.logout(post_logout_redirect_uri)
+
+    def logout_post(self):
+        """POST /sso/logout endpoint"""
+        post_logout_redirect_uri = request.form.get(
+            "post_logout_redirect_uri",
+            Config.SSO_POST_SIGN_OUT_URL + f"?{urlencode({'return_app': session['return_app']})}"
+            if "return_app" in session
+            else "",
+        )
+        return SsoView.logout(post_logout_redirect_uri)
 
     def get_token(self):
         """
