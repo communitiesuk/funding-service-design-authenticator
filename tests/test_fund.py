@@ -35,6 +35,20 @@ class TestFund:
             FundMethods.get_service_name()
             mock_get_fund.assert_called_once_with(**expected_args)
 
+    def test_get_service_name_for_none_short_name(self, app_context, mocker):
+        fund_short_name = None
+        # Mock request object with query parameters
+        mock_request = mocker.patch("models.fund.request")
+        mock_request.args.get = lambda arg: fund_short_name
+        # Call the method and check the output
+        with mock.patch(
+            "models.fund.FundMethods.get_fund",
+            return_value=None,
+        ) as mock_get_fund:
+            result = FundMethods.get_service_name()
+            mock_get_fund.assert_not_called()
+            assert result == (None, None)
+
     def test_get_fund_success(self, app_context):
         # Mock the get_data function to return a response with a valid "id"
         with mock.patch("models.fund.get_data") as mock_get_data:
