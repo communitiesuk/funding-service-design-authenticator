@@ -102,6 +102,8 @@ funding-service-design-utils==2.0.52
     # via -r requirements.in
 govuk-frontend-jinja==2.3.0
     # via -r requirements.in
+greenlet==3.0.3
+    # via sqlalchemy
 gunicorn==20.1.0
     # via funding-service-design-utils
 idna==3.7
@@ -231,7 +233,7 @@ thrift==0.16.0
     # via flipper-client
 typing-extensions==4.10.0
     # via sqlalchemy
-urllib3==1.26.18
+urllib3==1.26.19
     # via
     #   botocore
     #   requests
