@@ -74,10 +74,11 @@
     </h2>
     <p>
         {% if link_to_contact_us_page %}
-        {% trans %}If you need help,{% endtrans %} <a class="govuk-link" href="{{ contact_us_url }}">{% trans %}contact us.{% endtrans %}</a>
+            {% trans %}If you have questions about the form or the fund,{% endtrans %}
+            <a class="govuk-link" href="{{ contact_us_url }}">{% trans %}contact us.{% endtrans %}</a>
         {% else %}
-        {% trans %}If you have any questions about the form or the fund, email us at{% endtrans %} <a
-            class="govuk-link" href="mailto:{{ contact_us_email_address }}">{{ contact_us_email_address }}</a>.
+            {% trans %}If you have any questions about the form or the fund, email us at{% endtrans %}
+            <a class="govuk-link" href="mailto:{{ contact_us_email_address }}">{{ contact_us_email_address }}</a>.
         {% endif %}
     </p>
     <p>{% trans %}Do not send any applications or attachments by email. We'll only accept applications through this service.{% endtrans %}</p>
