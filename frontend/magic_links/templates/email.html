@@ -23,17 +23,12 @@
         }) }}
         {% endif %}
 
-        {% if fund_short_name|upper in ("COF-EOI",) %}
-        <div class="govuk-notification-banner" role="region" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
-            <div class="govuk-notification-banner__header">
-              <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
-                {{ gettext("Important") }}
-              </h2>
-            </div>
-            <div class="govuk-notification-banner__content">
-                {% trans %}You must use the same email address when you submit a full application to Community Ownership Fund{% endtrans %}
-            </div>
-          </div>
+        {% if is_expression_of_interest %}
+        {{ govukNotificationBanner({
+            "html":gettext("You must use the same email address when you submit a full application to Community Ownership Fund"),
+            "titleText": gettext("Important")
+          }) }}
+
         {% endif %}
         <form action="" class="form" method="post">
             <div class="govuk-form-group">
@@ -48,7 +43,8 @@
                 'html':
                 gettext("<p>We'll email you a link to start a new application, or continue any applications you have in progress.</p>
 <p>The link will work once and stop working after 24 hours.</p>
-<p>If you want to return to an application, you must use the email you started the application with.</p>") + (gettext('<p>Use the email address you would like your outcome email sent to.</p>') if fund_short_name|upper in ("COF-EOI",) else "")
+<p>If you want to return to an application, you must use the email you started the application with.</p>")
++ (gettext('<p>Use the email address you would like your outcome email sent to.</p>') if is_expression_of_interest else "")
                 },
                 'id': form.email.id,
                 'name': form.email.name,
