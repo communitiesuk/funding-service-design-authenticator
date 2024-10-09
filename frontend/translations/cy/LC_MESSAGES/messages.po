@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-05-31 11:25+0100\n"
+"POT-Creation-Date: 2024-10-09 08:42+0100\n"
 "PO-Revision-Date: 2022-10-28 12:33+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: cy\n"
@@ -17,9 +17,9 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.13.1\n"
+"Generated-By: Babel 2.10.3\n"
 
-#: app.py:133
+#: app.py:134
 msgid "Apply for"
 msgstr "Gwneud cais am"
 
@@ -240,6 +240,11 @@ msgstr "Os oes angen help arnoch chi,"
 msgid "contact us."
 msgstr "cysylltwch â ni."
 
+#: frontend/magic_links/templates/landing.html:79
+#, fuzzy
+msgid "If you have questions about the form or the fund,"
+msgstr "Os oes gennych unrhyw gwestiynau ynglŷn â'r ffurflen neu'r gronfa,"
+
 #: frontend/magic_links/templates/landing.html:82
 #: frontend/magic_links/templates/landing_eoi.html:79
 #, fuzzy
@@ -247,11 +252,6 @@ msgid "If you have any questions about the form or the fund, email us at"
 msgstr ""
 "Os oes gennych unrhyw gwestiynau ynglŷn â'r ffurflen neu'r gronfa, "
 "anfonwch e-bost atom yn"
-
-#: frontend/magic_links/templates/landing_eoi.html:79
-msgid "If you have any questions about the form or the fund,"
-msgstr ""
-"Os oes gennych unrhyw gwestiynau ynglŷn â'r ffurflen neu'r gronfa,"
 
 #: frontend/magic_links/templates/landing.html:86
 #: frontend/magic_links/templates/landing_eoi.html:83
@@ -396,6 +396,22 @@ msgid ""
 "To re-access your account, please use the link originally provided in the"
 " email sent you."
 msgstr ""
+
+#: frontend/templates/500.html:2 frontend/templates/500.html:7
+msgid "Sorry, there is a problem with the service"
+msgstr "Mae problem gyda'r gwasanaeth"
+
+#: frontend/templates/500.html:8
+msgid "Try again later."
+msgstr "Ceisiwch eto nes ymlaen."
+
+#: frontend/templates/500.html:12
+msgid "Contact"
+msgstr "cysylltwch â "
+
+#: frontend/templates/500.html:18
+msgid "if you have any questions."
+msgstr "os oes gennych unrhyw gwestiynau."
 
 #: frontend/templates/footer.html:9
 msgid "Privacy"
