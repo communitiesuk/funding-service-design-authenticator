@@ -29,6 +29,22 @@ msgstr ""
 msgid "Session expired, please refresh page to continue."
 msgstr ""
 
+#: frontend/magic_links/templates/check_email.html:9
+msgid "Email sent"
+msgstr ""
+
+#: frontend/magic_links/templates/check_email.html:11
+msgid "Email not sent"
+msgstr ""
+
+#: frontend/magic_links/templates/check_email.html:26
+msgid "No email has been sent."
+msgstr ""
+
+#: frontend/templates/500.html:18
+msgid "if you have any questions."
+msgstr ""
+
 #: frontend/templates/500.html:2 frontend/templates/500.html:7
 msgid "Sorry, there is a problem with the service"
 msgstr ""
