@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-10-09 08:42+0100\n"
+"POT-Creation-Date: 2024-10-09 13:56+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -27,317 +27,6 @@ msgstr ""
 
 #: frontend/magic_links/forms.py:29
 msgid "Session expired, please refresh page to continue."
-msgstr ""
-
-#: frontend/magic_links/templates/check_email.html:9
-msgid "Email sent"
-msgstr ""
-
-#: frontend/magic_links/templates/check_email.html:11
-msgid "Email not sent"
-msgstr ""
-
-#: frontend/magic_links/templates/check_email.html:26
-msgid "No email has been sent."
-msgstr ""
-
-#: frontend/magic_links/templates/check_email.html:27
-msgid "If you need a link to access your applications you can "
-msgstr ""
-
-#: frontend/magic_links/templates/check_email.html:27
-#: frontend/magic_links/templates/check_email.html:47
-msgid "request a new link"
-msgstr ""
-
-#: frontend/magic_links/templates/check_email.html:32
-msgid "We have sent an email to "
-msgstr ""
-
-#: frontend/magic_links/templates/check_email.html:33
-msgid "What happens next"
-msgstr ""
-
-#: frontend/magic_links/templates/check_email.html:35
-msgid ""
-"Use the link to confirm your email address and start a new application, "
-"or continue any applications you have in progress."
-msgstr ""
-
-#: frontend/magic_links/templates/check_email.html:37
-msgid "The link will work once and stop working after 24 hours."
-msgstr ""
-
-#: frontend/magic_links/templates/check_email.html:42
-msgid "If you do not receive an email"
-msgstr ""
-
-#: frontend/magic_links/templates/check_email.html:46
-msgid "The email may take a few minutes to arrive."
-msgstr ""
-
-#: frontend/magic_links/templates/check_email.html:47
-msgid "Check your spam or junk folders – if it still has not arrived, you can "
-msgstr ""
-
-#: frontend/magic_links/templates/email.html:9
-msgid "Email address"
-msgstr ""
-
-#: frontend/magic_links/templates/email.html:21
-msgid "There is a problem"
-msgstr ""
-
-#: frontend/magic_links/templates/email.html:30
-msgid "Important"
-msgstr ""
-
-#: frontend/magic_links/templates/email.html:34
-msgid ""
-"You must use the same email address when you submit a full application to"
-" Community Ownership Fund"
-msgstr ""
-
-#: frontend/magic_links/templates/email.html:49
-msgid ""
-"<p>We'll email you a link to start a new application, or continue any "
-"applications you have in progress.</p>\n"
-"<p>The link will work once and stop working after 24 hours.</p>\n"
-"<p>If you want to return to an application, you must use the email you "
-"started the application with.</p>"
-msgstr ""
-
-#: frontend/magic_links/templates/email.html:51
-msgid "<p>Use the email address you would like your outcome email sent to.</p>"
-msgstr ""
-
-#: frontend/magic_links/templates/email.html:67
-#: frontend/magic_links/templates/landing.html:25
-#: frontend/magic_links/templates/landing_eoi.html:22
-msgid "Continue"
-msgstr ""
-
-#: frontend/magic_links/templates/invalid.html:4
-msgid "Link expired"
-msgstr ""
-
-#: frontend/magic_links/templates/invalid.html:14
-msgid " Magic link expired "
-msgstr ""
-
-#: frontend/magic_links/templates/invalid.html:21
-msgid " You can request a new magic link to access your application. "
-msgstr ""
-
-#: frontend/magic_links/templates/invalid.html:29
-#: frontend/magic_links/templates/signed_out.html:35
-msgid "Request a new link"
-msgstr ""
-
-#: frontend/magic_links/templates/landing.html:20
-msgid "Submission deadline:"
-msgstr ""
-
-#: frontend/magic_links/templates/landing.html:31
-msgid "How to complete your application"
-msgstr ""
-
-#: frontend/magic_links/templates/landing.html:36
-msgid "Moving through the form"
-msgstr ""
-
-#: frontend/magic_links/templates/landing.html:39
-msgid "This form is split into sections based on how it will be assessed."
-msgstr ""
-
-#: frontend/magic_links/templates/landing.html:42
-msgid "You do not have to complete it in order, or all at once."
-msgstr ""
-
-#: frontend/magic_links/templates/landing.html:45
-msgid ""
-"When you have written something in every field in a section, the section "
-"will be marked as complete. You can still change your responses in "
-"sections that are marked as complete."
-msgstr ""
-
-#: frontend/magic_links/templates/landing.html:49
-msgid "Saving progress and making changes"
-msgstr ""
-
-#: frontend/magic_links/templates/landing.html:52
-msgid ""
-"Your work will not save automatically. To make sure you do not lose "
-"anything, select Save and continue regularly, and always before you go "
-"back or close your internet browser window."
-msgstr ""
-
-#: frontend/magic_links/templates/landing.html:55
-msgid "If you need to edit or revisit any sections, use the browser back button."
-msgstr ""
-
-#: frontend/magic_links/templates/landing.html:58
-msgid "You can edit your responses as many times as you like before you submit."
-msgstr ""
-
-#: frontend/magic_links/templates/landing.html:62
-msgid "Submitting your application"
-msgstr ""
-
-#: frontend/magic_links/templates/landing.html:65
-msgid ""
-"When you have completed all sections, you'll be able to submit your "
-"application."
-msgstr ""
-
-#: frontend/magic_links/templates/landing.html:68
-msgid ""
-"Once you have submitted your application, you'll not be able to edit, add"
-" or change any sections."
-msgstr ""
-
-#: frontend/magic_links/templates/landing.html:72
-#: frontend/magic_links/templates/landing_eoi.html:73
-msgid "Get help"
-msgstr ""
-
-#: frontend/magic_links/templates/landing.html:77
-#: frontend/magic_links/templates/landing_eoi.html:77
-msgid "If you need help,"
-msgstr ""
-
-#: frontend/magic_links/templates/landing.html:77
-#: frontend/magic_links/templates/landing.html:79
-#: frontend/magic_links/templates/landing_eoi.html:77
-msgid "contact us."
-msgstr ""
-
-#: frontend/magic_links/templates/landing.html:79
-msgid "If you have questions about the form or the fund,"
-msgstr ""
-
-#: frontend/magic_links/templates/landing.html:82
-#: frontend/magic_links/templates/landing_eoi.html:79
-msgid "If you have any questions about the form or the fund, email us at"
-msgstr ""
-
-#: frontend/magic_links/templates/landing.html:86
-#: frontend/magic_links/templates/landing_eoi.html:83
-msgid ""
-"Do not send any applications or attachments by email. We'll only accept "
-"applications through this service."
-msgstr ""
-
-#: frontend/magic_links/templates/landing.html:89
-msgid "How we'll use your information"
-msgstr ""
-
-#: frontend/magic_links/templates/landing.html:92
-msgid "Read how we'll use the information from your application in our"
-msgstr ""
-
-#: frontend/magic_links/templates/landing.html:92
-msgid "privacy notice"
-msgstr ""
-
-#: frontend/magic_links/templates/landing_eoi.html:17
-msgid "Express an interest in applying for the "
-msgstr ""
-
-#: frontend/magic_links/templates/landing_eoi.html:29
-msgid ""
-"You must complete this Expression of Interest (EOI) form if you are "
-"interested in applying for the Community Ownership Fund."
-msgstr ""
-
-#: frontend/magic_links/templates/landing_eoi.html:30
-msgid "Read the fund's prospectus before you start"
-msgstr ""
-
-#: frontend/magic_links/templates/landing_eoi.html:34
-msgid "What this process involves"
-msgstr ""
-
-#: frontend/magic_links/templates/landing_eoi.html:38
-msgid ""
-"We will ask for some basic information about your organisation and your "
-"project. This should take approximately 15 minutes to complete."
-msgstr ""
-
-#: frontend/magic_links/templates/landing_eoi.html:42
-msgid ""
-"You will receive instant results showing whether your project may be "
-"suitable for COF funding. You will also receive an email with guidance on"
-" any additional requirements you must meet before applying."
-msgstr ""
-
-#: frontend/magic_links/templates/landing_eoi.html:46
-msgid ""
-"Meeting the requirements at EOI stage does not guarantee you are eligible"
-" for funding. Your full application to COF will be subject to further "
-"gateway, eligibility, and due diligence checks, as set out in our"
-msgstr ""
-
-#: frontend/magic_links/templates/landing_eoi.html:47
-msgid "explanatory note on decision making"
-msgstr ""
-
-#: frontend/magic_links/templates/landing_eoi.html:51
-msgid "How we'll use your data"
-msgstr ""
-
-#: frontend/magic_links/templates/landing_eoi.html:55
-msgid ""
-"Some of the answers you submit will be assessed automatically to show "
-"whether you are suitable for COF."
-msgstr ""
-
-#: frontend/magic_links/templates/landing_eoi.html:59
-msgid ""
-"We also store this data so we can refer to it if you complete a COF "
-"application."
-msgstr ""
-
-#: frontend/magic_links/templates/landing_eoi.html:63
-msgid ""
-"By completing this form, you also consent to share your data with our "
-"development support provider, who may direct you to relevant information "
-"and support. They will also use your answers to determine whether you may"
-" be eligible for in-depth support with your COF application."
-msgstr ""
-
-#: frontend/magic_links/templates/landing_eoi.html:68
-msgid "Read our privacy notice for more information."
-msgstr ""
-
-#: frontend/magic_links/templates/signed_out.html:4
-msgid "You are not logged in"
-msgstr ""
-
-#: frontend/magic_links/templates/signed_out.html:6
-msgid "You have been signed out"
-msgstr ""
-
-#: frontend/magic_links/templates/signed_out.html:20
-msgid "Your session has "
-msgstr ""
-
-#: frontend/magic_links/templates/signed_out.html:22
-msgid "expired"
-msgstr ""
-
-#: frontend/magic_links/templates/signed_out.html:24
-msgid "been closed"
-msgstr ""
-
-#: frontend/magic_links/templates/signed_out.html:30
-msgid "To re-access your account, please click below to request a new link."
-msgstr ""
-
-#: frontend/magic_links/templates/signed_out.html:38
-msgid ""
-"To re-access your account, please use the link originally provided in the"
-" email sent you."
 msgstr ""
 
 #: frontend/templates/500.html:2 frontend/templates/500.html:7
@@ -370,6 +59,52 @@ msgstr ""
 
 #: frontend/templates/footer.html:22
 msgid "Contact us"
+msgstr ""
+
+#: frontend/templates/head.html:17
+msgid "Cookies on Access Funding"
+msgstr ""
+
+#: frontend/templates/head.html:19
+msgid "We use some essential cookies to make this service work."
+msgstr ""
+
+#: frontend/templates/head.html:20
+msgid ""
+"We'd also like to use analytics cookies so we can understand how you use "
+"the service and make improvements."
+msgstr ""
+
+#: frontend/templates/head.html:26
+msgid "Accept analytics cookies"
+msgstr ""
+
+#: frontend/templates/head.html:29
+msgid "Reject analytics cookies"
+msgstr ""
+
+#: frontend/templates/head.html:31
+msgid "View cookies"
+msgstr ""
+
+#: frontend/templates/head.html:38
+msgid "You've accepted analytics cookies. You can"
+msgstr ""
+
+#: frontend/templates/head.html:39 frontend/templates/head.html:54
+msgid "change your cookie settings"
+msgstr ""
+
+#: frontend/templates/head.html:39 frontend/templates/head.html:54
+msgid "at any time."
+msgstr ""
+
+#: frontend/templates/head.html:45 frontend/templates/head.html:60
+msgid "Hide cookie message"
+msgstr ""
+
+#: frontend/templates/head.html:53
+msgid "You've rejected analytics cookies. You can"
 msgstr ""
 
 #: frontend/templates/header.html:34

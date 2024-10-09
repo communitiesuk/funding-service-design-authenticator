@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-10-09 08:42+0100\n"
+"POT-Creation-Date: 2024-10-09 13:56+0100\n"
 "PO-Revision-Date: 2022-10-28 12:33+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: cy\n"
@@ -29,372 +29,6 @@ msgstr "am"
 
 #: frontend/magic_links/forms.py:29
 msgid "Session expired, please refresh page to continue."
-msgstr ""
-
-#: frontend/magic_links/templates/check_email.html:9
-msgid "Email sent"
-msgstr "E-bost wedi'i anfon"
-
-#: frontend/magic_links/templates/check_email.html:11
-msgid "Email not sent"
-msgstr ""
-
-#: frontend/magic_links/templates/check_email.html:26
-msgid "No email has been sent."
-msgstr ""
-
-#: frontend/magic_links/templates/check_email.html:27
-msgid "If you need a link to access your applications you can "
-msgstr ""
-
-#: frontend/magic_links/templates/check_email.html:27
-#: frontend/magic_links/templates/check_email.html:47
-msgid "request a new link"
-msgstr "cais am linc arall"
-
-#: frontend/magic_links/templates/check_email.html:32
-msgid "We have sent an email to "
-msgstr "Rydym wedi anfon e-bost i "
-
-#: frontend/magic_links/templates/check_email.html:33
-msgid "What happens next"
-msgstr "Beth sy'n digwydd nesaf"
-
-#: frontend/magic_links/templates/check_email.html:35
-msgid ""
-"Use the link to confirm your email address and start a new application, "
-"or continue any applications you have in progress."
-msgstr ""
-"Defnyddiwch y ddolen i gadarnhau eich cyfeiriad e-bost a dechrau cais "
-"newydd, neu i barhau ag unrhyw geisiadau sydd gennych ar waith."
-
-#: frontend/magic_links/templates/check_email.html:37
-msgid "The link will work once and stop working after 24 hours."
-msgstr "Bydd y ddolen yn gweithio unwaith ac yn stopio gweithio ar ôl 24 awr."
-
-#: frontend/magic_links/templates/check_email.html:42
-msgid "If you do not receive an email"
-msgstr "Os nad ydych chi'n derbyn e-bost"
-
-#: frontend/magic_links/templates/check_email.html:46
-msgid "The email may take a few minutes to arrive."
-msgstr "Gall gymryd ychydig funudau i'r e-bost gyrraedd."
-
-#: frontend/magic_links/templates/check_email.html:47
-msgid "Check your spam or junk folders – if it still has not arrived, you can "
-msgstr "Gwiriwch eich folder 'junk' a 'spam' - os nad ydyw wedi cyrraedd, gallech "
-
-#: frontend/magic_links/templates/email.html:9
-msgid "Email address"
-msgstr "Cyfeiriad e-bost"
-
-#: frontend/magic_links/templates/email.html:21
-msgid "There is a problem"
-msgstr "Mae problem"
-
-#: frontend/magic_links/templates/email.html:30
-msgid "Important"
-msgstr "Pwysig"
-
-#: frontend/magic_links/templates/email.html:34
-msgid ""
-"You must use the same email address when you submit a full application to"
-" Community Ownership Fund"
-msgstr ""
-"Mae'n rhaid i chi ddefnyddio'r un cyfeiriad e-bost pan fyddwch yn "
-"cyflwyno cais llawn i'r Gronfa Perchnogaeth Gymunedol"
-
-#: frontend/magic_links/templates/email.html:49
-msgid ""
-"<p>We'll email you a link to start a new application, or continue any "
-"applications you have in progress.</p>\n"
-"<p>The link will work once and stop working after 24 hours.</p>\n"
-"<p>If you want to return to an application, you must use the email you "
-"started the application with.</p>"
-msgstr ""
-"<p>Byddwn yn e-bostio dolen atoch i ddechrau cais newydd, neu i barhau ag"
-" unrhyw geisiadau sydd gennych ar waith.</p><p>Bydd y ddolen yn gweithio "
-"unwaith ac yn stopio gweithio ar ôl 24 awr.</p><p>Os ydych chi eisiau "
-"mynd yn ôl at gais, rhaid i chi ddefnyddio'r e-bost y dechreuoch y cais "
-"gydag ef.</p>"
-
-#: frontend/magic_links/templates/email.html:51
-msgid "<p>Use the email address you would like your outcome email sent to.</p>"
-msgstr ""
-"<p>Defnyddiwch y cyfeiriad e-bost yr hoffech i'ch canlyniad gael ei anfon"
-" iddo.</p>"
-
-#: frontend/magic_links/templates/email.html:67
-#: frontend/magic_links/templates/landing.html:25
-#: frontend/magic_links/templates/landing_eoi.html:22
-msgid "Continue"
-msgstr "Parhau"
-
-#: frontend/magic_links/templates/invalid.html:4
-msgid "Link expired"
-msgstr " Dolen hud wedi dod i ben "
-
-#: frontend/magic_links/templates/invalid.html:14
-msgid " Magic link expired "
-msgstr ""
-
-#: frontend/magic_links/templates/invalid.html:21
-msgid " You can request a new magic link to access your application. "
-msgstr " Dolen hud wedi dod i ben "
-
-#: frontend/magic_links/templates/invalid.html:29
-#: frontend/magic_links/templates/signed_out.html:35
-msgid "Request a new link"
-msgstr "Cais am linc arall"
-
-#: frontend/magic_links/templates/landing.html:20
-msgid "Submission deadline:"
-msgstr "Dyddiad cau cyflwyno:"
-
-#: frontend/magic_links/templates/landing.html:31
-msgid "How to complete your application"
-msgstr "Sut i gwblhau eich cais"
-
-#: frontend/magic_links/templates/landing.html:36
-msgid "Moving through the form"
-msgstr "Symud drwy'r ffurflen"
-
-#: frontend/magic_links/templates/landing.html:39
-msgid "This form is split into sections based on how it will be assessed."
-msgstr "Mae'r ffurflen wedi'i rhannu yn adrannau ar sail y modd y caiff ei hasesu."
-
-#: frontend/magic_links/templates/landing.html:42
-msgid "You do not have to complete it in order, or all at once."
-msgstr "Nid oes rhaid i chi ei llenwi mewn trefn, na'r cyfan ar unwaith."
-
-#: frontend/magic_links/templates/landing.html:45
-msgid ""
-"When you have written something in every field in a section, the section "
-"will be marked as complete. You can still change your responses in "
-"sections that are marked as complete."
-msgstr ""
-"Pan fyddwch chi wedi ysgrifennu rhywbeth ym mhob maes mewn adran, bydd yr"
-" adran yn cael ei marcio'n orffenedig. Gallwch newid eich ymatebion o hyd"
-" mewn adrannau sydd wedi cael eu marcio'n orffenedig."
-
-#: frontend/magic_links/templates/landing.html:49
-msgid "Saving progress and making changes"
-msgstr "Cadw cynnydd a gwneud newidiadau"
-
-#: frontend/magic_links/templates/landing.html:52
-msgid ""
-"Your work will not save automatically. To make sure you do not lose "
-"anything, select Save and continue regularly, and always before you go "
-"back or close your internet browser window."
-msgstr ""
-"Ni chaiff eich gwaith ei gadw'n awtomatig. I wneud yn siŵr nad ydych yn "
-"colli unrhyw beth, cliciwch ar Cadw a pharhau yn rheolaidd, a chofiwch "
-"wneud hyn bob tro cyn i chi fynd yn ôl neu cyn i chi gau ffenestr eich "
-"porwr gwe."
-
-#: frontend/magic_links/templates/landing.html:55
-msgid "If you need to edit or revisit any sections, use the browser back button."
-msgstr ""
-"Os oes angen i chi olygu neu fynd yn ôl at unrhyw adrannau, defnyddiwch "
-"fotwm nôl y porwr."
-
-#: frontend/magic_links/templates/landing.html:58
-msgid "You can edit your responses as many times as you like before you submit."
-msgstr ""
-"Gallwch olygu'ch ymatebion gymaint o weithiau a fynnwch cyn i chi eu "
-"cyflwyno."
-
-#: frontend/magic_links/templates/landing.html:62
-msgid "Submitting your application"
-msgstr "Cyflwyno'ch cais"
-
-#: frontend/magic_links/templates/landing.html:65
-msgid ""
-"When you have completed all sections, you'll be able to submit your "
-"application."
-msgstr ""
-"Pan fyddwch chi wedi cwblhau pob adran, byddwch chi'n gallu cyflwyno eich"
-" cais."
-
-#: frontend/magic_links/templates/landing.html:68
-msgid ""
-"Once you have submitted your application, you'll not be able to edit, add"
-" or change any sections."
-msgstr ""
-"Ar ôl i chi gyflwyno eich cais, ni fyddwch chi'n gallu golygu, ychwanegu "
-"na newid unrhyw adrannau."
-
-#: frontend/magic_links/templates/landing.html:72
-#: frontend/magic_links/templates/landing_eoi.html:73
-msgid "Get help"
-msgstr "Cael help"
-
-#: frontend/magic_links/templates/landing.html:77
-#: frontend/magic_links/templates/landing_eoi.html:77
-msgid "If you need help,"
-msgstr "Os oes angen help arnoch chi,"
-
-#: frontend/magic_links/templates/landing.html:77
-#: frontend/magic_links/templates/landing.html:79
-#: frontend/magic_links/templates/landing_eoi.html:77
-msgid "contact us."
-msgstr "cysylltwch â ni."
-
-#: frontend/magic_links/templates/landing.html:79
-#, fuzzy
-msgid "If you have questions about the form or the fund,"
-msgstr "Os oes gennych unrhyw gwestiynau ynglŷn â'r ffurflen neu'r gronfa,"
-
-#: frontend/magic_links/templates/landing.html:82
-#: frontend/magic_links/templates/landing_eoi.html:79
-#, fuzzy
-msgid "If you have any questions about the form or the fund, email us at"
-msgstr ""
-"Os oes gennych unrhyw gwestiynau ynglŷn â'r ffurflen neu'r gronfa, "
-"anfonwch e-bost atom yn"
-
-#: frontend/magic_links/templates/landing.html:86
-#: frontend/magic_links/templates/landing_eoi.html:83
-msgid ""
-"Do not send any applications or attachments by email. We'll only accept "
-"applications through this service."
-msgstr ""
-"Peidiwch ag anfon unrhyw geisiadau nac atodiadau drwy e-bost. Dim ond "
-"drwy'r gwasanaeth hwn y byddwn yn derbyn ceisiadau."
-
-#: frontend/magic_links/templates/landing.html:89
-msgid "How we'll use your information"
-msgstr "Sut byddwn ni'n defnyddio'ch gwybodaeth"
-
-#: frontend/magic_links/templates/landing.html:92
-msgid "Read how we'll use the information from your application in our"
-msgstr ""
-"Darllenwch sut byddwn ni'n defnyddio'r wybodaeth o'ch cais yn ein "
-"hysbysiad preifatrwydd"
-
-#: frontend/magic_links/templates/landing.html:92
-msgid "privacy notice"
-msgstr "hysbysiad preifatrwydd"
-
-#: frontend/magic_links/templates/landing_eoi.html:17
-msgid "Express an interest in applying for the "
-msgstr "Mynegi diddordeb mewn gwneud cais i'r "
-
-#: frontend/magic_links/templates/landing_eoi.html:29
-msgid ""
-"You must complete this Expression of Interest (EOI) form if you are "
-"interested in applying for the Community Ownership Fund."
-msgstr ""
-"Mae'n rhaid i chi gwblhau'r ffurflen Datganiad o Ddiddordeb hon os oes "
-"diddordeb gennych mewn gwneud cais i'r Gronfa Perchnogaeth Gymunedol."
-
-#: frontend/magic_links/templates/landing_eoi.html:30
-msgid "Read the fund's prospectus before you start"
-msgstr "Darllenwch brosbectws y gronfa cyn dechrau"
-
-#: frontend/magic_links/templates/landing_eoi.html:34
-msgid "What this process involves"
-msgstr "Beth sy'n rhan o'r broses hon"
-
-#: frontend/magic_links/templates/landing_eoi.html:38
-msgid ""
-"We will ask for some basic information about your organisation and your "
-"project. This should take approximately 15 minutes to complete."
-msgstr ""
-"Byddwn yn gofyn am wybodaeth sylfaenol am eich sefydliad a'ch prosiect. "
-"Dylai gymryd tua 15 munud i gwblhau hyn."
-
-#: frontend/magic_links/templates/landing_eoi.html:42
-msgid ""
-"You will receive instant results showing whether your project may be "
-"suitable for COF funding. You will also receive an email with guidance on"
-" any additional requirements you must meet before applying."
-msgstr ""
-"Byddwch yn cael canlyniadau ar unwaith yn dangos a all eich prosiect fod "
-"yn addas i gael cyllid drwy'r Gronfa Perchnogaeth Gymunedol. Byddwch "
-"hefyd yn cael e-bost â chanllawiau ar unrhyw ofynion ychwanegol y mae'n "
-"rhaid i chi eu bodloni cyn gwneud cais. "
-
-#: frontend/magic_links/templates/landing_eoi.html:46
-msgid ""
-"Meeting the requirements at EOI stage does not guarantee you are eligible"
-" for funding. Your full application to COF will be subject to further "
-"gateway, eligibility, and due diligence checks, as set out in our"
-msgstr ""
-"Nid yw bodloni'r gofynion ar y cam mynegi diddordeb yn gwarantu eich bod "
-"yn gymwys i gael cyllid. Bydd eich cais llawn i'r Gronfa Perchnogaeth "
-"Gymunedol yn destun gwiriadau porth, cymhwystra a diwydrwydd dyladwy "
-"pellach, fel y nodir yn ein"
-
-#: frontend/magic_links/templates/landing_eoi.html:47
-msgid "explanatory note on decision making"
-msgstr "nodyn esboniadol ar wneud penderfyniadau"
-
-#: frontend/magic_links/templates/landing_eoi.html:51
-msgid "How we'll use your data"
-msgstr "Sut y byddwn yn defnyddio eich data"
-
-#: frontend/magic_links/templates/landing_eoi.html:55
-msgid ""
-"Some of the answers you submit will be assessed automatically to show "
-"whether you are suitable for COF."
-msgstr ""
-"Bydd rhai o'r atebion a gyflwynir gennych yn cael eu hasesu'n awtomatig i"
-" ddangos a ydych yn addas ar gyfer y Gronfa Perchnogaeth Gymunedol."
-
-#: frontend/magic_links/templates/landing_eoi.html:59
-msgid ""
-"We also store this data so we can refer to it if you complete a COF "
-"application."
-msgstr ""
-"Rydym hefyd yn storio'r data hyn fel y gallwn gyfeirio atynt os byddwch "
-"yn cwblhau cais i'r Gronfa Perchnogaeth Gymunedol."
-
-#: frontend/magic_links/templates/landing_eoi.html:63
-msgid ""
-"By completing this form, you also consent to share your data with our "
-"development support provider, who may direct you to relevant information "
-"and support. They will also use your answers to determine whether you may"
-" be eligible for in-depth support with your COF application."
-msgstr ""
-"Drwy gwblhau'r ffurflen hon, rydych hefyd yn cydsynio i'ch data gael eu "
-"rhannu â'n darparwr cymorth datblygu, a all eich cyfeirio at wybodaeth a "
-"chymorth perthnasol. Bydd hefyd yn defnyddio eich atebion i bennu a ydych"
-" yn gymwys i gael cymorth manwl gyda'ch cais i'r Gronfa Perchnogaeth "
-"Gymunedol."
-
-#: frontend/magic_links/templates/landing_eoi.html:68
-msgid "Read our privacy notice for more information."
-msgstr "Darllenwch ein hysbysiad preifatrwydd am ragor o wybodaeth."
-
-#: frontend/magic_links/templates/signed_out.html:4
-msgid "You are not logged in"
-msgstr ""
-
-#: frontend/magic_links/templates/signed_out.html:6
-msgid "You have been signed out"
-msgstr "Rydych chi wedi cael eich allgofnodi"
-
-#: frontend/magic_links/templates/signed_out.html:20
-msgid "Your session has "
-msgstr "Mae eich sesiwn wedi "
-
-#: frontend/magic_links/templates/signed_out.html:22
-msgid "expired"
-msgstr "darfod"
-
-#: frontend/magic_links/templates/signed_out.html:24
-msgid "been closed"
-msgstr "cau"
-
-#: frontend/magic_links/templates/signed_out.html:30
-msgid "To re-access your account, please click below to request a new link."
-msgstr "I ail-gyrchu eich cyfrif, cliciwch isod i ofyn am ddolen newydd."
-
-#: frontend/magic_links/templates/signed_out.html:38
-msgid ""
-"To re-access your account, please use the link originally provided in the"
-" email sent you."
 msgstr ""
 
 #: frontend/templates/500.html:2 frontend/templates/500.html:7
@@ -428,6 +62,54 @@ msgstr "Datganiad Hygyrchedd"
 #: frontend/templates/footer.html:22
 msgid "Contact us"
 msgstr "Cysylltwch â ni"
+
+#: frontend/templates/head.html:17
+msgid "Cookies on Access Funding"
+msgstr "Cwcis ar Gyllid Mynediad"
+
+#: frontend/templates/head.html:19
+msgid "We use some essential cookies to make this service work."
+msgstr "Rydym yn defnyddio rhai cwcis hanfodol i wneud i'r gwasanaeth hwn weithio."
+
+#: frontend/templates/head.html:20
+msgid ""
+"We'd also like to use analytics cookies so we can understand how you use "
+"the service and make improvements."
+msgstr ""
+"Hoffem ddefnyddio cwcis dadansoddeg hefyd fel y gallwn ddeall sut rydych "
+"yn defnyddio'r gwasanaeth a gwneud gwelliannau."
+
+#: frontend/templates/head.html:26
+msgid "Accept analytics cookies"
+msgstr "Derbyn cwcis dadansoddeg"
+
+#: frontend/templates/head.html:29
+msgid "Reject analytics cookies"
+msgstr "Gwrthod cwcis dadansoddeg"
+
+#: frontend/templates/head.html:31
+msgid "View cookies"
+msgstr "Gweld cwcis"
+
+#: frontend/templates/head.html:38
+msgid "You've accepted analytics cookies. You can"
+msgstr "Rydych wedi derbyn cwcis dadansoddeg. Gallwch"
+
+#: frontend/templates/head.html:39 frontend/templates/head.html:54
+msgid "change your cookie settings"
+msgstr "newid eich gosodiadau cwcis"
+
+#: frontend/templates/head.html:39 frontend/templates/head.html:54
+msgid "at any time."
+msgstr "unrhyw bryd."
+
+#: frontend/templates/head.html:45 frontend/templates/head.html:60
+msgid "Hide cookie message"
+msgstr "Cuddio'r neges ynghylch cwcis"
+
+#: frontend/templates/head.html:53
+msgid "You've rejected analytics cookies. You can"
+msgstr "Rydych wedi gwrthod cwcis dadansoddeg. Gallwch"
 
 #: frontend/templates/header.html:34
 msgid "beta"
@@ -495,4 +177,379 @@ msgstr "Ffôn testun"
 #~ msgstr ""
 
 #~ msgid "Check your email and follow the link to continue your application"
+#~ msgstr ""
+
+#~ msgid "Email sent"
+#~ msgstr "E-bost wedi'i anfon"
+
+#~ msgid "Email not sent"
+#~ msgstr ""
+
+#~ msgid "No email has been sent."
+#~ msgstr ""
+
+#~ msgid "If you need a link to access your applications you can "
+#~ msgstr ""
+
+#~ msgid "request a new link"
+#~ msgstr "cais am linc arall"
+
+#~ msgid "We have sent an email to "
+#~ msgstr "Rydym wedi anfon e-bost i "
+
+#~ msgid "What happens next"
+#~ msgstr "Beth sy'n digwydd nesaf"
+
+#~ msgid ""
+#~ "Use the link to confirm your email"
+#~ " address and start a new application,"
+#~ " or continue any applications you "
+#~ "have in progress."
+#~ msgstr ""
+#~ "Defnyddiwch y ddolen i gadarnhau eich"
+#~ " cyfeiriad e-bost a dechrau cais "
+#~ "newydd, neu i barhau ag unrhyw "
+#~ "geisiadau sydd gennych ar waith."
+
+#~ msgid "The link will work once and stop working after 24 hours."
+#~ msgstr "Bydd y ddolen yn gweithio unwaith ac yn stopio gweithio ar ôl 24 awr."
+
+#~ msgid "If you do not receive an email"
+#~ msgstr "Os nad ydych chi'n derbyn e-bost"
+
+#~ msgid "The email may take a few minutes to arrive."
+#~ msgstr "Gall gymryd ychydig funudau i'r e-bost gyrraedd."
+
+#~ msgid "Check your spam or junk folders – if it still has not arrived, you can "
+#~ msgstr ""
+#~ "Gwiriwch eich folder 'junk' a 'spam' "
+#~ "- os nad ydyw wedi cyrraedd, "
+#~ "gallech "
+
+#~ msgid "Email address"
+#~ msgstr "Cyfeiriad e-bost"
+
+#~ msgid "There is a problem"
+#~ msgstr "Mae problem"
+
+#~ msgid "Important"
+#~ msgstr "Pwysig"
+
+#~ msgid ""
+#~ "You must use the same email "
+#~ "address when you submit a full "
+#~ "application to Community Ownership Fund"
+#~ msgstr ""
+#~ "Mae'n rhaid i chi ddefnyddio'r un "
+#~ "cyfeiriad e-bost pan fyddwch yn cyflwyno"
+#~ " cais llawn i'r Gronfa Perchnogaeth "
+#~ "Gymunedol"
+
+#~ msgid ""
+#~ "<p>We'll email you a link to start"
+#~ " a new application, or continue any"
+#~ " applications you have in progress.</p>"
+#~ "\n"
+#~ "<p>The link will work once and stop working after 24 hours.</p>\n"
+#~ "<p>If you want to return to an "
+#~ "application, you must use the email "
+#~ "you started the application with.</p>"
+#~ msgstr ""
+#~ "<p>Byddwn yn e-bostio dolen atoch i "
+#~ "ddechrau cais newydd, neu i barhau "
+#~ "ag unrhyw geisiadau sydd gennych ar "
+#~ "waith.</p><p>Bydd y ddolen yn gweithio "
+#~ "unwaith ac yn stopio gweithio ar "
+#~ "ôl 24 awr.</p><p>Os ydych chi eisiau "
+#~ "mynd yn ôl at gais, rhaid i "
+#~ "chi ddefnyddio'r e-bost y dechreuoch y"
+#~ " cais gydag ef.</p>"
+
+#~ msgid "<p>Use the email address you would like your outcome email sent to.</p>"
+#~ msgstr ""
+#~ "<p>Defnyddiwch y cyfeiriad e-bost yr "
+#~ "hoffech i'ch canlyniad gael ei anfon "
+#~ "iddo.</p>"
+
+#~ msgid "Continue"
+#~ msgstr "Parhau"
+
+#~ msgid "Link expired"
+#~ msgstr " Dolen hud wedi dod i ben "
+
+#~ msgid " Magic link expired "
+#~ msgstr ""
+
+#~ msgid " You can request a new magic link to access your application. "
+#~ msgstr " Dolen hud wedi dod i ben "
+
+#~ msgid "Request a new link"
+#~ msgstr "Cais am linc arall"
+
+#~ msgid "Submission deadline:"
+#~ msgstr "Dyddiad cau cyflwyno:"
+
+#~ msgid "How to complete your application"
+#~ msgstr "Sut i gwblhau eich cais"
+
+#~ msgid "Moving through the form"
+#~ msgstr "Symud drwy'r ffurflen"
+
+#~ msgid "This form is split into sections based on how it will be assessed."
+#~ msgstr ""
+#~ "Mae'r ffurflen wedi'i rhannu yn adrannau"
+#~ " ar sail y modd y caiff ei "
+#~ "hasesu."
+
+#~ msgid "You do not have to complete it in order, or all at once."
+#~ msgstr "Nid oes rhaid i chi ei llenwi mewn trefn, na'r cyfan ar unwaith."
+
+#~ msgid ""
+#~ "When you have written something in "
+#~ "every field in a section, the "
+#~ "section will be marked as complete. "
+#~ "You can still change your responses "
+#~ "in sections that are marked as "
+#~ "complete."
+#~ msgstr ""
+#~ "Pan fyddwch chi wedi ysgrifennu rhywbeth"
+#~ " ym mhob maes mewn adran, bydd "
+#~ "yr adran yn cael ei marcio'n "
+#~ "orffenedig. Gallwch newid eich ymatebion "
+#~ "o hyd mewn adrannau sydd wedi cael"
+#~ " eu marcio'n orffenedig."
+
+#~ msgid "Saving progress and making changes"
+#~ msgstr "Cadw cynnydd a gwneud newidiadau"
+
+#~ msgid ""
+#~ "Your work will not save automatically."
+#~ " To make sure you do not lose"
+#~ " anything, select Save and continue "
+#~ "regularly, and always before you go "
+#~ "back or close your internet browser "
+#~ "window."
+#~ msgstr ""
+#~ "Ni chaiff eich gwaith ei gadw'n "
+#~ "awtomatig. I wneud yn siŵr nad "
+#~ "ydych yn colli unrhyw beth, cliciwch "
+#~ "ar Cadw a pharhau yn rheolaidd, a"
+#~ " chofiwch wneud hyn bob tro cyn "
+#~ "i chi fynd yn ôl neu cyn i"
+#~ " chi gau ffenestr eich porwr gwe."
+
+#~ msgid ""
+#~ "If you need to edit or revisit "
+#~ "any sections, use the browser back "
+#~ "button."
+#~ msgstr ""
+#~ "Os oes angen i chi olygu neu "
+#~ "fynd yn ôl at unrhyw adrannau, "
+#~ "defnyddiwch fotwm nôl y porwr."
+
+#~ msgid ""
+#~ "You can edit your responses as "
+#~ "many times as you like before you"
+#~ " submit."
+#~ msgstr ""
+#~ "Gallwch olygu'ch ymatebion gymaint o "
+#~ "weithiau a fynnwch cyn i chi eu"
+#~ " cyflwyno."
+
+#~ msgid "Submitting your application"
+#~ msgstr "Cyflwyno'ch cais"
+
+#~ msgid ""
+#~ "When you have completed all sections,"
+#~ " you'll be able to submit your "
+#~ "application."
+#~ msgstr ""
+#~ "Pan fyddwch chi wedi cwblhau pob "
+#~ "adran, byddwch chi'n gallu cyflwyno eich"
+#~ " cais."
+
+#~ msgid ""
+#~ "Once you have submitted your "
+#~ "application, you'll not be able to "
+#~ "edit, add or change any sections."
+#~ msgstr ""
+#~ "Ar ôl i chi gyflwyno eich cais,"
+#~ " ni fyddwch chi'n gallu golygu, "
+#~ "ychwanegu na newid unrhyw adrannau."
+
+#~ msgid "Get help"
+#~ msgstr "Cael help"
+
+#~ msgid "If you need help,"
+#~ msgstr "Os oes angen help arnoch chi,"
+
+#~ msgid "contact us."
+#~ msgstr "cysylltwch â ni."
+
+#~ msgid "If you have questions about the form or the fund,"
+#~ msgstr "Os oes gennych unrhyw gwestiynau ynglŷn â'r ffurflen neu'r gronfa,"
+
+#~ msgid "If you have any questions about the form or the fund, email us at"
+#~ msgstr ""
+#~ "Os oes gennych unrhyw gwestiynau ynglŷn"
+#~ " â'r ffurflen neu'r gronfa, anfonwch "
+#~ "e-bost atom yn"
+
+#~ msgid ""
+#~ "Do not send any applications or "
+#~ "attachments by email. We'll only accept"
+#~ " applications through this service."
+#~ msgstr ""
+#~ "Peidiwch ag anfon unrhyw geisiadau nac"
+#~ " atodiadau drwy e-bost. Dim ond "
+#~ "drwy'r gwasanaeth hwn y byddwn yn "
+#~ "derbyn ceisiadau."
+
+#~ msgid "How we'll use your information"
+#~ msgstr "Sut byddwn ni'n defnyddio'ch gwybodaeth"
+
+#~ msgid "Read how we'll use the information from your application in our"
+#~ msgstr ""
+#~ "Darllenwch sut byddwn ni'n defnyddio'r "
+#~ "wybodaeth o'ch cais yn ein hysbysiad "
+#~ "preifatrwydd"
+
+#~ msgid "privacy notice"
+#~ msgstr "hysbysiad preifatrwydd"
+
+#~ msgid "Express an interest in applying for the "
+#~ msgstr "Mynegi diddordeb mewn gwneud cais i'r "
+
+#~ msgid ""
+#~ "You must complete this Expression of "
+#~ "Interest (EOI) form if you are "
+#~ "interested in applying for the Community"
+#~ " Ownership Fund."
+#~ msgstr ""
+#~ "Mae'n rhaid i chi gwblhau'r ffurflen "
+#~ "Datganiad o Ddiddordeb hon os oes "
+#~ "diddordeb gennych mewn gwneud cais i'r"
+#~ " Gronfa Perchnogaeth Gymunedol."
+
+#~ msgid "Read the fund's prospectus before you start"
+#~ msgstr "Darllenwch brosbectws y gronfa cyn dechrau"
+
+#~ msgid "What this process involves"
+#~ msgstr "Beth sy'n rhan o'r broses hon"
+
+#~ msgid ""
+#~ "We will ask for some basic "
+#~ "information about your organisation and "
+#~ "your project. This should take "
+#~ "approximately 15 minutes to complete."
+#~ msgstr ""
+#~ "Byddwn yn gofyn am wybodaeth sylfaenol"
+#~ " am eich sefydliad a'ch prosiect. "
+#~ "Dylai gymryd tua 15 munud i "
+#~ "gwblhau hyn."
+
+#~ msgid ""
+#~ "You will receive instant results showing"
+#~ " whether your project may be suitable"
+#~ " for COF funding. You will also "
+#~ "receive an email with guidance on "
+#~ "any additional requirements you must "
+#~ "meet before applying."
+#~ msgstr ""
+#~ "Byddwch yn cael canlyniadau ar unwaith"
+#~ " yn dangos a all eich prosiect "
+#~ "fod yn addas i gael cyllid drwy'r"
+#~ " Gronfa Perchnogaeth Gymunedol. Byddwch "
+#~ "hefyd yn cael e-bost â chanllawiau "
+#~ "ar unrhyw ofynion ychwanegol y mae'n "
+#~ "rhaid i chi eu bodloni cyn gwneud"
+#~ " cais. "
+
+#~ msgid ""
+#~ "Meeting the requirements at EOI stage"
+#~ " does not guarantee you are eligible"
+#~ " for funding. Your full application "
+#~ "to COF will be subject to further"
+#~ " gateway, eligibility, and due diligence"
+#~ " checks, as set out in our"
+#~ msgstr ""
+#~ "Nid yw bodloni'r gofynion ar y cam"
+#~ " mynegi diddordeb yn gwarantu eich "
+#~ "bod yn gymwys i gael cyllid. Bydd"
+#~ " eich cais llawn i'r Gronfa "
+#~ "Perchnogaeth Gymunedol yn destun gwiriadau "
+#~ "porth, cymhwystra a diwydrwydd dyladwy "
+#~ "pellach, fel y nodir yn ein"
+
+#~ msgid "explanatory note on decision making"
+#~ msgstr "nodyn esboniadol ar wneud penderfyniadau"
+
+#~ msgid "How we'll use your data"
+#~ msgstr "Sut y byddwn yn defnyddio eich data"
+
+#~ msgid ""
+#~ "Some of the answers you submit "
+#~ "will be assessed automatically to show"
+#~ " whether you are suitable for COF."
+#~ msgstr ""
+#~ "Bydd rhai o'r atebion a gyflwynir "
+#~ "gennych yn cael eu hasesu'n awtomatig"
+#~ " i ddangos a ydych yn addas ar"
+#~ " gyfer y Gronfa Perchnogaeth Gymunedol."
+
+#~ msgid ""
+#~ "We also store this data so we "
+#~ "can refer to it if you complete"
+#~ " a COF application."
+#~ msgstr ""
+#~ "Rydym hefyd yn storio'r data hyn "
+#~ "fel y gallwn gyfeirio atynt os "
+#~ "byddwch yn cwblhau cais i'r Gronfa "
+#~ "Perchnogaeth Gymunedol."
+
+#~ msgid ""
+#~ "By completing this form, you also "
+#~ "consent to share your data with "
+#~ "our development support provider, who "
+#~ "may direct you to relevant information"
+#~ " and support. They will also use "
+#~ "your answers to determine whether you"
+#~ " may be eligible for in-depth "
+#~ "support with your COF application."
+#~ msgstr ""
+#~ "Drwy gwblhau'r ffurflen hon, rydych "
+#~ "hefyd yn cydsynio i'ch data gael "
+#~ "eu rhannu â'n darparwr cymorth datblygu,"
+#~ " a all eich cyfeirio at wybodaeth "
+#~ "a chymorth perthnasol. Bydd hefyd yn "
+#~ "defnyddio eich atebion i bennu a "
+#~ "ydych yn gymwys i gael cymorth "
+#~ "manwl gyda'ch cais i'r Gronfa "
+#~ "Perchnogaeth Gymunedol."
+
+#~ msgid "Read our privacy notice for more information."
+#~ msgstr "Darllenwch ein hysbysiad preifatrwydd am ragor o wybodaeth."
+
+#~ msgid "You are not logged in"
+#~ msgstr ""
+
+#~ msgid "You have been signed out"
+#~ msgstr "Rydych chi wedi cael eich allgofnodi"
+
+#~ msgid "Your session has "
+#~ msgstr "Mae eich sesiwn wedi "
+
+#~ msgid "expired"
+#~ msgstr "darfod"
+
+#~ msgid "been closed"
+#~ msgstr "cau"
+
+#~ msgid "To re-access your account, please click below to request a new link."
+#~ msgstr "I ail-gyrchu eich cyfrif, cliciwch isod i ofyn am ddolen newydd."
+
+#~ msgid ""
+#~ "To re-access your account, please "
+#~ "use the link originally provided in "
+#~ "the email sent you."
 #~ msgstr ""
