@@ -167,9 +167,6 @@ msgstr "Ffôn testun"
 #~ msgid " will help us to improve it."
 #~ msgstr " yn ein cefnogi i'w wella."
 
-#~ msgid "If you have any questions about the form or the fund, "
-#~ msgstr "Os oes gennych unrhyw gwestiynau am y ffurflen neu'r gronfa, "
-
 #~ msgid "contact us"
 #~ msgstr "cysylltwch â ni"
 
