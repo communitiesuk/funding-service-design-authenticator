@@ -1,21 +1,21 @@
 {% extends "base.html" %}
-{% block pageTitle %}Sorry, there is a problem with the service – {{ service_title }}{% endblock pageTitle %}
+{% block pageTitle %}{% trans %}Sorry, there is a problem with the service{% endtrans %} – {{ service_title }}{% endblock pageTitle %}
 
 {% block content %}
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
-            <h1 class="govuk-heading-xl">Sorry, there is a problem with the service</h1>
-            <p class="govuk-body">Try again later.</p>
+            <h1 class="govuk-heading-xl">{% trans %}Sorry, there is a problem with the service{% endtrans %}</h1>
+            <p class="govuk-body">{% trans %}Try again later.{% endtrans %}</p>
             {% if contact_us_url and fund_name %}
                 <p class="govuk-body">
                     <a class="govuk-link" href="{{ contact_us_url }}">
-                        Contact
+                        {% trans %}Contact{% endtrans %}
                         {% if not fund_name.lower().startswith('the ') %}
                             the {{ fund_name }}
                         {% else %}
                             {{ fund_name }}
                         {% endif %}
-                    </a> if you have any questions.
+                    </a> {% trans %}if you have any questions.{% endtrans %}
                 </p>
             {% endif %}
         </div>
