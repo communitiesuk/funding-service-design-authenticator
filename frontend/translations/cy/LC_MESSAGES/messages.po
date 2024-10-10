@@ -377,52 +377,53 @@ msgstr "Datganiad Hygyrchedd"
 msgid "Contact us"
 msgstr "Cysylltwch â ni"
 
-#: frontend/templates/head.html:17
+: frontend/templates/head.html:17
 msgid "Cookies on Access Funding"
-msgstr ""
+msgstr "Cwcis ar Gyllid Mynediad"
 
 #: frontend/templates/head.html:19
 msgid "We use some essential cookies to make this service work."
-msgstr ""
+msgstr "Rydym yn defnyddio rhai cwcis hanfodol i wneud i'r gwasanaeth hwn weithio."
 
 #: frontend/templates/head.html:20
 msgid ""
 "We'd also like to use analytics cookies so we can understand how you use "
 "the service and make improvements."
 msgstr ""
+"Hoffem ddefnyddio cwcis dadansoddeg hefyd fel y gallwn ddeall sut rydych "
+"yn defnyddio'r gwasanaeth a gwneud gwelliannau."
 
 #: frontend/templates/head.html:26
 msgid "Accept analytics cookies"
-msgstr ""
+msgstr "Derbyn cwcis dadansoddeg"
 
 #: frontend/templates/head.html:29
 msgid "Reject analytics cookies"
-msgstr ""
+msgstr "Gwrthod cwcis dadansoddeg"
 
 #: frontend/templates/head.html:31
-#, fuzzy
 msgid "View cookies"
-msgstr "Cwcis"
+msgstr "Gweld cwcis"
 
 #: frontend/templates/head.html:38
 msgid "You've accepted analytics cookies. You can"
-msgstr ""
+msgstr "Rydych wedi derbyn cwcis dadansoddeg. Gallwch"
 
 #: frontend/templates/head.html:39 frontend/templates/head.html:54
 msgid "change your cookie settings"
-msgstr ""
+msgstr "newid eich gosodiadau cwcis"
 
 #: frontend/templates/head.html:39 frontend/templates/head.html:54
 msgid "at any time."
-msgstr ""
+msgstr "unrhyw bryd."
 
 #: frontend/templates/head.html:45 frontend/templates/head.html:60
 msgid "Hide cookie message"
-msgstr ""
+msgstr "Cuddio'r neges ynghylch cwcis"
 
 #: frontend/templates/head.html:53
 msgid "You've rejected analytics cookies. You can"
-msgstr ""
+msgstr "Rydych wedi gwrthod cwcis dadansoddeg. Gallwch"
 
 #: frontend/templates/header.html:34
 msgid "beta"
