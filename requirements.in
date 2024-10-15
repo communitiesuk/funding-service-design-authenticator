@@ -51,4 +51,4 @@ prance
 #   Other
 #-----------------------------------
 beautifulsoup4
-greenlet
+greenlet  # listed because Macs tend to drop it; SQLAlchemy wants it on Linux
