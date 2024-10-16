@@ -2,7 +2,7 @@
 #   FSD Utils
 #-----------------------------------
 
-funding-service-design-utils>=2.0.50,<2.1.0
+funding-service-design-utils==5.1.*
 
 requests
 
@@ -50,4 +50,5 @@ prance
 #-----------------------------------
 #   Other
 #-----------------------------------
-beautifulsoup4==4.12.2
+beautifulsoup4
+greenlet  # listed because Macs tend to drop it; SQLAlchemy wants it on Linux
