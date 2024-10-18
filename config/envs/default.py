@@ -26,7 +26,7 @@ class DefaultConfig(object):
 
     FLASK_ROOT = str(Path(__file__).parent.parent.parent)
     FLASK_ENV = environ.get("FLASK_ENV")
-    SUPPORT_MAILBOX_EMAIL = "fsd.support@levellingup.gov.uk"
+    SUPPORT_MAILBOX_EMAIL = "fundingservice.support@communities.gov.uk"
 
     # Logging
     FSD_LOG_LEVEL = logging.WARNING
