@@ -99,7 +99,7 @@ class SsoView(MethodView):
                 session.get("flow", {}), request.args
             )
             if "error" in result:
-                return result, 500
+                return abort(500, "Azure AD get-token flow failed with: {}".format(result))
             session["user"] = result.get("id_token_claims")
             self._save_cache(cache)
         except ValueError as e:  # Usually caused by CSRF
