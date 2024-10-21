@@ -3,7 +3,6 @@ from flask_babel import lazy_gettext
 from flask_wtf import FlaskForm
 from wtforms import EmailField
 from wtforms import HiddenField
-from wtforms.validators import DataRequired
 from wtforms.validators import Email
 
 
@@ -14,10 +13,7 @@ class EmailForm(FlaskForm):
 
     email = EmailField(
         "",
-        validators=[
-            DataRequired(lazy_gettext("Enter an email address in the correct format, like name@example.com")),
-            Email(),
-        ],
+        validators=[Email(lazy_gettext("Enter an email address in the correct format, like name@example.com"))],
     )
 
     fund_id = HiddenField()
