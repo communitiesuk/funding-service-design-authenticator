@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-10-15 14:18+0100\n"
+"POT-Creation-Date: 2024-10-21 02:41+0100\n"
 "PO-Revision-Date: 2022-10-28 12:33+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: cy\n"
@@ -27,7 +27,11 @@ msgstr "Gwneud cais am"
 msgid "at"
 msgstr "am"
 
-#: frontend/magic_links/forms.py:29
+#: frontend/magic_links/forms.py:17
+msgid "Enter an email address in the correct format, like name@example.com"
+msgstr "Rhowch gyfeiriad e-bost yn y fformat cywir, fel name@example.com"
+
+#: frontend/magic_links/forms.py:27
 msgid "Session expired, please refresh page to continue."
 msgstr ""
 
@@ -504,7 +508,7 @@ msgid "Textphone"
 msgstr "Ffôn testun"
 
 #~ msgid "Enter an email address in the correct format, like name@example.com"
-#~ msgstr "Rhowch gyfeiriad e-bost yn y fformat cywir, fel enw@enghraifft.com"
+#~ msgstr "Rhowch gyfeiriad e-bost yn y fformat cywir, fel name@example.com"
 
 #~ msgid "Community Ownership Fund"
 #~ msgstr "Y Gronfa Perchnogaeth Gymunedol"
