@@ -8,3 +8,7 @@ exclude = [
     ".github",
     ".vscode",
 ]
+
+[[ io.buildpacks.build.env ]]
+  name = "BP_CPYTHON_VERSION"
+  value = "3.10.*" # any valid semver constraints (e.g. 3.6.7, 3.*) are acceptable
