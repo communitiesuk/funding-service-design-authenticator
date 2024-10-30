@@ -14,45 +14,6 @@
   "account_store/accounts?email_address=new_user%40example.com": {
     "status": "error"
   },
-  "application_store/applications?account_id=usera$fund_id=funding-service-design&round_id=summer": {
-    "account_id": "usera",
-    "application_id": "usera-fsd-sum-1",
-    "fund_id": "funding-service-design",
-    "round_id": "summer",
-    "sections" : [
-      {
-        "section_name": "about-your-org",
-        "status": "NOT_STARTED",
-        "payload": {}
-      },
-      {
-        "section_name": "about-your-org",
-        "status": "NOT_STARTED",
-        "payload": {}
-      },
-      {
-        "section_name": "about-your-project",
-        "status": "NOT_STARTED",
-        "payload": {}
-      },
-      {
-        "section_name": "plan-your-project",
-        "status": "NOT_STARTED",
-        "payload": {}
-      },
-      {
-        "section_name": "deliver-your-project",
-        "status": "NOT_STARTED",
-        "payload": {}
-      },
-      {
-        "section_name": "declaration",
-        "status": "NOT_STARTED",
-        "payload": {}
-      }
-    ]
-  },
-
   "__COMMENT ONE__": "below endpoint is to test with the fund id only ( To be deleted?)",
   "fund_store/funds/47aef2f5-3fcb-4d45-acb5-f0152b5f03c4?language=en&use_short_name=False": {
     "id": "47aef2f5-3fcb-4d45-acb5-f0152b5f03c4",

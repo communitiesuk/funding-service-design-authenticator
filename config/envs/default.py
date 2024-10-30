@@ -103,11 +103,6 @@ class DefaultConfig(object):
     ACCOUNTS_ENDPOINT = "/accounts"
     ACCOUNT_ENDPOINT = "/accounts/{account_id}"
 
-    # Application Store
-    APPLICATION_STORE_API_HOST = environ.get("APPLICATION_STORE_API_HOST")
-    APPLICATIONS_ENDPOINT = "/applications"
-    APPLICATION_ENDPOINT = "/applications/{account_id}"
-
     # Notification Service
     DISABLE_NOTIFICATION_SERVICE = False
 
@@ -196,7 +191,7 @@ class DefaultConfig(object):
         "connect-src": [
             "'self'",
             "https://*.google-analytics.com",
-        ],  # APPLICATION_STORE_API_HOST_PUBLIC,
+        ],
         "img-src": ["data:", "'self'"],
     }
     # adding comment

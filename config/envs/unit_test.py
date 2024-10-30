@@ -60,9 +60,6 @@ class UnitTestConfig(Config):
     REDIS_MLINKS_URL = "redis://localhost:6379/0"
     REDIS_SESSIONS_URL = "redis://localhost:6379/1"
     SESSION_REDIS = redis.from_url(REDIS_SESSIONS_URL)
-
-    # APIs
-    APPLICATION_STORE_API_HOST = "application_store"
     ACCOUNT_STORE_API_HOST = "account_store"
 
     # Security
