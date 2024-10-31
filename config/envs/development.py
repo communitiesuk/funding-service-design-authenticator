@@ -61,8 +61,6 @@ class DevelopmentConfig(Config):
     REDIS_SESSIONS_URL = f"{REDIS_INSTANCE_URI}/1"
     SESSION_REDIS = redis.from_url(REDIS_SESSIONS_URL)
 
-    # APIs
-    APPLICATION_STORE_API_HOST = getenv("APPLICATION_STORE_API_HOST", "application_store")
     ACCOUNT_STORE_API_HOST = getenv("ACCOUNT_STORE_API_HOST", "account_store")
 
     AUTO_REDIRECT_LOGIN = True

@@ -12,63 +12,12 @@ from bs4 import BeautifulSoup
 from config import Config
 from frontend.magic_links.forms import EmailForm
 from models.account import AccountMethods
-from models.application import ApplicationMethods
 from security.utils import validate_token
 
 
 @pytest.mark.usefixtures("flask_test_client")
 @pytest.mark.usefixtures("mock_redis_magic_links")
 class TestMagicLinks(AuthSessionView):
-    def test_new_magic_link_does_not_create_application(self, flask_test_client, mocker, mock_create_application):
-        """
-        GIVEN a running Flask client, redis instance and
-        an existing h@a.com account in the account_store api
-        WHEN we POST to /service/magic-links/new
-        with valid email, fund_id and round_id params
-        THEN an application is not automatically created
-        :param flask_test_client:
-        """
-        payload = {
-            "email": "new_user@example.com",
-            "redirectUrl": "https://example.com/redirect-url",
-        }
-        endpoint = "/service/magic-links/new?fund=cof&round=r2w3"
-
-        with mock.patch("models.fund.FundMethods.get_fund") as mock_get_fund, mock.patch(
-            "models.account.get_round_data"
-        ) as mock_get_round_data_account, mock.patch(
-            "frontend.magic_links.routes.get_round_data"
-        ) as mock_get_round_data_frontend, mock.patch(
-            "models.notification.Notification.send"
-        ) as mock_send:
-            # Mock get_fund() called in get_magic_link()
-            mock_fund = mock.MagicMock()
-            mock_fund.configure_mock(name="cof")
-            mock_get_fund.return_value = mock_fund
-            # Mock get_round_data() called in get_magic_link()
-            mock_round_account = mock.MagicMock()
-            mock_round_account.configure_mock(contact_details={"email_address": "new_user@example.com"})
-            mock_get_round_data_frontend.return_value = mock_round_account
-            mock_send.return_value = True
-            # Mock get_round_data() called in new()
-            mock_round_frontend = mock.MagicMock()
-            mock_round_frontend.configure_mock(contact_details={"email_address": "new_user@example.com"})
-            mock_get_round_data_frontend.return_value = mock_round_frontend
-
-            response = flask_test_client.post(endpoint, data=payload)
-            # Mock the create_application method,
-            # so we can check if it has been called
-            create_application_mock = mocker.patch.object(
-                ApplicationMethods,
-                "create_application",
-                new_callable=mock_create_application,
-            )
-            create_application_mock.assert_not_called()
-            mock_get_fund.assert_called()
-            mock_get_round_data_account.assert_called()
-            mock_get_round_data_frontend.assert_called()
-            assert response.status_code == 302, response.data
-
     def test_magic_link_redirects_to_landing(self, flask_test_client, create_magic_link):
         """
         GIVEN a running Flask client, redis instance and
@@ -277,6 +226,17 @@ class TestMagicLinks(AuthSessionView):
         assert response.status_code == 403
 
     def test_search_magic_link_returns_magic_links(self, flask_test_client):
+        with mock.patch("models.fund.FundMethods.get_fund"), mock.patch("models.account.get_round_data"), mock.patch(
+            "frontend.magic_links.routes.get_round_data"
+        ):
+            payload = {
+                "email": "new_user@example.com",
+                "redirectUrl": "https://example.com/redirect-url",
+            }
+            endpoint = "/service/magic-links/new?fund=cof&round=r2w3"
+
+            flask_test_client.post(endpoint, data=payload)
+
         endpoint = "/magic-links"
         get_response = flask_test_client.get(endpoint)
         assert get_response.status_code == 200
