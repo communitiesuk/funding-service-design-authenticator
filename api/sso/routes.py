@@ -115,7 +115,9 @@ class SsoView(MethodView):
             roles=session["user"].get("roles") or [],
         )
 
-        redirect_url = Config.ASSESSMENT_POST_LOGIN_URL  # TODO: Remove defaulting to Assessment, instead use return_app
+        redirect_url = (  # TODO: Remove defaulting to Assessment, instead use return_app
+            f"{Config.ASSESSMENT_FRONTEND_HOST}/assess/fund_dashboard"
+        )
         if return_app := session.get("return_app"):
             if safe_app := Config.SAFE_RETURN_APPS.get(return_app):
                 if return_path := session.get("return_path"):

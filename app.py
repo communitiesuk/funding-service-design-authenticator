@@ -114,16 +114,19 @@ def create_app() -> Flask:
     # This is silently used by flask in the background.
     @flask_app.context_processor
     def inject_global_constants():
+        fund = request.args.get("fund", "")
+        round = request.args.get("round", "")
         return dict(
             stage="beta",
             service_meta_author="Department for Levelling up Housing and Communities",
-            accessibility_statement_url=Config.APPLICANT_FRONTEND_ACCESSIBILITY_STATEMENT_URL,  # noqa
-            cookie_policy_url=Config.APPLICANT_FRONTEND_COOKIE_POLICY_URL,
-            contact_us_url=Config.APPLICANT_FRONTEND_CONTACT_US_URL
+            accessibility_statement_url=Config.APPLICANT_FRONTEND_HOST + "/accessibility_statement",  # noqa
+            cookie_policy_url=Config.APPLICANT_FRONTEND_HOST + "/cookie_policy",
+            contact_us_url=f"{Config.APPLICANT_FRONTEND_HOST}/contact_us?fund={fund}&round={round}",
+            privacy_url=Config.APPLICANT_FRONTEND_HOST
+            + "/privacy"
             + f"?fund={request.args.get('fund', '')}&round={request.args.get('round', '')}",
-            privacy_url=Config.APPLICANT_FRONTEND_PRIVACY_URL
-            + f"?fund={request.args.get('fund', '')}&round={request.args.get('round', '')}",
-            feedback_url=Config.APPLICANT_FRONTEND_FEEDBACK_URL
+            feedback_url=Config.APPLICANT_FRONTEND_HOST
+            + "/feedback"
             + f"?fund={request.args.get('fund', '')}&round={request.args.get('round', '')}",
         )
 

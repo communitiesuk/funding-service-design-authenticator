@@ -84,10 +84,7 @@ def landing(link_id):
         app_guidance = None
         if round_data.application_guidance:
             app_guidance = round_data.application_guidance.format(
-                all_questions_url=Config.APPLICATION_ALL_QUESTIONS_URL.format(
-                    fund_short_name=fund_short_name,
-                    round_short_name=round_short_name,
-                )
+                all_questions_url=f"{Config.APPLICANT_FRONTEND_HOST}/all_questions/{fund_short_name}/{round_short_name}"
             )
         round_prospectus = round_data.prospectus if round_data.prospectus else None
         return render_template(

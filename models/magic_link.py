@@ -191,7 +191,7 @@ class MagicLinkMethods(object):
         self.clear_existing_user_record(account.id)
 
         if not redirect_url:
-            redirect_url = Config.MAGIC_LINK_REDIRECT_URL + "?fund=" + fund_short_name + "&round=" + round_short_name
+            redirect_url = f"{Config.APPLICANT_FRONTEND_HOST}/account?fund={fund_short_name}&round={round_short_name}"
 
         new_link_json = self._make_link_json(account, redirect_url)
 

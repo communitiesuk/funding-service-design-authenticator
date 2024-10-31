@@ -66,10 +66,6 @@ class UnitTestConfig(Config):
     Config.TALISMAN_SETTINGS["force_https"] = False
     WTF_CSRF_ENABLED = False
 
-    # Assessment Frontend
-    ASSESSMENT_FRONTEND_HOST = ""
-    ASSESSMENT_POST_LOGIN_URL = ""
-
     # ---------------
     # S3 Config
     # ---------------

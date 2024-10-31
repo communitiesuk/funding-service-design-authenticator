@@ -127,7 +127,7 @@ def get_round_data_fail_gracefully(fund_id, round_id, use_short_name=False):
 
 
 def get_account_data(email: str):
-    url = Config.ACCOUNT_STORE_API_HOST + Config.ACCOUNTS_ENDPOINT
+    url = Config.ACCOUNT_STORE_API_HOST + "/accounts"
     params = {
         "email_address": email,
     }

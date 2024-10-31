@@ -40,8 +40,6 @@ class DefaultConfig(object):
     # Hostname for this service
     AUTHENTICATOR_HOST = environ.get("AUTHENTICATOR_HOST", "")
     NEW_LINK_ENDPOINT = "/service/magic-links/new"
-    SSO_LOGOUT_ENDPOINT = "api_sso_routes_SsoView_logout_get"
-    SSO_LOGIN_ENDPOINT = "api_sso_routes_SsoView_login"
     SSO_POST_SIGN_OUT_URL = AUTHENTICATOR_HOST + "/service/sso/signed-out/signout-request"
 
     AUTO_REDIRECT_LOGIN = False
@@ -100,24 +98,15 @@ class DefaultConfig(object):
     """
     # Account Store
     ACCOUNT_STORE_API_HOST = environ.get("ACCOUNT_STORE_API_HOST")
-    ACCOUNTS_ENDPOINT = "/accounts"
-    ACCOUNT_ENDPOINT = "/accounts/{account_id}"
 
     # Notification Service
     DISABLE_NOTIFICATION_SERVICE = False
 
     # Applicant Frontend
     APPLICANT_FRONTEND_HOST = environ.get("APPLICANT_FRONTEND_HOST", "frontend")
-    APPLICANT_FRONTEND_ACCESSIBILITY_STATEMENT_URL = APPLICANT_FRONTEND_HOST + "/accessibility_statement"
-    APPLICANT_FRONTEND_COOKIE_POLICY_URL = APPLICANT_FRONTEND_HOST + "/cookie_policy"
-    APPLICANT_FRONTEND_CONTACT_US_URL = APPLICANT_FRONTEND_HOST + "/contact_us"
-    APPLICANT_FRONTEND_PRIVACY_URL = APPLICANT_FRONTEND_HOST + "/privacy"
-    APPLICANT_FRONTEND_FEEDBACK_URL = APPLICANT_FRONTEND_HOST + "/feedback"
-    APPLICATION_ALL_QUESTIONS_URL = APPLICANT_FRONTEND_HOST + "/all_questions/{fund_short_name}/{round_short_name}"
 
     # Assessment Frontend
     ASSESSMENT_FRONTEND_HOST = environ.get("ASSESSMENT_FRONTEND_HOST", "")
-    ASSESSMENT_POST_LOGIN_URL = ASSESSMENT_FRONTEND_HOST + "/assess/fund_dashboard"
     FSD_ASSESSMENT_SESSION_TIMEOUT_SECONDS = CommonConfig.FSD_SESSION_TIMEOUT_SECONDS
 
     # Fund store service
@@ -128,21 +117,19 @@ class DefaultConfig(object):
 
     # Post-award frontend
     POST_AWARD_FRONTEND_HOST = environ.get("POST_AWARD_FRONTEND_HOST", "")
-    POST_AWARD_FRONTEND_LOGIN_URL = POST_AWARD_FRONTEND_HOST + "/"
 
     # Post-award submit
     POST_AWARD_SUBMIT_HOST = environ.get("POST_AWARD_SUBMIT_HOST", "")
-    POST_AWARD_SUBMIT_LOGIN_URL = POST_AWARD_SUBMIT_HOST + "/"
 
     # Safe list of return applications
     SAFE_RETURN_APPS = {
         SupportedApp.POST_AWARD_FRONTEND.value: SafeAppConfig(
-            login_url=POST_AWARD_FRONTEND_LOGIN_URL,
+            login_url=POST_AWARD_FRONTEND_HOST + "/",
             logout_endpoint="sso_bp.signed_out",
             service_title="Find monitoring and evaluation data",
         ),
         SupportedApp.POST_AWARD_SUBMIT.value: SafeAppConfig(
-            login_url=POST_AWARD_SUBMIT_LOGIN_URL,
+            login_url=POST_AWARD_SUBMIT_HOST + "/",
             logout_endpoint="sso_bp.signed_out",
             service_title="Submit monitoring and evaluation data",
         ),
@@ -153,10 +140,6 @@ class DefaultConfig(object):
     """
     MAGIC_LINK_EXPIRY_DAYS = 1
     MAGIC_LINK_EXPIRY_SECONDS = 86400 * MAGIC_LINK_EXPIRY_DAYS
-    if APPLICANT_FRONTEND_HOST:
-        MAGIC_LINK_REDIRECT_URL = APPLICANT_FRONTEND_HOST + "/account"
-    else:
-        MAGIC_LINK_REDIRECT_URL = "https://www.gov.uk/error"
     MAGIC_LINK_RECORD_PREFIX = "link"
     MAGIC_LINK_USER_PREFIX = "account"
     MAGIC_LINK_LANDING_PAGE = "/service/magic-links/landing/"
