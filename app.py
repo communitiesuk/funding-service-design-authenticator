@@ -128,24 +128,24 @@ def create_app() -> Flask:
         )
 
     @flask_app.context_processor
-    def inject_service_name():
-        fund_title, fund_name = FundMethods.get_service_name()
-        if fund_title:
-            service_title = gettext("Apply for") + " " + fund_title
-        elif return_app := request.args.get("return_app"):
-            service_title = Config.SAFE_RETURN_APPS[return_app].service_title
-        else:
-            service_title = "Access Funding"
-        return dict(
-            service_title=service_title,
-            fund_name=fund_name,
-        )
+    def utility_processor():
+        def _get_service_title():
+            fund_title, _ = FundMethods.get_service_name()
+
+            if fund_title:
+                return gettext("Apply for") + " " + fund_title
+            elif return_app := request.args.get("return_app"):
+                return Config.SAFE_RETURN_APPS[return_app].service_title
+
+            return gettext("Access Funding")
+
+        return dict(get_service_title=_get_service_title)
 
     with flask_app.app_context():
         from frontend.default.routes import (
             default_bp,
-            not_found,
             internal_server_error,
+            not_found,
         )
         from frontend.magic_links.routes import magic_links_bp
         from frontend.sso.routes import sso_bp

@@ -2,7 +2,9 @@
 
 {% set assetPath = url_for('static', filename='').rstrip('/') %}
 
-{% block pageTitle %}{{ [pageHeading, service_title]|join(' - ') if pageHeading else service_title }}{% endblock pageTitle %}
+{% set base_title = gettext("Access Funding") if is_error else service_title or get_service_title() %}
+
+{% block pageTitle %}{{ [pageHeading, base_title]|join(' - ') if pageHeading else base_title }}{% endblock pageTitle %}
 
 {% block head %}
   {% include "head.html" %}

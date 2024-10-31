@@ -2,7 +2,7 @@
 
 {% from "partials/contact_details.html" import contact_details %}
 
-{% block pageTitle %}Page not found – {{ service_title }}{% endblock pageTitle %}
+{% block pageTitle %}Page not found – {{ base_title }}{% endblock pageTitle %}
 
 {% block content %}
     <div class="govuk-grid-row">
@@ -10,18 +10,17 @@
             <h1 class="govuk-heading-xl">Page not found</h1>
             <p class="govuk-body">If you typed the web address, check it is correct.</p>
             <p class="govuk-body">If you pasted the web address, check you copied the entire address.</p>
+            <p class="govuk-body">If the web address is correct or you selected a link or a button, contact
+                us to speak to an adviser.</p>
 
-            {% if round_data.contact_email %}
-                <p class="govuk-body">If the web address is correct or you selected a link or a button, use the contact
-                    information below to speak to an adviser.</p>
-                {{ contact_details(
-                            round_data.contact_email,
-                            round_data.contact_phone,
-                            round_data.contact_text_phone,
-                            round_data.support_days,
-                            round_data.support_times
-                     ) }}
-            {% endif %}
+            {{ contact_details(
+                "fundingservice.support@communities.gov.uk",
+                "",
+                "",
+                "9am to 5pm",
+                "Monday to Friday"
+                )
+            }}
         </div>
     </div>
 {% endblock content %}

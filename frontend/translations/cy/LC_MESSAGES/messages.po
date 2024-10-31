@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-10-21 02:41+0100\n"
+"POT-Creation-Date: 2024-10-31 15:31+0000\n"
 "PO-Revision-Date: 2022-10-28 12:33+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: cy\n"
@@ -19,19 +19,19 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.10.3\n"
 
-#: app.py:134
+#: app.py:136
 msgid "Apply for"
 msgstr "Gwneud cais am"
+
+#: app.py:140 frontend/templates/base.html:5
+msgid "Access Funding"
+msgstr "Cael Mynediad at Gyllid"
 
 #: frontend/magic_links/filters.py:10
 msgid "at"
 msgstr "am"
 
-#: frontend/magic_links/forms.py:17
-msgid "Enter an email address in the correct format, like name@example.com"
-msgstr "Rhowch gyfeiriad e-bost yn y fformat cywir, fel name@example.com"
-
-#: frontend/magic_links/forms.py:27
+#: frontend/magic_links/forms.py:25
 msgid "Session expired, please refresh page to continue."
 msgstr ""
 
@@ -392,19 +392,19 @@ msgid ""
 " email sent you."
 msgstr ""
 
-#: frontend/templates/500.html:2 frontend/templates/500.html:7
+#: frontend/templates/500.html:3 frontend/templates/500.html:8
 msgid "Sorry, there is a problem with the service"
 msgstr "Mae problem gyda'r gwasanaeth"
 
-#: frontend/templates/500.html:8
+#: frontend/templates/500.html:9
 msgid "Try again later."
 msgstr "Ceisiwch eto nes ymlaen."
 
-#: frontend/templates/500.html:12
-msgid "Contact"
-msgstr "cysylltwch â "
+#: frontend/templates/500.html:11 frontend/templates/footer.html:22
+msgid "Contact us"
+msgstr "Cysylltwch â ni"
 
-#: frontend/templates/500.html:18
+#: frontend/templates/500.html:11
 msgid "if you have any questions."
 msgstr "os oes gennych unrhyw gwestiynau."
 
@@ -419,10 +419,6 @@ msgstr "Cwcis"
 #: frontend/templates/footer.html:18
 msgid "Accessibility Statement"
 msgstr "Datganiad Hygyrchedd"
-
-#: frontend/templates/footer.html:22
-msgid "Contact us"
-msgstr "Cysylltwch â ni"
 
 #: frontend/templates/head.html:17
 msgid "Cookies on Access Funding"
@@ -945,3 +941,6 @@ msgstr "Ffôn testun"
 
 #~ msgid "You've rejected analytics cookies. You can"
 #~ msgstr "Rydych wedi gwrthod cwcis dadansoddeg. Gallwch"
+
+#~ msgid "Contact"
+#~ msgstr "cysylltwch â "
