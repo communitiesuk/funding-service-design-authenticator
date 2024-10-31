@@ -130,7 +130,7 @@ def create_app() -> Flask:
     @flask_app.context_processor
     def utility_processor():
         def _get_service_title():
-            fund_title, _ = FundMethods.get_service_name()
+            fund_title = FundMethods.get_service_name()
 
             if fund_title:
                 return gettext("Apply for") + " " + fund_title
