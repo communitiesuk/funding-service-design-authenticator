@@ -1,6 +1,7 @@
 import json
-import urllib.parse
 from datetime import datetime
+from urllib.parse import urlencode
+from urllib.parse import urljoin
 
 from api.session.auth_session import AuthSessionView
 from config import Config
@@ -87,8 +88,8 @@ class MagicLinksView(MagicLinkMethods, MethodView):
                 "round": round_short_name,
             }
             query_params = {k: v for k, v in query_params.items() if v is not None}
-            query_string = urllib.parse.urlencode(query_params)
-            frontend_account_url = f"{Config.APPLICANT_FRONTEND_HOST}/account?{query_string}"
+            query_string = urlencode(query_params)
+            frontend_account_url = urljoin(Config.APPLICANT_FRONTEND_HOST, f"account?{query_string}")
             current_app.logger.warning(
                 f"The magic link with hash: '{link_hash}' has already been"
                 f" used but the user with account_id: '{g.account_id}' is"

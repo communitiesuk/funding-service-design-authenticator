@@ -5,6 +5,7 @@ from collections import namedtuple
 from os import environ
 from os import getenv
 from pathlib import Path
+from urllib.parse import urljoin
 
 import redis
 from distutils.util import strtobool
@@ -124,12 +125,12 @@ class DefaultConfig(object):
     # Safe list of return applications
     SAFE_RETURN_APPS = {
         SupportedApp.POST_AWARD_FRONTEND.value: SafeAppConfig(
-            login_url=POST_AWARD_FRONTEND_HOST + "/",
+            login_url=urljoin(POST_AWARD_FRONTEND_HOST, "/"),
             logout_endpoint="sso_bp.signed_out",
             service_title="Find monitoring and evaluation data",
         ),
         SupportedApp.POST_AWARD_SUBMIT.value: SafeAppConfig(
-            login_url=POST_AWARD_SUBMIT_HOST + "/",
+            login_url=urljoin(POST_AWARD_SUBMIT_HOST, "/"),
             logout_endpoint="sso_bp.signed_out",
             service_title="Submit monitoring and evaluation data",
         ),

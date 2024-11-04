@@ -1,5 +1,6 @@
 import warnings
 from urllib.parse import urlencode
+from urllib.parse import urljoin
 from urllib.parse import urlparse
 
 import msal
@@ -115,8 +116,8 @@ class SsoView(MethodView):
             roles=session["user"].get("roles") or [],
         )
 
-        redirect_url = (  # TODO: Remove defaulting to Assessment, instead use return_app
-            f"{Config.ASSESSMENT_FRONTEND_HOST}/assess/fund_dashboard"
+        redirect_url = urljoin(  # TODO: Remove defaulting to Assessment, instead use return_app
+            Config.ASSESSMENT_FRONTEND_HOST, "/assess/fund_dashboard"
         )
         if return_app := session.get("return_app"):
             if safe_app := Config.SAFE_RETURN_APPS.get(return_app):
