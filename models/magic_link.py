@@ -8,6 +8,7 @@ from datetime import datetime
 from datetime import timedelta
 from typing import List
 from typing import TYPE_CHECKING
+from urllib.parse import urljoin
 
 from config import Config
 from flask import abort
@@ -191,7 +192,9 @@ class MagicLinkMethods(object):
         self.clear_existing_user_record(account.id)
 
         if not redirect_url:
-            redirect_url = f"{Config.APPLICANT_FRONTEND_HOST}/account?fund={fund_short_name}&round={round_short_name}"
+            redirect_url = urljoin(
+                Config.APPLICANT_FRONTEND_HOST, f"/account?fund={fund_short_name}&round={round_short_name}"
+            )
 
         new_link_json = self._make_link_json(account, redirect_url)
 
