@@ -60,13 +60,9 @@ class DefaultConfig(object):
         "https://login.microsoftonline.com/"
         + AZURE_AD_TENANT_ID
     )
-    AZURE_AD_REDIRECT_PATH = (
-        # Used for forming an absolute URL to your redirect URI.
-        "/sso/get-token"
-    )
     # The absolute URL must match the redirect URI you set
     # in the app's registration in the Azure portal.
-    AZURE_AD_REDIRECT_URI = AUTHENTICATOR_HOST + AZURE_AD_REDIRECT_PATH
+    AZURE_AD_REDIRECT_URI = urljoin(AUTHENTICATOR_HOST, "/sso/get-token")
 
     # You can find the proper permission names from this document
     # https://docs.microsoft.com/en-us/graph/permissions-reference

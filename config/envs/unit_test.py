@@ -33,10 +33,6 @@ class UnitTestConfig(Config):
         + AZURE_AD_TENANT_ID
     )
 
-    # The absolute URL must match the redirect URI you set
-    # in the app's registration in the Azure portal.
-    AZURE_AD_REDIRECT_URI = AUTHENTICATOR_HOST + Config.AZURE_AD_REDIRECT_PATH
-
     SESSION_TYPE = (
         # Specifies how the token cache should be stored
         # in server-side session
