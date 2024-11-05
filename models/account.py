@@ -4,6 +4,7 @@ from typing import List
 import config
 from config import Config
 from flask import current_app
+from flask import url_for
 from fsd_utils.config.notify_constants import NotifyConstants
 from models.data import get_account_data
 from models.data import get_data
@@ -204,12 +205,9 @@ class AccountMethods(Account):
             )
 
             notification_content = {
-                NotifyConstants.MAGIC_LINK_REQUEST_NEW_LINK_URL_FIELD: Config.AUTHENTICATOR_HOST  # noqa
-                + Config.NEW_LINK_ENDPOINT
-                + "?fund="
-                + fund_short_name
-                + "&round="
-                + round_short_name,  # noqa
+                NotifyConstants.MAGIC_LINK_REQUEST_NEW_LINK_URL_FIELD: url_for(
+                    endpoint="magic_links_bp.new", fund=fund_short_name, round=round_short_name, _external=True
+                ),
                 NotifyConstants.MAGIC_LINK_CONTACT_HELP_EMAIL_FIELD: round_for_fund.contact_email,  # noqa
                 NotifyConstants.MAGIC_LINK_FUND_NAME_FIELD: fund.name,
             }

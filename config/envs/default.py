@@ -6,6 +6,7 @@ from os import environ
 from os import getenv
 from pathlib import Path
 from urllib.parse import urljoin
+from urllib.parse import urlparse
 
 import redis
 from distutils.util import strtobool
@@ -39,7 +40,8 @@ class DefaultConfig(object):
     ASSETS_AUTO_BUILD = False
 
     # Hostname for this service
-    AUTHENTICATOR_HOST = environ.get("AUTHENTICATOR_HOST", "")
+    AUTHENTICATOR_HOST = environ.get("AUTHENTICATOR_HOST", "https://authenticator.levellingup.gov.localhost")
+    SERVER_NAME = urlparse(AUTHENTICATOR_HOST).netloc
     NEW_LINK_ENDPOINT = "/service/magic-links/new"
     SSO_POST_SIGN_OUT_URL = AUTHENTICATOR_HOST + "/service/sso/signed-out/signout-request"
 
