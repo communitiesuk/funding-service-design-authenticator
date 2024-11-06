@@ -33,10 +33,6 @@ class UnitTestConfig(Config):
         + AZURE_AD_TENANT_ID
     )
 
-    # The absolute URL must match the redirect URI you set
-    # in the app's registration in the Azure portal.
-    AZURE_AD_REDIRECT_URI = AUTHENTICATOR_HOST + Config.AZURE_AD_REDIRECT_PATH
-
     SESSION_TYPE = (
         # Specifies how the token cache should be stored
         # in server-side session
@@ -65,14 +61,6 @@ class UnitTestConfig(Config):
     # Security
     Config.TALISMAN_SETTINGS["force_https"] = False
     WTF_CSRF_ENABLED = False
-
-    APPLICANT_FRONTEND_HOST = "frontend"
-    APPLICANT_FRONTEND_ACCESSIBILITY_STATEMENT_URL = "/accessibility_statement"
-    APPLICANT_FRONTEND_COOKIE_POLICY_URL = "/cookie_policy"
-
-    # Assessment Frontend
-    ASSESSMENT_FRONTEND_HOST = ""
-    ASSESSMENT_POST_LOGIN_URL = ""
 
     # ---------------
     # S3 Config

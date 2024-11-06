@@ -1,4 +1,3 @@
-from config import Config
 from flask import Blueprint
 from flask import render_template
 from flask import request
@@ -20,7 +19,7 @@ def signed_out(status):
         render_template(
             "sso_signed_out.html",
             status=status,
-            login_url=url_for(Config.SSO_LOGIN_ENDPOINT, return_app=return_app, return_path=return_path),
+            login_url=url_for("api_sso_routes_SsoView_login", return_app=return_app, return_path=return_path),
         ),
         200,
     )

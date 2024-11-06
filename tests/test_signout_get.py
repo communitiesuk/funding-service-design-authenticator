@@ -105,7 +105,7 @@ class TestSignout:
         :param flask_test_client:
         """
         mocker.patch(
-            "frontend.sso.routes.Config.SAFE_RETURN_APPS",
+            "config.Config.SAFE_RETURN_APPS",
             new_callable=PropertyMock,
             return_value={
                 "test-app": SafeAppConfig(

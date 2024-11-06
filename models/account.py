@@ -70,7 +70,7 @@ class AccountMethods(Account):
         if email is account_id is azure_ad_subject_id is None:
             raise TypeError("Requires an email address, azure_ad_subject_id or account_id")
 
-        url = Config.ACCOUNT_STORE_API_HOST + Config.ACCOUNTS_ENDPOINT
+        url = Config.ACCOUNT_STORE_API_HOST + "/accounts"
         params = {
             "email_address": email,
             "azure_ad_subject_id": azure_ad_subject_id,
@@ -103,7 +103,7 @@ class AccountMethods(Account):
         Returns:
             Account object or None
         """
-        url = Config.ACCOUNT_STORE_API_HOST + Config.ACCOUNT_ENDPOINT.format(account_id=id)
+        url = Config.ACCOUNT_STORE_API_HOST + "/accounts/{account_id}".format(account_id=id)
 
         if config.FLASK_ENV == "development" and not roles:
             account = get_account_data(email)
@@ -131,7 +131,7 @@ class AccountMethods(Account):
         Returns:
             Account object or None
         """
-        url = Config.ACCOUNT_STORE_API_HOST + Config.ACCOUNTS_ENDPOINT
+        url = Config.ACCOUNT_STORE_API_HOST + "/accounts"
         params = {"email_address": email}
         response = post_data(url, params)
 
