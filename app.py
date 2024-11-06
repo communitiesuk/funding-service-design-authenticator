@@ -168,6 +168,16 @@ def create_app() -> Flask:
         assets = Environment()
         assets.init_app(flask_app)
 
+        @flask_app.url_defaults
+        def inject_host_from_current_request(endpoint, values):
+            if flask_app.url_map.is_endpoint_expecting(endpoint, "host_from_current_request"):
+                values["host_from_current_request"] = request.host
+
+        @flask_app.url_value_preprocessor
+        def pop_host_from_current_request(endpoint, values):
+            if values is not None:
+                values.pop("host_from_current_request", None)
+
         static_assets.init_assets(
             flask_app,
             auto_build=Config.ASSETS_AUTO_BUILD,
