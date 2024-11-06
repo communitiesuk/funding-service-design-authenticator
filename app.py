@@ -5,6 +5,7 @@ from typing import Any
 from typing import Dict
 from urllib.parse import urlencode
 from urllib.parse import urljoin
+from unittest import mock
 
 import connexion
 import prance
@@ -47,10 +48,14 @@ def create_app() -> Flask:
 
     # Initialise Connexion Flask App
     connexion_options = Config.CONNEXION_OPTIONS
+    server_args = {
+        "host_matching": True,
+        "static_host": "<host_from_current_request>",
+        "static_url_path": "/frontend/static",
+        "static_folder": "frontend/static/dist/",
+    }
     connexion_app = connexion.FlaskApp(
-        "Authenticator",
-        specification_dir="/openapi/",
-        options=connexion_options,
+        "Authenticator", specification_dir="/openapi/", options=connexion_options, server_args=server_args
     )
     connexion_app.add_api(
         get_bundled_specs(Config.FLASK_ROOT + "/openapi/api.yml"),
@@ -169,9 +174,17 @@ def create_app() -> Flask:
             static_folder=Config.STATIC_FOLDER,
         )
 
-        health = Healthcheck(flask_app)
+        # ----------------------------------------------------------------
+        # Register FSD healthcheck
+        # TODO: Update fsd_utils healthcheck to allow exposing a healthcheck on a custom host.
+        #       We need this to expose the healthcheck on an internal IP:PORT host, for AWS ALB healthchecks.
+        health = Healthcheck(mock.Mock())
         health.add_check(FlaskRunningChecker())
         health.add_check(RedisChecker(redis_mlinks))
+
+        @flask_app.route("/healthcheck", host="<host>")
+        def any_host_healthcheck(host):
+            return health.healthcheck_view()
 
         return flask_app
 
