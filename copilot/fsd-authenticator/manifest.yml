@@ -81,8 +81,6 @@ environments:
     count:
       spot: 1
   test:
-    deployment:
-      rolling: 'recreate'
     variables:
       ALLOW_ASSESSMENT_LOGIN_VIA_MAGIC_LINK: true
     count:
