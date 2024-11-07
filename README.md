@@ -61,8 +61,4 @@ Copilot is used for infrastructure deployment. Instructions are available [here]
 - image-name: funding-service-design-authenticator
 
 # Pull Requests
-Authenticator has a different set of requirements for PR reviewers, as it is relied upon by multiple services (pre-award and post-award). It requires a minimum of 2 reviewers to approve a PR before merge, and will auto-request a review from the following 2 teams when a PR is raised:
-- fsd-post-award-deployers
-- fsd-pre-award-deployers
-These teams are configured in the [CODEOWNERS](./.github/CODEOWNERS) file.
-Github cannot enforce the 2 reviews coming from 2 different teams, so please make sure you have 2 appropriate reviews before merging.
+Authenticator has a different set of requirements for PR reviews, as it is relied upon by multiple services. It requires a minimum of 2 reviewers to approve a PR before merging.
