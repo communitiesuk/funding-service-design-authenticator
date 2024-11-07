@@ -1,5 +1,6 @@
 """Flask Local Development Environment Configuration."""
 import logging
+from os import environ
 from os import getenv
 
 import redis
@@ -20,7 +21,7 @@ class UnitTestConfig(Config):
     FSD_LOG_LEVEL = logging.DEBUG
 
     # Hostname for this service
-    AUTHENTICATOR_HOST = "http://localhost:5000"
+    AUTHENTICATOR_HOST = environ.get("AUTHENTICATOR_HOST", "https://example.com")
 
     # Azure Active Directory Config
     AZURE_AD_CLIENT_ID = "abc"

@@ -40,7 +40,7 @@ class DefaultConfig(object):
     ASSETS_AUTO_BUILD = False
 
     # Hostname for this service
-    AUTHENTICATOR_HOST = environ.get("AUTHENTICATOR_HOST", "https://authenticator.levellingup.gov.localhost")
+    AUTHENTICATOR_HOST = environ.get("AUTHENTICATOR_HOST", "https://authenticator.levellingup.gov.localhost:5000")
     SERVER_NAME = urlparse(AUTHENTICATOR_HOST).netloc
     NEW_LINK_ENDPOINT = "/service/magic-links/new"
     SSO_POST_SIGN_OUT_URL = AUTHENTICATOR_HOST + "/service/sso/signed-out/signout-request"
