@@ -19,18 +19,6 @@ class DevelopmentConfig(Config):
 
     # Hostname for this service
     AUTHENTICATOR_HOST = getenv("AUTHENTICATOR_HOST", "http://localhost:5000")
-
-    # Azure Active Directory Config
-
-    # Session Settings
-    SESSION_TYPE = (
-        # Specifies how the token cache should be stored
-        # in server-side session
-        # "filesystem"
-        "redis"
-    )
-    SESSION_PERMANENT = False
-    SESSION_USE_SIGNER = True
     SESSION_COOKIE_SECURE = False
 
     # RSA 256 KEYS
