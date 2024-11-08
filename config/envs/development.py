@@ -2,7 +2,6 @@
 import logging
 from os import getenv
 
-import redis
 from config.envs.default import DefaultConfig as Config
 from fsd_utils import configclass
 
@@ -43,13 +42,6 @@ class DevelopmentConfig(Config):
         _test_public_key_path = Config.FLASK_ROOT + "/tests/keys/rsa256/public.pem"
         with open(_test_public_key_path, mode="rb") as public_key_file:
             RSA256_PUBLIC_KEY = public_key_file.read()
-
-    # Redis
-
-    REDIS_INSTANCE_URI = getenv("REDIS_INSTANCE_URI", "redis://localhost:6379")
-    REDIS_MLINKS_URL = f"{REDIS_INSTANCE_URI}/0"
-    REDIS_SESSIONS_URL = f"{REDIS_INSTANCE_URI}/1"
-    SESSION_REDIS = redis.from_url(REDIS_SESSIONS_URL)
 
     ACCOUNT_STORE_API_HOST = getenv("ACCOUNT_STORE_API_HOST", "account_store")
 
