@@ -12,6 +12,7 @@ from fsd_utils.authentication.config import SupportedApp
 @configclass
 class UnitTestConfig(Config):
     #  Application Config
+    FUND_ID_COF = "47aef2f5-3fcb-4d45-acb5-f0152b5f03c4"
     SECRET_KEY = "dev"  # pragma: allowlist secret
     COOKIE_DOMAIN = None
 
