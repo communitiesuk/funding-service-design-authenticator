@@ -2,7 +2,6 @@
 import logging
 from os import getenv
 
-import redis
 from config.envs.default import DefaultConfig as Config
 from config.envs.default import SafeAppConfig
 from distutils.util import strtobool
@@ -13,6 +12,7 @@ from fsd_utils.authentication.config import SupportedApp
 @configclass
 class UnitTestConfig(Config):
     #  Application Config
+    FUND_ID_COF = "47aef2f5-3fcb-4d45-acb5-f0152b5f03c4"
     SECRET_KEY = "dev"  # pragma: allowlist secret
     COOKIE_DOMAIN = None
 
@@ -52,10 +52,6 @@ class UnitTestConfig(Config):
     with open(_test_public_key_path, mode="rb") as public_key_file:
         RSA256_PUBLIC_KEY = public_key_file.read()
 
-    # Redis
-    REDIS_MLINKS_URL = "redis://localhost:6379/0"
-    REDIS_SESSIONS_URL = "redis://localhost:6379/1"
-    SESSION_REDIS = redis.from_url(REDIS_SESSIONS_URL)
     ACCOUNT_STORE_API_HOST = "account_store"
 
     # Security

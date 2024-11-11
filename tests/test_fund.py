@@ -1,6 +1,7 @@
 from unittest import mock
 
 from config.envs.default import DefaultConfig
+from config.envs.unit_test import UnitTestConfig
 from models.fund import Fund
 from models.fund import FundMethods
 
@@ -8,7 +9,7 @@ from models.fund import FundMethods
 class TestFund:
     def testGetFund(self, app_context):
         fund = FundMethods.get_fund(fund_short_name="COF")
-        assert DefaultConfig.FUND_ID_COF == fund.identifier, "Unexpected fund ID"
+        assert UnitTestConfig.FUND_ID_COF == fund.identifier, "Unexpected fund ID"
         assert "Community Ownership Fund" == fund.name, "Unexpected fund name"
 
     def test_get_service_name(self, app_context, mocker):

@@ -140,7 +140,6 @@ class DefaultConfig(object):
     MAGIC_LINK_RECORD_PREFIX = "link"
     MAGIC_LINK_USER_PREFIX = "account"
     MAGIC_LINK_LANDING_PAGE = "/service/magic-links/landing/"
-    FUND_ID_COF = "47aef2f5-3fcb-4d45-acb5-f0152b5f03c4"
 
     """
     Security
