@@ -102,7 +102,7 @@ greenlet==3.1.1
     # via
     #   -r requirements.in
     #   sqlalchemy
-gunicorn==20.1.0
+gunicorn==22.0.0
     # via funding-service-design-utils
 idna==3.7
     # via
