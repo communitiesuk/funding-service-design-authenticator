@@ -229,7 +229,7 @@ urllib3==1.26.18
     #   sentry-sdk
 webassets==2.0
     # via flask-assets
-werkzeug==2.2.3
+werkzeug==3.0.6
     # via
     #   connexion
     #   flask
