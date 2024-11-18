@@ -48,7 +48,7 @@ class TestFund:
         ) as mock_get_fund:
             result = FundMethods.get_service_name()
             mock_get_fund.assert_not_called()
-            assert result == (None, None)
+            assert result is None
 
     def test_get_fund_success(self, app_context):
         # Mock the get_data function to return a response with a valid "id"
