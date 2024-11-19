@@ -26,8 +26,8 @@ dependencies = [
     "openapi-spec-validator==0.4.0",
     "prance==0.21.8.0",
     "pyjwt==2.4.0",
-    "pyscss==1.4.0",
     "requests==2.32.3",
+    "pyscss==1.4.0",
 ]
 
 [tool.black]
