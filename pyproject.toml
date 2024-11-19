@@ -5,7 +5,7 @@ description = "The funding service design authenticator for the DLUHC."
 authors = ["Version One"]
 license = "MIT License"
 
-requires-python = ">=3.10, <3.11"
+requires-python = "~=3.10.0"
 dependencies = [
     "beautifulsoup4==4.12.3",
     "connexion==2.14.2",
