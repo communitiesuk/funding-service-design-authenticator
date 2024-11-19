@@ -5,9 +5,9 @@ description = "The funding service design authenticator for the DLUHC."
 authors = ["Version One"]
 license = "MIT License"
 
-requires-python = ">=3.10, <3.11"
+requires-python = "~=3.10.0"
 dependencies = [
-    "beautifulsoup4>=4.12.3",
+    "beautifulsoup4==4.12.3",
     "connexion==2.14.2",
     "cssmin==0.2.0",
     "email-validator==1.2.1",
@@ -18,16 +18,16 @@ dependencies = [
     "flask-talisman==0.8.1",
     "flask-wtf==1.2.1",
     "flask==2.2.5",
-    "funding-service-design-utils==5.1.*",
+    "funding-service-design-utils==5.1.1",
     "govuk-frontend-jinja==2.3.0",
-    "greenlet>=3.1.1",
+    "greenlet==3.1.1",
     "jsmin==3.0.1",
     "msal==1.28.0",
-    "openapi-spec-validator>=0.4.0",
-    "prance>=0.21.8.0",
+    "openapi-spec-validator==0.4.0",
+    "prance==0.21.8.0",
     "pyjwt==2.4.0",
+    "requests==2.32.3",
     "pyscss==1.4.0",
-    "requests>=2.32.3",
 ]
 
 [tool.black]
@@ -42,21 +42,21 @@ count = true
 
 [dependency-groups]
 dev = [
-    "beautifulsoup4>=4.12.3",
-    "black>=22.12.0",
-    "debugpy>=1.6.7",
-    "deepdiff>=5.8.1",
-    "dparse>=0.5.2",
-    "flake8-pyproject>=1.2.3",
-    "invoke>=2.0.0",
-    "moto>=5.0.12",
-    "pre-commit~=4.0.0",
-    "pytest>=7.1.2",
-    "pytest-env>=0.6.2",
-    "pytest-flask>=1.3.0",
+    "beautifulsoup4==4.12.3",
+    "black==22.12.0",
+    "debugpy==1.6.7",
+    "deepdiff==5.8.1",
+    "dparse==0.6.3",
+    "flake8-pyproject==1.2.3",
+    "invoke==2.0.0",
+    "moto==5.0.12",
+    "pre-commit==4.0.1",
+    "pytest==7.1.2",
+    "pytest-env==0.6.2",
+    "pytest-flask==1.3.0",
     "pytest-mock==3.10.0",
     "pytest-selenium==2.0.1",
     "selenium==4.23.1",
-    "swagger-ui-bundle>=0.0.9",
+    "swagger-ui-bundle==0.0.9",
     "webdriver-manager==4.0.1",
 ]
