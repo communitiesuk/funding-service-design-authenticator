@@ -29,22 +29,6 @@ on:
         type: boolean
         description: Run e2e tests (application)
   push:
-    paths:
-      - '!**/README.md'
-      - '!docs/**'
-      - 'api/**'
-      - 'config/**'
-      - 'frontend/**'
-      - 'models/**'
-      - 'openapi/**'
-      - 'run/**'
-      - 'security/**'
-      - 'tests/**'
-      - 'requirements-dev.in'
-      - 'requirements-dev.txt'
-      - 'requirements.in'
-      - 'requirements.txt'
-      - '.github/workflows/copilot_deploy.yml'
 
 jobs:
   setup:
