@@ -80,14 +80,50 @@ environments:
       ALLOW_ASSESSMENT_LOGIN_VIA_MAGIC_LINK: true
     count:
       spot: 1
+    sidecars:
+      nginx:
+        port: 8087
+        image:
+          location: xscys/nginx-sidecar-basic-auth
+        variables:
+          FORWARD_PORT: 8080
+          CLIENT_MAX_BODY_SIZE: 10m
+        secrets:
+          BASIC_AUTH_USERNAME: /copilot/${COPILOT_APPLICATION_NAME}/${COPILOT_ENVIRONMENT_NAME}/secrets/BASIC_AUTH_USERNAME
+          BASIC_AUTH_PASSWORD: /copilot/${COPILOT_APPLICATION_NAME}/${COPILOT_ENVIRONMENT_NAME}/secrets/BASIC_AUTH_PASSWORD
+    http:
+      target_container: nginx
+      healthcheck:
+        path: /healthcheck
+        port: 8080
   test:
     variables:
       ALLOW_ASSESSMENT_LOGIN_VIA_MAGIC_LINK: true
     count:
       spot: 2
+    sidecars:
+      nginx:
+        port: 8087
+        image:
+          location: xscys/nginx-sidecar-basic-auth
+        variables:
+          FORWARD_PORT: 8080
+          CLIENT_MAX_BODY_SIZE: 10m
+        secrets:
+          BASIC_AUTH_USERNAME: /copilot/${COPILOT_APPLICATION_NAME}/${COPILOT_ENVIRONMENT_NAME}/secrets/BASIC_AUTH_USERNAME
+          BASIC_AUTH_PASSWORD: /copilot/${COPILOT_APPLICATION_NAME}/${COPILOT_ENVIRONMENT_NAME}/secrets/BASIC_AUTH_PASSWORD
+    http:
+      target_container: nginx
+      healthcheck:
+        path: /healthcheck
+        port: 8080
   uat:
     http:
       alias: "authenticator.${COPILOT_ENVIRONMENT_NAME}.access-funding.test.levellingup.gov.uk"
+      target_container: nginx
+      healthcheck:
+        path: /healthcheck
+        port: 8080
     variables:
       ALLOW_ASSESSMENT_LOGIN_VIA_MAGIC_LINK: true
     count:
@@ -101,6 +137,17 @@ environments:
         value: 80
       requests: 30
       response_time: 2s
+    sidecars:
+      nginx:
+        port: 8087
+        image:
+          location: xscys/nginx-sidecar-basic-auth
+        variables:
+          FORWARD_PORT: 8080
+          CLIENT_MAX_BODY_SIZE: 10m
+        secrets:
+          BASIC_AUTH_USERNAME: /copilot/${COPILOT_APPLICATION_NAME}/${COPILOT_ENVIRONMENT_NAME}/secrets/BASIC_AUTH_USERNAME
+          BASIC_AUTH_PASSWORD: /copilot/${COPILOT_APPLICATION_NAME}/${COPILOT_ENVIRONMENT_NAME}/secrets/BASIC_AUTH_PASSWORD
   prod:
     http:
       alias: authenticator.access-funding.levellingup.gov.uk
