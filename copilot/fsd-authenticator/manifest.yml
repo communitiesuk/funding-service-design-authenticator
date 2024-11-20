@@ -46,7 +46,6 @@ network:
 # Pass environment variables as key value pairs.
 variables:
   SENTRY_DSN: "https://96b94a5fea854bc99f132ccdebba34eb@o1432034.ingest.sentry.io/4503919190016000"
-  FUND_STORE_API_HOST: "http://fsd-fund-store:8080"
   ACCOUNT_STORE_API_HOST: "http://fsd-account-store:8080"
   AUTHENTICATOR_HOST: "https://authenticator.${COPILOT_ENVIRONMENT_NAME}.access-funding.test.levellingup.gov.uk"
   POST_AWARD_FRONTEND_HOST: "https://find-monitoring-data.${COPILOT_ENVIRONMENT_NAME}.access-funding.test.levellingup.gov.uk"
@@ -66,6 +65,7 @@ variables:
     from_cfn: ${COPILOT_APPLICATION_NAME}-${COPILOT_ENVIRONMENT_NAME}-NotificationDeadLetterQueueURL
 
 secrets:
+  FUND_STORE_API_HOST: /copilot/${COPILOT_APPLICATION_NAME}/${COPILOT_ENVIRONMENT_NAME}/secrets/FUND_STORE_API_HOST
   RSA256_PUBLIC_KEY_BASE64: /copilot/${COPILOT_APPLICATION_NAME}/${COPILOT_ENVIRONMENT_NAME}/secrets/RSA256_PUBLIC_KEY_BASE64
   RSA256_PRIVATE_KEY_BASE64: /copilot/${COPILOT_APPLICATION_NAME}/${COPILOT_ENVIRONMENT_NAME}/secrets/RSA256_PRIVATE_KEY_BASE64
   SECRET_KEY: /copilot/${COPILOT_APPLICATION_NAME}/${COPILOT_ENVIRONMENT_NAME}/secrets/SECRET_KEY
