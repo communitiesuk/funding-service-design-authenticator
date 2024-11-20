@@ -120,6 +120,10 @@ environments:
   uat:
     http:
       alias: "authenticator.${COPILOT_ENVIRONMENT_NAME}.access-funding.test.levellingup.gov.uk"
+      target_container: nginx
+      healthcheck:
+        path: /healthcheck
+        port: 8080
     variables:
       ALLOW_ASSESSMENT_LOGIN_VIA_MAGIC_LINK: true
     count:
@@ -144,11 +148,6 @@ environments:
         secrets:
           BASIC_AUTH_USERNAME: /copilot/${COPILOT_APPLICATION_NAME}/${COPILOT_ENVIRONMENT_NAME}/secrets/BASIC_AUTH_USERNAME
           BASIC_AUTH_PASSWORD: /copilot/${COPILOT_APPLICATION_NAME}/${COPILOT_ENVIRONMENT_NAME}/secrets/BASIC_AUTH_PASSWORD
-    http:
-      target_container: nginx
-      healthcheck:
-        path: /healthcheck
-        port: 8080
   prod:
     http:
       alias: authenticator.access-funding.levellingup.gov.uk
