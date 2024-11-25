@@ -678,7 +678,7 @@ dev = [
     { name = "dparse", specifier = "==0.6.4" },
     { name = "flake8-pyproject", specifier = "==1.2.3" },
     { name = "invoke", specifier = "==2.0.0" },
-    { name = "moto", specifier = "==5.0.12" },
+    { name = "moto", specifier = "==5.0.21" },
     { name = "pre-commit", specifier = "==4.0.1" },
     { name = "pytest", specifier = "==7.1.2" },
     { name = "pytest-env", specifier = "==0.6.2" },
@@ -903,7 +903,7 @@ wheels = [
 
 [[package]]
 name = "moto"
-version = "5.0.12"
+version = "5.0.21"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "boto3" },
@@ -916,9 +916,9 @@ dependencies = [
     { name = "werkzeug" },
     { name = "xmltodict" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/4b/9b/87fb306488cfeaac3b0745ec774453416c370fa50400e12793c1eaed832e/moto-5.0.12.tar.gz", hash = "sha256:10bd434bfda329639fe9529470c4c27938064c139984024e6a62513e50aff427", size = 5345173 }
+sdist = { url = "https://files.pythonhosted.org/packages/72/ba/00bda1f06b85dc579583d68ef87497215d4ce5b8ec116e68beaff9fc37ce/moto-5.0.21.tar.gz", hash = "sha256:52f63291daeff9444ef5eb14fbf69b24264567b79f184ae6aee4945d09845f06", size = 6212667 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/8c/06/9fafae5864885d2aabd678a32b823d4989394bc0a209468b1dc59686a407/moto-5.0.12-py2.py3-none-any.whl", hash = "sha256:406095ba28da9e67e59bfc6b31b4a2627ca896d3e2c7eb82838fbe527e3c218a", size = 3764300 },
+    { url = "https://files.pythonhosted.org/packages/5f/6e/5f57cadb57a9663e7d92f05078c7e61ad83131f569ed07dc166a58f08500/moto-5.0.21-py3-none-any.whl", hash = "sha256:1235b2ae3666459c9cc44504a5e73d35f4959b45e5876b2f6df2e5f4889dfb4f", size = 4365142 },
 ]
 
 [[package]]
