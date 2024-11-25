@@ -49,7 +49,7 @@ dev = [
     "dparse==0.6.4",
     "flake8-pyproject==1.2.3",
     "invoke==2.0.0",
-    "moto==5.0.12",
+    "moto==5.0.21",
     "pre-commit==4.0.1",
     "pytest==7.1.2",
     "pytest-env==0.6.2",
