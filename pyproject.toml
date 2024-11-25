@@ -46,7 +46,7 @@ dev = [
     "black==22.12.0",
     "debugpy==1.6.7",
     "deepdiff==5.8.1",
-    "dparse==0.6.3",
+    "dparse==0.6.4",
     "flake8-pyproject==1.2.3",
     "invoke==2.0.0",
     "moto==5.0.12",
