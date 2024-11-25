@@ -400,15 +400,15 @@ wheels = [
 
 [[package]]
 name = "dparse"
-version = "0.6.3"
+version = "0.6.4"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "packaging" },
     { name = "tomli", marker = "python_full_version == '3.10.*'" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/22/35/e224f4e70799bbb8e9f6c69a8dbe966d640bf43dea11fc5ef77df120f8ed/dparse-0.6.3.tar.gz", hash = "sha256:27bb8b4bcaefec3997697ba3f6e06b2447200ba273c0b085c3d012a04571b528", size = 20316 }
+sdist = { url = "https://files.pythonhosted.org/packages/29/ee/96c65e17222b973f0d3d0aa9bad6a59104ca1b0eb5b659c25c2900fccd85/dparse-0.6.4.tar.gz", hash = "sha256:90b29c39e3edc36c6284c82c4132648eaf28a01863eb3c231c2512196132201a", size = 27912 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/a0/d0/4ed375a914d3cdbddb19fb7a72431e511c4cb102c54137d8fc2e563f3567/dparse-0.6.3-py3-none-any.whl", hash = "sha256:0d8fe18714056ca632d98b24fbfc4e9791d4e47065285ab486182288813a5318", size = 12962 },
+    { url = "https://files.pythonhosted.org/packages/56/26/035d1c308882514a1e6ddca27f9d3e570d67a0e293e7b4d910a70c8fe32b/dparse-0.6.4-py3-none-any.whl", hash = "sha256:fbab4d50d54d0e739fbb4dedfc3d92771003a5b9aa8545ca7a7045e3b174af57", size = 11925 },
 ]
 
 [[package]]
@@ -675,7 +675,7 @@ dev = [
     { name = "black", specifier = "==22.12.0" },
     { name = "debugpy", specifier = "==1.6.7" },
     { name = "deepdiff", specifier = "==5.8.1" },
-    { name = "dparse", specifier = "==0.6.3" },
+    { name = "dparse", specifier = "==0.6.4" },
     { name = "flake8-pyproject", specifier = "==1.2.3" },
     { name = "invoke", specifier = "==2.0.0" },
     { name = "moto", specifier = "==5.0.12" },
