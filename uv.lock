@@ -687,7 +687,7 @@ dev = [
     { name = "pytest-selenium", specifier = "==2.0.1" },
     { name = "selenium", specifier = "==4.23.1" },
     { name = "swagger-ui-bundle", specifier = "==0.0.9" },
-    { name = "webdriver-manager", specifier = "==4.0.1" },
+    { name = "webdriver-manager", specifier = "==4.0.2" },
 ]
 
 [[package]]
@@ -1680,16 +1680,16 @@ wheels = [
 
 [[package]]
 name = "webdriver-manager"
-version = "4.0.1"
+version = "4.0.2"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "packaging" },
     { name = "python-dotenv" },
     { name = "requests" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/e5/50/2958aa25647e86334b30b4f8c819cc4fd5f15d3d0115042a4c924ec6e94d/webdriver_manager-4.0.1.tar.gz", hash = "sha256:25ec177c6a2ce9c02fb8046f1b2732701a9418d6a977967bb065d840a3175d87", size = 25708 }
+sdist = { url = "https://files.pythonhosted.org/packages/24/4f/6e44478908c5133f680378d687f14ecaa99feed2c535344fcf68d8d21500/webdriver_manager-4.0.2.tar.gz", hash = "sha256:efedf428f92fd6d5c924a0d054e6d1322dd77aab790e834ee767af392b35590f", size = 25940 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/b1/51/b5c11cf739ac4eecde611794a0ec9df420d0239d51e73bc19eb44f02b48b/webdriver_manager-4.0.1-py2.py3-none-any.whl", hash = "sha256:d7970052295bb9cda2c1a24cf0b872dd2c41ababcc78f7b6b8dc37a41e979a7e", size = 27665 },
+    { url = "https://files.pythonhosted.org/packages/b5/b5/3bd0b038d80950ec13e6a2c8d03ed8354867dc60064b172f2f4ffac8afbe/webdriver_manager-4.0.2-py2.py3-none-any.whl", hash = "sha256:75908d92ecc45ff2b9953614459c633db8f9aa1ff30181cefe8696e312908129", size = 27778 },
 ]
 
 [[package]]
