@@ -16,7 +16,7 @@ dependencies = [
     "flask-redis==0.4.0",
     "flask-session==0.4.0",
     "flask-talisman==0.8.1",
-    "flask-wtf==1.2.1",
+    "flask-wtf==1.2.2",
     "flask==2.2.5",
     "funding-service-design-utils==5.1.1",
     "govuk-frontend-jinja==2.3.0",
