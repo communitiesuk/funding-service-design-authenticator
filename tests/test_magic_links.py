@@ -306,5 +306,41 @@ class TestMagicLinks(AuthSessionView):
                         email="example@email.com",
                         fund_short_name="COF",
                         round_short_name="R2W3",
+                        govuk_notify_reference=None,
+                    )
+                    assert response.status_code == 200
+
+    def test_magic_link_route_new_with_notify_reference(self, flask_test_client):
+        # create a MagicMock object for the form used in new():
+        mock_form = mock.MagicMock(spec=EmailForm)
+        mock_form.validate_on_submit.return_value = True
+        mock_form.data = {"email": "example@email.com"}
+
+        # mock get_magic_link() used in new():
+        mock_account = mock.MagicMock(spec=AccountMethods)
+        mock_account.get_magic_link.return_value = True
+
+        # Test post request with fund and round short names:
+        with mock.patch("frontend.magic_links.routes.EmailForm", return_value=mock_form):
+            with mock.patch(
+                "frontend.magic_links.routes.AccountMethods",
+                return_value=mock_account,
+            ):
+                with mock.patch(
+                    "frontend.magic_links.routes.get_round_data",
+                    return_value=mock_account,
+                ):
+                    response = flask_test_client.post(
+                        "service/magic-links/new"
+                        "?fund=COF&round=R2W3&govuk-notify-reference=1f829816-b7e5-4cf7-bbbb-1b062e5ee399",
+                        follow_redirects=True,
+                    )
+
+                    # Assert get_magic_link() was called with short_names:
+                    frontend.magic_links.routes.AccountMethods.get_magic_link.assert_called_once_with(  # noqa
+                        email="example@email.com",
+                        fund_short_name="COF",
+                        round_short_name="R2W3",
+                        govuk_notify_reference="1f829816-b7e5-4cf7-bbbb-1b062e5ee399",
                     )
                     assert response.status_code == 200

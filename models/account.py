@@ -183,6 +183,7 @@ class AccountMethods(Account):
         email: str,
         fund_short_name: str = None,
         round_short_name: str = None,
+        govuk_notify_reference: str = None,
     ) -> str:
         """
         Create a new magic link for a user
@@ -227,6 +228,7 @@ class AccountMethods(Account):
                 NotifyConstants.TEMPLATE_TYPE_MAGIC_LINK,
                 account.email,
                 notification_content,
+                reference=govuk_notify_reference,
             )
 
             return new_link_json.get("link")

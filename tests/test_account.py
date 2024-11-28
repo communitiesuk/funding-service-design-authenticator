@@ -108,7 +108,15 @@ class TestAccountMethods(object):
             ),
         )
         mocker.patch("models.account.get_round_data", return_value=Round(contact_email="asdf@asdf.com"))
-        mocker.patch("models.account.Notification.send", return_value=True)
+        mock_send_notification = mocker.patch("models.account.Notification.send", return_value=True)
 
-        result = AccountMethods.get_magic_link(email=test_user_email, fund_short_name="COF", round_short_name="R1W1")
+        result = AccountMethods.get_magic_link(
+            email=test_user_email,
+            fund_short_name="COF",
+            round_short_name="R1W1",
+            govuk_notify_reference="1f829816-b7e5-4cf7-bbbb-1b062e5ee399",
+        )
         assert result.endswith("?fund=COF&round=R1W1")
+        assert mock_send_notification.call_args_list == [
+            mocker.call("MAGIC_LINK", "john@example.com", mocker.ANY, reference="1f829816-b7e5-4cf7-bbbb-1b062e5ee399")
+        ]

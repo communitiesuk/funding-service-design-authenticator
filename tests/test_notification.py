@@ -59,7 +59,7 @@ def test_notification_send_success(app_context, monkeypatch, enable_notification
         sqs_extended_client.s3_client = s3_connection
         Config.AWS_SQS_NOTIF_APP_PRIMARY_QUEUE_URL = queue_response["QueueUrl"]
         mock_get_sqs_client.return_value = sqs_extended_client
-        result = Notification.send(template_type, to_email, content)
+        result = Notification.send(template_type, to_email, content, reference="1f829816-b7e5-4cf7-bbbb-1b062e5ee399")
         assert result is True
 
 
