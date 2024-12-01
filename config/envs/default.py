@@ -135,8 +135,7 @@ class DefaultConfig(object):
     """
     Magic Links
     """
-    MAGIC_LINK_EXPIRY_DAYS = 1
-    MAGIC_LINK_EXPIRY_SECONDS = 86400 * MAGIC_LINK_EXPIRY_DAYS
+    MAGIC_LINK_EXPIRY_SECONDS = 60 * 60  # last for an hour
     MAGIC_LINK_RECORD_PREFIX = "link"
     MAGIC_LINK_USER_PREFIX = "account"
     MAGIC_LINK_LANDING_PAGE = "/service/magic-links/landing/"
