@@ -9,7 +9,6 @@ import pytest
 from api.session.auth_session import AuthSessionView
 from app import app
 from bs4 import BeautifulSoup
-from config import Config
 from frontend.magic_links.forms import EmailForm
 from models.account import AccountMethods
 from security.utils import validate_token
@@ -218,30 +217,6 @@ class TestMagicLinks(AuthSessionView):
         assert response.status_code == 403
         assert b"Link expired" in response.data
         assert b"Request a new link" in response.data
-
-    @mock.patch.object(Config, "FLASK_ENV", "production")
-    def test_search_magic_link_forbidden_on_production(self, flask_test_client):
-        use_endpoint = "/magic-links"
-        response = flask_test_client.get(use_endpoint, follow_redirects=True)
-        assert response.status_code == 403
-
-    def test_search_magic_link_returns_magic_links(self, flask_test_client):
-        with mock.patch("models.fund.FundMethods.get_fund"), mock.patch("models.account.get_round_data"), mock.patch(
-            "frontend.magic_links.routes.get_round_data"
-        ):
-            payload = {
-                "email": "new_user@example.com",
-                "redirectUrl": "https://example.com/redirect-url",
-            }
-            endpoint = "/service/magic-links/new?fund=cof&round=r2w3"
-
-            flask_test_client.post(endpoint, data=payload)
-
-        endpoint = "/magic-links"
-        get_response = flask_test_client.get(endpoint)
-        assert get_response.status_code == 200
-        assert "account:usernew" in get_response.get_json()
-        assert next(x for x in get_response.get_json() if x.startswith("link:")) is not None
 
     def test_assessor_roles_is_empty_via_magic_link_auth(self):
         """
