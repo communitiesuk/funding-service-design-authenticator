@@ -120,9 +120,10 @@ class TestMagicLinks(AuthSessionView):
         use_endpoint = f"/magic-links/{link_key}"
         landing_endpoint = f"/service/magic-links/landing/{link_key}?fund=cof&round=r2w3"
 
-        with mock.patch("models.fund.FundMethods.get_fund") as mock_get_fund, mock.patch(
-            "frontend.magic_links.routes.get_round_data"
-        ) as mock_get_round_data:
+        with (
+            mock.patch("models.fund.FundMethods.get_fund") as mock_get_fund,
+            mock.patch("frontend.magic_links.routes.get_round_data") as mock_get_round_data,
+        ):
             # Mock get_fund() called in get_magic_link()
             mock_fund = mock.MagicMock()
             mock_fund.configure_mock(name="cof")
@@ -226,8 +227,10 @@ class TestMagicLinks(AuthSessionView):
         assert response.status_code == 403
 
     def test_search_magic_link_returns_magic_links(self, flask_test_client):
-        with mock.patch("models.fund.FundMethods.get_fund"), mock.patch("models.account.get_round_data"), mock.patch(
-            "frontend.magic_links.routes.get_round_data"
+        with (
+            mock.patch("models.fund.FundMethods.get_fund"),
+            mock.patch("models.account.get_round_data"),
+            mock.patch("frontend.magic_links.routes.get_round_data"),
         ):
             payload = {
                 "email": "new_user@example.com",
