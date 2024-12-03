@@ -16,7 +16,7 @@ class Notification(object):
     """
 
     @staticmethod
-    def send(template_type: str, to_email: str, content: dict):
+    def send(template_type: str, to_email: str, content: dict, govuk_notify_reference: str | None = None):
         """
         Sends a notification using the Gov.UK Notify Service
 
@@ -46,6 +46,9 @@ class Notification(object):
             NotifyConstants.FIELD_TO: to_email,
             NotifyConstants.FIELD_CONTENT: content,
         }
+        if govuk_notify_reference:
+            params["govuk_notify_reference"] = govuk_notify_reference
+
         try:
             sqs_extended_client = Notification._get_sqs_client()
             message_id = sqs_extended_client.submit_single_message(

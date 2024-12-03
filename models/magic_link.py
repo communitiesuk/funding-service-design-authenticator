@@ -11,9 +11,7 @@ from typing import TYPE_CHECKING
 from urllib.parse import urljoin
 
 from config import Config
-from flask import abort
 from flask import current_app
-from flask import Response
 from flask_redis import FlaskRedis
 from security.utils import create_token
 
@@ -45,16 +43,6 @@ class MagicLinkError(Exception):
 
 
 class MagicLinkMethods(object):
-    def search(self):
-        """
-        GET /magic-links endpoint
-        :return: Json Response
-        """
-        if not Config.FLASK_ENV == "production":
-            return Response(json.dumps(self.links), mimetype="application/json")
-        else:
-            return abort(403)
-
     @property
     def redis_mlinks(self) -> FlaskRedis:
         """
@@ -103,8 +91,7 @@ class MagicLinkMethods(object):
                 (
                     datetime.now()
                     + timedelta(
-                        days=Config.MAGIC_LINK_EXPIRY_DAYS,
-                        minutes=1,
+                        seconds=Config.MAGIC_LINK_EXPIRY_SECONDS + 60,
                     )
                 ).timestamp()
             ),
@@ -131,6 +118,7 @@ class MagicLinkMethods(object):
             )
             if created:
                 return prefixed_key, unique_key
+        return None
 
     @staticmethod
     def get_user_record_key(account_id: str):
@@ -189,7 +177,6 @@ class MagicLinkMethods(object):
         :return:
         """
         current_app.logger.info(f"Creating magic link for {account}")
-        self.clear_existing_user_record(account.id)
 
         if not redirect_url:
             redirect_url = urljoin(

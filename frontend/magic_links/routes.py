@@ -1,3 +1,5 @@
+import uuid
+
 from config import Config
 from flask import abort
 from flask import Blueprint
@@ -120,6 +122,13 @@ def new():
     # Grabbing fund and round info from query params and validating
     fund_short_name = request.args.get("fund")
     round_short_name = request.args.get("round")
+    govuk_notify_reference = request.args.get("govuk_notify_reference", None)
+    if govuk_notify_reference:
+        try:
+            uuid.UUID(govuk_notify_reference)  # Let's only accept UUID references
+        except ValueError:
+            govuk_notify_reference = None
+
     fund = FundMethods.get_fund(fund_short_name)
     round = get_round_data(fund_short_name, round_short_name)
 
@@ -138,6 +147,7 @@ def new():
                 email=form.data.get("email"),
                 fund_short_name=fund_short_name,
                 round_short_name=round_short_name,
+                govuk_notify_reference=govuk_notify_reference,
             )
 
             if Config.AUTO_REDIRECT_LOGIN:
