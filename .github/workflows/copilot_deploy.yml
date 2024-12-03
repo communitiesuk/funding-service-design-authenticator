@@ -74,6 +74,7 @@ jobs:
       FSD_GH_APP_KEY: ${{ secrets.FSD_GH_APP_KEY }}
       FS_BASIC_AUTH_USERNAME: ${{ secrets.FS_BASIC_AUTH_USERNAME }}
       FS_BASIC_AUTH_PASSWORD: ${{ secrets.FS_BASIC_AUTH_PASSWORD }}
+      AWS_ACCOUNT: ${{ secrets.AWS_ACCOUNT }}
     uses: communitiesuk/funding-service-design-workflows/.github/workflows/post-deploy.yml@main
     with:
       run_performance_tests: ${{ inputs.run_performance_tests || true }}
@@ -104,6 +105,7 @@ jobs:
       FSD_GH_APP_KEY: ${{ secrets.FSD_GH_APP_KEY }}
       FS_BASIC_AUTH_USERNAME: ${{ secrets.FS_BASIC_AUTH_USERNAME }}
       FS_BASIC_AUTH_PASSWORD: ${{ secrets.FS_BASIC_AUTH_PASSWORD }}
+      AWS_ACCOUNT: ${{ secrets.AWS_ACCOUNT }}
     uses: communitiesuk/funding-service-design-workflows/.github/workflows/post-deploy.yml@main
     with:
       run_performance_tests: ${{ inputs.run_performance_tests || false }}
@@ -134,6 +136,7 @@ jobs:
       FSD_GH_APP_KEY: ${{ secrets.FSD_GH_APP_KEY }}
       FS_BASIC_AUTH_USERNAME: ${{ secrets.FS_BASIC_AUTH_USERNAME }}
       FS_BASIC_AUTH_PASSWORD: ${{ secrets.FS_BASIC_AUTH_PASSWORD }}
+      AWS_ACCOUNT: ${{ secrets.AWS_ACCOUNT }}
     uses: communitiesuk/funding-service-design-workflows/.github/workflows/post-deploy.yml@main
     with:
       run_performance_tests: ${{ inputs.run_performance_tests || false }}
