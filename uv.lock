@@ -350,12 +350,6 @@ wheels = [
 ]
 
 [[package]]
-name = "cssmin"
-version = "0.2.0"
-source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/8e/d8/dc9da69bb186303f7ab41adef0a5b6d34da2fdba006827620877760241c3/cssmin-0.2.0.tar.gz", hash = "sha256:e012f0cc8401efcf2620332339011564738ae32be8c84b2e43ce8beaec1067b6", size = 3228 }
-
-[[package]]
 name = "debugpy"
 version = "1.6.7"
 source = { registry = "https://pypi.org/simple" }
@@ -602,7 +596,6 @@ source = { virtual = "." }
 dependencies = [
     { name = "beautifulsoup4" },
     { name = "connexion" },
-    { name = "cssmin" },
     { name = "email-validator" },
     { name = "flask" },
     { name = "flask-assets" },
@@ -619,11 +612,10 @@ dependencies = [
     { name = "openapi-spec-validator" },
     { name = "prance" },
     { name = "pyjwt" },
-    { name = "pyscss" },
     { name = "requests" },
 ]
 
-[package.dev-dependencies]
+[package.dependency-groups]
 dev = [
     { name = "beautifulsoup4" },
     { name = "black" },
@@ -648,7 +640,6 @@ dev = [
 requires-dist = [
     { name = "beautifulsoup4", specifier = "==4.12.3" },
     { name = "connexion", specifier = "==2.14.2" },
-    { name = "cssmin", specifier = "==0.2.0" },
     { name = "email-validator", specifier = "==1.2.1" },
     { name = "flask", specifier = "==2.2.5" },
     { name = "flask-assets", specifier = "==2.0" },
@@ -665,11 +656,10 @@ requires-dist = [
     { name = "openapi-spec-validator", specifier = "==0.4.0" },
     { name = "prance", specifier = "==0.21.8.0" },
     { name = "pyjwt", specifier = "==2.4.0" },
-    { name = "pyscss", specifier = "==1.4.0" },
     { name = "requests", specifier = "==2.32.3" },
 ]
 
-[package.metadata.requires-dev]
+[package.metadata.dependency-groups]
 dev = [
     { name = "beautifulsoup4", specifier = "==4.12.3" },
     { name = "black", specifier = "==22.12.0" },
@@ -1155,15 +1145,6 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/9c/0b/61dce3fd068e7cd25bfc3626c4f34dac64f9c8fcf53835d417d19e3548fe/pyrsistent-0.18.1-cp310-cp310-win32.whl", hash = "sha256:e4f3149fd5eb9b285d6bfb54d2e5173f6a116fe19172686797c056672689daf6", size = 59419 },
     { url = "https://files.pythonhosted.org/packages/dc/4f/5588cd16135b6d75a042349df7c4e114eb091ffb213e11c2805a44a7e860/pyrsistent-0.18.1-cp310-cp310-win_amd64.whl", hash = "sha256:636ce2dc235046ccd3d8c56a7ad54e99d5c1cd0ef07d9ae847306c91d11b5fec", size = 61607 },
 ]
-
-[[package]]
-name = "pyscss"
-version = "1.4.0"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "six" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/92/30/64c818fd317e03138f98ca67800edb6a916f59fc07b3d7e535e84c3c333a/pyScss-1.4.0.tar.gz", hash = "sha256:8f35521ffe36afa8b34c7d6f3195088a7057c185c2b8f15ee459ab19748669ff", size = 122100 }
 
 [[package]]
 name = "pysocks"
