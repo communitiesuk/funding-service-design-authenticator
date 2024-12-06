@@ -306,8 +306,10 @@ class TestMagicLinks(AuthSessionView):
                     return_value=mock_account,
                 ):
                     response = flask_test_client.post(
-                        "service/magic-links/new"
-                        "?fund=COF&round=R2W3&govuk_notify_reference=1f829816-b7e5-4cf7-bbbb-1b062e5ee399",
+                        (
+                            "service/magic-links/new"
+                            "?fund=COF&round=R2W3&govuk_notify_reference=1f829816-b7e5-4cf7-bbbb-1b062e5ee399"
+                        ),
                         follow_redirects=True,
                     )
 
