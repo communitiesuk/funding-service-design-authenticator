@@ -51,6 +51,7 @@ def create_app() -> Flask:
         "Authenticator",
         specification_dir="/openapi/",
         options=connexion_options,
+        server_args={"static_url_path": "/assets"},
     )
     connexion_app.add_api(
         get_bundled_specs(Config.FLASK_ROOT + "/openapi/api.yml"),
@@ -61,7 +62,7 @@ def create_app() -> Flask:
     # Configure Flask App
     flask_app = connexion_app.app
     flask_app.config.from_object("config.Config")
-    flask_app.static_folder = "frontend/static/dist/"
+    flask_app.static_folder = Config.STATIC_FOLDER
     flask_app.jinja_loader = ChoiceLoader(
         [
             PackageLoader("frontend"),
