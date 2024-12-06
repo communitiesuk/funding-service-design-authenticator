@@ -29,17 +29,9 @@ def init_assets(app=None, auto_build=False, static_folder="frontend/static/dist"
             output="js/main.min.js",
         )
 
-        css = Bundle(
-            "./scss/*.scss",
-            filters="pyscss,cssmin",
-            output="css/main.min.css",
-            extra={"rel": "stylesheet/css"},
-        )
-
-        env.register("default_styles", css)
         env.register("main_js", js)
 
-        bundles = [css, js]
+        bundles = [js]
         return bundles
 
 
