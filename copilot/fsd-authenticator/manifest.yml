@@ -55,6 +55,7 @@ variables:
   FLASK_ENV: "${COPILOT_ENVIRONMENT_NAME}"
   COOKIE_DOMAIN: ".test.levellingup.gov.uk"
   ALLOW_ASSESSMENT_LOGIN_VIA_MAGIC_LINK: false
+  SENTRY_TRACES_SAMPLE_RATE: 1.0
   REDIS_INSTANCE_URI:
     from_cfn: ${COPILOT_APPLICATION_NAME}-${COPILOT_ENVIRONMENT_NAME}-MagicLinksRedisInstanceURI
   AWS_MSG_BUCKET_NAME:
@@ -161,6 +162,7 @@ environments:
       POST_AWARD_FRONTEND_HOST: "https://find-monitoring-data.access-funding.levellingup.gov.uk"
       POST_AWARD_SUBMIT_HOST: "https://submit-monitoring-data.access-funding.levellingup.gov.uk"
       FLASK_ENV: production
+      SENTRY_TRACES_SAMPLE_RATE: 0.02
     count:
       range: 2-4
       cooldown:
