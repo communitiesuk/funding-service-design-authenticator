@@ -52,6 +52,8 @@ variables:
   POST_AWARD_SUBMIT_HOST: "https://submit-monitoring-data.${COPILOT_ENVIRONMENT_NAME}.access-funding.test.levellingup.gov.uk"
   APPLICANT_FRONTEND_HOST: "https://frontend.${COPILOT_ENVIRONMENT_NAME}.access-funding.test.levellingup.gov.uk"
   ASSESSMENT_FRONTEND_HOST: "https://assessment.${COPILOT_ENVIRONMENT_NAME}.access-funding.test.levellingup.gov.uk"
+  FORM_DESIGNER_HOST: "https://form-designer.${COPILOT_ENVIRONMENT_NAME}.access-funding.test.levellingup.gov.uk"
+  FUND_APPLICATION_BUILDER_HOST: "https://fund-application-builder.${COPILOT_ENVIRONMENT_NAME}.access-funding.test.levellingup.gov.uk"
   FLASK_ENV: "${COPILOT_ENVIRONMENT_NAME}"
   COOKIE_DOMAIN: ".test.levellingup.gov.uk"
   ALLOW_ASSESSMENT_LOGIN_VIA_MAGIC_LINK: false

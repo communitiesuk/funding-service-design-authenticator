@@ -118,6 +118,12 @@ class DefaultConfig(object):
     # Post-award submit
     POST_AWARD_SUBMIT_HOST = environ.get("POST_AWARD_SUBMIT_HOST", "")
 
+    # Form Designer
+    FORM_DESIGNER_HOST = environ.get("FORM_DESIGNER_HOST", "")
+
+    # Fund Application Builder
+    FUND_APPLICATION_BUILDER_HOST = environ.get("FUND_APPLICATION_BUILDER_HOST", "")
+
     # Safe list of return applications
     SAFE_RETURN_APPS = {
         SupportedApp.POST_AWARD_FRONTEND.value: SafeAppConfig(
@@ -129,6 +135,16 @@ class DefaultConfig(object):
             login_url=urljoin(POST_AWARD_SUBMIT_HOST, "/"),
             logout_endpoint="sso_bp.signed_out",
             service_title="Submit monitoring and evaluation data",
+        ),
+        SupportedApp.FORM_DESIGNER.value: SafeAppConfig(
+            login_url=urljoin(FORM_DESIGNER_HOST, "/"),
+            logout_endpoint="sso_bp.signed_out",
+            service_title="Form Designer",
+        ),
+        SupportedApp.FUND_APPLICATION_BUILDER.value: SafeAppConfig(
+            login_url=urljoin(FUND_APPLICATION_BUILDER_HOST, "/"),
+            logout_endpoint="sso_bp.signed_out",
+            service_title="Fund Application Builder",
         ),
     }
 
