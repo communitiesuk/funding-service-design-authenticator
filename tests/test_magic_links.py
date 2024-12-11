@@ -1,14 +1,16 @@
 """
 Test magic links functionality
 """
+
 import unittest.mock
 from unittest import mock
 
-import frontend
 import pytest
+from bs4 import BeautifulSoup
+
+import frontend
 from api.session.auth_session import AuthSessionView
 from app import app
-from bs4 import BeautifulSoup
 from frontend.magic_links.forms import EmailForm
 from models.account import AccountMethods
 from security.utils import validate_token
@@ -119,9 +121,10 @@ class TestMagicLinks(AuthSessionView):
         use_endpoint = f"/magic-links/{link_key}"
         landing_endpoint = f"/service/magic-links/landing/{link_key}?fund=cof&round=r2w3"
 
-        with mock.patch("models.fund.FundMethods.get_fund") as mock_get_fund, mock.patch(
-            "frontend.magic_links.routes.get_round_data"
-        ) as mock_get_round_data:
+        with (
+            mock.patch("models.fund.FundMethods.get_fund") as mock_get_fund,
+            mock.patch("frontend.magic_links.routes.get_round_data") as mock_get_round_data,
+        ):
             # Mock get_fund() called in get_magic_link()
             mock_fund = mock.MagicMock()
             mock_fund.configure_mock(name="cof")

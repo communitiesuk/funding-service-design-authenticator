@@ -1,7 +1,4 @@
-from flask import Blueprint
-from flask import render_template
-from flask import request
-from flask import url_for
+from flask import Blueprint, render_template, request, url_for
 
 sso_bp = Blueprint(
     "sso_bp",

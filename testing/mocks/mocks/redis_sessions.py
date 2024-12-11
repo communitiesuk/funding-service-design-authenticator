@@ -1,6 +1,7 @@
 """
 Mock redis sessions db
 """
+
 import pytest
 
 session_data = {}

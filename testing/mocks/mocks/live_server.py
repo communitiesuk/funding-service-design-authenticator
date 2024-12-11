@@ -1,4 +1,5 @@
 import pytest
+
 from app import create_app
 from testing.mocks.mocks.redis_sessions import RedisSessions
 

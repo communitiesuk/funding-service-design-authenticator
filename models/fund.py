@@ -1,9 +1,10 @@
 from dataclasses import dataclass
 from typing import List
 
-from config import Config
 from flask import request
 from fsd_utils.locale_selector.get_lang import get_lang
+
+from config import Config
 from models.data import get_data
 from models.round import Round
 

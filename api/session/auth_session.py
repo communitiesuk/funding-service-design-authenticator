@@ -1,24 +1,16 @@
-from datetime import datetime
-from datetime import timedelta
+from datetime import datetime, timedelta
 from typing import TYPE_CHECKING
 
 import jwt
+from flask import abort, current_app, make_response, redirect, request, session, url_for
+from flask.views import MethodView
+from fsd_utils import clear_sentry
+
 from api.responses import error_response
 from api.session.exceptions import SessionCreateError
 from config import Config
-from flask import abort
-from flask import current_app
-from flask import make_response
-from flask import redirect
-from flask import request
-from flask import session
-from flask import url_for
-from flask.views import MethodView
-from fsd_utils import clear_sentry
 from models.magic_link import MagicLinkMethods
-from security.utils import create_token
-from security.utils import decode_with_options
-from security.utils import validate_token
+from security.utils import create_token, decode_with_options, validate_token
 
 if TYPE_CHECKING:
     from models.account import Account as Account
@@ -74,7 +66,9 @@ class AuthSessionView(MethodView):
                 valid_token = decode_with_options(existing_auth_token, options={"verify_exp": False})
                 status = "expired_token"
             except jwt.PyJWTError as e:
-                current_app.logger.warning(f"PyJWTError: {e.__class__.__name__} - {e}")
+                current_app.logger.warning(
+                    "PyJWTError: {error_name} - {error}", extra=dict(error_name=e.__class__.__name__), error=e
+                )
                 status = "invalid_token"
 
             # If validly issued token: create query params for signout url,
@@ -90,9 +84,12 @@ class AuthSessionView(MethodView):
         if return_app:
             if safe_app := Config.SAFE_RETURN_APPS.get(return_app):
                 redirect_route = safe_app.logout_endpoint
-                current_app.logger.info(f"Returning to {return_app} using {redirect_route}")
+                current_app.logger.info(
+                    "Returning to {return_app} using {redirect_route}",
+                    extra=dict(return_app=return_app, redirect_route=redirect_route),
+                )
             else:
-                current_app.logger.warning(f"{return_app} not listed as a safe app.")
+                current_app.logger.warning("{return_app} not listed as a safe app.", extra=dict(return_app=return_app))
                 abort(400, "Unknown return app.")
 
         # Clear the cookie and redirect to signed out page
@@ -184,7 +181,7 @@ class AuthSessionView(MethodView):
                 samesite=Config.FSD_USER_TOKEN_COOKIE_SAMESITE,
                 httponly=Config.SESSION_COOKIE_HTTPONLY,
             )
-            current_app.logger.info(f"User logged in to account : {account.id}")
+            current_app.logger.info("User logged in to account : {account_id}", extra=dict(account_id=account.id))
             return response
         except SessionCreateError as e:
             error_response(404, str(e))

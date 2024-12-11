@@ -1,12 +1,14 @@
 """Flask Local Development Environment Configuration."""
+
 import logging
+from distutils.util import strtobool
 from os import getenv
+
+from fsd_utils import configclass
+from fsd_utils.authentication.config import SupportedApp
 
 from config.envs.default import DefaultConfig as Config
 from config.envs.default import SafeAppConfig
-from distutils.util import strtobool
-from fsd_utils import configclass
-from fsd_utils.authentication.config import SupportedApp
 
 
 @configclass
@@ -29,8 +31,7 @@ class UnitTestConfig(Config):
     AZURE_AD_AUTHORITY = (
         # consumers|organizations|<tenant_id>
         # - signifies the Azure AD tenant endpoint
-        "https://login.microsoftonline.com/"
-        + AZURE_AD_TENANT_ID
+        "https://login.microsoftonline.com/" + AZURE_AD_TENANT_ID
     )
 
     SESSION_TYPE = (

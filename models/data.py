@@ -3,9 +3,10 @@ import os
 import urllib.parse
 
 import requests
-from config import Config
 from flask import current_app
 from fsd_utils.locale_selector.get_lang import get_lang
+
+from config import Config
 from models.round import Round
 
 
@@ -56,7 +57,9 @@ def put_data(endpoint: str, params: dict = None):
         if response.status_code in [200, 201]:
             return response.json()
         else:
-            current_app.logger.error("API error response of : " + str(response.json()))
+            current_app.logger.error(
+                "API error response of : {response_string}", extra=dict(response_string=str(response.json()))
+            )
     else:
         return local_api_call(endpoint, params, "put")
 

@@ -1,7 +1,6 @@
 from datetime import datetime
 
-from flask_babel import format_datetime
-from flask_babel import gettext
+from flask_babel import format_datetime, gettext
 
 
 def datetime_format(value: str) -> str:

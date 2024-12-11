@@ -4,15 +4,14 @@ import json
 import random
 import string
 from dataclasses import dataclass
-from datetime import datetime
-from datetime import timedelta
-from typing import List
-from typing import TYPE_CHECKING
+from datetime import datetime, timedelta
+from typing import TYPE_CHECKING, List
 from urllib.parse import urljoin
 
-from config import Config
 from flask import current_app
 from flask_redis import FlaskRedis
+
+from config import Config
 from security.utils import create_token
 
 if TYPE_CHECKING:
@@ -176,7 +175,7 @@ class MagicLinkMethods(object):
         :param redirect_url: (str, optional) An optional redirect_url
         :return:
         """
-        current_app.logger.info(f"Creating magic link for {account}")
+        current_app.logger.info("Creating magic link for {account}", extra=dict(account=account))
 
         if not redirect_url:
             redirect_url = urljoin(
@@ -195,7 +194,6 @@ class MagicLinkMethods(object):
             self._create_user_record(account, redis_key)
 
             if fund_short_name and round_short_name:
-
                 magic_link_url = (
                     Config.AUTHENTICATOR_HOST
                     + Config.MAGIC_LINK_LANDING_PAGE
@@ -215,8 +213,8 @@ class MagicLinkMethods(object):
                     "link": magic_link_url,
                 }
             )
-            current_app.logger.info(f"Magic link created for {account}")
+            current_app.logger.info("Magic link created for {account}", extra=dict(account=account))
             return new_link_json
 
-        current_app.logger.error(f"Magic link for account {account} could not be created")
+        current_app.logger.error("Magic link for account {account} could not be created", extra=dict(account=account))
         raise MagicLinkError(message="Could not create a magic link")

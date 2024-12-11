@@ -1,36 +1,29 @@
 from copy import deepcopy
 from os import getenv
 from pathlib import Path
-from typing import Any
-from typing import Dict
-from urllib.parse import urlencode
-from urllib.parse import urljoin
+from typing import Any, Dict
+from urllib.parse import urlencode, urljoin
 
 import connexion
 import prance
-import static_assets
-from config import Config
 from connexion.resolver import MethodViewResolver
-from flask import Flask
-from flask import request
+from flask import Flask, request
 from flask_assets import Environment
-from flask_babel import Babel
-from flask_babel import gettext
+from flask_babel import Babel, gettext
 from flask_redis import FlaskRedis
 from flask_session import Session
 from flask_talisman import Talisman
-from frontend.magic_links.filters import datetime_format
-from fsd_utils import init_sentry
-from fsd_utils import LanguageSelector
-from fsd_utils.healthchecks.checkers import FlaskRunningChecker
-from fsd_utils.healthchecks.checkers import RedisChecker
+from fsd_utils import LanguageSelector, init_sentry
+from fsd_utils.healthchecks.checkers import FlaskRunningChecker, RedisChecker
 from fsd_utils.healthchecks.healthcheck import Healthcheck
 from fsd_utils.locale_selector.get_lang import get_lang
 from fsd_utils.logging import logging
 from fsd_utils.services.aws_extended_client import SQSExtendedClient
-from jinja2 import ChoiceLoader
-from jinja2 import PackageLoader
-from jinja2 import PrefixLoader
+from jinja2 import ChoiceLoader, PackageLoader, PrefixLoader
+
+import static_assets
+from config import Config
+from frontend.magic_links.filters import datetime_format
 from models.fund import FundMethods
 
 redis_mlinks = FlaskRedis(config_prefix="REDIS_MLINKS")

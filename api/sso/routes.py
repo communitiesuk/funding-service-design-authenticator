@@ -1,20 +1,13 @@
-import warnings
-from urllib.parse import urlencode
-from urllib.parse import urljoin
-from urllib.parse import urlparse
+from urllib.parse import urlencode, urljoin, urlparse
 
 import msal
 import requests
-from api.session.auth_session import AuthSessionView
-from config import Config
-from flask import abort
-from flask import current_app
-from flask import make_response
-from flask import redirect
-from flask import request
-from flask import session
+from flask import abort, current_app, make_response, redirect, request, session
 from flask.views import MethodView
 from fsd_utils import clear_sentry
+
+from api.session.auth_session import AuthSessionView
+from config import Config
 from models.account import AccountMethods
 
 
@@ -30,7 +23,9 @@ class SsoView(MethodView):
         if return_app := request.args.get("return_app"):
             session["return_app"] = return_app
             session["return_path"] = request.args.get("return_path")
-            current_app.logger.debug(f"Setting return app to {return_app} for this session")
+            current_app.logger.debug(
+                "Setting return app to {return_app} for this session", extra=dict(return_app=return_app)
+            )
 
         return redirect(session["flow"]["auth_uri"]), 302
 
@@ -104,7 +99,7 @@ class SsoView(MethodView):
             session["user"] = result.get("id_token_claims")
             self._save_cache(cache)
         except ValueError as e:  # Usually caused by CSRF
-            warnings.warn(f"Value Error on get_token route: {str(e)}")
+            current_app.logger.warning("Value Error on get_token route: {error}", extra=dict(error=str(e)))
 
         if "user" not in session or not session["user"].get("sub"):
             return {"message": "No valid token"}, 404
@@ -126,9 +121,12 @@ class SsoView(MethodView):
                 else:
                     redirect_url = safe_app.login_url
 
-                current_app.logger.info(f"Returning to {return_app} @ {redirect_url}")
+                current_app.logger.info(
+                    "Returning to {return_app} @ {redirect_url}",
+                    extra=dict(return_app=return_app, redirect_url=redirect_url),
+                )
             else:
-                current_app.logger.warning(f"{return_app} not listed as a safe app.")
+                current_app.logger.warning("{return_app} not listed as a safe app.", extra=dict(return_app=return_app))
                 abort(400, "Unknown return app.")
 
         # Create session token, set cookie and redirect

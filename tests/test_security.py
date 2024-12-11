@@ -1,18 +1,17 @@
 """
 Test magic links functionality
 """
+
 import base64
 
 import pytest
 from jwt import decode
-from jwt.exceptions import ExpiredSignatureError
-from jwt.exceptions import InvalidSignatureError
-from security.utils import create_token
-from security.utils import validate_token
+from jwt.exceptions import ExpiredSignatureError, InvalidSignatureError
+
+from security.utils import create_token, validate_token
 
 
 class TestSecurityUtils:
-
     tokens = {}
 
     def test_create_token_returns_token(self):

@@ -2,9 +2,10 @@ import json
 import textwrap
 from uuid import uuid4
 
-from config import Config
 from flask import current_app
 from fsd_utils.config.notify_constants import NotifyConstants
+
+from config import Config
 
 NOTIFICATION_CONST = "notification"
 NOTIFICATION_S3_KEY_CONST = "auth/notification"
@@ -38,7 +39,7 @@ class Notification(object):
                 - Content:
             """
             )
-            current_app.logger.info(f"{template_msg}{json.dumps(content, indent=4)}")
+            current_app.logger.info("{template_msg}", extra=dict(template_msg=template_msg))
             return True
 
         params = {
@@ -63,12 +64,14 @@ class Notification(object):
                     },
                 },
             )
-            current_app.logger.info(f"Message sent to SQS queue and message id is [{message_id}]")
+            current_app.logger.info(
+                "Message sent to SQS queue and message id is {message_id}", extra=dict(message_id=message_id)
+            )
             return True
         except Exception as e:
             current_app.logger.error("An error occurred while sending message")
             current_app.logger.error(e)
-            raise NotificationError(message="Sorry, the notification could not be sent")
+            raise NotificationError(message="Sorry, the notification could not be sent") from e
 
     @staticmethod
     def _get_sqs_client():

@@ -1,8 +1,6 @@
 import traceback
 
-from flask import Blueprint
-from flask import current_app
-from flask import render_template
+from flask import Blueprint, current_app, render_template
 
 default_bp = Blueprint("default_bp", __name__, template_folder="templates")
 
@@ -21,6 +19,8 @@ def not_found(error):
 def internal_server_error(error):
     error_message = f"Encountered 500: {error}"
     stack_trace = traceback.format_exc()
-    current_app.logger.error(f"{error_message}\n{stack_trace}")
+    current_app.logger.error(
+        "{error_message}\n{stack_trace}", extra=dict(error_message=error_message, stack_trace=stack_trace)
+    )
 
     return render_template("500.html", is_error=True), 500

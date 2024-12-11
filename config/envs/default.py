@@ -1,18 +1,16 @@
 """Flask configuration."""
+
 import base64
 import logging
 from collections import namedtuple
-from os import environ
-from os import getenv
+from distutils.util import strtobool
+from os import environ, getenv
 from pathlib import Path
 from urllib.parse import urljoin
 
 import redis
-from distutils.util import strtobool
-from fsd_utils import CommonConfig
-from fsd_utils import configclass
+from fsd_utils import CommonConfig, configclass
 from fsd_utils.authentication.config import SupportedApp
-
 
 SafeAppConfig = namedtuple("SafeAppConfig", ("login_url", "logout_endpoint", "service_title"))
 
@@ -57,8 +55,7 @@ class DefaultConfig(object):
     AZURE_AD_TENANT_ID = environ.get("AZURE_AD_TENANT_ID", "")
     AZURE_AD_AUTHORITY = (
         # consumers|organizations|<tenant_id> - signifies the Azure AD tenant endpoint # noqa
-        "https://login.microsoftonline.com/"
-        + AZURE_AD_TENANT_ID
+        "https://login.microsoftonline.com/" + AZURE_AD_TENANT_ID
     )
     # The absolute URL must match the redirect URI you set
     # in the app's registration in the Azure portal.
