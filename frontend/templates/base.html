@@ -20,7 +20,7 @@
 
 {% block bodyEnd %}
   <!--[if gt IE 8]><!-->
-  <script nonce="{{ csp_nonce() }}" src="{{ url_for('static', filename='govuk-frontend/govuk-frontend-4.0.0.min.js') }}"> </script>
+  <script nonce="{{ csp_nonce() }}" src="{{ url_for('static', filename='govuk-frontend-4.8.0.min.js') }}"> </script>
   <script nonce="{{ csp_nonce() }}">
 
     window.addEventListener('load', (event) => {
