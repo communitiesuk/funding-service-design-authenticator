@@ -1,3 +1,6 @@
+> [!IMPORTANT]
+> This repository has been integrated with a new combined [pre-award-frontend](https://github.com/communitiesuk/funding-service-pre-award-frontend/).
+
 # Funding Service Design - Authenticator
 
 [![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/)
