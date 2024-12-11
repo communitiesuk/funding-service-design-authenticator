@@ -1,6 +1,7 @@
 """
 Mock redis magic links db
 """
+
 import pytest
 
 ml_data = {}

@@ -1,6 +1,7 @@
 import pytest
-from app import create_app
 from flask import current_app
+
+from app import create_app
 from models.account import AccountMethods
 from testing.mocks.mocks import *  # noqa
 

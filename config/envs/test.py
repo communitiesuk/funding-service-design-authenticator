@@ -1,16 +1,16 @@
 """Flask Test Environment Configuration."""
+
 import base64
-from os import environ
-from os import getenv
+from distutils.util import strtobool
+from os import environ, getenv
+
+from fsd_utils import configclass
 
 from config.envs.default import DefaultConfig as Config
-from distutils.util import strtobool
-from fsd_utils import configclass
 
 
 @configclass
 class TestConfig(Config):
-
     SECRET_KEY = environ.get("SECRET_KEY", "test")
 
     COOKIE_DOMAIN = environ.get("COOKIE_DOMAIN", ".test.fundingservice.co.uk")

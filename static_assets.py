@@ -1,9 +1,9 @@
 """Compile static assets."""
+
 from os import path
 
 from flask import Flask
-from flask_assets import Bundle
-from flask_assets import Environment
+from flask_assets import Bundle, Environment
 
 
 def init_assets(app=None, auto_build=False, static_folder="frontend/static/dist"):

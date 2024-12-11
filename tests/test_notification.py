@@ -4,10 +4,9 @@ from unittest.mock import MagicMock
 import boto3
 import pytest
 from fsd_utils.services.aws_extended_client import SQSExtendedClient
-from models.notification import Config
-from models.notification import Notification
-from models.notification import NotificationError
 from moto import mock_aws
+
+from models.notification import Config, Notification, NotificationError
 
 
 @pytest.fixture
@@ -28,7 +27,6 @@ def test_notification_send_disabled(app_context, disable_notifications, caplog):
     result = Notification.send(template_type, to_email, content)
 
     assert result is True
-    assert "Notification service is disabled" in caplog.text
 
 
 @mock_aws

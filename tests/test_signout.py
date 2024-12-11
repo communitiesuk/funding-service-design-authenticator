@@ -1,14 +1,14 @@
 """
 Test session functionality
 """
-from unittest.mock import patch
-from unittest.mock import PropertyMock
+
+from unittest.mock import PropertyMock, patch
 
 import pytest
 from bs4 import BeautifulSoup
+
 from config.envs.default import SafeAppConfig
-from security.utils import create_token
-from security.utils import validate_token
+from security.utils import create_token, validate_token
 
 
 @pytest.mark.usefixtures("flask_test_client")
@@ -57,8 +57,7 @@ class TestSignout:
                 "Set-Cookie"
             )
             assert (
-                response.location
-                == "/service/magic-links/signed-out/sign_out_request?fund=test_fund&round=test_round"  # noqa
+                response.location == "/service/magic-links/signed-out/sign_out_request?fund=test_fund&round=test_round"  # noqa
             )
 
     def test_magic_link_auth_can_be_signed_out(self, mocker, flask_test_client, mock_redis_sessions, create_magic_link):

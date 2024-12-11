@@ -1,11 +1,14 @@
 import pytest
 from flask import session
 from fsd_utils.authentication.utils import validate_token_rs256
-from testing.mocks.mocks.msal import ConfidentialClientApplication
-from testing.mocks.mocks.msal import expected_fsd_user_token_claims
-from testing.mocks.mocks.msal import HijackedConfidentialClientApplication
-from testing.mocks.mocks.msal import id_token_claims
-from testing.mocks.mocks.msal import RolelessConfidentialClientApplication
+
+from testing.mocks.mocks.msal import (
+    ConfidentialClientApplication,
+    HijackedConfidentialClientApplication,
+    RolelessConfidentialClientApplication,
+    expected_fsd_user_token_claims,
+    id_token_claims,
+)
 
 
 def test_sso_login_redirects_to_ms(flask_test_client):
@@ -177,8 +180,7 @@ def test_sso_get_token_prevents_overwrite_of_existing_azure_subject_id(flask_tes
     assert (
         "Cannot update account id: usersso - "
         "attempting to update existing azure_ad_subject_id "
-        "from abc to xyx which is not allowed."
-        in caplog.text
+        "from abc to xyx which is not allowed." in caplog.text
     )
 
 
@@ -191,7 +193,7 @@ def test_sso_get_token_500_when_error_in_auth_code_flow(flask_test_client, mocke
     response = flask_test_client.get(endpoint)
 
     assert response.status_code == 500
-    assert "get-token flow failed with: {'error': 'some_error'}" in caplog.text
+    assert "get-token flow failed with: {'error': 'some_error'}" in caplog.records[1].error_message
     assert "some_error" not in response.text
 
 

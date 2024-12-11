@@ -1,8 +1,6 @@
-from flask_babel import gettext
-from flask_babel import lazy_gettext
+from flask_babel import gettext, lazy_gettext
 from flask_wtf import FlaskForm
-from wtforms import EmailField
-from wtforms import HiddenField
+from wtforms import EmailField, HiddenField
 from wtforms.validators import Email
 
 

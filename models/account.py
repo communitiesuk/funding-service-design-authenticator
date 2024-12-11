@@ -1,15 +1,12 @@
 from dataclasses import dataclass
 from typing import List
 
-import config
-from config import Config
 from flask import current_app
 from fsd_utils.config.notify_constants import NotifyConstants
-from models.data import get_account_data
-from models.data import get_data
-from models.data import get_round_data
-from models.data import post_data
-from models.data import put_data
+
+import config
+from config import Config
+from models.data import get_account_data, get_data, get_round_data, post_data, put_data
 from models.fund import FundMethods
 from models.magic_link import MagicLinkMethods
 from models.notification import Notification
@@ -222,7 +219,7 @@ class AccountMethods(Account):
                 round_short_name=round_short_name if round_short_name else "",
             )
             notification_content.update({NotifyConstants.MAGIC_LINK_URL_FIELD: new_link_json.get("link")})  # noqa
-            current_app.logger.debug(f"Magic Link URL: {new_link_json.get('link')}")
+            current_app.logger.debug("Magic Link URL: {link}", extra=dict(link=new_link_json.get("link")))
             # Send notification
             Notification.send(
                 NotifyConstants.TEMPLATE_TYPE_MAGIC_LINK,
@@ -232,5 +229,7 @@ class AccountMethods(Account):
             )
 
             return new_link_json.get("link")
-        current_app.logger.error(f"Could not create an account ({account}) for email '{email}'")
+        current_app.logger.error(
+            "Could not create an account ({account}) for email '{email}'", extra=dict(account=account, email=email)
+        )
         raise AccountError(message="Sorry, we couldn't create an account for this email, please contact support")

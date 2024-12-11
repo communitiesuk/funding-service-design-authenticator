@@ -1,17 +1,13 @@
 import json
 from datetime import datetime
-from urllib.parse import urlencode
-from urllib.parse import urljoin
+from urllib.parse import urlencode, urljoin
+
+from flask import current_app, g, redirect, request, url_for
+from flask.views import MethodView
+from fsd_utils.authentication.decorators import login_requested
 
 from api.session.auth_session import AuthSessionView
 from config import Config
-from flask import current_app
-from flask import g
-from flask import redirect
-from flask import request
-from flask import url_for
-from flask.views import MethodView
-from fsd_utils.authentication.decorators import login_requested
 from models.account import AccountMethods
 from models.magic_link import MagicLinkMethods
 
@@ -52,7 +48,10 @@ class MagicLinksView(MagicLinkMethods, MethodView):
             # Check account exists
             account = AccountMethods.get_account(account_id=link.get("accountId"))
             if not account:
-                current_app.logger.error(f"Tried to use magic link for non-existent account_id {link.get('accountId')}")
+                current_app.logger.error(
+                    "Tried to use magic link for non-existent account_id {account_id}",
+                    extra=dict(account_id=link.get("accountId")),
+                )
                 redirect(
                     url_for(
                         "magic_links_bp.invalid",
@@ -91,10 +90,11 @@ class MagicLinksView(MagicLinkMethods, MethodView):
             query_string = urlencode(query_params)
             frontend_account_url = urljoin(Config.APPLICANT_FRONTEND_HOST, f"account?{query_string}")
             current_app.logger.warning(
-                f"The magic link with hash: '{link_hash}' has already been"
-                f" used but the user with account_id: '{g.account_id}' is"
+                "The magic link with hash: '{link_hash}' has already been"
+                " used but the user with account_id: '{account_id}' is"
                 " logged in, redirecting to"
-                f" '{frontend_account_url}'."
+                " '{frontend_account_url}'.",
+                extra=dict(link_hash=link_hash, account_id=g.account_id, frontend_account_url=frontend_account_url),
             )
             return redirect(frontend_account_url)
         return redirect(

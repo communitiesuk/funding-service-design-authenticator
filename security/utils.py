@@ -1,4 +1,5 @@
 import jwt
+
 from config import Config
 
 algorithm = "RS256"

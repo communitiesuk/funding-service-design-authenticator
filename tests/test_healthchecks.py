@@ -1,6 +1,7 @@
 from unittest import mock
 
 import pytest
+
 from app import create_app
 from config import Config
 

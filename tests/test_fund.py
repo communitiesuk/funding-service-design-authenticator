@@ -2,8 +2,7 @@ from unittest import mock
 
 from config.envs.default import DefaultConfig
 from config.envs.unit_test import UnitTestConfig
-from models.fund import Fund
-from models.fund import FundMethods
+from models.fund import Fund, FundMethods
 
 
 class TestFund:

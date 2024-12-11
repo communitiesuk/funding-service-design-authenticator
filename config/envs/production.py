@@ -1,9 +1,11 @@
 """Flask Production Environment Configuration."""
+
+from distutils.util import strtobool
 from os import getenv
 
-from config.envs.default import DefaultConfig as Config
-from distutils.util import strtobool
 from fsd_utils import configclass
+
+from config.envs.default import DefaultConfig as Config
 
 
 @configclass

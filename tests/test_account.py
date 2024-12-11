@@ -1,6 +1,6 @@
 import pytest
-from models.account import Account
-from models.account import AccountMethods
+
+from models.account import Account, AccountMethods
 from models.fund import Fund
 from models.round import Round
 
@@ -34,7 +34,6 @@ def mock_get_account(mocker, request):
 
 @pytest.fixture(scope="function")
 def mock_create_account(mocker):
-
     mocker.patch(
         "models.account.post_data",
         return_value={
@@ -48,7 +47,6 @@ def mock_create_account(mocker):
 
 @pytest.fixture(scope="function")
 def mock_update_account(mocker):
-
     mocker.patch(
         "models.account.put_data",
         return_value={
