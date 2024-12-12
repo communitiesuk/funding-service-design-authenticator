@@ -15,7 +15,7 @@ repos:
       # Run the formatter.
       - id: ruff-format
   - repo: https://github.com/Yelp/detect-secrets
-    rev: v1.4.0
+    rev: v1.5.0
     hooks:
       - id: detect-secrets
         args:
@@ -29,7 +29,7 @@ repos:
   # djLint moved in from assess - to apply as a precommit hook we should make sure it works with
   # apply templates
   - repo: https://github.com/Riverside-Healthcare/djLint
-    rev: v1.24.0
+    rev: v1.36.3
     hooks:
       - id: djlint-jinja
         types_or: ["html", "jinja"]
