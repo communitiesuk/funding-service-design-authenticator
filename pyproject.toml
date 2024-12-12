@@ -69,7 +69,7 @@ dev = [
     "deepdiff==5.8.1",
     "dparse==0.6.4",
     "invoke==2.0.0",
-    "moto==5.0.12",
+    "moto==5.0.22",
     "pre-commit==4.0.1",
     "pytest==7.1.2",
     "pytest-env==0.6.2",
