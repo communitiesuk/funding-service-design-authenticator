@@ -6,15 +6,18 @@ from flask import current_app, g, redirect, request, url_for
 from flask.views import MethodView
 from fsd_utils.authentication.decorators import login_requested
 
-from api.session.auth_session import AuthSessionView
+from api.session.auth_session import AuthSessionBase
+from common.blueprints import Blueprint
 from config import Config
 from models.account import AccountMethods
 from models.magic_link import MagicLinkMethods
 
+api_magic_link_bp = Blueprint("api_magic_links", __name__)
+
 
 class MagicLinksView(MagicLinkMethods, MethodView):
     @login_requested
-    def use(self, link_id: str):
+    def get(self, link_id: str):
         """
         GET /magic-links/{link_id} endpoint
         If the link_id matches a valid link key, this then:
@@ -28,7 +31,6 @@ class MagicLinksView(MagicLinkMethods, MethodView):
         :param link_id: String short key for the link
         :return: 302 Redirect / 404 Error
         """
-
         fund_short_name = request.args.get("fund")
         round_short_name = request.args.get("round")
 
@@ -62,7 +64,7 @@ class MagicLinksView(MagicLinkMethods, MethodView):
 
             # Check link is not expired
             if link.get("exp") > int(datetime.now().timestamp()):
-                return AuthSessionView.create_session_and_redirect(
+                return AuthSessionBase.create_session_and_redirect(
                     account=account,
                     is_via_magic_link=True,
                     redirect_url=link.get("redirectUrl"),
@@ -105,3 +107,6 @@ class MagicLinksView(MagicLinkMethods, MethodView):
                 round=round_short_name,
             )
         )
+
+
+api_magic_link_bp.add_url_rule("/magic-links/<link_id>", view_func=MagicLinksView.as_view("use"))
