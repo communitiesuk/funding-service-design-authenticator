@@ -2,12 +2,13 @@ from datetime import datetime, timedelta
 from typing import TYPE_CHECKING
 
 import jwt
-from flask import abort, current_app, make_response, redirect, request, session, url_for
+from flask import current_app, make_response, redirect, request, session, url_for
 from flask.views import MethodView
 from fsd_utils import clear_sentry
 
 from api.responses import error_response
 from api.session.exceptions import SessionCreateError
+from common.blueprints import Blueprint
 from config import Config
 from models.magic_link import MagicLinkMethods
 from security.utils import create_token, decode_with_options, validate_token
@@ -16,28 +17,11 @@ if TYPE_CHECKING:
     from models.account import Account as Account
 
 
-class AuthSessionView(MethodView):
-    """
-    Views for session related operations
-    """
+api_sessions_bp = Blueprint("api_sessions", __name__)
 
+
+class AuthSessionBase:
     @staticmethod
-    def user():
-        """
-        GET /sessions/user endpoint
-        Shows the user details of the current user session
-        or an error if no authenticated user session found
-        :return: 200 user details json or 404 error
-        """
-        token = request.cookies.get(Config.FSD_USER_TOKEN_COOKIE_NAME)
-        if token:
-            try:
-                valid_token = validate_token(token)
-                return make_response(valid_token), 200
-            except jwt.PyJWTError:
-                error_response(404, "Session token expired or invalid")
-        error_response(404, "No session token found")
-
     def clear_session(return_app=None, return_path=None):
         """
         Clears the user session (signing them out)
@@ -90,7 +74,9 @@ class AuthSessionView(MethodView):
                 )
             else:
                 current_app.logger.warning("{return_app} not listed as a safe app.", extra=dict(return_app=return_app))
-                abort(400, "Unknown return app.")
+                resp = make_response({"detail": "Unknown return app."}, 400)
+                resp.headers["Content-Type"] = "application/json"
+                return resp
 
         # Clear the cookie and redirect to signed out page
         signed_out_url = url_for(
@@ -109,21 +95,6 @@ class AuthSessionView(MethodView):
             expires=0,
         )
         return response
-
-    # Deprecation warning (Use clear_session_post instead)
-    @staticmethod
-    def clear_session_get():
-        """GET /sessions/sign-out endpoint"""
-        return_app = request.args.get("return_app")
-        return_path = request.args.get("return_path")
-        return AuthSessionView.clear_session(return_app, return_path)
-
-    @staticmethod
-    def clear_session_post():
-        """POST /sessions/sign-out endpoint"""
-        return_app = request.form.get("return_app")
-        return_path = request.form.get("return_path")
-        return AuthSessionView.clear_session(return_app, return_path)
 
     @classmethod
     def create_session_and_redirect(
@@ -233,3 +204,44 @@ class AuthSessionView(MethodView):
         session_details.update({"token": create_token(session_details)})
         session.update(session_details)
         return session_details
+
+
+class AuthSessionSignOutView(AuthSessionBase, MethodView):
+    """
+    Views for session related operations
+    """
+
+    # Deprecation warning (Use clear_session_post instead)
+    def get(self):
+        """GET /sessions/sign-out endpoint"""
+        return_app = request.args.get("return_app")
+        return_path = request.args.get("return_path")
+        return self.clear_session(return_app, return_path)
+
+    def post(self):
+        """POST /sessions/sign-out endpoint"""
+        return_app = request.form.get("return_app")
+        return_path = request.form.get("return_path")
+        return self.clear_session(return_app, return_path)
+
+
+class AuthSessionUserView(AuthSessionBase, MethodView):
+    def get(self):
+        """
+        GET /sessions/user endpoint
+        Shows the user details of the current user session
+        or an error if no authenticated user session found
+        :return: 200 user details json or 404 error
+        """
+        token = request.cookies.get(Config.FSD_USER_TOKEN_COOKIE_NAME)
+        if token:
+            try:
+                valid_token = validate_token(token)
+                return make_response(valid_token), 200
+            except jwt.PyJWTError:
+                error_response(404, "Session token expired or invalid")
+        error_response(404, "No session token found")
+
+
+api_sessions_bp.add_url_rule("/sessions/user", view_func=AuthSessionUserView.as_view("user"))
+api_sessions_bp.add_url_rule("/sessions/sign-out", view_func=AuthSessionSignOutView.as_view("sign_out"))

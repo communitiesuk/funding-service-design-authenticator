@@ -9,7 +9,7 @@ import pytest
 from bs4 import BeautifulSoup
 
 import frontend
-from api.session.auth_session import AuthSessionView
+from api.session.auth_session import AuthSessionBase
 from app import app
 from frontend.magic_links.forms import EmailForm
 from models.account import AccountMethods
@@ -18,7 +18,7 @@ from security.utils import validate_token
 
 @pytest.mark.usefixtures("flask_test_client")
 @pytest.mark.usefixtures("mock_redis_magic_links")
-class TestMagicLinks(AuthSessionView):
+class TestMagicLinks(AuthSessionBase):
     def test_magic_link_redirects_to_landing(self, flask_test_client, create_magic_link):
         """
         GIVEN a running Flask client, redis instance and
@@ -29,7 +29,7 @@ class TestMagicLinks(AuthSessionView):
         :param flask_test_client:
         """
         link_key = create_magic_link
-        use_endpoint = f"/magic-links/landing/{link_key}"
+        use_endpoint = f"/magic-links/{link_key}"
         response = flask_test_client.get(use_endpoint)
 
         assert response.status_code == 302

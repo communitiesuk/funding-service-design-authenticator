@@ -16,7 +16,7 @@ def signed_out(status):
         render_template(
             "sso_signed_out.html",
             status=status,
-            login_url=url_for("api_sso_routes_SsoView_login", return_app=return_app, return_path=return_path),
+            login_url=url_for("api_sso.login", return_app=return_app, return_path=return_path),
         ),
         200,
     )
