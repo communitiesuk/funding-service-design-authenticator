@@ -2,6 +2,8 @@ import traceback
 
 from flask import Blueprint, current_app, render_template
 
+from config import Config
+
 default_bp = Blueprint("default_bp", __name__, template_folder="templates")
 
 
@@ -12,7 +14,11 @@ def index():
 
 @default_bp.errorhandler(404)
 def not_found(error):
-    return render_template("404.html", is_error=True), 404
+    return render_template(
+        "404.html",
+        is_error=True,
+        support_desk_apply=Config.SUPPORT_DESK_APPLY,
+    ), 404
 
 
 @default_bp.errorhandler(500)

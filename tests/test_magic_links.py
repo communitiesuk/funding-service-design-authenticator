@@ -11,6 +11,7 @@ from bs4 import BeautifulSoup
 import frontend
 from api.session.auth_session import AuthSessionBase
 from app import app
+from config import Config
 from frontend.magic_links.forms import EmailForm
 from models.account import AccountMethods
 from security.utils import validate_token
@@ -152,7 +153,7 @@ class TestMagicLinks(AuthSessionBase):
                     soup.find_all(
                         "a",
                         class_="govuk-link",
-                        string=lambda text: "test@outlook.com" in text,
+                        href=Config.SUPPORT_DESK_APPLY,
                     )
                 )
                 == 1
