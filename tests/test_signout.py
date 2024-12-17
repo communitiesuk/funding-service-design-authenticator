@@ -138,7 +138,9 @@ class TestSignout:
             """<p class="govuk-body">You do not have access as your account does not have the right permissions set up."""  # noqa
             in response.get_data(as_text=True)
         )
-        assert """<p class="govuk-body">Please email the support mailbox""" in response.get_data(as_text=True)  # noqa
+        assert """<p class="govuk-body">Please contact us through our support desk portal""" in response.get_data(
+            as_text=True
+        )  # noqa
         assert (
             """<a href="/sso/login" role="button" draggable="false" class="govuk-button" data-module="govuk-button">\n  Sign in\n</a>"""  # noqa
             not in response.get_data(as_text=True)

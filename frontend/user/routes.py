@@ -40,7 +40,7 @@ def user():
             logged_in_user=logged_in_user,
             login_url=url_for("api_sso.login"),
             logout_url=url_for("api_sso.logout"),
-            support_mailbox=Config.SUPPORT_MAILBOX_EMAIL,
+            support_desk_assess=Config.SUPPORT_DESK_ASSESS,
         ),
         status_code,
     )

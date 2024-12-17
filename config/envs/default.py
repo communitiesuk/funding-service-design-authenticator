@@ -25,7 +25,8 @@ class DefaultConfig(object):
 
     FLASK_ROOT = str(Path(__file__).parent.parent.parent)
     FLASK_ENV = environ.get("FLASK_ENV")
-    SUPPORT_MAILBOX_EMAIL = "fundingservice.support@communities.gov.uk"
+    SUPPORT_DESK_APPLY = "https://mhclgdigital.atlassian.net/servicedesk/customer/portal/5/group/68"
+    SUPPORT_DESK_ASSESS = "https://mhclgdigital.atlassian.net/servicedesk/customer/portal/5/group/70"
 
     # Logging
     FSD_LOG_LEVEL = logging.WARNING
